@@ -1,0 +1,78 @@
+[project]
+name = "pf-tracker"
+version = "0.1.0"
+description = "Combat assistant for Pathfinder 1st Edition: track, explain, and audit combat bonuses."
+authors = [{ name = "Luis Tejada" }]
+readme = "../README.md"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "fastapi (>=0.115,<1.0)",
+    "uvicorn[standard] (>=0.34,<1.0)",
+    "pydantic (>=2.9,<3.0)",
+    "pydantic-settings (>=2.5,<3.0)",
+]
+
+[tool.poetry]
+packages = [{ include = "pf_tracker", from = "src" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+pytest-asyncio = "^0.24"
+pytest-cov = "^6.0"
+httpx = "^0.28"
+hypothesis = "^6.112"
+ruff = "^0.14"
+mypy = "^1.13"
+pre-commit = "^4.0"
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
+
+# --------------------------------------------------------------------------- #
+#  Tooling
+# --------------------------------------------------------------------------- #
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+src = ["src", "tests"]
+# The rules corpus and the vendored loader are read-only upstream assets.
+extend-exclude = ["data", "**/vendor/**"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pf_tracker"]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+files = ["src"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+# The vendored rules loader is a known-good upstream asset, kept unmodified.
+module = "pf_tracker.rules.vendor.*"
+ignore_errors = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "--strict-markers"
+filterwarnings = [
+    # pytest-asyncio still touches the event-loop-policy API deprecated in 3.14.
+    "ignore:'asyncio.get_event_loop_policy' is deprecated:DeprecationWarning",
+    "ignore:'asyncio.set_event_loop_policy' is deprecated:DeprecationWarning",
+    "ignore:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["pf_tracker"]
+omit = ["*/rules/vendor/*"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "\\.\\.\\."]

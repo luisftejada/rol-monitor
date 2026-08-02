@@ -1,0 +1,14 @@
+import { screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+
+import { App } from "@/App";
+import { renderWithProviders } from "@/test/render";
+
+describe("App", () => {
+  it("renders the title and reports the backend as healthy", async () => {
+    renderWithProviders(<App />);
+
+    expect(screen.getByRole("heading", { name: "pf-tracker" })).toBeInTheDocument();
+    expect(await screen.findByText(/Servicio operativo · v0\.1\.0/)).toBeInTheDocument();
+  });
+});

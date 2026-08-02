@@ -1,0 +1,7294 @@
+meta:
+  titulo: Pathfinder, juego de rol — Reglas básicas (Core Rulebook)
+  edicion: Pathfinder 1ª edición (compatible con d20 / OGL 1.0a)
+  editorial_es: Devir Iberia (traducción española, incorpora fe de erratas 1.4)
+  editorial_original: Paizo Publishing, LLC
+  paginas: 577
+  idioma: es
+  licencia: La mecánica de juego está designada por Paizo como Contenido abierto (Open Game Content) bajo
+    la Open Game License 1.0a. La Identidad de producto (nombres propios, ilustraciones, tramas, marcas)
+    NO es contenido abierto.
+  alcance: Resumen mecánico estructurado para consumo programático. Contiene datos de tablas y resúmenes
+    de reglas; NO reproduce el texto descriptivo del manual. Para el detalle completo de cada regla, consultar
+    la página indicada.
+  fichero_hermano: pathfinder_conjuros.yaml
+  version_esquema: '1.0'
+indice:
+- capitulo: 1
+  titulo: Cómo empezar
+  pagina: 6
+  secciones:
+  - Cómo utilizar este libro (9)
+  - Términos comunes (11)
+  - Ejemplo de juego (13)
+  - Cómo generar un personaje (14)
+  - Las puntuaciones de característica (15)
+- capitulo: 2
+  titulo: Razas
+  pagina: 18
+  secciones:
+  - Elfos (21)
+  - Enanos (22)
+  - Gnomos (23)
+  - Humanos (24)
+  - Medianos (25)
+  - Semielfos (26)
+  - Semiorcos (27)
+- capitulo: 3
+  titulo: Clases
+  pagina: 28
+  secciones:
+  - Avance de los personajes (30)
+  - Bárbaro (31)
+  - Bardo (34)
+  - Clérigo (38)
+  - Druida (48)
+  - Explorador (54)
+  - Guerrero (58)
+  - Hechicero (59)
+  - Mago (67)
+  - Monje (73)
+  - Paladín (76)
+  - Pícaro (80)
+- capitulo: 4
+  titulo: Habilidades
+  pagina: 84
+  secciones:
+  - Cómo adquirir habilidades (86)
+  - Descripciones de las habilidades (87)
+- capitulo: 5
+  titulo: Dotes
+  pagina: 110
+  secciones:
+  - Prerrequisitos (112)
+  - Tipos de dote (112)
+  - Descripciones de las dotes (113)
+- capitulo: 6
+  titulo: Equipo
+  pagina: 138
+  secciones:
+  - Riqueza y dinero (140)
+  - Armas (140)
+  - Armaduras (149)
+  - Materiales especiales (153)
+  - Bienes y servicios (155)
+- capitulo: 7
+  titulo: Reglas adicionales
+  pagina: 164
+  secciones:
+  - Alineamiento (166)
+  - Estadísticas vitales (168)
+  - Movimiento (170)
+  - Exploración (172)
+- capitulo: 8
+  titulo: Combate
+  pagina: 176
+  secciones:
+  - Cómo funciona el combate (178)
+  - Estadísticas de combate (178)
+  - Acciones en combate (181)
+  - Heridas y muerte (189)
+  - Movimiento, posición y distancia (192)
+  - Modificadores de combate (195)
+  - Ataques especiales (197)
+  - Acciones especiales de iniciativa (203)
+- capitulo: 9
+  titulo: Magia
+  pagina: 204
+  secciones:
+  - Cómo lanzar conjuros (206)
+  - Descripciones de los conjuros (209)
+  - Conjuros arcanos (217)
+  - Conjuros divinos (220)
+  - Aptitudes especiales (221)
+- capitulo: 10
+  titulo: Conjuros
+  pagina: 222
+  secciones:
+  - Listas de conjuros (224)
+  - Conjuros (238)
+  nota: Detallado en pathfinder_conjuros.yaml
+- capitulo: 11
+  titulo: Clases de prestigio
+  pagina: 372
+  secciones:
+  - Arquero arcano (374)
+  - Asesino (376)
+  - Bribón arcano (378)
+  - Caballero arcano (380)
+  - Cronista Pathfinder (381)
+  - Danzarín sombrío (384)
+  - Discípulo del dragón (386)
+  - Duelista (388)
+  - Maestro del saber (390)
+  - Teúrgo místico (392)
+- capitulo: 12
+  titulo: Cómo dirigir
+  pagina: 394
+  secciones:
+  - Cómo empezar una campaña (396)
+  - Cómo construir una aventura (396)
+  - Cómo prepararse para la partida (401)
+  - Durante la partida (402)
+  - Pistas para las campañas (404)
+  - Cómo acabar la campaña (405)
+- capitulo: 13
+  titulo: El entorno
+  pagina: 408
+  secciones:
+  - Dungeons (410)
+  - Trampas (416)
+  - Ejemplos de trampas (420)
+  - Las tierras salvajes (423)
+  - Aventuras urbanas (432)
+  - El clima (437)
+  - Los Planos (439)
+  - Reglas ambientales (441)
+- capitulo: 14
+  titulo: Creación de PNJs
+  pagina: 446
+  secciones:
+  - Adepto (448)
+  - Aristócrata (449)
+  - Combatiente (449)
+  - Experto (449)
+  - Plebeyo (450)
+  - Creación de PNJs (450)
+- capitulo: 15
+  titulo: Objetos mágicos
+  pagina: 456
+  secciones:
+  - Cómo utilizar los objetos (458)
+  - Objetos mágicos en el cuerpo (459)
+  - Compra de objetos mágicos (460)
+  - Armaduras (462)
+  - Armas (468)
+  - Anillos (478)
+  - Bastones (483)
+  - Cetros (487)
+  - Objetos maravillosos (494)
+  - Pergaminos (530)
+  - Pociones (531)
+  - Varitas (531)
+  - Objetos inteligentes (532)
+  - Objetos malditos (535)
+  - Artefactos (543)
+  - Cómo crear objetos mágicos (548)
+- apendice: 1
+  titulo: Aptitudes especiales
+  pagina: 554
+- apendice: 2
+  titulo: Estados
+  pagina: 565
+- apendice: 3
+  titulo: Lecturas inspiradoras
+  pagina: 568
+- apendice: 4
+  titulo: Ayudas de juego / OGL / hoja de personaje
+  pagina: 569
+sistema:
+  dado_principal: d20
+  resolucion_basica: 1d20 + modificadores >= CD (Clase de Dificultad) o >= CA del objetivo
+  notacion_dados: XdY[+Z]; 'd%' = d100
+  redondeo: Salvo indicación contraria, las fracciones se redondean hacia abajo (incluso por debajo de
+    1).
+  multiplicadores: 'Multiplicadores acumulados se suman como incrementos, no se multiplican entre sí:
+    ×2 y ×2 = ×3 (se suma 1 por cada multiplicador adicional).'
+  20_natural: Un 20 natural en una tirada de ataque siempre impacta y amenaza crítico; en una salvación
+    siempre es éxito.
+  1_natural: Un 1 natural en una tirada de ataque siempre falla; en una salvación siempre es fallo.
+  elegir_10:
+    descripcion: Sin peligro ni distracción, se puede tomar 10 en lugar de tirar 1d20.
+    resultado: 10 + modificadores
+  elegir_20:
+    descripcion: Sin amenaza, sin límite de tiempo y sin penalización por fallo, se puede tomar 20.
+    resultado: 20 + modificadores
+    coste_tiempo: 20 veces el tiempo de una prueba normal
+  tipos_de_bonificador:
+    nota: Bonificadores del mismo tipo NO se apilan (se aplica el mayor), salvo los sin tipo, los de esquiva
+      y las circunstancias distintas.
+    apilan_siempre:
+    - sin tipo
+    - esquiva
+    - circunstancia (de fuentes distintas)
+    no_apilan:
+    - alquimia
+    - armadura
+    - armadura natural
+    - competencia
+    - escudo
+    - inherente
+    - introspección
+    - moral
+    - potenciador
+    - profano
+    - racial
+    - resistencia
+    - sagrado
+    - suerte
+    - tamaño
+    penalizadores: Los penalizadores se apilan siempre, salvo los debidos al mismo efecto concreto.
+  unidades:
+    casilla: 5 pies (1,5 m)
+    asalto: 6 segundos
+    minuto: 10 asaltos
+    hora: 600 asaltos
+  terminos_clave:
+    CD: Clase de Dificultad
+    CA: Clase de armadura
+    DG: Dados de golpe
+    pg: puntos de golpe
+    PX: puntos de experiencia
+    VD: Valor de desafío
+    NL: Nivel de lanzador
+    BMC: Bonificador de maniobras de combate
+    DMC: Defensa contra maniobras de combate
+    AdO: Ataque de oportunidad
+    RD: Reducción del daño
+    RC: Resistencia a conjuros
+    po/pp/pc/ppt: pieza de oro / plata / cobre / platino
+caracteristicas:
+  lista:
+  - nombre: Fuerza
+    abrev: Fue
+    usos: tiradas de ataque y daño cuerpo a cuerpo, BMC/DMC, Trepar, Nadar, capacidad de carga
+  - nombre: Destreza
+    abrev: Des
+    usos: CA, ataques a distancia, iniciativa, salvación de Reflejos, Acrobacias, Sigilo
+  - nombre: Constitución
+    abrev: Con
+    usos: puntos de golpe por DG, salvación de Fortaleza, concentración
+  - nombre: Inteligencia
+    abrev: Int
+    usos: rangos de habilidad por nivel, idiomas, conjuros de mago
+  - nombre: Sabiduría
+    abrev: Sab
+    usos: salvación de Voluntad, Percepción, conjuros de clérigo/druida/explorador
+  - nombre: Carisma
+    abrev: Car
+    usos: habilidades sociales, canalizar energía, conjuros de bardo/hechicero/paladín
+  modificador: modificador = (puntuación - 10) // 2 (división entera hacia abajo)
+  puntuacion_0: Una puntuación de 0 en cualquier característica deja al personaje incapacitado o inconsciente;
+    Con 0 = muerte.
+  metodos_de_generacion:
+  - nombre: Compra de puntos
+    detalle: Se parte de 10 en todas y se gastan puntos según coste creciente; 15 puntos = campaña estándar,
+      20 = épica, 25 = heroica
+  - nombre: Clásico
+    detalle: 3d6 seis veces, asignados en orden
+  - nombre: Estándar
+    detalle: 4d6, descartar el dado más bajo, seis veces, asignación libre
+  - nombre: Heroico
+    detalle: 2d6+6, seis veces, asignación libre
+  - nombre: Dados y asignación
+    detalle: 3d6 seis veces, asignación libre
+  coste_compra_puntos:
+    7: -4
+    8: -2
+    9: -1
+    10: 0
+    11: 1
+    12: 2
+    13: 3
+    14: 5
+    15: 7
+    16: 10
+    17: 13
+    18: 17
+  incrementos_por_nivel: +1 a una característica a elección en los niveles 4, 8, 12, 16 y 20
+alineamiento:
+  ejes:
+    moral:
+    - bueno
+    - neutral
+    - maligno
+    etico:
+    - legal
+    - neutral
+    - caotico
+  valores:
+  - LB
+  - NB
+  - CB
+  - LN
+  - N
+  - CN
+  - LM
+  - NM
+  - CM
+  nombres:
+    LB: Legal bueno
+    NB: Neutral bueno
+    CB: Caótico bueno
+    LN: Legal neutral
+    N: Neutral
+    CN: Caótico neutral
+    LM: Legal maligno
+    NM: Neutral maligno
+    CM: Caótico maligno
+  restricciones_de_clase:
+    barbaro: cualquiera no legal
+    bardo: cualquiera
+    druida: cualquiera neutral (uno de los ejes al menos)
+    monje: cualquiera legal
+    paladin: legal bueno
+    otros: sin restricción
+tamanos:
+- tamano: Menudo
+  mod_ca_ataque: 8
+  mod_bmc_dmc: -8
+  mod_sigilo: 16
+  espacio: 1/2 pie
+  alcance: '0'
+  carga: 0.125
+- tamano: Diminuto
+  mod_ca_ataque: 4
+  mod_bmc_dmc: -4
+  mod_sigilo: 12
+  espacio: 1 pie
+  alcance: '0'
+  carga: 0.25
+- tamano: Minúsculo
+  mod_ca_ataque: 2
+  mod_bmc_dmc: -2
+  mod_sigilo: 8
+  espacio: 2 1/2 pies
+  alcance: '0'
+  carga: 0.5
+- tamano: Pequeño
+  mod_ca_ataque: 1
+  mod_bmc_dmc: -1
+  mod_sigilo: 4
+  espacio: 5 pies
+  alcance: 5 pies
+  carga: 0.75
+- tamano: Mediano
+  mod_ca_ataque: 0
+  mod_bmc_dmc: 0
+  mod_sigilo: 0
+  espacio: 5 pies
+  alcance: 5 pies
+  carga: 1.0
+- tamano: Grande
+  mod_ca_ataque: -1
+  mod_bmc_dmc: 1
+  mod_sigilo: -4
+  espacio: 10 pies
+  alcance: 10 pies (5 si es alto y no largo)
+  carga: 2.0
+- tamano: Enorme
+  mod_ca_ataque: -2
+  mod_bmc_dmc: 2
+  mod_sigilo: -8
+  espacio: 15 pies
+  alcance: 15 pies
+  carga: 4.0
+- tamano: Gigantesco
+  mod_ca_ataque: -4
+  mod_bmc_dmc: 4
+  mod_sigilo: -12
+  espacio: 20 pies
+  alcance: 20 pies
+  carga: 8.0
+- tamano: Colosal
+  mod_ca_ataque: -8
+  mod_bmc_dmc: 8
+  mod_sigilo: -16
+  espacio: 30 pies
+  alcance: 30 pies
+  carga: 16.0
+avance:
+  px_por_nivel:
+    1:
+      lento: 0
+      medio: 0
+      rapido: 0
+    2:
+      lento: 3000
+      medio: 2000
+      rapido: 1300
+    3:
+      lento: 7500
+      medio: 5000
+      rapido: 3300
+    4:
+      lento: 14000
+      medio: 9000
+      rapido: 6000
+    5:
+      lento: 23000
+      medio: 15000
+      rapido: 10000
+    6:
+      lento: 35000
+      medio: 23000
+      rapido: 15000
+    7:
+      lento: 53000
+      medio: 35000
+      rapido: 23000
+    8:
+      lento: 77000
+      medio: 51000
+      rapido: 34000
+    9:
+      lento: 115000
+      medio: 75000
+      rapido: 50000
+    10:
+      lento: 160000
+      medio: 105000
+      rapido: 71000
+    11:
+      lento: 235000
+      medio: 155000
+      rapido: 105000
+    12:
+      lento: 330000
+      medio: 220000
+      rapido: 145000
+    13:
+      lento: 475000
+      medio: 315000
+      rapido: 210000
+    14:
+      lento: 665000
+      medio: 445000
+      rapido: 295000
+    15:
+      lento: 955000
+      medio: 635000
+      rapido: 425000
+    16:
+      lento: 1350000
+      medio: 890000
+      rapido: 600000
+    17:
+      lento: 1900000
+      medio: 1300000
+      rapido: 850000
+    18:
+      lento: 2700000
+      medio: 1800000
+      rapido: 1200000
+    19:
+      lento: 3850000
+      medio: 2550000
+      rapido: 1700000
+    20:
+      lento: 5350000
+      medio: 3600000
+      rapido: 2400000
+  niveles_con_dote:
+  - 1
+  - 3
+  - 5
+  - 7
+  - 9
+  - 11
+  - 13
+  - 15
+  - 17
+  - 19
+  niveles_con_incremento_de_caracteristica:
+  - 4
+  - 8
+  - 12
+  - 16
+  - 20
+  clase_favorita: +1 pg o +1 rango de habilidad por nivel tomado en la clase favorita
+  multiclase: Se suman pg, BAB y salvaciones de cada clase; las habilidades de clase se acumulan
+  bab_por_tipo:
+    completo: nivel
+    3/4: nivel * 3 // 4
+    1/2: nivel // 2
+  salvacion_por_tipo:
+    buena: 2 + nivel // 2
+    mala: nivel // 3
+  ataques_adicionales: un ataque extra por cada 5 puntos completos de BAB por encima de +1 (máx. 4 ataques)
+razas:
+- nombre: Elfo
+  clave: elfo
+  pagina: 21
+  tamano: Mediano
+  velocidad_pies: 30
+  modificadores:
+    Des: 2
+    Int: 2
+    Con: -2
+  tipo: humanoide (elfo)
+  vision: visión en la penumbra
+  rasgos:
+  - 'Inmunidades élficas: inmune al sueño mágico; +2 racial a salvaciones contra hechizo/encantamiento'
+  - 'Magia élfica: +2 racial a pruebas de nivel de lanzador para superar RC; +2 a Conocimiento de conjuros
+    para identificar objetos mágicos'
+  - 'Sentidos agudos: +2 racial a Percepción'
+  - 'Familiaridad con las armas: competente con arco largo, arco corto (y compuestos), espada larga y
+    espada ropera; armas ''élficas'' cuentan como marciales'
+  idiomas:
+    inicio:
+    - común
+    - elfo
+    adicionales:
+    - celestial
+    - dracónico
+    - gnoll
+    - gnomo
+    - goblin
+    - órcico
+    - silvano
+- nombre: Enano
+  clave: enano
+  pagina: 22
+  tamano: Mediano
+  velocidad_pies: 20
+  modificadores:
+    Con: 2
+    Sab: 2
+    Car: -2
+  tipo: humanoide (enano)
+  vision: visión en la oscuridad 60 pies
+  rasgos:
+  - 'Lento y calmado: velocidad 20 pies nunca reducida por armadura ni impedimenta'
+  - 'Entrenamiento defensivo: +4 esquiva a la CA contra criaturas del subtipo gigante'
+  - 'Codicia: +2 a Tasación sobre tesoros no mágicos con metales o gemas'
+  - 'Odio: +1 a ataques contra humanoides de los subtipos orco y goblinoide'
+  - 'Dureza: +2 racial a salvaciones contra veneno, conjuros y aptitudes sortílegas'
+  - 'Estabilidad: +4 al DMC contra derribo y arrollamiento estando en el suelo'
+  - 'Sentido de la piedra: +2 a Percepción con piedra; prueba gratuita al pasar a 10 pies de trabajos
+    de albañilería inusuales'
+  - 'Familiaridad con las armas: competente con hacha de batalla, hacha de guerra enana y urgrosh enano;
+    armas ''enanas'' cuentan como marciales'
+  idiomas:
+    inicio:
+    - común
+    - enano
+    adicionales:
+    - gigante
+    - gnomo
+    - goblin
+    - órcico
+    - terran
+    - infernal
+- nombre: Gnomo
+  clave: gnomo
+  pagina: 23
+  tamano: Pequeño
+  velocidad_pies: 20
+  modificadores:
+    Con: 2
+    Car: 2
+    Fue: -2
+  tipo: humanoide (gnomo)
+  vision: visión en la penumbra
+  rasgos:
+  - 'Entrenamiento defensivo: +4 esquiva a la CA contra criaturas del subtipo gigante'
+  - 'Ilusión mayor: +1 a la CD de las salvaciones contra conjuros de ilusión lanzados por él'
+  - 'Odio: +1 a ataques contra humanoides de los subtipos reptiliano y goblinoide'
+  - 'Resistencia a la magia gnoma: +2 racial a salvaciones contra conjuros y aptitudes sortílegas'
+  - 'Trucos: detectar magia, luces danzantes, prestidigitación y ruido fantasmal 1/día (Car 11+)'
+  - 'Odio a las bestias: +2 a Percepción; +2 a Artesanía o Profesión a elección'
+  - 'Familiaridad con las armas: armas ''gnomas'' cuentan como marciales'
+  idiomas:
+    inicio:
+    - común
+    - gnomo
+    - silvano
+    adicionales:
+    - dracónico
+    - elfo
+    - gigante
+    - goblin
+    - órcico
+- nombre: Humano
+  clave: humano
+  pagina: 24
+  tamano: Mediano
+  velocidad_pies: 30
+  modificadores:
+    cualquiera: 2
+  tipo: humanoide (humano)
+  vision: normal
+  rasgos:
+  - Dote adicional a 1er nivel
+  - 'Hábil: +1 rango de habilidad por nivel de personaje'
+  idiomas:
+    inicio:
+    - común
+    adicionales:
+    - cualquiera salvo idiomas secretos
+- nombre: Mediano
+  clave: mediano
+  pagina: 25
+  tamano: Pequeño
+  velocidad_pies: 20
+  modificadores:
+    Des: 2
+    Car: 2
+    Fue: -2
+  tipo: humanoide (mediano)
+  vision: normal
+  rasgos:
+  - 'Temerario: +1 racial a todas las tiradas de salvación'
+  - 'Sin miedo: +2 racial adicional a salvaciones contra el miedo'
+  - 'Hábil: +2 racial a Escapismo y Percepción'
+  - 'Certero: +1 racial a las tiradas de ataque con armas arrojadizas y de proyectiles'
+  - 'Familiaridad con las armas: honda; armas ''medianas'' cuentan como marciales'
+  idiomas:
+    inicio:
+    - común
+    - mediano
+    adicionales:
+    - dracónico
+    - elfo
+    - enano
+    - gnomo
+    - goblin
+- nombre: Semielfo
+  clave: semielfo
+  pagina: 26
+  tamano: Mediano
+  velocidad_pies: 30
+  modificadores:
+    cualquiera: 2
+  tipo: humanoide (elfo, humano)
+  vision: visión en la penumbra
+  rasgos:
+  - 'Sangre élfica: cuenta como elfo y como humano para efectos relativos a la raza'
+  - 'Inmunidades élficas: inmune al sueño mágico; +2 racial contra hechizo/encantamiento'
+  - 'Adaptabilidad: dote adicional Soltura con una habilidad a 1er nivel'
+  - 'Sentidos agudos: +2 racial a Percepción'
+  - 'Empatía multitalento: dos clases favoritas a elección'
+  idiomas:
+    inicio:
+    - común
+    - elfo
+    adicionales:
+    - cualquiera salvo secretos
+- nombre: Semiorco
+  clave: semiorco
+  pagina: 27
+  tamano: Mediano
+  velocidad_pies: 30
+  modificadores:
+    cualquiera: 2
+  tipo: humanoide (humano, orco)
+  vision: visión en la oscuridad 60 pies
+  rasgos:
+  - 'Sangre orca: cuenta como orco y como humano para efectos relativos a la raza'
+  - 'Intimidante: +2 racial a Intimidar'
+  - 'Ferocidad orca: 1 vez/día, al ser reducido a menos de 0 pg sigue consciente y actuando 1 asalto más'
+  - 'Familiaridad con las armas: hacha de guerra y espadón; armas ''orcas'' cuentan como marciales'
+  idiomas:
+    inicio:
+    - común
+    - órcico
+    adicionales:
+    - abisal
+    - dracónico
+    - gigante
+    - gnoll
+    - goblin
+clases:
+  barbaro:
+    nombre: Bárbaro
+    pagina: 31
+    dado_golpe: d12
+    rangos: 4
+    alineamiento: cualquiera no legal
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    competencias: armas sencillas y marciales; armaduras ligeras e intermedias; escudos (no pavés)
+    lanzador: null
+    habilidades_clase:
+    - Acrobacias
+    - Artesanía
+    - Intimidar
+    - Montar
+    - Nadar
+    - Percepción
+    - Saber (Naturaleza)
+    - Supervivencia
+    - Trato con animales
+    - Trepar
+    clave: barbaro
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 2
+      ref: 0
+      vol: 0
+      especial: Movimiento rápido, furia
+    - nivel: 2
+      bab: '+2'
+      fort: 3
+      ref: 0
+      vol: 0
+      especial: Poder de furia, esquiva asombrosa
+    - nivel: 3
+      bab: '+3'
+      fort: 3
+      ref: 1
+      vol: 1
+      especial: Sentido de las trampas +1
+    - nivel: 4
+      bab: '+4'
+      fort: 4
+      ref: 1
+      vol: 1
+      especial: Poder de furia
+    - nivel: 5
+      bab: '+5'
+      fort: 4
+      ref: 1
+      vol: 1
+      especial: Esquiva asombrosa mejorada
+    - nivel: 6
+      bab: +6/+1
+      fort: 5
+      ref: 2
+      vol: 2
+      especial: Poder de furia, sentido de las trampas +2
+    - nivel: 7
+      bab: +7/+2
+      fort: 5
+      ref: 2
+      vol: 2
+      especial: Reducción del daño 1/—
+    - nivel: 8
+      bab: +8/+3
+      fort: 6
+      ref: 2
+      vol: 2
+      especial: Poder de furia
+    - nivel: 9
+      bab: +9/+4
+      fort: 6
+      ref: 3
+      vol: 3
+      especial: Sentido de las trampas +3
+    - nivel: 10
+      bab: +10/+5
+      fort: 7
+      ref: 3
+      vol: 3
+      especial: Reducción del daño 2/—, poder de furia
+    - nivel: 11
+      bab: +11/+6/+1
+      fort: 7
+      ref: 3
+      vol: 3
+      especial: Furia mayor
+    - nivel: 12
+      bab: +12/+7/+2
+      fort: 8
+      ref: 4
+      vol: 4
+      especial: Poder de furia, sentido de las trampas +4
+    - nivel: 13
+      bab: +13/+8/+3
+      fort: 8
+      ref: 4
+      vol: 4
+      especial: Reducción del daño 3/—
+    - nivel: 14
+      bab: +14/+9/+4
+      fort: 9
+      ref: 4
+      vol: 4
+      especial: Voluntad indomable, poder de furia
+    - nivel: 15
+      bab: +15/+10/+5
+      fort: 9
+      ref: 5
+      vol: 5
+      especial: Sentido de las trampas +5
+    - nivel: 16
+      bab: +16/+11/+6/+1
+      fort: 10
+      ref: 5
+      vol: 5
+      especial: Reducción del daño 4/—, poder de furia
+    - nivel: 17
+      bab: +17/+12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 5
+      especial: Furia incansable
+    - nivel: 18
+      bab: +18/+13/+8/+3
+      fort: 11
+      ref: 6
+      vol: 6
+      especial: Poder de furia, sentido de las trampas +6
+    - nivel: 19
+      bab: +19/+14/+9/+4
+      fort: 11
+      ref: 6
+      vol: 6
+      especial: Reducción del daño 5/—
+    - nivel: 20
+      bab: +20/+15/+10/+5
+      fort: 12
+      ref: 6
+      vol: 6
+      especial: Furia poderosa, poder de furia
+  bardo:
+    nombre: Bardo
+    pagina: 34
+    dado_golpe: d8
+    rangos: 6
+    alineamiento: cualquiera
+    bab: 3/4
+    salvaciones_buenas:
+    - Reflejos
+    - Voluntad
+    competencias: armas sencillas más algunas específicas; armadura ligera y escudos (no pavés)
+    lanzador:
+      tipo: arcano
+      espontaneo: true
+      caracteristica: Car
+      niveles_max: 6
+      nivel_max_conjuro_a_20: 6
+    habilidades_clase:
+    - Acrobacias
+    - Artesanía
+    - Averiguar intenciones
+    - Conocimiento de conjuros
+    - Diplomacia
+    - Disfrazarse
+    - Engañar
+    - Escapismo
+    - Interpretar
+    - Intimidar
+    - Juego de manos
+    - Lingüística
+    - Percepción
+    - Profesión
+    - Saber (todas)
+    - Sigilo
+    - Tasación
+    - Trepar
+    - Usar objeto mágico
+    clave: bardo
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 2
+      vol: 2
+      especial: Conocimiento de bardo, interpretación de bardo, trucos, contraoda, distracción, fascinar,
+        inspirar valor +1
+      conjuros:
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+1'
+      fort: 0
+      ref: 3
+      vol: 3
+      especial: Interpretación versátil, bien versado
+      conjuros:
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+2'
+      fort: 1
+      ref: 3
+      vol: 3
+      especial: Inspirar gran aptitud +2
+      conjuros:
+      - '3'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+3'
+      fort: 1
+      ref: 4
+      vol: 4
+      conjuros:
+      - '3'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+3'
+      fort: 1
+      ref: 4
+      vol: 4
+      especial: Inspirar valor +2, maestro del saber 1/día
+      conjuros:
+      - '4'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: '+4'
+      fort: 2
+      ref: 5
+      vol: 5
+      especial: Sugestión, interpretación versátil
+      conjuros:
+      - '4'
+      - '3'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: '+5'
+      fort: 2
+      ref: 5
+      vol: 5
+      especial: Inspirar gran aptitud +3
+      conjuros:
+      - '4'
+      - '3'
+      - '1'
+      - —
+      - —
+      - —
+    - nivel: 8
+      bab: +6/+1
+      fort: 2
+      ref: 6
+      vol: 6
+      especial: Endecha de perdición
+      conjuros:
+      - '4'
+      - '4'
+      - '2'
+      - —
+      - —
+      - —
+    - nivel: 9
+      bab: +6/+1
+      fort: 3
+      ref: 6
+      vol: 6
+      especial: Inspirar grandeza
+      conjuros:
+      - '5'
+      - '4'
+      - '3'
+      - —
+      - —
+      - —
+    - nivel: 10
+      bab: +7/+2
+      fort: 3
+      ref: 7
+      vol: 7
+      especial: Polifacético, interpretación versátil
+      conjuros:
+      - '5'
+      - '4'
+      - '3'
+      - '1'
+      - —
+      - —
+    - nivel: 11
+      bab: +8/+3
+      fort: 3
+      ref: 7
+      vol: 7
+      especial: Inspirar gran aptitud +4, inspirar valor +3 maestro del saber 2/día
+      conjuros:
+      - '5'
+      - '4'
+      - '4'
+      - '2'
+      - —
+      - —
+    - nivel: 12
+      bab: +9/+4
+      fort: 4
+      ref: 8
+      vol: 8
+      especial: Interpretación tranquilizadora
+      conjuros:
+      - '5'
+      - '5'
+      - '4'
+      - '3'
+      - —
+      - —
+    - nivel: 13
+      bab: +9/+4
+      fort: 4
+      ref: 8
+      vol: 8
+      conjuros:
+      - '5'
+      - '5'
+      - '4'
+      - '3'
+      - '1'
+      - —
+    - nivel: 14
+      bab: +10/+5
+      fort: 4
+      ref: 9
+      vol: 9
+      especial: Melodía pavorosa, interpretación versátil
+      conjuros:
+      - '5'
+      - '5'
+      - '4'
+      - '4'
+      - '2'
+      - —
+    - nivel: 15
+      bab: +11/+6/+1
+      fort: 5
+      ref: 9
+      vol: 9
+      especial: Inspirar gran aptitud +5, inspirar heroísmo
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '4'
+      - '3'
+      - —
+    - nivel: 16
+      bab: +12/+7/+2
+      fort: 5
+      ref: 10
+      vol: 10
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '4'
+      - '3'
+      - '1'
+    - nivel: 17
+      bab: +12/+7/+2
+      fort: 5
+      ref: 10
+      vol: 10
+      especial: Inspirar valor +4, maestro del saber 3/día
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '4'
+      - '4'
+      - '2'
+    - nivel: 18
+      bab: +13/+8/+3
+      fort: 6
+      ref: 11
+      vol: 11
+      especial: Sugestión de masas, interpretación versátil
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+      - '4'
+      - '3'
+    - nivel: 19
+      bab: +14/+9/+4
+      fort: 6
+      ref: 11
+      vol: 11
+      especial: Inspirar gran aptitud +6
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+      - '4'
+    - nivel: 20
+      bab: +15/+10/+5
+      fort: 6
+      ref: 12
+      vol: 12
+      especial: Interpretación versátil, canción de inmortalidad
+      conjuros:
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+      - '5'
+  clerigo:
+    nombre: Clérigo
+    pagina: 38
+    dado_golpe: d8
+    rangos: 2
+    alineamiento: a un paso del de su deidad
+    bab: 3/4
+    salvaciones_buenas:
+    - Fortaleza
+    - Voluntad
+    competencias: armas sencillas (más el arma predilecta de su dios); todas las armaduras y escudos (no
+      pavés)
+    lanzador:
+      tipo: divino
+      espontaneo: false
+      caracteristica: Sab
+      niveles_max: 9
+      nivel_max_conjuro_a_20: 9
+      nota: prepara conjuros; puede convertir espontáneamente en curar/infligir heridas; +1 espacio de
+        dominio por nivel
+    habilidades_clase:
+    - Artesanía
+    - Averiguar intenciones
+    - Conocimiento de conjuros
+    - Curar
+    - Diplomacia
+    - Lingüística
+    - Profesión
+    - Saber (arcano)
+    - Saber (historia)
+    - Saber (los Planos)
+    - Saber (nobleza)
+    - Saber (religión)
+    - Tasación
+    clave: clerigo
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 2
+      ref: 0
+      vol: 2
+      especial: Aura, canalizar energía 1d6 dominios, oraciones
+      conjuros:
+      - '3'
+      - 1+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+1'
+      fort: 3
+      ref: 0
+      vol: 3
+      conjuros:
+      - '4'
+      - 2+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+2'
+      fort: 3
+      ref: 1
+      vol: 3
+      especial: Canalizar energía 2d6
+      conjuros:
+      - '4'
+      - 2+1
+      - 1+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+3'
+      fort: 4
+      ref: 1
+      vol: 4
+      conjuros:
+      - '4'
+      - 3+1
+      - 2+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+3'
+      fort: 4
+      ref: 1
+      vol: 4
+      especial: Canalizar energía 3d6
+      conjuros:
+      - '4'
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: '+4'
+      fort: 5
+      ref: 2
+      vol: 5
+      conjuros:
+      - '4'
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: '+5'
+      fort: 5
+      ref: 2
+      vol: 5
+      especial: Canalizar energía 4d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 8
+      bab: +6/+1
+      fort: 6
+      ref: 2
+      vol: 6
+      conjuros:
+      - '4'
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 9
+      bab: +6/+1
+      fort: 6
+      ref: 3
+      vol: 6
+      especial: Canalizar energía 5d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+      - —
+      - —
+      - —
+    - nivel: 10
+      bab: +7/+2
+      fort: 7
+      ref: 3
+      vol: 7
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+      - —
+      - —
+      - —
+    - nivel: 11
+      bab: +8/+3
+      fort: 7
+      ref: 3
+      vol: 7
+      especial: Canalizar energía 6d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+      - —
+      - —
+    - nivel: 12
+      bab: +9/+4
+      fort: 8
+      ref: 4
+      vol: 8
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+      - —
+      - —
+    - nivel: 13
+      bab: +9/+4
+      fort: 8
+      ref: 4
+      vol: 8
+      especial: Canalizar energía 7d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+      - —
+    - nivel: 14
+      bab: +10/+5
+      fort: 9
+      ref: 4
+      vol: 9
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+      - —
+    - nivel: 15
+      bab: +11/+6/+1
+      fort: 9
+      ref: 5
+      vol: 9
+      especial: Canalizar energía 8d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+      - —
+    - nivel: 16
+      bab: +12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 10
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+      - —
+    - nivel: 17
+      bab: +12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 10
+      especial: Canalizar energía 9d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 2+1
+      - 1+1
+    - nivel: 18
+      bab: +13/+8/+3
+      fort: 11
+      ref: 6
+      vol: 11
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+      - 2+1
+    - nivel: 19
+      bab: +14/+9/+4
+      fort: 11
+      ref: 6
+      vol: 11
+      especial: Canalizar energía 10d6
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 3+1
+      - 3+1
+    - nivel: 20
+      bab: +15/+10/+5
+      fort: 12
+      ref: 6
+      vol: 12
+      conjuros:
+      - '4'
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+      - 4+1
+  druida:
+    nombre: Druida
+    pagina: 48
+    dado_golpe: d8
+    rangos: 4
+    alineamiento: cualquiera neutral (LN, NB, N, NM, CN)
+    bab: 3/4
+    salvaciones_buenas:
+    - Fortaleza
+    - Voluntad
+    competencias: armas sencillas seleccionadas; armaduras ligeras e intermedias y escudos, sólo no metálicos
+    lanzador:
+      tipo: divino
+      espontaneo: false
+      caracteristica: Sab
+      niveles_max: 9
+      nivel_max_conjuro_a_20: 9
+      nota: puede convertir espontáneamente en convocar aliado de la Naturaleza
+    habilidades_clase:
+    - Artesanía
+    - Conocimiento de conjuros
+    - Curar
+    - Montar
+    - Nadar
+    - Percepción
+    - Profesión
+    - Saber (geografía)
+    - Saber (Naturaleza)
+    - Supervivencia
+    - Trato con animales
+    - Trepar
+    - Volar
+    clave: druida
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 2
+      ref: 0
+      vol: 2
+      especial: Vínculo con la Naturaleza, sentido de la Naturaleza, oraciones, empatía salvaje
+      conjuros:
+      - '3'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+1'
+      fort: 3
+      ref: 0
+      vol: 3
+      especial: Zancada forestal
+      conjuros:
+      - '4'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+2'
+      fort: 3
+      ref: 1
+      vol: 3
+      especial: Pisada sin rastro
+      conjuros:
+      - '4'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+3'
+      fort: 4
+      ref: 1
+      vol: 4
+      especial: Resistir la atracción de la Naturaleza forma salvaje (1/día)
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+3'
+      fort: 4
+      ref: 1
+      vol: 4
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: '+4'
+      fort: 5
+      ref: 2
+      vol: 5
+      especial: Forma salvaje (2/día)
+      conjuros:
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: '+5'
+      fort: 5
+      ref: 2
+      vol: 5
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 8
+      bab: +6/+1
+      fort: 6
+      ref: 2
+      vol: 6
+      especial: Forma salvaje (3/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 9
+      bab: +6/+1
+      fort: 6
+      ref: 3
+      vol: 6
+      especial: Inmunidad al veneno
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 10
+      bab: +7/+2
+      fort: 7
+      ref: 3
+      vol: 7
+      especial: Forma salvaje (4/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 11
+      bab: +8/+3
+      fort: 7
+      ref: 3
+      vol: 7
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+    - nivel: 12
+      bab: +9/+4
+      fort: 8
+      ref: 4
+      vol: 8
+      especial: Forma salvaje (5/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+    - nivel: 13
+      bab: +9/+4
+      fort: 8
+      ref: 4
+      vol: 8
+      especial: Las mil caras
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+    - nivel: 14
+      bab: +10/+5
+      fort: 9
+      ref: 4
+      vol: 9
+      especial: Forma salvaje (6/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+    - nivel: 15
+      bab: +11/+6/+1
+      fort: 9
+      ref: 5
+      vol: 9
+      especial: Cuerpo eterno
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+    - nivel: 16
+      bab: +12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 10
+      especial: Forma salvaje (7/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+    - nivel: 17
+      bab: +12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 10
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 18
+      bab: +13/+8/+3
+      fort: 11
+      ref: 6
+      vol: 11
+      especial: Forma salvaje (8/día)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+    - nivel: 19
+      bab: +14/+9/+4
+      fort: 11
+      ref: 6
+      vol: 11
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+    - nivel: 20
+      bab: +15/+10/+5
+      fort: 12
+      ref: 6
+      vol: 12
+      especial: Forma salvaje (a voluntad)
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+  explorador:
+    nombre: Explorador
+    pagina: 54
+    dado_golpe: d10
+    rangos: 6
+    alineamiento: cualquiera
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    - Reflejos
+    competencias: armas sencillas y marciales; armaduras ligeras y escudos (no pavés)
+    lanzador:
+      tipo: divino
+      espontaneo: false
+      caracteristica: Sab
+      niveles_max: 4
+      nivel_max_conjuro_a_20: 4
+      empieza_a_nivel: 4
+    habilidades_clase:
+    - Artesanía
+    - Conocimiento de conjuros
+    - Curar
+    - Intimidar
+    - Montar
+    - Nadar
+    - Percepción
+    - Profesión
+    - Saber (dungeons)
+    - Saber (geografía)
+    - Saber (Naturaleza)
+    - Sigilo
+    - Supervivencia
+    - Trato con animales
+    - Trepar
+    clave: explorador
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 2
+      ref: 2
+      vol: 0
+      especial: 1er enemigo predilecto, rastrear, empatía salvaje
+      conjuros:
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+2'
+      fort: 3
+      ref: 3
+      vol: 0
+      especial: Dote de estilo de combate
+      conjuros:
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+3'
+      fort: 3
+      ref: 3
+      vol: 1
+      especial: Aguante, 1er terreno predilecto
+      conjuros:
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+4'
+      fort: 4
+      ref: 4
+      vol: 1
+      especial: Vínculo del cazador
+      conjuros:
+      - '0'
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+5'
+      fort: 4
+      ref: 4
+      vol: 1
+      especial: 2º enemigo predilecto
+      conjuros:
+      - '1'
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: +6/+1
+      fort: 5
+      ref: 5
+      vol: 2
+      especial: Dote de estilo de combate
+      conjuros:
+      - '1'
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: +7/+2
+      fort: 5
+      ref: 5
+      vol: 2
+      especial: Zancada forestal
+      conjuros:
+      - '1'
+      - '0'
+      - —
+      - —
+    - nivel: 8
+      bab: +8/+3
+      fort: 6
+      ref: 6
+      vol: 2
+      especial: Rastreador veloz, 2º terreno predilecto
+      conjuros:
+      - '1'
+      - '1'
+      - —
+      - —
+    - nivel: 9
+      bab: +9/+4
+      fort: 6
+      ref: 6
+      vol: 3
+      especial: Evasión
+      conjuros:
+      - '2'
+      - '1'
+      - —
+      - —
+    - nivel: 10
+      bab: +10/+5
+      fort: 7
+      ref: 7
+      vol: 3
+      especial: 3er enemigo predilecto, dote de estilo de combate
+      conjuros:
+      - '2'
+      - '1'
+      - '0'
+      - —
+    - nivel: 11
+      bab: +11/+6/+1
+      fort: 7
+      ref: 7
+      vol: 3
+      especial: Presa
+      conjuros:
+      - '2'
+      - '1'
+      - '1'
+      - —
+    - nivel: 12
+      bab: +12/+7/+2
+      fort: 8
+      ref: 8
+      vol: 4
+      especial: Camuflaje
+      conjuros:
+      - '2'
+      - '2'
+      - '1'
+      - —
+    - nivel: 13
+      bab: +13/+8/+3
+      fort: 8
+      ref: 8
+      vol: 4
+      especial: 3er terreno predilecto
+      conjuros:
+      - '3'
+      - '2'
+      - '1'
+      - '0'
+    - nivel: 14
+      bab: +14/+9/+4
+      fort: 9
+      ref: 9
+      vol: 4
+      especial: Dote de estilo de combate
+      conjuros:
+      - '3'
+      - '2'
+      - '1'
+      - '1'
+    - nivel: 15
+      bab: +15/+10/+5
+      fort: 9
+      ref: 9
+      vol: 5
+      especial: 4º enemigo predilecto
+      conjuros:
+      - '3'
+      - '2'
+      - '2'
+      - '1'
+    - nivel: 16
+      bab: +16/+11/+6/+1
+      fort: 10
+      ref: 10
+      vol: 5
+      especial: Evasión mejorada
+      conjuros:
+      - '3'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 17
+      bab: +17/+12/+7/+2
+      fort: 10
+      ref: 10
+      vol: 5
+      especial: Esconderse a plena vista
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 18
+      bab: +18/+13/+8/+3
+      fort: 11
+      ref: 11
+      vol: 6
+      especial: 4º terreno predilecto, dote de estilo de combate
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '2'
+    - nivel: 19
+      bab: +19/+14/+9/+4
+      fort: 11
+      ref: 11
+      vol: 6
+      especial: Presa mejorada
+      conjuros:
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+    - nivel: 20
+      bab: +20/+15/+10/+5
+      fort: 12
+      ref: 12
+      vol: 6
+      especial: 5º enemigo predilecto, maestro cazador
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+  guerrero:
+    nombre: Guerrero
+    pagina: 58
+    dado_golpe: d10
+    rangos: 2
+    alineamiento: cualquiera
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    competencias: todas las armas sencillas y marciales; todas las armaduras y escudos (incluido pavés)
+    lanzador: null
+    habilidades_clase:
+    - Artesanía
+    - Intimidar
+    - Montar
+    - Nadar
+    - Profesión
+    - Saber (dungeons)
+    - Saber (ingeniería)
+    - Supervivencia
+    - Trepar
+    clave: guerrero
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 2
+      ref: 0
+      vol: 0
+      especial: Dote adicional
+    - nivel: 2
+      bab: '+2'
+      fort: 3
+      ref: 0
+      vol: 0
+      especial: Dote ad., valentía +1
+    - nivel: 3
+      bab: '+3'
+      fort: 3
+      ref: 1
+      vol: 1
+      especial: Entr. en armadura
+    - nivel: 4
+      bab: '+4'
+      fort: 4
+      ref: 1
+      vol: 1
+      especial: Dote adicional
+    - nivel: 5
+      bab: '+5'
+      fort: 4
+      ref: 1
+      vol: 1
+      especial: Entr. en armas
+    - nivel: 6
+      bab: +6/+1
+      fort: 5
+      ref: 2
+      vol: 2
+      especial: Dote ad., valentía +2
+    - nivel: 7
+      bab: +7/+2
+      fort: 5
+      ref: 2
+      vol: 2
+      especial: Entr. en armadura
+    - nivel: 8
+      bab: +8/+3
+      fort: 6
+      ref: 2
+      vol: 2
+      especial: Dote adicional
+    - nivel: 9
+      bab: +9/+4
+      fort: 6
+      ref: 3
+      vol: 3
+      especial: Entr. en armas
+    - nivel: 10
+      bab: +10/+5
+      fort: 7
+      ref: 3
+      vol: 3
+      especial: Dote ad., valentía +3
+    - nivel: 11
+      bab: +11/+6/+1
+      fort: 7
+      ref: 3
+      vol: 3
+      especial: Entr. en armadura
+    - nivel: 12
+      bab: +12/+7/+2
+      fort: 8
+      ref: 4
+      vol: 4
+      especial: Dote adicional
+    - nivel: 13
+      bab: +13/+8/+3
+      fort: 8
+      ref: 4
+      vol: 4
+      especial: Entr. en armas
+    - nivel: 14
+      bab: +14/+9/+4
+      fort: 9
+      ref: 4
+      vol: 4
+      especial: Dote ad., valentía +4
+    - nivel: 15
+      bab: +15/+10/+5
+      fort: 9
+      ref: 5
+      vol: 5
+      especial: Entr. en armadura
+    - nivel: 16
+      bab: +16/+11/+6/+1
+      fort: 10
+      ref: 5
+      vol: 5
+      especial: Dote adicional
+    - nivel: 17
+      bab: +17/+12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 5
+      especial: Entr. en armas
+    - nivel: 18
+      bab: +18/+13/+8/+3
+      fort: 11
+      ref: 6
+      vol: 6
+      especial: Dote ad., valentía +5
+    - nivel: 19
+      bab: +19/+14/+9/+4
+      fort: 11
+      ref: 6
+      vol: 6
+      especial: Maest. con la armadura
+    - nivel: 20
+      bab: +20/+15/+10/+5
+      fort: 12
+      ref: 6
+      vol: 6
+      especial: Dote ad., maestría con un arma
+  hechicero:
+    nombre: Hechicero
+    pagina: 59
+    dado_golpe: d6
+    rangos: 2
+    alineamiento: cualquiera
+    bab: 1/2
+    salvaciones_buenas:
+    - Voluntad
+    competencias: todas las armas sencillas; ninguna armadura ni escudo
+    lanzador:
+      tipo: arcano
+      espontaneo: true
+      caracteristica: Car
+      niveles_max: 9
+      nivel_max_conjuro_a_20: 9
+      nota: conjuros conocidos limitados; linaje que otorga poderes y conjuros adicionales
+    habilidades_clase:
+    - Artesanía
+    - Conocimiento de conjuros
+    - Engañar
+    - Profesión
+    - Saber (todas)
+    - Tasación
+    - Usar objeto mágico
+    - Volar
+    clave: hechicero
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 0
+      vol: 2
+      especial: Poder de linaje, trucos, abstención de materiales
+      conjuros:
+      - '3'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+1'
+      fort: 0
+      ref: 0
+      vol: 3
+      conjuros:
+      - '4'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 3
+      especial: Poder de linaje, conjuro de linaje
+      conjuros:
+      - '5'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 4
+      conjuros:
+      - '6'
+      - '3'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 4
+      especial: Conjuro de linaje
+      conjuros:
+      - '6'
+      - '4'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 5
+      conjuros:
+      - '6'
+      - '5'
+      - '3'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 5
+      especial: Dote de linaje, conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '4'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 8
+      bab: '+4'
+      fort: 2
+      ref: 2
+      vol: 6
+      conjuros:
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 9
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 6
+      especial: Poder de linaje, conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 10
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 7
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 11
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 7
+      especial: Conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 12
+      bab: +6/+1
+      fort: 4
+      ref: 4
+      vol: 8
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+      - —
+      - —
+      - —
+    - nivel: 13
+      bab: +6/+1
+      fort: 4
+      ref: 4
+      vol: 8
+      especial: Dote de linaje, conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+      - —
+      - —
+      - —
+    - nivel: 14
+      bab: +7/+2
+      fort: 4
+      ref: 4
+      vol: 9
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+      - —
+      - —
+    - nivel: 15
+      bab: +7/+2
+      fort: 5
+      ref: 5
+      vol: 9
+      especial: Poder de linaje, conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+      - —
+      - —
+    - nivel: 16
+      bab: +8/+3
+      fort: 5
+      ref: 5
+      vol: 10
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+      - —
+    - nivel: 17
+      bab: +8/+3
+      fort: 5
+      ref: 5
+      vol: 10
+      especial: Conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+      - —
+    - nivel: 18
+      bab: +9/+4
+      fort: 6
+      ref: 6
+      vol: 11
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '5'
+      - '3'
+    - nivel: 19
+      bab: +9/+4
+      fort: 6
+      ref: 6
+      vol: 11
+      especial: Dote de linaje, conjuro de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '4'
+    - nivel: 20
+      bab: +10/+5
+      fort: 6
+      ref: 6
+      vol: 12
+      especial: Poder de linaje
+      conjuros:
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+      - '6'
+  mago:
+    nombre: Mago
+    pagina: 67
+    dado_golpe: d6
+    rangos: 2
+    alineamiento: cualquiera
+    bab: 1/2
+    salvaciones_buenas:
+    - Voluntad
+    competencias: bastón, daga, ballesta ligera y pesada, puñal; ninguna armadura ni escudo
+    lanzador:
+      tipo: arcano
+      espontaneo: false
+      caracteristica: Int
+      niveles_max: 9
+      nivel_max_conjuro_a_20: 9
+      nota: libro de conjuros; escuela arcana (o universalista) con escuelas opuestas; vínculo arcano
+    habilidades_clase:
+    - Artesanía
+    - Conocimiento de conjuros
+    - Lingüística
+    - Profesión
+    - Saber (todas)
+    - Tasación
+    - Volar
+    clave: mago
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 0
+      vol: 2
+      especial: Vínculo arcano, escuela arcana trucos, Inscribir pergamino
+      conjuros:
+      - '3'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 2
+      bab: '+1'
+      fort: 0
+      ref: 0
+      vol: 3
+      conjuros:
+      - '4'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 3
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 3
+      conjuros:
+      - '4'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 4
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 4
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 5
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 4
+      especial: Dote adicional
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 6
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 5
+      conjuros:
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 7
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 5
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 8
+      bab: '+4'
+      fort: 2
+      ref: 2
+      vol: 6
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+      - —
+    - nivel: 9
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 6
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 10
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 7
+      especial: Dote adicional
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+      - —
+    - nivel: 11
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 7
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+      - —
+    - nivel: 12
+      bab: +6/+1
+      fort: 4
+      ref: 4
+      vol: 8
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+      - —
+    - nivel: 13
+      bab: +6/+1
+      fort: 4
+      ref: 4
+      vol: 8
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+      - —
+    - nivel: 14
+      bab: +7/+2
+      fort: 4
+      ref: 4
+      vol: 9
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+      - —
+    - nivel: 15
+      bab: +7/+2
+      fort: 5
+      ref: 5
+      vol: 9
+      especial: Dote adicional
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+      - —
+    - nivel: 16
+      bab: +8/+3
+      fort: 5
+      ref: 5
+      vol: 10
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+      - —
+    - nivel: 17
+      bab: +8/+3
+      fort: 5
+      ref: 5
+      vol: 10
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 18
+      bab: +9/+4
+      fort: 6
+      ref: 6
+      vol: 11
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+    - nivel: 19
+      bab: +9/+4
+      fort: 6
+      ref: 6
+      vol: 11
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+    - nivel: 20
+      bab: +10/+5
+      fort: 6
+      ref: 6
+      vol: 12
+      especial: Dote adicional
+      conjuros:
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+      - '4'
+  monje:
+    nombre: Monje
+    pagina: 73
+    dado_golpe: d8
+    rangos: 4
+    alineamiento: cualquiera legal
+    bab: 3/4
+    salvaciones_buenas:
+    - Fortaleza
+    - Reflejos
+    - Voluntad
+    competencias: armas de monje seleccionadas; ninguna armadura ni escudo (pierde aptitudes de clase
+      si las usa)
+    lanzador: null
+    habilidades_clase:
+    - Acrobacias
+    - Artesanía
+    - Averiguar intenciones
+    - Escapismo
+    - Interpretar
+    - Intimidar
+    - Montar
+    - Nadar
+    - Percepción
+    - Profesión
+    - Saber (historia)
+    - Saber (religión)
+    - Sigilo
+    - Trepar
+    clave: monje
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 2
+      ref: 2
+      vol: 2
+      especial: Dote adicional, ráfaga de golpes, puñetazo aturdidor, impacto sin arma
+      rafaga_de_golpes: -1/-1
+      danyo_sin_armas: 1d6
+      bonif_ca: 0
+      mov_rapido: +0 pies
+    - nivel: 2
+      bab: '+1'
+      fort: 3
+      ref: 3
+      vol: 3
+      especial: Dote adicional, evasión
+      rafaga_de_golpes: +0/+0
+      danyo_sin_armas: 1d6
+      bonif_ca: 0
+      mov_rapido: +0 pies
+    - nivel: 3
+      bab: '+2'
+      fort: 3
+      ref: 3
+      vol: 3
+      especial: Movimiento rápido, entrenamiento en maniobras, mente en calma
+      rafaga_de_golpes: +1/+1
+      danyo_sin_armas: 1d6
+      bonif_ca: 0
+      mov_rapido: +10 pies (3 m)
+    - nivel: 4
+      bab: '+3'
+      fort: 4
+      ref: 4
+      vol: 4
+      especial: Reserva de ki (mágica), caída lentificada 20 pies (6 m)
+      rafaga_de_golpes: +2/+2
+      danyo_sin_armas: 1d8
+      bonif_ca: 1
+      mov_rapido: +10 pies (3 m)
+    - nivel: 5
+      bab: '+3'
+      fort: 4
+      ref: 4
+      vol: 4
+      especial: Gran salto, pureza corporal
+      rafaga_de_golpes: +3/+3
+      danyo_sin_armas: 1d8
+      bonif_ca: 1
+      mov_rapido: +10 pies (3 m)
+    - nivel: 6
+      bab: '+4'
+      fort: 5
+      ref: 5
+      vol: 5
+      especial: Dote adicional, caída lentificada 30 pies (9 m)
+      rafaga_de_golpes: +4/+4/-1
+      danyo_sin_armas: 1d8
+      bonif_ca: 1
+      mov_rapido: +20 pies (6 m)
+    - nivel: 7
+      bab: '+5'
+      fort: 5
+      ref: 5
+      vol: 5
+      especial: Reserva de ki (hierro frío/plata), plenitud corporal
+      rafaga_de_golpes: +5/+5/+0
+      danyo_sin_armas: 1d8
+      bonif_ca: 1
+      mov_rapido: +20 pies (6 m)
+    - nivel: 8
+      bab: +6/+1
+      fort: 6
+      ref: 6
+      vol: 6
+      especial: Caída lent. 40 pies (12 m)
+      rafaga_de_golpes: +6/+6/+1/+1
+      danyo_sin_armas: 1d10
+      bonif_ca: 2
+      mov_rapido: +20 pies (6 m)
+    - nivel: 9
+      bab: +6/+1
+      fort: 6
+      ref: 6
+      vol: 6
+      especial: Evasión mejorada
+      rafaga_de_golpes: +7/+7/+2/+2
+      danyo_sin_armas: 1d10
+      bonif_ca: 2
+      mov_rapido: +30 pies (9 m)
+    - nivel: 10
+      bab: +7/+2
+      fort: 7
+      ref: 7
+      vol: 7
+      especial: Dote adicional, reserva de ki (legal), caída lent. 50 pies (15 m)
+      rafaga_de_golpes: +8/+8/+3/+3
+      danyo_sin_armas: 1d10
+      bonif_ca: 2
+      mov_rapido: +30 pies (9 m)
+    - nivel: 11
+      bab: +8/+3
+      fort: 7
+      ref: 7
+      vol: 7
+      especial: Cuerpo diamantino
+      rafaga_de_golpes: +9/+9/+4/+4/-1
+      danyo_sin_armas: 1d10
+      bonif_ca: 2
+      mov_rapido: +30 pies (9 m)
+    - nivel: 12
+      bab: +9/+4
+      fort: 8
+      ref: 8
+      vol: 8
+      especial: Paso abundante, caída lentificada 60 pies (18 m)
+      rafaga_de_golpes: +10/+10/+5/+5/+0
+      danyo_sin_armas: 2d6
+      bonif_ca: 3
+      mov_rapido: +40 pies (12 m)
+    - nivel: 13
+      bab: +9/+4
+      fort: 8
+      ref: 8
+      vol: 8
+      especial: Alma diamantina
+      rafaga_de_golpes: +11/+11/+6/+6/+1
+      danyo_sin_armas: 2d6
+      bonif_ca: 3
+      mov_rapido: +40 pies (12 m)
+    - nivel: 14
+      bab: +10/+5
+      fort: 9
+      ref: 9
+      vol: 9
+      especial: Dote adicional, caída lentificada 70 pies (21 m)
+      rafaga_de_golpes: +12/+12/+7/+7/+2
+      danyo_sin_armas: 2d6
+      bonif_ca: 3
+      mov_rapido: +40 pies (12 m)
+    - nivel: 15
+      bab: +11/+6/+1
+      fort: 9
+      ref: 9
+      vol: 9
+      especial: Palma temblorosa
+      rafaga_de_golpes: +13/+13/+8/+8/+3/+3
+      danyo_sin_armas: 2d6
+      bonif_ca: 3
+      mov_rapido: +50 pies (15 m)
+    - nivel: 16
+      bab: +12/+7/+2
+      fort: 10
+      ref: 10
+      vol: 10
+      especial: Reserva de ki (adamantina), caída lentificada 80 pies (24 m)
+      rafaga_de_golpes: +14/+14/+9/+9/+4/+4/-1
+      danyo_sin_armas: 2d8
+      bonif_ca: 4
+      mov_rapido: +50 pies (15 m)
+    - nivel: 17
+      bab: +12/+7/+2
+      fort: 10
+      ref: 10
+      vol: 10
+      especial: Cuerpo eterno, lengua del sol y de la luna
+      rafaga_de_golpes: +15/+15/+10/+10/+5/+5/+0
+      danyo_sin_armas: 2d8
+      bonif_ca: 4
+      mov_rapido: +50 pies (15 m)
+    - nivel: 18
+      bab: +13/+8/+3
+      fort: 11
+      ref: 11
+      vol: 11
+      especial: Dote adicional, caída lentificada 90 pies (27 m)
+      rafaga_de_golpes: +16/+16/+11/+11/+6/+6/+1
+      danyo_sin_armas: 2d8
+      bonif_ca: 4
+      mov_rapido: +60 pies (18 m)
+    - nivel: 19
+      bab: +14/+9/+4
+      fort: 11
+      ref: 11
+      vol: 11
+      especial: Cuerpo vacío
+      rafaga_de_golpes: +17/+17/+12/+12/+7/+7/+2
+      danyo_sin_armas: 2d8
+      bonif_ca: 4
+      mov_rapido: +60 pies (18 m)
+    - nivel: 20
+      bab: +15/+10/+5
+      fort: 12
+      ref: 12
+      vol: 12
+      especial: Yo perfecto
+      rafaga_de_golpes: +18/+18/+13/+13/+8/+8/+3
+      danyo_sin_armas: 2d10
+      bonif_ca: 5
+      mov_rapido: +60 pies (18 m)
+  paladin:
+    nombre: Paladín
+    pagina: 76
+    dado_golpe: d10
+    rangos: 2
+    alineamiento: legal bueno (obligatorio)
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    - Voluntad
+    competencias: armas sencillas y marciales; todas las armaduras y escudos (no pavés)
+    lanzador:
+      tipo: divino
+      espontaneo: false
+      caracteristica: Car
+      niveles_max: 4
+      nivel_max_conjuro_a_20: 4
+      empieza_a_nivel: 4
+    habilidades_clase:
+    - Artesanía
+    - Averiguar intenciones
+    - Conocimiento de conjuros
+    - Curar
+    - Diplomacia
+    - Montar
+    - Profesión
+    - Saber (nobleza)
+    - Saber (religión)
+    - Trato con animales
+    clave: paladin
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 2
+      ref: 0
+      vol: 2
+      especial: Aura buena, detectar el mal, castigar el mal 1/día
+      conjuros:
+      - '-'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 2
+      bab: '+2'
+      fort: 3
+      ref: 0
+      vol: 3
+      especial: Gracia divina, imposición de manos
+      conjuros:
+      - '-'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 3
+      bab: '+3'
+      fort: 3
+      ref: 1
+      vol: 3
+      especial: Aura de valor, salud divina, merced
+      conjuros:
+      - '-'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 4
+      bab: '+4'
+      fort: 4
+      ref: 1
+      vol: 4
+      especial: Canalizar energía positiva, castigar el mal 2/día
+      conjuros:
+      - '0'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 5
+      bab: '+5'
+      fort: 4
+      ref: 1
+      vol: 4
+      especial: Vínculo divino
+      conjuros:
+      - '1'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 6
+      bab: +6/+1
+      fort: 5
+      ref: 2
+      vol: 5
+      especial: Merced
+      conjuros:
+      - '1'
+      - '-'
+      - '-'
+      - '-'
+    - nivel: 7
+      bab: +7/+2
+      fort: 5
+      ref: 2
+      vol: 5
+      especial: Castigar el mal 3/día
+      conjuros:
+      - '1'
+      - '0'
+      - '-'
+      - '-'
+    - nivel: 8
+      bab: +8/+3
+      fort: 6
+      ref: 2
+      vol: 6
+      especial: Aura de decisión
+      conjuros:
+      - '1'
+      - '1'
+      - '-'
+      - '-'
+    - nivel: 9
+      bab: +9/+4
+      fort: 6
+      ref: 3
+      vol: 6
+      especial: Merced
+      conjuros:
+      - '2'
+      - '1'
+      - '-'
+      - '-'
+    - nivel: 10
+      bab: +10/+5
+      fort: 7
+      ref: 3
+      vol: 7
+      especial: Castigar el mal 4/día
+      conjuros:
+      - '2'
+      - '1'
+      - '0'
+      - '-'
+    - nivel: 11
+      bab: +11/+6/+1
+      fort: 7
+      ref: 3
+      vol: 7
+      especial: Aura de justicia
+      conjuros:
+      - '2'
+      - '1'
+      - '1'
+      - '-'
+    - nivel: 12
+      bab: +12/+7/+2
+      fort: 8
+      ref: 4
+      vol: 8
+      especial: Merced
+      conjuros:
+      - '2'
+      - '2'
+      - '1'
+      - '-'
+    - nivel: 13
+      bab: +13/+8/+3
+      fort: 8
+      ref: 4
+      vol: 8
+      especial: Castigar el mal 5/día
+      conjuros:
+      - '3'
+      - '2'
+      - '1'
+      - '0'
+    - nivel: 14
+      bab: +14/+9/+4
+      fort: 9
+      ref: 4
+      vol: 9
+      especial: Aura de fe
+      conjuros:
+      - '3'
+      - '2'
+      - '1'
+      - '1'
+    - nivel: 15
+      bab: +15/+10/+5
+      fort: 9
+      ref: 5
+      vol: 9
+      especial: Merced
+      conjuros:
+      - '3'
+      - '2'
+      - '2'
+      - '1'
+    - nivel: 16
+      bab: +16/+11/+6/+1
+      fort: 10
+      ref: 5
+      vol: 10
+      especial: Castigar el mal 6/día
+      conjuros:
+      - '3'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 17
+      bab: +17/+12/+7/+2
+      fort: 10
+      ref: 5
+      vol: 10
+      especial: Aura de rectitud
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '1'
+    - nivel: 18
+      bab: +18/+13/+8/+3
+      fort: 11
+      ref: 6
+      vol: 11
+      especial: Merced
+      conjuros:
+      - '4'
+      - '3'
+      - '2'
+      - '2'
+    - nivel: 19
+      bab: +19/+14/+9/+4
+      fort: 11
+      ref: 6
+      vol: 11
+      especial: Castigar el mal 7/día
+      conjuros:
+      - '4'
+      - '3'
+      - '3'
+      - '2'
+    - nivel: 20
+      bab: +20/+15/+10/+5
+      fort: 12
+      ref: 6
+      vol: 12
+      especial: Campeón sagrado
+      conjuros:
+      - '4'
+      - '4'
+      - '3'
+      - '3'
+  picaro:
+    nombre: Pícaro
+    pagina: 80
+    dado_golpe: d8
+    rangos: 8
+    alineamiento: cualquiera
+    bab: 3/4
+    salvaciones_buenas:
+    - Reflejos
+    competencias: armas sencillas más algunas específicas; armadura ligera, sin escudos
+    lanzador: null
+    habilidades_clase:
+    - Acrobacias
+    - Artesanía
+    - Averiguar intenciones
+    - Diplomacia
+    - Disfrazarse
+    - Engañar
+    - Escapismo
+    - Interpretar
+    - Intimidar
+    - Inutilizar mecanismo
+    - Juego de manos
+    - Lingüística
+    - Nadar
+    - Percepción
+    - Profesión
+    - Saber (dungeons)
+    - Saber (local)
+    - Sigilo
+    - Tasación
+    - Trepar
+    - Usar objeto mágico
+    clave: picaro
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 2
+      vol: 0
+      especial: Ataque furtivo +1d6, encontrar trampas
+    - nivel: 2
+      bab: '+1'
+      fort: 0
+      ref: 3
+      vol: 0
+      especial: Evasión, talento de pícaro
+    - nivel: 3
+      bab: '+2'
+      fort: 1
+      ref: 3
+      vol: 1
+      especial: Ataque furtivo +2d6, sentido de las trampas +1
+    - nivel: 4
+      bab: '+3'
+      fort: 1
+      ref: 4
+      vol: 1
+      especial: Talento de pícaro, esquiva asombrosa
+    - nivel: 5
+      bab: '+3'
+      fort: 1
+      ref: 4
+      vol: 1
+      especial: Ataque furtivo +3d6
+    - nivel: 6
+      bab: '+4'
+      fort: 2
+      ref: 5
+      vol: 2
+      especial: Talento de pícaro, sentido de las trampas +2
+    - nivel: 7
+      bab: '+5'
+      fort: 2
+      ref: 5
+      vol: 2
+      especial: Ataque furtivo +4d6
+    - nivel: 8
+      bab: +6/+1
+      fort: 2
+      ref: 6
+      vol: 2
+      especial: Esquiva asombrosa mejorada, talento de pícaro
+    - nivel: 9
+      bab: +6/+1
+      fort: 3
+      ref: 6
+      vol: 3
+      especial: Ataque furtivo +5d6, sentido de las trampas +3
+    - nivel: 10
+      bab: +7/+2
+      fort: 3
+      ref: 7
+      vol: 3
+      especial: Talentos avanzados, talento de pícaro
+    - nivel: 11
+      bab: +8/+3
+      fort: 3
+      ref: 7
+      vol: 3
+      especial: Ataque furtivo +6d6
+    - nivel: 12
+      bab: +9/+4
+      fort: 4
+      ref: 8
+      vol: 4
+      especial: Talento de pícaro, sentido de las trampas +4
+    - nivel: 13
+      bab: +9/+4
+      fort: 4
+      ref: 8
+      vol: 4
+      especial: Ataque furtivo +7d6
+    - nivel: 14
+      bab: +10/+5
+      fort: 4
+      ref: 9
+      vol: 4
+      especial: Talento de pícaro
+    - nivel: 15
+      bab: +11/+6/+1
+      fort: 5
+      ref: 9
+      vol: 5
+      especial: Ataque furtivo +8d6, sentido de las trampas +5
+    - nivel: 16
+      bab: +12/+7/+2
+      fort: 5
+      ref: 10
+      vol: 5
+      especial: Talento de pícaro
+    - nivel: 17
+      bab: +12/+7/+2
+      fort: 5
+      ref: 10
+      vol: 5
+      especial: Ataque furtivo +9d6
+    - nivel: 18
+      bab: +13/+8/+3
+      fort: 6
+      ref: 11
+      vol: 6
+      especial: Talento de pícaro, sentido de las trampas +6
+    - nivel: 19
+      bab: +14/+9/+4
+      fort: 6
+      ref: 11
+      vol: 6
+      especial: Ataque furtivo +10d6
+    - nivel: 20
+      bab: +15/+10/+5
+      fort: 6
+      ref: 12
+      vol: 6
+      especial: Golpe maestro, talento de pícaro
+clases_de_prestigio:
+  arquero_arcano:
+    nombre: Arquero arcano
+    pagina: 374
+    dado_golpe: d10
+    rangos: 4
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    - Reflejos
+    clave: arquero_arcano
+    requisitos: Ataque base +6; dotes Disparo a bocajarro, Disparo preciso y Soltura con un arma (arco
+      largo o corto); capaz de lanzar conjuros arcanos de 1er nivel.
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 0
+    - nivel: 2
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 1
+    - nivel: 4
+      bab: '+4'
+      fort: 2
+      ref: 2
+      vol: 1
+    - nivel: 5
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 2
+    - nivel: 6
+      bab: '+6'
+      fort: 3
+      ref: 3
+      vol: 2
+    - nivel: 7
+      bab: '+7'
+      fort: 4
+      ref: 4
+      vol: 2
+    - nivel: 8
+      bab: '+8'
+      fort: 4
+      ref: 4
+      vol: 3
+    - nivel: 9
+      bab: '+9'
+      fort: 5
+      ref: 5
+      vol: 3
+    - nivel: 10
+      bab: '+10'
+      fort: 5
+      ref: 5
+      vol: 3
+  asesino:
+    nombre: Asesino
+    pagina: 376
+    dado_golpe: d8
+    rangos: 4
+    bab: 3/4
+    salvaciones_buenas:
+    - Reflejos
+    clave: asesino
+    requisitos: Alineamiento cualquiera maligno; Disfrazarse 2 rangos, Sigilo 5 rangos; haber matado a
+      alguien sólo para convertirse en asesino.
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 1
+      vol: 0
+    - nivel: 2
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+2'
+      fort: 1
+      ref: 2
+      vol: 1
+    - nivel: 4
+      bab: '+3'
+      fort: 1
+      ref: 2
+      vol: 1
+    - nivel: 5
+      bab: '+3'
+      fort: 2
+      ref: 3
+      vol: 2
+    - nivel: 6
+      bab: '+4'
+      fort: 2
+      ref: 3
+      vol: 2
+    - nivel: 7
+      bab: '+5'
+      fort: 2
+      ref: 4
+      vol: 2
+    - nivel: 8
+      bab: '+6'
+      fort: 3
+      ref: 4
+      vol: 3
+    - nivel: 9
+      bab: '+6'
+      fort: 3
+      ref: 5
+      vol: 3
+    - nivel: 10
+      bab: '+7'
+      fort: 3
+      ref: 5
+      vol: 3
+  bribon_arcano:
+    nombre: Bribón arcano
+    pagina: 378
+    dado_golpe: d8
+    rangos: 6
+    bab: 1/2
+    salvaciones_buenas:
+    - Reflejos
+    - Voluntad
+    clave: bribon_arcano
+    requisitos: Alineamiento cualquiera no legal; Escapismo 4 rangos, Inutilizar mecanismo 4 rangos, Saber
+      (arcano) 4 rangos; capaz de lanzar mano del mago y al menos un conjuro arcano de 2º nivel.
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 1
+      vol: 1
+    - nivel: 2
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+1'
+      fort: 1
+      ref: 2
+      vol: 2
+    - nivel: 4
+      bab: '+2'
+      fort: 1
+      ref: 2
+      vol: 2
+    - nivel: 5
+      bab: '+2'
+      fort: 2
+      ref: 3
+      vol: 3
+    - nivel: 6
+      bab: '+3'
+      fort: 2
+      ref: 3
+      vol: 3
+    - nivel: 7
+      bab: '+3'
+      fort: 2
+      ref: 4
+      vol: 4
+    - nivel: 8
+      bab: '+4'
+      fort: 3
+      ref: 4
+      vol: 4
+    - nivel: 9
+      bab: '+4'
+      fort: 3
+      ref: 5
+      vol: 5
+    - nivel: 10
+      bab: '+5'
+      fort: 3
+      ref: 5
+      vol: 5
+  caballero_arcano:
+    nombre: Caballero arcano
+    pagina: 380
+    dado_golpe: d10
+    rangos: 2
+    bab: completo
+    salvaciones_buenas:
+    - Fortaleza
+    - Voluntad
+    clave: caballero_arcano
+    requisitos: Competente con todas las armas marciales; capaz de lanzar conjuros arcanos de 3er nivel.
+    progresion:
+    - nivel: 1
+      bab: '+1'
+      fort: 1
+      ref: 0
+      vol: 0
+    - nivel: 2
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+3'
+      fort: 2
+      ref: 1
+      vol: 1
+    - nivel: 4
+      bab: '+4'
+      fort: 2
+      ref: 1
+      vol: 1
+    - nivel: 5
+      bab: '+5'
+      fort: 3
+      ref: 2
+      vol: 2
+    - nivel: 6
+      bab: '+6'
+      fort: 3
+      ref: 2
+      vol: 2
+    - nivel: 7
+      bab: '+7'
+      fort: 4
+      ref: 2
+      vol: 2
+    - nivel: 8
+      bab: '+8'
+      fort: 4
+      ref: 3
+      vol: 3
+    - nivel: 9
+      bab: '+9'
+      fort: 5
+      ref: 3
+      vol: 3
+    - nivel: 10
+      bab: '+10'
+      fort: 5
+      ref: 3
+      vol: 3
+  cronista_pathfinder:
+    nombre: Cronista Pathfinder
+    pagina: 381
+    dado_golpe: d8
+    rangos: 8
+    bab: 3/4
+    salvaciones_buenas:
+    - Reflejos
+    - Voluntad
+    clave: cronista_pathfinder
+    requisitos: Interpretar (oratoria) 5 rangos, Lingüística 3 rangos, Profesión (escriba) 5 rangos; haber
+      escrito o inscrito un texto propio.
+    progresion: []
+  danzarin_sombrio:
+    nombre: Danzarín sombrío
+    pagina: 384
+    dado_golpe: d8
+    rangos: 6
+    bab: 3/4
+    salvaciones_buenas:
+    - Reflejos
+    clave: danzarin_sombrio
+    requisitos: Interpretar (danza) 2 rangos, Sigilo 5 rangos; dotes Esquiva, Movilidad y Reflejos de
+      combate.
+    progresion: []
+  discipulo_del_dragon:
+    nombre: Discípulo del dragón
+    pagina: 386
+    dado_golpe: d12
+    rangos: 2
+    bab: 3/4
+    salvaciones_buenas:
+    - Fortaleza
+    - Voluntad
+    clave: discipulo_del_dragon
+    requisitos: Cualquier raza que no sea dragón; capaz de lanzar conjuros arcanos de 1er nivel sin preparación.
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 1
+      ref: 0
+      vol: 1
+    - nivel: 2
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+2'
+      fort: 2
+      ref: 1
+      vol: 2
+    - nivel: 4
+      bab: '+3'
+      fort: 2
+      ref: 1
+      vol: 2
+    - nivel: 5
+      bab: '+3'
+      fort: 3
+      ref: 2
+      vol: 3
+    - nivel: 6
+      bab: '+4'
+      fort: 3
+      ref: 2
+      vol: 3
+    - nivel: 7
+      bab: '+5'
+      fort: 4
+      ref: 2
+      vol: 4
+    - nivel: 8
+      bab: '+6'
+      fort: 4
+      ref: 3
+      vol: 4
+    - nivel: 9
+      bab: '+6'
+      fort: 5
+      ref: 3
+      vol: 5
+    - nivel: 10
+      bab: '+7'
+      fort: 5
+      ref: 3
+      vol: 5
+  duelista:
+    nombre: Duelista
+    pagina: 388
+    dado_golpe: d10
+    rangos: 4
+    bab: completo
+    salvaciones_buenas:
+    - Reflejos
+    clave: duelista
+    requisitos: Ataque base +6; Acrobacias 2 rangos, Interpretar 2 rangos; dotes Esquiva, Movilidad y
+      Sutileza con las armas.
+    progresion:
+    - nivel: 10
+      bab: '+10'
+      fort: 3
+      ref: 5
+      vol: 3
+  maestro_del_saber:
+    nombre: Maestro del saber
+    pagina: 390
+    dado_golpe: d6
+    rangos: 4
+    bab: 1/2
+    salvaciones_buenas:
+    - Voluntad
+    clave: maestro_del_saber
+    requisitos: Saber (dos cualesquiera) 7 rangos en cada una; 3 dotes metamágicas o de creación de objetos
+      más Soltura con una habilidad (Saber).
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 0
+      vol: 1
+    - nivel: 2
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 2
+    - nivel: 4
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 2
+    - nivel: 5
+      bab: '+2'
+      fort: 2
+      ref: 2
+      vol: 3
+    - nivel: 6
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 3
+    - nivel: 7
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 4
+    - nivel: 8
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 4
+    - nivel: 9
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 5
+    - nivel: 10
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 5
+  teurgo_mistico:
+    nombre: Teúrgo místico
+    pagina: 392
+    dado_golpe: d6
+    rangos: 2
+    bab: 1/2
+    salvaciones_buenas:
+    - Voluntad
+    clave: teurgo_mistico
+    requisitos: Saber (arcano) 3 rangos, Saber (religión) 3 rangos; capaz de lanzar conjuros divinos de
+      2º nivel y conjuros arcanos de 2º nivel.
+    progresion:
+    - nivel: 1
+      bab: '+0'
+      fort: 0
+      ref: 0
+      vol: 1
+    - nivel: 2
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 1
+    - nivel: 3
+      bab: '+1'
+      fort: 1
+      ref: 1
+      vol: 2
+    - nivel: 4
+      bab: '+2'
+      fort: 1
+      ref: 1
+      vol: 2
+    - nivel: 5
+      bab: '+2'
+      fort: 2
+      ref: 2
+      vol: 3
+    - nivel: 6
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 3
+    - nivel: 7
+      bab: '+3'
+      fort: 2
+      ref: 2
+      vol: 4
+    - nivel: 8
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 4
+    - nivel: 9
+      bab: '+4'
+      fort: 3
+      ref: 3
+      vol: 5
+    - nivel: 10
+      bab: '+5'
+      fort: 3
+      ref: 3
+      vol: 5
+habilidades:
+  reglas:
+    rangos_por_nivel: rangos de clase + mod. Int (mínimo 1); los humanos suman +1
+    maximo_rangos: no se pueden tener más rangos que DG totales
+    bonificador_de_clase: +3 a una habilidad de clase en la que se tenga al menos 1 rango
+    formula: 1d20 + rangos + mod. característica + mod. racial + (+3 si es habilidad de clase con rangos)
+    ayudar_a_otro: prueba CD 10 para dar +2 al aliado
+    penalizador_de_armadura: se aplica a las pruebas basadas en Fue y Des marcadas con penalizador
+  lista:
+  - nombre: Acrobacias
+    caracteristica: Des
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - barbaro
+    - bardo
+    - monje
+    - picaro
+  - nombre: Artesanía
+    caracteristica: Int
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - bardo
+    - clerigo
+    - druida
+    - explorador
+    - guerrero
+    - hechicero
+    - mago
+    - monje
+    - paladin
+    - picaro
+  - nombre: Averiguar intenciones
+    caracteristica: Sab
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - monje
+    - paladin
+    - picaro
+  - nombre: Conocimiento de conjuros
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - druida
+    - explorador
+    - hechicero
+    - mago
+    - paladin
+  - nombre: Curar
+    caracteristica: Sab
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - clerigo
+    - druida
+    - explorador
+    - paladin
+  - nombre: Diplomacia
+    caracteristica: Car
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - paladin
+    - picaro
+  - nombre: Disfrazarse
+    caracteristica: Car
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - picaro
+  - nombre: Engañar
+    caracteristica: Car
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - hechicero
+    - picaro
+  - nombre: Escapismo
+    caracteristica: Des
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - bardo
+    - monje
+    - picaro
+  - nombre: Interpretar
+    caracteristica: Car
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - monje
+    - picaro
+  - nombre: Intimidar
+    caracteristica: Car
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - bardo
+    - explorador
+    - guerrero
+    - hechicero
+    - monje
+    - picaro
+  - nombre: Inutilizar mecanismo
+    caracteristica: Des
+    sin_entrenar: false
+    penalizador_armadura: true
+    clases:
+    - picaro
+  - nombre: Juego de manos
+    caracteristica: Des
+    sin_entrenar: false
+    penalizador_armadura: true
+    clases:
+    - bardo
+    - picaro
+  - nombre: Lingüística
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - mago
+    - picaro
+  - nombre: Montar
+    caracteristica: Des
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - barbaro
+    - druida
+    - explorador
+    - guerrero
+    - monje
+    - paladin
+  - nombre: Nadar
+    caracteristica: Fue
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - barbaro
+    - druida
+    - explorador
+    - guerrero
+    - monje
+    - picaro
+  - nombre: Percepción
+    caracteristica: Sab
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - bardo
+    - druida
+    - explorador
+    - monje
+    - picaro
+  - nombre: Profesión
+    caracteristica: Sab
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - druida
+    - explorador
+    - guerrero
+    - hechicero
+    - mago
+    - monje
+    - paladin
+    - picaro
+  - nombre: Saber (arcano)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - hechicero
+    - mago
+  - nombre: Saber (dungeons)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - explorador
+    - guerrero
+    - mago
+    - picaro
+  - nombre: Saber (geografía)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - druida
+    - explorador
+    - mago
+  - nombre: Saber (historia)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - mago
+    - monje
+  - nombre: Saber (ingeniería)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - guerrero
+    - mago
+  - nombre: Saber (local)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - mago
+    - picaro
+  - nombre: Saber (los Planos)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - mago
+  - nombre: Saber (Naturaleza)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - bardo
+    - druida
+    - explorador
+    - mago
+  - nombre: Saber (nobleza)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - mago
+    - paladin
+  - nombre: Saber (religión)
+    caracteristica: Int
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - mago
+    - monje
+    - paladin
+  - nombre: Sigilo
+    caracteristica: Des
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - bardo
+    - explorador
+    - monje
+    - picaro
+  - nombre: Supervivencia
+    caracteristica: Sab
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - druida
+    - explorador
+    - guerrero
+  - nombre: Tasación
+    caracteristica: Int
+    sin_entrenar: true
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - clerigo
+    - hechicero
+    - mago
+    - picaro
+  - nombre: Trato con animales
+    caracteristica: Car
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - barbaro
+    - druida
+    - explorador
+    - guerrero
+    - paladin
+  - nombre: Trepar
+    caracteristica: Fue
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - barbaro
+    - bardo
+    - druida
+    - explorador
+    - guerrero
+    - monje
+    - picaro
+  - nombre: Usar objeto mágico
+    caracteristica: Car
+    sin_entrenar: false
+    penalizador_armadura: false
+    clases:
+    - bardo
+    - hechicero
+    - picaro
+  - nombre: Volar
+    caracteristica: Des
+    sin_entrenar: true
+    penalizador_armadura: true
+    clases:
+    - druida
+    - hechicero
+    - mago
+dotes:
+  reglas:
+    obtencion: una dote a 1er nivel y otra cada nivel impar; los guerreros y otros obtienen dotes adicionales
+    tipos:
+    - General
+    - Combate
+    - Metamágica
+    - Creación de objeto
+    - Crítico
+    prerrequisitos: deben cumplirse siempre para usar la dote
+    nota: beneficio_resumen es un resumen; el texto completo está en el manual (págs. 113-137)
+  lista:
+  - nombre: Abstención de materiales
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: puedes lanzar cualquier conjuro que tenga un componente material que cueste 1 po
+      o menos, sin necesitar dicho componente.
+  - nombre: Acometer
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +6
+    beneficio_resumen: Puedes atacar con un arma de alcance a enemigos que normalmente estarían fuera
+      de tu alcance aceptando un penalizador -2 a la CA.
+  - nombre: Acrobático
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de habilidad de Acrobacias y de
+      Volar.
+  - nombre: Afinidad con los animales
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: Obtienes un bonificador +2 a las pruebas de Montar y de Trato con animales (+4
+      con 10 o más rangos).
+  - nombre: Aguante
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: 'obtienes un bonificador +4 a las siguientes pruebas y salvaciones: pruebas de
+      nadar para resistir daño no letal debido al cansancio; pruebas de Constitución….'
+  - nombre: Alerta
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Percepción y de Averiguar intenciones.
+  - nombre: Ampliar conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: puedes alterar un conjuro con un alcance de cercano, medio, o largo para incrementar
+      su alcance en un 100%.
+  - nombre: Apresurar conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: lanzar un conjuro apresurado es una acción rápida.
+  - nombre: Aptitudes mágicas
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Conocimiento de conjuros y de
+      Usar objeto mágico.
+  - nombre: Arrollar mayor
+    tipos:
+    - Combate
+    prerrequisitos: Arrollar mejorado, Ataque poderoso, ataque base +6, Fue 13
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para arrollar a un enemigo,
+      que se apila con el concedido por Arrollar mejorado.
+  - nombre: Arrollar mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      arrollar.
+  - nombre: Artesano maestro
+    tipos:
+    - General
+    prerrequisitos: 5 rangos en cualquier variedad de Artesanía o Profesión
+    beneficio_resumen: escoge una variedad de Artesanía o de Profesión en la que tengas por lo menos 5
+      rangos.
+  - nombre: Ataque al galope
+    tipos:
+    - Combate
+    prerrequisitos: Montar 1 rango, Combatir desde una montura
+    beneficio_resumen: cuando vas montado y utilizas la acción de cargar, te puedes mover y atacar como
+      si llevaras a cabo una carga estándar, y después moverte de nuevo (continuando….
+  - nombre: Ataque de torbellino
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Int 13, Pericia de combate, Esquiva, Movilidad, Ataque elástico, ataque base
+      +4
+    beneficio_resumen: cuando utilizas la acción de ataque completo, puedes cambiar tus ataques normales
+      por un ataque cuerpo a cuerpo a tu ataque base mayor contra cada oponente a….
+  - nombre: Ataque elástico
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Esquiva, Movilidad, ataque base +4
+    beneficio_resumen: como acción de asalto completo, puedes moverte hasta tu velocidad y llevar a cabo
+      un solo ataque cuerpo a cuerpo sin provocar ataques de oportunidad por parte….
+  - nombre: Ataque poderoso
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, ataque base +1
+    beneficio_resumen: aceptas un penalizador -1 a todas las tiradas de ataque cuerpo a cuerpo y pruebas
+      de maniobras de combate, a cambio de un bonificador +2 a todas las tiradas de….
+  - nombre: Atlético
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de habilidad de Trepar y de Nadar.
+  - nombre: Atrapar flechas
+    tipos:
+    - Combate
+    prerrequisitos: Des 15, Desviar flechas, Impacto sin arma mejorado
+    beneficio_resumen: cuando utilizas la dote Desviar f lechas, puedes atrapar el proyectil en lugar
+      de simplemente desviarlo.
+  - nombre: Aumentar convocación
+    tipos:
+    - General
+    prerrequisitos: Soltura con los conjuros (conjuración)
+    beneficio_resumen: cada criatura que conjuras con cualquier conjuro de convocación obtiene un bonificador
+      + 4 por mejora a su Fuerza y Constitución a lo largo de la duración del….
+  - nombre: Autosuficiente
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Curar y de Supervivencia.
+  - nombre: Canalización adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase canalizar energía
+    beneficio_resumen: null
+  - nombre: Canalización elemental
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase canalizar energía
+    beneficio_resumen: en lugar de su efecto normal, puedes escoger que tu aptitud para canalizar energía
+      cure o dañe a los ajenos del subtipo elemental escogido.
+  - nombre: Canalización mejorada
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase canalizar energía
+    beneficio_resumen: suma 2 a la CD de las tiradas de salvación para resistir los efectos de tu aptitud
+      de canalizar energía.
+  - nombre: Canalización selectiva
+    tipos:
+    - General
+    prerrequisitos: Car 13, rasgo de clase canalizar energía
+    beneficio_resumen: cuando canalizas energía, puedes escoger un número de objetivos en el área hasta
+      tu modificador por Carisma, que no se ven afectados por la energía que….
+  - nombre: Canalizar alineamiento
+    tipos:
+    - General
+    prerrequisitos: aptitud para canalizar la energía
+    beneficio_resumen: en lugar de su efecto normal, puedes escoger que tu aptitud para canalizar energía
+      cure o dañe a los ajenos del subtipo de alineamiento elegido.
+  - nombre: Canalizar castigo
+    tipos:
+    - Combate
+    prerrequisitos: rasgo de clase canalizar energía
+    beneficio_resumen: antes de llevar a cabo una tirada de ataque cuerpo a cuerpo, puedes gastar un uso
+      de tu aptitud de canalizar energía como acción rápida.
+  - nombre: Carga impetuosa
+    tipos:
+    - Combate
+    prerrequisitos: Montar 1 rango, Combatir desde una montura, Ataque al galope
+    beneficio_resumen: cuando montas y utilizas la acción de carga, inf liges doble daño con un arma cuerpo
+      a cuerpo (o triple con una lanza de caballería).
+  - nombre: Comandar muertos vivientes
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase canalizar energía negativa
+    beneficio_resumen: como acción estándar, puedes gastar uno de tus usos de canalizar energía negativa
+      para esclavizar muertos vivientes a 30 pies (9 m) o menos de ti, que tienen….
+  - nombre: Combate con dos armas
+    tipos:
+    - Combate
+    prerrequisitos: Des 15
+    beneficio_resumen: tus penalizadores a las tiradas de ataque para luchar con dos armas se reducen.
+  - nombre: Combate con dos armas mayor
+    tipos:
+    - Combate
+    prerrequisitos: Des 19, Combate con dos armas mejorado, Combate con dos armas, ataque base +11
+    beneficio_resumen: obtienes un tercer ataque con la mano torpe, aunque con un penalizador -10.
+  - nombre: Combate con dos armas mejorado
+    tipos:
+    - General
+    prerrequisitos: Des 17, Combate con dos armas, ataque base +6
+    beneficio_resumen: además del ataque adicional individual normal que obtienes con el arma de mano
+      torpe, obtienes un segundo ataque con ella, aunque con un penalizador -5.
+  - nombre: Combatir desde una montura
+    tipos:
+    - Combate
+    prerrequisitos: Montar 1 rango
+    beneficio_resumen: una vez por asalto, si tu montura es impactada en combate, puedes hacer una prueba
+      de Montar (como acción inmediata) para negar el impacto, lo que consigues si….
+  - nombre: Competencia con arma exótica
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +1
+    beneficio_resumen: puedes llevar a cabo tiradas de ataque con el arma de forma normal.
+  - nombre: Competencia con arma marcial
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: llevas a cabo tiradas de ataque con el arma seleccionada de forma normal (sin el
+      penalizador por no competencia).
+  - nombre: Competencia con armadura intermedia
+    tipos:
+    - General
+    prerrequisitos: Competencia con armadura ligera
+    beneficio_resumen: ver Competencia con armadura ligera.
+  - nombre: Competencia con armadura ligera
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: cuando llevas un tipo de armadura con el que eres competente, el penalizador de
+      armadura para dicho tipo sólo se aplica a las pruebas de habilidad basadas en….
+  - nombre: Competencia con armadura pesada
+    tipos:
+    - General
+    prerrequisitos: Competencia con armadura ligera, Competencia con armadura intermedia
+    beneficio_resumen: ver Competencia con armadura ligera.
+  - nombre: Competencia con armas sencillas
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: puedes llevar a cabo ataques con armas sencillas sin penalizador.
+  - nombre: Competencia con escudo
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: cuando utilizas un escudo (excepto un escudo pavés), el penalizador por armadura
+      del escudo sólo se aplica a las habilidades basadas en la Fuerza y en la….
+  - nombre: Competencia con escudo pavés
+    tipos:
+    - Combate
+    prerrequisitos: Competencia con escudo
+    beneficio_resumen: cuando usas un escudo pavés, el penalizador a las pruebas de armadura del escudo
+      sólo se aplica a las habilidades basadas en la Fuerza y en la Destreza.
+  - nombre: Conjurar en combate
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +4 a las pruebas de concentración llevadas a cabo para
+      lanzar un conjuro, o utilizar una aptitud sortílega lanzando a la defensiva, o….
+  - nombre: Conjurar en silencio
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: un conjuro en silencio puede lanzarse sin componentes verbales.
+  - nombre: Conjurar sin moverse
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: un conjuro sin movimiento se puede lanzar sin componentes somáticos.
+  - nombre: Conjuros naturales
+    tipos:
+    - General
+    prerrequisitos: Sab 13, rasgo de clase forma salvaje
+    beneficio_resumen: puedes completar los componentes verbales y somáticos de los conjuros mientras
+      utilizas forma salvaje, sustituyendo los componentes normales verbales y….
+  - nombre: Conjuros perforantes
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de nivel de lanzador (1d20 + nivel de
+      lanzador), llevadas a cabo para vencer la resistencia a conjuros de una criatura.
+  - nombre: Conjuros perforantes mayor
+    tipos:
+    - General
+    prerrequisitos: Conjuros perforantes
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de nivel de lanzador (1d20 más nivel de
+      lanzador) llevadas a cabo para vencer la RC de una criatura, que se apila con….
+  - nombre: Contraatacar
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +11
+    beneficio_resumen: puedes preparar una acción para llevar a cabo un ataque cuerpo a cuerpo contra
+      cualquier enemigo que te ataque en cuerpo a cuerpo, incluso si está fuera de tu….
+  - nombre: Contraconjuro mejorado
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: cuando contraconjuras, puedes utilizar un conjuro de la misma escuela, uno o más
+      niveles de conjuro superior al objetivo.
+  - nombre: Correr
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: cuando corres, te mueves 5 veces tu velocidad normal (si llevas armadura intermedia,
+      ligera, o ninguna armadura, y transportas no más de media carga), o 4….
+  - nombre: Crítico agotador
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, Crítico fatigante, ataque base +15
+    beneficio_resumen: cuando consigues un impacto crítico contra un enemigo, el objetivo queda inmediatamente
+      exhausto.
+  - nombre: Crítico asombroso
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +13
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda grogui 1d4 +1 asaltos.
+  - nombre: Crítico aturdidor
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, Crítico asombroso, ataque base +17
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda aturdido durante 1d4 asaltos.
+  - nombre: Crítico cegador
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +15
+    beneficio_resumen: cada vez que consigues un crítico, tu oponente queda cegado de forma permanente.
+  - nombre: Crítico ensordecedor
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +13
+    beneficio_resumen: cuando consigues un crítico contra un oponente, la víctima queda permanentemente
+      ensordecida.
+  - nombre: Crítico fatigante
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +13
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda fatigado.
+  - nombre: Crítico mejorado
+    tipos:
+    - Combate
+    prerrequisitos: competencia con el arma elegida, ataque base +8
+    beneficio_resumen: tu rango de amenaza se dobla al usar el arma elegida.
+  - nombre: Crítico nauseabundo
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +11
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda indispuesto durante 1 minuto.
+  - nombre: Crítico sangrante
+    tipos:
+    - Combate
+    - Crítico
+    prerrequisitos: Soltura con los críticos, ataque base +11
+    beneficio_resumen: cada vez que consigues un impacto crítico con un arma cortante o perforante, tu
+      oponente sufre 2d6 puntos de daño por sangrado (consulta el Apéndice 2) cada….
+  - nombre: Defensa con dos armas
+    tipos:
+    - Combate
+    prerrequisitos: Des 15, Combate con dos armas
+    beneficio_resumen: al empuñar un arma doble o dos armas (no armas naturales o impactos sin arma),
+      obtienes un bonificador +1 por escudo a tu CA.
+  - nombre: Derribo mayor
+    tipos:
+    - Combate
+    prerrequisitos: Pericia en combate, Derribo mejorado, ataque base +6, Int 13
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para derribar a un enemigo,
+      bonificador que se apila con el concedido por Derribo mejorado.
+  - nombre: Derribo mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Int 13, Pericia en combate
+    beneficio_resumen: cuando llevas a cabo una maniobra de combate de derribo no provocas ataques de
+      oportunidad, obteniendo un bonificador +2 a las pruebas llevadas a cabo para….
+  - nombre: Desarme mayor
+    tipos:
+    - Combate
+    prerrequisitos: Pericia en combate, Desarme mejorado, ataque base +6, Int 13
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas que llevas a cabo para desarmar a un enemigo,
+      bonificador que se apila con el que concede Desarme mejorado.
+  - nombre: Desarme mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Int 13, Pericia en combate
+    beneficio_resumen: cuando llevas a cabo una maniobra de combate de desarme, no provocas ataques de
+      oportunidad.
+  - nombre: Desenvainado rápido
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +1
+    beneficio_resumen: puedes desenvainar un arma como acción gratuita en lugar de como acción de movimiento,
+      y un arma oculta (consulta la habilidad Juego de manos) como una acción….
+  - nombre: Desgarrar con dos armas
+    tipos:
+    - Combate
+    prerrequisitos: Des 17, Doble tajo, Combate con dos armas mejorado, Combate con dos armas, ataque
+      base +11
+    beneficio_resumen: si aciertas a un oponente con tu arma principal y tu arma de mano torpe, inf liges
+      1d10 puntos de golpe adicionales, más vez y media tu modificador por Fuerza.
+  - nombre: Desmontar jinete
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Montar 1 rango, Combatir desde una montura, Ataque poderoso, Embestida mejorada,
+      ataque base +1
+    beneficio_resumen: cuando cargas desde una montura contra un oponente empuñando una lanza de caballería,
+      resuelves el ataque de la forma normal.
+  - nombre: Destrozar defensas
+    tipos:
+    - Combate
+    prerrequisitos: Soltura con un arma, Exhibición deslumbrante, ataque base +6, competencia con un arma
+    beneficio_resumen: cualquier oponente estremecido, asustado, o despavorido a quien aciertas este asalto
+      queda desprevenido ante tus ataques hasta el final de tu siguiente turno,….
+  - nombre: Desviar flechas
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Impacto sin arma mejorado
+    beneficio_resumen: debes tener por lo menos una mano libre (es decir que no empuñas nada con ellas)
+      para utilizar esta dote.
+  - nombre: Detener
+    tipos:
+    - Combate
+    prerrequisitos: Reflejos de combate
+    beneficio_resumen: cuando un enemigo provoca un ataque de oportunidad debido a moverse a través de
+      tus casillas adyacentes, puedes llevar a cabo una prueba de maniobras de….
+  - nombre: Disparar desde una montura
+    tipos:
+    - Combate
+    prerrequisitos: Montar 1 rango, Combatir desde una montura
+    beneficio_resumen: 'el penalizador que sufres cuando utilizas un arma a distancia montado se reduce
+      a la mitad: -2 en lugar de -4 si tu montura utiliza un movimiento doble, y -4….'
+  - nombre: Disparo a bocajarro
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +1 a las tiradas de ataque y de daño con armas a distancia
+      a alcances de hasta 30 pies (9 m).
+  - nombre: Disparo a la carrera
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Esquiva, Movilidad, Disparo a bocajarro, ataque base +4
+    beneficio_resumen: como acción de asalto completo, puedes moverte hasta tu velocidad y llevar a cabo
+      un sólo ataque a distancia en cualquier momento durante tu movimiento.
+  - nombre: Disparo a larga distancia
+    tipos:
+    - Combate
+    prerrequisitos: Disparo a bocajarro
+    beneficio_resumen: sólo sufres un penalizador -1 por cada incremento completo de rango entre tu objetivo
+      y tú cuando usas un arma a distancia.
+  - nombre: Disparo preciso
+    tipos:
+    - Combate
+    prerrequisitos: Disparo a bocajarro
+    beneficio_resumen: puedes disparar o lanzar armas a distancia contra un oponente que esté en combate
+      cuerpo a cuerpo sin la penalización -4 estándar a tu tirada de ataque.
+  - nombre: Disparo preciso mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Des 19, Disparo a bocajarro, Disparo preciso, ataque base +11
+    beneficio_resumen: tus ataques a distancia ignoran el bonificador a la CA concedido a los objetivos
+      por cualquier causa menor que la cobertura total, y la probabilidad de fallo….
+  - nombre: Disparos múltiples
+    tipos:
+    - Combate
+    prerrequisitos: Des 17, Disparo a bocajarro, Disparo rápido, ataque base +6
+    beneficio_resumen: cuando llevas a cabo una acción de ataque completo con un arco, tu primer ataque
+      dispara 2 f lechas y, si tiene éxito, ambas f lechas impactan.
+  - nombre: Doble tajo
+    tipos:
+    - Combate
+    prerrequisitos: Des 15, Combate con dos armas
+    beneficio_resumen: sumas tu bonificador por Fuerza a las tiradas de daño de los ataques que lleves
+      a cabo con tu arma de mano torpe.
+  - nombre: Dureza
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes +3 puntos de golpe.
+  - nombre: Duro de pelar
+    tipos:
+    - General
+    prerrequisitos: Aguante
+    beneficio_resumen: cuando tu total de puntos de golpe se encuentra por debajo de 0, pero no estás
+      muerto, te estabilizas automáticamente, y no necesitas llevar a cabo una prueba….
+  - nombre: Elaborar poción
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 3º
+    beneficio_resumen: puedes crear una poción de cualquier conjuro de 3er nivel o menor que conozcas,
+      y que tenga como objetivo a una o más criaturas u objetos.
+  - nombre: Embestida mayor
+    tipos:
+    - Combate
+    prerrequisitos: Embestida mejorada, Ataque poderoso, ataque base +6, Fue 13
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas para embestir a un enemigo, que
+      se apila con el que concede Embestida mejorada.
+  - nombre: Embestida mejorada
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      embestida.
+  - nombre: Engañoso
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Engañar y de Disfrazarse.
+  - nombre: Entrenamiento arcano con armadura
+    tipos:
+    - General
+    prerrequisitos: Competencia con armadura ligera, nivel de lanzador 3º
+    beneficio_resumen: como acción rápida, reduces la probabilidad de fallo de conjuro arcano debido a
+      la armadura que llevas puesta en un 10% para cualquier conjuro que lances este….
+  - nombre: Entrenamiento en combate defensivo
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: tratas el total de tus Dados de golpe como tu ataque base cuando calculas tu Defensa
+      contra las maniobras de combate (consulta el Capítulo 8).
+  - nombre: Especialización con un arma
+    tipos:
+    - Combate
+    prerrequisitos: competencia con el arma seleccionada, Soltura con un arma con el arma seleccionada,
+      guerrero de 4º nivel
+    beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de daño con el arma seleccionada.
+  - nombre: Especialización mayor con un arma
+    tipos:
+    - General
+    prerrequisitos: competencia con el arma elegida, Soltura mayor con un arma con el arma elegida, Soltura
+      con un arma con el arma elegida, Especialización con un arma con el arma elegida, guerrero de 12º
+      nivel
+    beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de daño con el arma seleccionada,
+      que se apila con otros bonificadores a la tirada de daño, incluyendo los que….
+  - nombre: Esquiva
+    tipos:
+    - Combate
+    prerrequisitos: Des 13
+    beneficio_resumen: obtienes un bonificador +1 por esquiva a tu CA.
+  - nombre: Estilo del escorpión
+    tipos:
+    - Combate
+    prerrequisitos: Impacto sin arma mejorado
+    beneficio_resumen: para utilizar esta dote, debes llevar a cabo un sólo ataque sin armas como acción
+      estándar.
+  - nombre: Exhibición deslumbrante
+    tipos:
+    - Combate
+    prerrequisitos: Soltura con un arma, competencia con el arma seleccionada
+    beneficio_resumen: mientras empuñas el arma con la que tienes Soltura con un arma, puedes llevar a
+      cabo una apabullante demostración de pericia como acción de asalto completo.
+  - nombre: Expulsar muertos vivientes
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase canalizar energía positiva
+    beneficio_resumen: puedes, como acción estándar, utilizar uno de tus usos de canalizar energía positiva
+      para que todos los muertos vivientes a 30 pies (4,5 m) o menos de ti huyan….
+  - nombre: Extender conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: puedes alterar un conjuro de explosión, emanación, o expansión, para que incremente
+      su área de efecto.
+  - nombre: Fabricar armas y armaduras mágicas
+    tipos:
+    - General
+    prerrequisitos: nivel de lanzador 5º
+    beneficio_resumen: puedes crear armas, armaduras, o escudos mágicos.
+  - nombre: Fabricar bastón
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 11º
+    beneficio_resumen: puedes crear cualquier bastón cuyos prerrequisitos cumplas.
+  - nombre: Fabricar cetro
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 9º
+    beneficio_resumen: puedes crear cetros mágicos.
+  - nombre: Fabricar varita
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 5º
+    beneficio_resumen: puedes crear una varita de cualquier conjuro de 4º nivel o inferior que conozcas.
+  - nombre: Familiar mejorado
+    tipos:
+    - General
+    prerrequisitos: aptitud para adquirir un familiar, alineamiento compatible, nivel suficientemente
+      alto (ver más abajo)
+    beneficio_resumen: al escoger un familiar, las criaturas relacionadas a continuación también están
+      disponibles para ti (consulta el Bestiario para las estadísticas de dichas….
+  - nombre: Finta mayor
+    tipos:
+    - Combate
+    prerrequisitos: Pericia en combate, Finta mejorada, ataque base +6, Int 13
+    beneficio_resumen: Cuando fintas con éxito, el oponente pierde su bonificador por Destreza hasta el
+      inicio de tu siguiente turno.
+  - nombre: Finta mejorada
+    tipos:
+    - Combate
+    prerrequisitos: Int 13, Pericia en combate
+    beneficio_resumen: puedes llevar a cabo una prueba de Engañar para fintar en combate, como acción
+      de movimiento.
+  - nombre: Forjar anillo
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 7º
+    beneficio_resumen: puedes crear anillos mágicos.
+  - nombre: Furia adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase furia
+    beneficio_resumen: puedes entrar en furia 6 asaltos adicionales/ día.
+  - nombre: Golpe arcano
+    tipos:
+    - Combate
+    prerrequisitos: aptitud para lanzar conjuros arcanos
+    beneficio_resumen: como acción rápida, puedes imbuir tus armas con una fracción de tu poder.
+  - nombre: Golpe mortal
+    tipos:
+    - Combate
+    prerrequisitos: Exhibición deslumbrante, Soltura mayor con un arma, Destrozar defensas, Soltura con
+      un arma, competencia con el armas seleccionada, ataque base +11
+    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque con el arma en la que
+      tienes Soltura mayor con un arma, contra un enemigo aturdido o desprevenido.
+  - nombre: Golpe perforante
+    tipos:
+    - Combate
+    prerrequisitos: Soltura con un arma, guerrero de nivel 12º, competencia con un arma
+    beneficio_resumen: tus ataques con las armas seleccionadas con Soltura con un arma ignoran hasta 5
+      puntos de RD.
+  - nombre: Golpe perforante mayor
+    tipos:
+    - Combate
+    prerrequisitos: Golpe perforante, Soltura con un arma, guerrero de nivel 16º
+    beneficio_resumen: tus ataques con las armas seleccionadas con Soltura con un arma ignoran hasta 10
+      puntos de RD, cantidad que se reduce a 5 para la RD que no tiene tipo alguno….
+  - nombre: Golpe vital
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +6
+    beneficio_resumen: cuando utilizas la acción de ataque, puedes llevar a cabo un ataque a tu ataque
+      base más alto, que inf lige daño adicional.
+  - nombre: Golpe vital mayor
+    tipos:
+    - Combate
+    prerrequisitos: Golpe vital mejorado, Golpe vital, ataque base +16
+    beneficio_resumen: cuando utilizas la acción de atacar, tira 4 veces el dado de daño para el ataque,
+      y suma los resultados antes de añadir los bonificadores por Fuerza, aptitudes….
+  - nombre: Golpe vital mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Golpe vital, ataque base +11
+    beneficio_resumen: cuando utilizas la acción de ataque, tira 3 veces el dado de daño para el ataque,
+      y suma los resultados antes de añadir los bonificadores por Fuerza, aptitudes….
+  - nombre: Golpear con el escudo mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Competencia con escudo
+    beneficio_resumen: cuando atacas con un golpetazo de escudo, puedes seguir aplicando el bonificador
+      por escudo del escudo a tu CA.
+  - nombre: Golpetazo con el escudo
+    tipos:
+    - Combate
+    prerrequisitos: Golpear con el escudo mejorado, Competencia con escudo, Combate con dos armas, ataque
+      base +6
+    beneficio_resumen: cualquier oponente impactado por tu golpetazo con el escudo sufre también el impacto
+      de un ataque gratuito de embestida, que sustituye a tu tirada de ataque….
+  - nombre: Gran fortaleza
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Fortaleza.
+  - nombre: Gran fortaleza mejorada
+    tipos:
+    - General
+    prerrequisitos: Gran fortaleza
+    beneficio_resumen: una vez al día, puedes tirar de nuevo una salvación de Fortaleza.
+  - nombre: Gran hendedura
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Hendedura, Ataque poderoso, ataque base +4
+    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque a tu ataque base completo
+      contra un enemigo a tu alcance.
+  - nombre: Hendedura
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
+    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque a tu ataque base completo
+      contra un enemigo a tu alcance.
+  - nombre: Impacto sin arma mejorado
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: se te considera armado incluso cuando no lo estás, es decir, que no provocas ataques
+      de oportunidad cuando atacas desarmado a tus enemigos.
+  - nombre: Imposición de manos adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase imposición de manos
+    beneficio_resumen: puedes utilizar tu aptitud de imposición de manos 2 veces adicionales al día.
+  - nombre: Iniciativa mejorada
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +4 a las pruebas de iniciativa.
+  - nombre: Inscribir pergamino
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 1º
+    beneficio_resumen: puedes crear un pergamino con cualquier conjuro que conozcas.
+  - nombre: Intensificar conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: un conjuro intensificado tiene un nivel de conjuro mayor de lo normal (hasta un
+      máximo de 9º nivel).
+  - nombre: Interpretación adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase interpretación de bardo
+    beneficio_resumen: puedes utilizar interpretación de bardo 6 asaltos adicionales al día.
+  - nombre: Ira de la medusa
+    tipos:
+    - Combate
+    prerrequisitos: Impacto sin arma mejorado, Puño del gorgón, Estilo del escorpión, ataque base +11
+    beneficio_resumen: cuando usas la acción de ataque completo y llevas a cabo por lo menos 1 ataque
+      sin armas, puedes llevar a cabo 2 ataques sin arma adicionales a tu ataque base….
+  - nombre: Ki adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase reserva de ki
+    beneficio_resumen: tu reserva de ki aumenta en 2 puntos.
+  - nombre: Lanzar cualquier cosa
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: no sufres penalizador alguno por utilizar un arma a distancia improvisada.
+  - nombre: Liderazgo
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: null
+  - nombre: Lucha a ciegas
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: en combate cuerpo a cuerpo, cada vez que fallas debido a la ocultación (consulta
+      el Capítulo 8), puedes repetir una vez tu probabilidad porcentual de fallo….
+  - nombre: Maestro del escudo
+    tipos:
+    - Combate
+    prerrequisitos: Golpear con el escudo mejorado, Competencia con escudo, Golpetazo con el escudo, Combate
+      con dos armas, ataque base +11
+    beneficio_resumen: no sufres penalizador alguno a las tiradas de ataques llevados a cabo con un escudo
+      mientras empuñas otra arma.
+  - nombre: Maestría arcana con armadura
+    tipos:
+    - General
+    prerrequisitos: Entrenamiento arcano con armadura, Competencia con armadura intermedia, nivel de lanzador
+      7º
+    beneficio_resumen: como acción rápida, reduces la probabilidad de fallo de conjuros arcanos por la
+      armadura que llevas puesta en un 20% para cualquier conjuro que lances ese….
+  - nombre: Maestría con armas improvisadas
+    tipos:
+    - General
+    prerrequisitos: Usar arma improvisada o Lanzar cualquier cosa, ataque base +8
+    beneficio_resumen: no sufres penalizador alguno por usar un arma improvisada.
+  - nombre: Maestría con los críticos
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: cuando consigues un impacto crítico, puedes aplicar los efectos de 2 dotes críticas,
+      además del daño inf ligido.
+  - nombre: Maestría en conjuros
+    tipos:
+    - General
+    prerrequisitos: mago de 1er nivel
+    beneficio_resumen: cada vez que adquieres esta dote escoge un número de conjuros que conozcas igual
+      a tu modificador por Inteligencia.
+  - nombre: Maniobras ágiles
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: añades tu bonificador por Destreza a tus ataque base y bonificador por tamaño para
+      determinar tu BMC (consulta el Capítulo 8) en lugar de tu bonificador por….
+  - nombre: Manos hábiles
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Inutilizar mecanismo y Juego de manos.
+  - nombre: Maximizar conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: todos los efectos variables y numéricos de un conjuro modificado por esta dote
+      quedan maximizados.
+  - nombre: Merced adicional
+    tipos:
+    - General
+    prerrequisitos: rasgo de clase imposición de manos, rasgo de clase merced
+    beneficio_resumen: selecciona una merced adicional para la que estés cualificado.
+  - nombre: Movilidad
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Esquiva
+    beneficio_resumen: obtienes un bonificador por esquiva +4 a la Clase de armadura contra ataques de
+      oportunidad causados cuando sales de un área de amenaza o te mueves por la misma.
+  - nombre: Movimientos ágiles
+    tipos:
+    - General
+    prerrequisitos: Des 13
+    beneficio_resumen: cuando te mueves, puedes hacerlo a través de 5 pies (1,5 m) de terreno difícil
+      cada asalto como si fuera terreno normal.
+  - nombre: Paso adelante
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +1
+    beneficio_resumen: cuando un enemigo adyacente intenta dar un paso de 5 pies (1,5 m) alejándose de
+      ti, puedes hacer lo mismo como acción inmediata mientras acabes adyacente al….
+  - nombre: Pasos acrobáticos
+    tipos:
+    - General
+    prerrequisitos: Des 15, Movimientos ágiles
+    beneficio_resumen: cuando te mueves, puedes hacerlo a través de hasta 15 pies (4,5 m) de terreno difícil
+      por asalto como si fuera terreno normal.
+  - nombre: Pericia en combate
+    tipos:
+    - Combate
+    prerrequisitos: Int 13
+    beneficio_resumen: puedes escoger imponerte un penalizador -1 a las tiradas de ataque cuerpo a cuerpo
+      y a las pruebas de maniobras de combate a cambio de un bonificador +1 por….
+  - nombre: Persuasivo
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de habilidad de Diplomacia y de Intimidar.
+  - nombre: Perturbador
+    tipos:
+    - Combate
+    prerrequisitos: guerrero de 6º nivel
+    beneficio_resumen: la CD para lanzar conjuros defensivamente se incrementa en +4 para todos los enemigos
+      que se encuentran en tu área de amenaza.
+  - nombre: Pies ligeros
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: cuando llevas armadura ligera o no llevas armadura, tu velocidad base se incrementa
+      en 5 pies (1,5 m).
+  - nombre: Pisotear
+    tipos:
+    - Combate
+    prerrequisitos: Montar 1 rango, Combatir desde una montura
+    beneficio_resumen: si intentas arrollar a un oponente estando montado, éste no puede evitarte.
+  - nombre: Poderío intimidante
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: suma tu modificador por Fuerza a las pruebas de habilidad de Intimidar además de
+      tu modificador por Carisma.
+  - nombre: Posición del relámpago
+    tipos:
+    - Combate
+    prerrequisitos: Des 17, Esquiva, Posición del viento, ataque base +11
+    beneficio_resumen: si llevas a cabo dos acciones para moverte o una retirada en un turno, obtienes
+      un 50% de ocultación durante 1 asalto.
+  - nombre: Posición del viento
+    tipos:
+    - Combate
+    prerrequisitos: Des 15, Esquiva, ataque base +6
+    beneficio_resumen: si te mueves más de 5 pies (1,5 m) este turno, obtienes un 20% de ocultación durante
+      1 asalto contra los ataques a distancia.
+  - nombre: Potenciar conjuro
+    tipos:
+    - General
+    prerrequisitos: ataque base +6
+    beneficio_resumen: puedes aumentar el alcance de tus ataques cuerpo a cuerpo en 5 pies (1,5 m) hasta
+      el final de tu turno aceptando un penalizador -2 a tu CA hasta tu siguiente….
+  - nombre: Presa mayor
+    tipos:
+    - Combate
+    prerrequisitos: Presa mejorada, Impacto sin arma mejorado, ataque base +6, Des 13
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para apresar a un enemigo,
+      que se apila con el concedido por Presa mejorada.
+  - nombre: Presa mejorada
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Impacto sin arma mejorado
+    beneficio_resumen: cuando llevas a cabo una maniobra de combate de presa, no provocas ataques de oportunidad.
+  - nombre: Prolongar conjuro
+    tipos:
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: un conjuro prolongado dura el doble de lo normal.
+  - nombre: Puntería mortal
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, ataque base +1
+    beneficio_resumen: puedes cambiar un penalizador -1 a las tiradas de ataque a distancia por un +2
+      a las tiradas de daño a distancia.
+  - nombre: Puntería precisa
+    tipos:
+    - Combate
+    prerrequisitos: Des 19, Disparo preciso mejorado, Disparo a bocajarro, Disparo preciso, ataque base
+      +16
+    beneficio_resumen: como acción estándar, llevas a cabo un sólo ataque a distancia.
+  - nombre: Puñetazo aturdidor
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Sab 13, Impacto sin arma mejorado, ataque base +8
+    beneficio_resumen: has de declarar que utilizas esta dote antes de llevar a cabo la tirada de ataque
+      (y por lo tanto, una tirada de ataque fallida arruina el intento).
+  - nombre: Puño del gorgón
+    tipos:
+    - Combate
+    prerrequisitos: Impacto sin arma mejorado, Estilo del escorpión, ataque base +6
+    beneficio_resumen: como acción estándar, haz un sólo ataque cuerpo a cuerpo sin armas contra un enemigo
+      cuya velocidad ha quedado reducida (como por ejemplo tras el Estilo del….
+  - nombre: Recarga rápida
+    tipos:
+    - Combate
+    prerrequisitos: competencia en armas (tipo de ballesta escogido)
+    beneficio_resumen: el tiempo requerido para recargar el tipo de ballesta escogido se reduce a una
+      acción gratuita (para una ballesta de mano o ligera), o a una acción de….
+  - nombre: Reflejos de combate
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: puedes llevar a cabo tantos ataques de oportunidad adicionales por asalto como
+      tu bonificador por Destreza.
+  - nombre: Reflejos rápidos
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Ref lejos.
+  - nombre: Reflejos rápidos mejorados
+    tipos:
+    - General
+    prerrequisitos: Reflejos rápidos
+    beneficio_resumen: una vez al día puedes tirar de nuevo una salvación de Ref lejos.
+  - nombre: Rompeconjuros
+    tipos:
+    - Combate
+    prerrequisitos: Perturbador, guerrero de 10º nivel
+    beneficio_resumen: los enemigos en tu área de amenaza que fallan sus pruebas para lanzar conjuros
+      defensivamente provocan ataques de oportunidad por tu parte.
+  - nombre: Romper arma mayor
+    tipos:
+    - Combate
+    prerrequisitos: Romper arma mejorado, Ataque poderoso, ataque base +6, Fue 13
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para romper un objeto,
+      que se apila con el concedido por Romper arma mejorado.
+  - nombre: Romper arma mejorado
+    tipos:
+    - Combate
+    prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
+    beneficio_resumen: cuando llevas a cabo una maniobra de combate de romper arma, no provocas ataques
+      de oportunidad.
+  - nombre: Sigiloso
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de habilidad de Escapismo y Sigilo.
+  - nombre: Soltura con el escudo
+    tipos:
+    - Combate
+    prerrequisitos: Competencia con escudo, ataque base +1
+    beneficio_resumen: incrementa en +1 el bonificador a la CA concedido por cualquier escudo que estés
+      usando.
+  - nombre: Soltura con los conjuros
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: añade +1 a la Clase de dificultad de todas las tiradas de salvación contra conjuros
+      de la escuela de magia que seleccionas.
+  - nombre: Soltura con los críticos
+    tipos:
+    - Combate
+    prerrequisitos: ataque base +9
+    beneficio_resumen: obtienes un bonificador +4 por circunstancia a las tiradas de ataque llevadas a
+      cabo para confirmar impactos críticos.
+  - nombre: Soltura con un arma
+    tipos:
+    - Combate
+    prerrequisitos: competencia con el arma seleccionada, ataque base +1
+    beneficio_resumen: obtienes un bonificador +1 a todas las tiradas de ataque que llevas a cabo utilizando
+      el arma seleccionada.
+  - nombre: Soltura con una habilidad
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +3 a todas las pruebas que implican la habilidad escogida.
+  - nombre: Soltura mayor con los conjuros
+    tipos:
+    - General
+    prerrequisitos: Soltura con los conjuros
+    beneficio_resumen: añade +1 a la Clase de dificultad para todas las tiradas de salvación contra conjuros
+      de la escuela de magia seleccionada, bonificador que se apila con el….
+  - nombre: Soltura mayor con los escudos
+    tipos:
+    - Combate
+    prerrequisitos: Soltura con el escudo, Competencia con escudo, guerrero de 8º nivel
+    beneficio_resumen: incrementa el bonificador a la CD concedido por cualquier escudo que estés utilizando
+      en +1, bonificador que se apila con el concedido por Soltura con el….
+  - nombre: Soltura mayor con un arma
+    tipos:
+    - Combate
+    prerrequisitos: competencia con el arma elegida, Soltura con un arma con el arma elegida, guerrero
+      de 8º nivel
+    beneficio_resumen: obtienes un bonificador +1 a las tiradas de ataque que llevas a cabo utilizando
+      el arma seleccionada, bonificador que se apila con otros bonificadores a las….
+  - nombre: Sutileza con las armas
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: con un arma ligera, una espada ropera, un látigo, una espada curva élfica, o una
+      cadena armada diseñadas para una criatura de tu categoría de tamaño, puedes….
+  - nombre: Usar arma improvisada
+    tipos:
+    - Combate
+    prerrequisitos: null
+    beneficio_resumen: no sufres penalización alguna por usar un arma cuerpo a cuerpo improvisada.
+  - nombre: Voluntad de hierro
+    tipos:
+    - General
+    prerrequisitos: null
+    beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Voluntad.
+  - nombre: Voluntad de hierro mejorada
+    tipos:
+    - General
+    prerrequisitos: Voluntad de hierro
+    beneficio_resumen: una vez al día, puedes repetir una salvación de Voluntad.
+equipo:
+  monedas:
+    unidad_base: po (pieza de oro)
+    equivalencias:
+      pc: 0.01
+      pp: 0.1
+      po: 1
+      ppt: 10
+    nombres:
+      pc: pieza de cobre
+      pp: pieza de plata
+      po: pieza de oro
+      ppt: pieza de platino
+    peso: 50 monedas = 1 libra (0,45 kg)
+    riqueza_inicial_por_clase:
+      barbaro: 3d6 × 10 po (105 po de media)
+      bardo: 3d6 × 10 po
+      clerigo: 4d6 × 10 po (140 po)
+      druida: 2d6 × 10 po (70 po)
+      explorador: 5d6 × 10 po (175 po)
+      guerrero: 5d6 × 10 po (175 po)
+      hechicero: 2d6 × 10 po (70 po)
+      mago: 2d6 × 10 po (70 po)
+      monje: 1d6 × 10 po (35 po)
+      paladin: 5d6 × 10 po (175 po)
+      picaro: 4d6 × 10 po (140 po)
+  armas:
+  - nombre: Guantelete
+    competencia: sencilla
+    categoria: Ataques sin armas
+    coste: 2 po
+    danyo_P: 1d2
+    danyo_M: 1d3
+    critico: ×2
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Impacto sin armas
+    competencia: sencilla
+    categoria: Ataques sin armas
+    coste: —
+    danyo_P: 1d2
+    danyo_M: 1d3
+    critico: ×2
+    alcance: —
+    peso: —
+    tipo_danyo: Con
+    especial: no letal
+  - nombre: Daga
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 2 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: 19–20/×2
+    alcance: 10 pies (3 m).
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: Per o Cor
+    especial: null
+  - nombre: Guantelete armado
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 5 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Hoz
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 6 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Cor
+    especial: derribar
+  - nombre: Maza ligera
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 5 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Puñal
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 2 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×3
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Clava
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: —
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: 10 pies (3 m)
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Lanza corta
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 1 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: 20 pies (6 m)
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Maza pesada
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 12 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×2
+    alcance: —
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Maza de armas
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 8 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×2
+    alcance: —
+    peso: 6 libras (2,70 kg) Con y Per
+    tipo_danyo: —
+    especial: null
+  - nombre: Lanza
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 2 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: 20 pies (6 m)
+    peso: 6 libras (2,70 kg)
+    tipo_danyo: Per
+    especial: apuntalar
+  - nombre: Lanza larga
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 5 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: —
+    peso: 9 libras (4,05 kg)
+    tipo_danyo: Per
+    especial: apuntalar, alcance
+  - nombre: Bastón
+    competencia: sencilla
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: —
+    danyo_P: 1d4/1d4
+    danyo_M: 1d6/1d6
+    critico: ×2
+    alcance: —
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Con
+    especial: doble, monje
+  - nombre: Ballesta pesada
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 50 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: 19–20/×2
+    alcance: 120 pies (36 m)
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Virotes de ballesta (10)
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 1 libras (0,45 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Ballesta ligera
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 35 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: 19–20/×2
+    alcance: 80 (24 m)
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Virotes de ballesta (10)
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Cerbatana
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 2 po
+    danyo_P: '1'
+    danyo_M: 1d2
+    critico: ×2
+    alcance: 20 pies (6 m)
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Dardos de cerbatana (10) 5 pp
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: —
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: —
+    tipo_danyo: —
+    especial: null
+  - nombre: Dardo
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 5 pp
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: 20 pies (6 m)
+    peso: 1/2 libra (0,23 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Honda
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: —
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: 50 pies (15 m)
+    peso: —
+    tipo_danyo: Con
+    especial: null
+  - nombre: Balas de honda (10)
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 1 pp
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 5 libras (2,25 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Jabalina
+    competencia: sencilla
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: 30 pies (9 m)
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Armadura con púas
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: especial
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: especial
+    tipo_danyo: Per
+    especial: null
+  - nombre: Cachiporra
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 1 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Con
+    especial: no letal
+  - nombre: Cuchillo de estrella
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 24 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×3
+    alcance: 20 pies (6 m)
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Escudo ligero
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: especial
+    danyo_P: 1d2
+    danyo_M: 1d3
+    critico: ×2
+    alcance: —
+    peso: especial
+    tipo_danyo: Con
+    especial: null
+  - nombre: Escudo ligero armado
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: especial
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: —
+    peso: especial
+    tipo_danyo: Per
+    especial: null
+  - nombre: Espada corta
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 10 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: 19–20/×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Hacha arrojadiza
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 8 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: 10 pies (3 m)
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Hacha de mano
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 6 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×3
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Kukri
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 8 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: 18–20/×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Martillo ligero
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 1 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: 20 pies (6 m)
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Pico ligero
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 4 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×4
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Cimitarra
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 15 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: 18–20/×2
+    alcance: —
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Escudo pesado
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: especial
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: —
+    peso: especial
+    tipo_danyo: Con
+    especial: null
+  - nombre: Escudo pes. armado
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: especial
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: especial
+    tipo_danyo: Per
+    especial: null
+  - nombre: Espada larga
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 15 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: 19–20/×2
+    alcance: —
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Espada ropera
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 20 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: 18–20/×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Hacha de batalla
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 10 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: —
+    peso: 6 libras (2,70 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Mangual
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 8 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×2
+    alcance: —
+    peso: 5 libras (2,25 kg)
+    tipo_danyo: Con desarmar, derribar
+    especial: null
+  - nombre: Martillo de guerra
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 12 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: —
+    peso: 5 libras (2,24 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Pico pesado
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 8 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×4
+    alcance: —
+    peso: 6 libras (2,70 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Tridente
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 15 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×2
+    alcance: 10 pies (3 m)
+    peso: 4 libras (1,80 kg)
+    tipo_danyo: Per
+    especial: apuntalar
+  - nombre: Alabarda
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 10 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: ×3
+    alcance: —
+    peso: 12 libras (5,40 kg) Per o Cor
+    tipo_danyo: apuntalar, derribar
+    especial: null
+  - nombre: Alfanje
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 75 po
+    danyo_P: 1d6
+    danyo_M: 2d4
+    critico: 18–20/×2
+    alcance: —
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Bisarma
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 9 po
+    danyo_P: 1d6
+    danyo_M: 2d4
+    critico: ×3
+    alcance: —
+    peso: 12 libras (5,40 kg)
+    tipo_danyo: Cor
+    especial: alcance, derribar
+  - nombre: Gran clava
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 5 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: ×2
+    alcance: —
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Con
+    especial: null
+  - nombre: Gran hacha
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 20 po
+    danyo_P: 1d10
+    danyo_M: 1d12
+    critico: ×3
+    alcance: —
+    peso: 12 libras (5,40 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Guadaña
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 18 po
+    danyo_P: 1d6
+    danyo_M: 2d4
+    critico: ×4
+    alcance: —
+    peso: 10 libras (4,50 kg) Per o Cor
+    tipo_danyo: derribar
+    especial: null
+  - nombre: Guja
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 8 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: ×3
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Cor
+    especial: alcance
+  - nombre: Lanza de caballería
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 10 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Per
+    especial: alcance
+  - nombre: Mandoble
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 50 po
+    danyo_P: 1d10
+    danyo_M: 2d6
+    critico: 19–20/×2
+    alcance: —
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Mangual pesado
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 15 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: 19–20/×2
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Con
+    especial: desarmar, derribar
+  - nombre: Ronca
+    competencia: marcial
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 10 po
+    danyo_P: 1d6
+    danyo_M: 2d4
+    critico: ×3
+    alcance: —
+    peso: 12 libras (5,40 kg)
+    tipo_danyo: Per
+    especial: desarmar, alcance
+  - nombre: Arco corto
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 30 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×3
+    alcance: 60 pies (18 m)
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Flechas (20)
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Arco corto compuesto
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 75 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×3
+    alcance: 70 pies (21 m)
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Flechas (20)
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Arco largo
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 75 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: 100 pies (30 m)
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Flechas (20)
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Arco largo compuesto
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 100 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: 110 pies (33 m)
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: Per
+    especial: null
+  - nombre: Flechas (20)
+    competencia: marcial
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 3 libras (1,35 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Kama
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 2 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Cor
+    especial: monje, derribar
+  - nombre: Nunchaku
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 2 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Con
+    especial: desarmar, monje
+  - nombre: Sai
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 1 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: —
+    peso: 1 libras (0,45 kg)
+    tipo_danyo: Con
+    especial: desarmar, monje
+  - nombre: Siangham
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo ligeras
+    coste: 3 po
+    danyo_P: 1d4
+    danyo_M: 1d6
+    critico: ×2
+    alcance: —
+    peso: 1 libras (0,45 kg)
+    tipo_danyo: Per
+    especial: monje
+  - nombre: Espada bastarda
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 35 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: 19–20/×2
+    alcance: —
+    peso: 6 libras (2,70 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Hacha de guerra enana
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 30 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: ×3
+    alcance: —
+    peso: 8 libras (3,60 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Látigo
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a una mano
+    coste: 1 po
+    danyo_P: 1d2
+    danyo_M: 1d3
+    critico: ×2
+    alcance: —
+    peso: 2 libras (0,90 kg)
+    tipo_danyo: Cor
+    especial: desarmar, no letal,
+  - nombre: Cadena armada
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 25 po
+    danyo_P: 1d6
+    danyo_M: 2d4
+    critico: ×2
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Per
+    especial: desarmar, derribar
+  - nombre: Espada curva élfica
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 80 po
+    danyo_P: 1d8
+    danyo_M: 1d10
+    critico: 18–20/×2
+    alcance: —
+    peso: 7 libras (3,15 kg)
+    tipo_danyo: Cor
+    especial: null
+  - nombre: Espada de dos hojas
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 100 po
+    danyo_P: 1d6/1d6
+    danyo_M: 1d8/1d8
+    critico: 19–20/×2
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Cor
+    especial: doble
+  - nombre: Hacha doble orca
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 60 po
+    danyo_P: 1d6/1d6
+    danyo_M: 1d8/1d8
+    critico: ×3
+    alcance: —
+    peso: 15 libras (6,75 kg)
+    tipo_danyo: Cor
+    especial: doble
+  - nombre: Mangual doble
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 90 po
+    danyo_P: 1d6/1d6
+    danyo_M: 1d8/1d8
+    critico: ×2
+    alcance: —
+    peso: 10 libras (4,50 kg)
+    tipo_danyo: Con desarmar, doble, derribar
+    especial: null
+  - nombre: Martillo ganchudo gnomo
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 20 po
+    danyo_P: 1d6/1d4
+    danyo_M: 1d8/1d6
+    critico: ×3/×4
+    alcance: —
+    peso: 6 libras (2,70 kg) Con o Per doble, derribar
+    tipo_danyo: —
+    especial: null
+  - nombre: Urgrosh enano
+    competencia: exótica
+    categoria: Armas cuerpo a cuerpo a dos manos
+    coste: 50 po
+    danyo_P: 1d6/1d4
+    danyo_M: 1d8/1d6
+    critico: ×3
+    alcance: —
+    peso: 12 libras (5,40 kg) Per o Cor apuntalar, doble
+    tipo_danyo: —
+    especial: null
+  - nombre: Ballesta de mano
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 100 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: 19–20/×2
+    alcance: 30 pies (9 m) 2 libras (0,90 kg)
+    peso: Per
+    tipo_danyo: —
+    especial: null
+  - nombre: Virotes (10)
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Virotes (5)
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Virotes (5)
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 1 libra (0,45 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Bastón honda mediano
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 20 po
+    danyo_P: 1d6
+    danyo_M: 1d8
+    critico: ×3
+    alcance: 80 pies (24 m) 3 libras (1,35 kg)
+    peso: Con
+    tipo_danyo: —
+    especial: null
+  - nombre: Balas de honda (10)
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 1 pp
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: —
+    peso: 5 libras (2,25 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Boleadoras
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 5 po
+    danyo_P: 1d3
+    danyo_M: 1d4
+    critico: ×2
+    alcance: 10 pies (3 m) 2 libras (0,90 kg)
+    peso: Con
+    tipo_danyo: no letal, derribar
+    especial: null
+  - nombre: Red
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 20 po
+    danyo_P: —
+    danyo_M: —
+    critico: —
+    alcance: 10 pies (3 m)
+    peso: 6 libras (2,70 kg)
+    tipo_danyo: —
+    especial: null
+  - nombre: Shuriken (5)
+    competencia: exótica
+    categoria: Armas a distancia
+    coste: 1 po
+    danyo_P: '1'
+    danyo_M: 1d2
+    critico: ×2
+    alcance: 10 pies (3 m) 1/2 libra (0,23 kg)
+    peso: Per
+    tipo_danyo: monje
+    especial: null
+  armaduras_y_escudos:
+  - nombre: Acolchada
+    categoria: ligera
+    precio_po: 5.0
+    bonificador_armadura: 1
+    max_destreza: 8
+    penalizador_armadura: 0
+    fallo_conjuros_arcanos_pct: 5
+    velocidad_30: 30 pies (9 m)
+    velocidad_20: 20 pies (6 m)
+    peso: 10 libras (4,5 kg)
+  - nombre: Cuero
+    categoria: ligera
+    precio_po: 10.0
+    bonificador_armadura: 2
+    max_destreza: 6
+    penalizador_armadura: 0
+    fallo_conjuros_arcanos_pct: 10
+    velocidad_30: 30 pies (9 m)
+    velocidad_20: 20 pies (6 m)
+    peso: 15 libras (6,8 kg)
+  - nombre: Cuero tachonado
+    categoria: ligera
+    precio_po: 25.0
+    bonificador_armadura: 3
+    max_destreza: 5
+    penalizador_armadura: -1
+    fallo_conjuros_arcanos_pct: 15
+    velocidad_30: 30 pies (9 m)
+    velocidad_20: 20 pies (6 m)
+    peso: 20 libras (9 kg)
+  - nombre: Camisote de mallas
+    categoria: ligera
+    precio_po: 100.0
+    bonificador_armadura: 4
+    max_destreza: 4
+    penalizador_armadura: -2
+    fallo_conjuros_arcanos_pct: 20
+    velocidad_30: 30 pies (9 m)
+    velocidad_20: 20 pies (6 m)
+    peso: 25 libras (11 kg)
+  - nombre: De pieles
+    categoria: intermedia
+    precio_po: 15.0
+    bonificador_armadura: 4
+    max_destreza: 4
+    penalizador_armadura: -3
+    fallo_conjuros_arcanos_pct: 20
+    velocidad_30: 20 pies (6 m)
+    velocidad_20: 15 pies (4,5 m)
+    peso: 25 libras (11 kg)
+  - nombre: Cota de escamas
+    categoria: intermedia
+    precio_po: 50.0
+    bonificador_armadura: 5
+    max_destreza: 3
+    penalizador_armadura: -4
+    fallo_conjuros_arcanos_pct: 25
+    velocidad_30: 20 pies (6 m)
+    velocidad_20: 15 pies (4,5 m)
+    peso: 30 libras (13,6 kg)
+  - nombre: Cota de mallas
+    categoria: intermedia
+    precio_po: 150.0
+    bonificador_armadura: 6
+    max_destreza: 2
+    penalizador_armadura: -5
+    fallo_conjuros_arcanos_pct: 30
+    velocidad_30: 20 pies (6 m)
+    velocidad_20: 15 pies (4,5 m)
+    peso: 40 libras (18 kg)
+  - nombre: Coraza
+    categoria: intermedia
+    precio_po: 200.0
+    bonificador_armadura: 6
+    max_destreza: 3
+    penalizador_armadura: -4
+    fallo_conjuros_arcanos_pct: 25
+    velocidad_30: 20 pies (6 m)
+    velocidad_20: 15 pies (4,5 m)
+    peso: 30 libras (13,6 kg)
+  - nombre: Laminada
+    categoria: pesada
+    precio_po: 200.0
+    bonificador_armadura: 7
+    max_destreza: 0
+    penalizador_armadura: -7
+    fallo_conjuros_arcanos_pct: 40
+    velocidad_30: 20 pies2 (6 m)
+    velocidad_20: 15 pies2 (4,5 m) 45 libras (20,4 kg)
+    peso: 15 pies2 (4,5 m) 45 libras (20,4 kg)
+  - nombre: Cota de bandas
+    categoria: pesada
+    precio_po: 250.0
+    bonificador_armadura: 7
+    max_destreza: 1
+    penalizador_armadura: -6
+    fallo_conjuros_arcanos_pct: 35
+    velocidad_30: 20 pies2 (6 m)
+    velocidad_20: 15 pies2 (4,5 m) 35 libras (15,9 kg)
+    peso: 15 pies2 (4,5 m) 35 libras (15,9 kg)
+  - nombre: Placas y mallas
+    categoria: pesada
+    precio_po: 600.0
+    bonificador_armadura: 8
+    max_destreza: 0
+    penalizador_armadura: -7
+    fallo_conjuros_arcanos_pct: 40
+    velocidad_30: 20 pies2 (6 m) 15 pies2 (4,5 m) 50 libras (22,7 kg)
+    velocidad_20: null
+    peso: 20 pies2 (6 m) 15 pies2 (4,5 m) 50 libras (22,7 kg)
+  - nombre: Completa
+    categoria: pesada
+    precio_po: 1500.0
+    bonificador_armadura: 9
+    max_destreza: 1
+    penalizador_armadura: -6
+    fallo_conjuros_arcanos_pct: 35
+    velocidad_30: 20 pies2 (6 m) 15 pies2 (4,5 m) 50 libras (22,7 kg)
+    velocidad_20: null
+    peso: 20 pies2 (6 m) 15 pies2 (4,5 m) 50 libras (22,7 kg)
+  - nombre: Rodela
+    categoria: escudo
+    precio_po: 5.0
+    bonificador_armadura: 1
+    max_destreza: null
+    penalizador_armadura: -1
+    fallo_conjuros_arcanos_pct: 5
+    velocidad_30: —
+    velocidad_20: —
+    peso: 5 libras (2,25 kg)
+  - nombre: Escudo ligero de madera
+    categoria: escudo
+    precio_po: 3.0
+    bonificador_armadura: 1
+    max_destreza: null
+    penalizador_armadura: -1
+    fallo_conjuros_arcanos_pct: 5
+    velocidad_30: —
+    velocidad_20: —
+    peso: 5 libras (2,3 kg)
+  - nombre: Escudo ligero de acero
+    categoria: escudo
+    precio_po: 9.0
+    bonificador_armadura: 1
+    max_destreza: null
+    penalizador_armadura: -1
+    fallo_conjuros_arcanos_pct: 5
+    velocidad_30: —
+    velocidad_20: —
+    peso: 6 libras (2,7 kg)
+  - nombre: Escudo pesado de madera
+    categoria: escudo
+    precio_po: 7.0
+    bonificador_armadura: 2
+    max_destreza: null
+    penalizador_armadura: -2
+    fallo_conjuros_arcanos_pct: 15
+    velocidad_30: —
+    velocidad_20: —
+    peso: 10 libras (4,5 kg)
+  - nombre: Escudo pesado de acero
+    categoria: escudo
+    precio_po: 20.0
+    bonificador_armadura: 2
+    max_destreza: null
+    penalizador_armadura: -2
+    fallo_conjuros_arcanos_pct: 15
+    velocidad_30: —
+    velocidad_20: —
+    peso: 15 libras (6,8 kg)
+  - nombre: Escudo pavés
+    categoria: escudo
+    precio_po: 30.0
+    bonificador_armadura: 4
+    max_destreza: 2
+    penalizador_armadura: -10
+    fallo_conjuros_arcanos_pct: 50
+    velocidad_30: —
+    velocidad_20: —
+    peso: 45 libras (20,4 kg)
+  materiales_especiales:
+  - nombre: Adamantina
+    efecto: Ignora la dureza de objetos con dureza < 20; RD 1/- a 3/- según el tipo de armadura
+  - nombre: Hierro frío
+    efecto: Supera la RD de las criaturas feéricas; +2.000 po añadir encantamientos
+  - nombre: Plata alquímica
+    efecto: Supera la RD/plata; -1 al daño
+  - nombre: Mitral
+    efecto: Pesa la mitad, cuenta como una categoría de armadura más ligera; +2 máx. Des, -3 al penalizador
+      de armadura, -10% de fallo arcano
+  - nombre: Madera oscura
+    efecto: Pesa la mitad; -2 al penalizador de armadura
+  - nombre: Piedra dracónica
+    efecto: Más dura y ligera que el acero; +10 pg por pulgada
+  - nombre: Cristal profundo
+    efecto: Puede canalizar energía psíquica
+  capacidad_de_carga:
+    nota: Valores en libras para criaturas Medianas bípedas. Por cada +10 de Fuerza sobre 29 se multiplica
+      por 4.
+    modificador_por_tamano:
+      Menudo: 0.125
+      Diminuto: 0.25
+      Minúsculo: 0.5
+      Pequeño: 0.75
+      Mediano: 1.0
+      Grande: 2.0
+      Enorme: 4.0
+      Gigantesco: 8.0
+      Colosal: 16.0
+    cuadrupedos: ×1,5 la capacidad
+    tabla:
+      1:
+        ligera_max: 3
+        media:
+        - 4
+        - 6
+        pesada:
+        - 7
+        - 10
+      2:
+        ligera_max: 6
+        media:
+        - 7
+        - 13
+        pesada:
+        - 14
+        - 20
+      3:
+        ligera_max: 10
+        media:
+        - 11
+        - 20
+        pesada:
+        - 21
+        - 30
+      4:
+        ligera_max: 13
+        media:
+        - 14
+        - 26
+        pesada:
+        - 27
+        - 40
+      5:
+        ligera_max: 16
+        media:
+        - 17
+        - 33
+        pesada:
+        - 34
+        - 50
+      6:
+        ligera_max: 20
+        media:
+        - 21
+        - 40
+        pesada:
+        - 41
+        - 60
+      7:
+        ligera_max: 23
+        media:
+        - 24
+        - 46
+        pesada:
+        - 47
+        - 70
+      8:
+        ligera_max: 26
+        media:
+        - 27
+        - 53
+        pesada:
+        - 54
+        - 80
+      9:
+        ligera_max: 30
+        media:
+        - 31
+        - 60
+        pesada:
+        - 61
+        - 90
+      10:
+        ligera_max: 33
+        media:
+        - 34
+        - 66
+        pesada:
+        - 67
+        - 100
+      11:
+        ligera_max: 38
+        media:
+        - 39
+        - 76
+        pesada:
+        - 77
+        - 115
+      12:
+        ligera_max: 43
+        media:
+        - 44
+        - 86
+        pesada:
+        - 87
+        - 130
+      13:
+        ligera_max: 50
+        media:
+        - 51
+        - 100
+        pesada:
+        - 101
+        - 150
+      14:
+        ligera_max: 58
+        media:
+        - 59
+        - 116
+        pesada:
+        - 117
+        - 175
+      15:
+        ligera_max: 66
+        media:
+        - 67
+        - 133
+        pesada:
+        - 134
+        - 200
+      16:
+        ligera_max: 76
+        media:
+        - 77
+        - 153
+        pesada:
+        - 154
+        - 230
+      17:
+        ligera_max: 86
+        media:
+        - 87
+        - 173
+        pesada:
+        - 174
+        - 260
+      18:
+        ligera_max: 100
+        media:
+        - 101
+        - 200
+        pesada:
+        - 201
+        - 300
+      19:
+        ligera_max: 116
+        media:
+        - 117
+        - 233
+        pesada:
+        - 234
+        - 350
+      20:
+        ligera_max: 133
+        media:
+        - 134
+        - 266
+        pesada:
+        - 267
+        - 400
+      21:
+        ligera_max: 153
+        media:
+        - 154
+        - 306
+        pesada:
+        - 307
+        - 460
+      22:
+        ligera_max: 173
+        media:
+        - 174
+        - 346
+        pesada:
+        - 347
+        - 520
+      23:
+        ligera_max: 200
+        media:
+        - 201
+        - 400
+        pesada:
+        - 401
+        - 600
+      24:
+        ligera_max: 233
+        media:
+        - 234
+        - 466
+        pesada:
+        - 467
+        - 700
+      25:
+        ligera_max: 266
+        media:
+        - 267
+        - 533
+        pesada:
+        - 534
+        - 800
+      27:
+        ligera_max: 346
+        media:
+        - 347
+        - 693
+        pesada:
+        - 694
+        - 1040
+      26:
+        ligera_max: 306
+        media:
+        - 307
+        - 613
+        pesada:
+        - 614
+        - 920
+      28:
+        ligera_max: 400
+        media:
+        - 401
+        - 800
+        pesada:
+        - 801
+        - 1200
+      29:
+        ligera_max: 466
+        media:
+        - 467
+        - 933
+        pesada:
+        - 934
+        - 1400
+    efectos:
+      media: máx. Des +3, penalizador -3, velocidad reducida (30→20, 20→15)
+      pesada: máx. Des +1, penalizador -6, velocidad reducida, no se puede correr a ×4
+combate:
+  pagina: 176
+  iniciativa: '1d20 + modificador por Des (+ otros); se actúa en orden descendente. Empates: gana el mayor
+    mod. de Des.'
+  clase_de_armadura:
+    formula: CA = 10 + bonif. armadura + bonif. escudo + mod. Des (limitado por máx. Des) + mod. tamaño
+      + mod. natural + esquiva + otros
+    ca_toque: Excluye armadura, escudo y armadura natural
+    ca_desprevenido: Excluye Des y esquiva
+  ataque:
+    cuerpo_a_cuerpo: 1d20 + BAB + mod. Fue + mod. tamaño + otros
+    a_distancia: 1d20 + BAB + mod. Des + mod. tamaño + penalizador por alcance + otros
+    ataques_multiples: Con BAB +6 o más se obtiene un ataque adicional por cada -5 en una acción de ataque
+      completo
+    critico: Un resultado dentro del rango de amenaza obliga a confirmar con una segunda tirada de ataque;
+      si impacta, se multiplica el daño
+    danyo_minimo: Un impacto siempre inflige al menos 1 punto de daño
+    toque: Los ataques de toque ignoran armadura, escudo y armadura natural
+  tipos_de_accion:
+  - tipo: estándar
+    notas: atacar, lanzar la mayoría de conjuros, activar objetos
+  - tipo: de movimiento
+    notas: moverse hasta la velocidad, levantarse, desenvainar
+  - tipo: de asalto completo
+    notas: ataque completo, carga (movimiento+ataque)
+  - tipo: gratuita
+    notas: hablar, soltar un objeto; número razonable por asalto
+  - tipo: rápida
+    notas: una por asalto
+  - tipo: inmediata
+    notas: puede usarse fuera del propio turno; consume la acción rápida del turno siguiente
+  - tipo: paso de 5 pies
+    notas: no provoca AdO; incompatible con cualquier otro movimiento en el asalto
+  acciones_comunes:
+    cargar: 'Movimiento en línea recta de al menos 10 pies y un ataque: +2 al ataque, -2 a la CA hasta
+      el siguiente turno'
+    retirarse: Acción de asalto completo; el primer cuadrado de movimiento no provoca AdO
+    defensa_total: +4 esquiva a la CA hasta el siguiente turno; no se puede atacar
+    luchar_a_la_defensiva: -4 al ataque, +2 esquiva a la CA
+    combate_con_dos_armas: -6/-6 al ataque (-4/-4 si el arma secundaria es ligera); la dote correspondiente
+      reduce a -2/-2
+  ataques_de_oportunidad:
+    cantidad_base: 1
+    provocan:
+    - moverse fuera de un espacio amenazado
+    - lanzar un conjuro
+    - usar la mayoría de habilidades
+    - usar un objeto a distancia
+    - atacar a distancia
+    - beber una poción
+    no_provocan:
+    - paso de 5 pies
+    - acciones rápidas/gratuitas (por lo general)
+    - retirada (primer cuadrado)
+  maniobras:
+    bmc: BMC = BAB + mod. Fue + mod. especial por tamaño
+    dmc: DMC = 10 + BAB + mod. Fue + mod. Des + mod. especial por tamaño
+    resolucion: 1d20 + BMC contra el DMC del defensor
+    lista:
+    - apresar
+    - arrollar
+    - derribar
+    - desarmar
+    - embestir
+    - empujar
+    - reposicionar
+    - romper arma/objeto
+    - finta (usa Engañar, no BMC)
+  modificadores_de_combate:
+    flanqueo: +2 al ataque cuerpo a cuerpo
+    objetivo_tumbado: +4 al ataque cuerpo a cuerpo, -4 a distancia
+    objetivo_indefenso: +4 al ataque cuerpo a cuerpo; permite golpe de gracia
+    atacante_invisible: +2 al ataque; el defensor pierde su bonif. por Des
+    cobertura: '+4 a la CA y +2 a Reflejos (cobertura mejorada: +8/+4)'
+    ocultacion: '20% de fallo (ocultación total: 50%)'
+    golpe_de_gracia: 'Acción de asalto completo contra objetivo indefenso: crítico automático; salvación
+      Fort CD 10 + daño o muerte'
+  heridas_y_muerte:
+    0_pg: 'Incapacitado: una sola acción estándar o de movimiento por asalto'
+    pg_negativos: Moribundo e inconsciente; prueba de Con CD 10 (con penalizador igual a los pg negativos)
+      cada turno para estabilizarse
+    muerte: Al llegar a pg negativos iguales a la puntuación de Constitución
+    danyo_no_letal: Cuando iguala a los pg actuales el personaje queda grogui; si los excede, inconsciente
+    curacion_natural: 1 pg por nivel de personaje tras 8 h de descanso; el doble con descanso completo
+    estabilizar: Prueba de Curar CD 15 como acción estándar
+  movimiento:
+    velocidades_base:
+    - 15
+    - 20
+    - 30
+    - 40
+    accion_de_movimiento: hasta la velocidad
+    correr: ×4 la velocidad (×3 con armadura pesada), en línea recta, pierde Des a la CA
+    terreno_dificil: cuesta el doble de movimiento
+    carga_maxima_asalto: ×2 la velocidad como acción de asalto completo
+magia:
+  pagina: 204
+  escuelas:
+  - abjuración
+  - conjuración
+  - adivinación
+  - encantamiento
+  - evocación
+  - ilusión
+  - nigromancia
+  - transmutación
+  - universal
+  subescuelas:
+    conjuración:
+    - convocación
+    - creación
+    - curación
+    - invocación
+    - teleportación
+    encantamiento:
+    - coacción
+    - hechizo
+    ilusión:
+    - fantasma
+    - figmento
+    - glamour
+    - patrón
+    - sombra
+    adivinación:
+    - escudriñamiento
+    transmutación:
+    - politransformación
+  descriptores:
+  - ácido
+  - aire
+  - agua
+  - bien
+  - caos
+  - electricidad
+  - fuego
+  - frío
+  - lenguaje
+  - luz
+  - mal
+  - maldición
+  - mente
+  - muerte
+  - miedo
+  - sónico
+  - tierra
+  - legal
+  - caótico
+  componentes:
+    V: verbal
+    S: somático
+    M: material
+    F: foco
+    FD: foco divino
+    PX: coste en puntos de experiencia
+  niveles_de_conjuro: 0 (trucos) a 9
+  cd_salvacion: CD = 10 + nivel del conjuro + modificador de la característica de lanzamiento
+  conjuros_extra_por_caracteristica: Se obtienen espacios adicionales por nivel de conjuro según el modificador
+    de la característica de lanzamiento; se necesita puntuación >= 10 + nivel del conjuro para poder lanzarlo
+  concentracion:
+    formula: 1d20 + nivel de lanzador + mod. de la característica de lanzamiento
+    cd_danyo: 10 + daño sufrido + nivel del conjuro
+    cd_defensiva: 15 + doble del nivel del conjuro
+    cd_apresado: 10 + BMC del apresador + nivel del conjuro
+    cd_enmaranado: 15 + nivel del conjuro
+  resistencia_a_conjuros: El lanzador tira 1d20 + nivel de lanzador contra el valor de RC del objetivo
+  tipos_de_aptitud:
+    Ex: 'extraordinaria: no mágica, no se puede disipar, funciona en campos antimagia, no sujeta a RC'
+    Sb: 'sobrenatural: mágica pero no es conjuro; no provoca AdO; falla en campo antimagia; no sujeta
+      a RC'
+    Sy: 'sortílega: funciona como conjuro; provoca AdO; sujeta a RC y a contraconjuro'
+  lanzamiento:
+    preparados: mago, clérigo, druida, explorador y paladín preparan conjuros tras descansar 8 horas
+    espontaneos: bardo y hechicero lanzan cualquier conjuro conocido usando un espacio del nivel adecuado
+    descanso_necesario: 8 horas de descanso + tiempo de preparación (1 hora para preparados)
+  contraconjurar: Se prepara una acción; identificar el conjuro con Conocimiento de conjuros CD 15 + nivel;
+    anularlo con el mismo conjuro o con disipar magia
+  alcances:
+    personal: el propio lanzador
+    toque: toque
+    corto: 25 pies + 5 pies / 2 niveles
+    medio: 100 pies + 10 pies / nivel
+    largo: 400 pies + 40 pies / nivel
+objetos_magicos:
+  pagina: 456
+  ranuras_del_cuerpo:
+  - cabeza
+  - diadema
+  - ojos
+  - cuello
+  - hombros
+  - torso
+  - cuerpo
+  - brazos
+  - manos
+  - anillo (×2)
+  - cinturón
+  - pies
+  categorias:
+  - armaduras y escudos
+  - armas
+  - anillos
+  - bastones
+  - cetros
+  - objetos maravillosos
+  - pergaminos
+  - pociones
+  - varitas
+  activacion:
+  - uso continuo
+  - palabra de mando
+  - completar el conjuro (pergaminos)
+  - activar por conjuro
+  - activación por uso
+  saturacion_magica: Un aura mágica detectable; la CD para identificar con Conocimiento de conjuros es
+    15 + nivel de lanzador del objeto
+  creacion:
+    coste_materia_prima: la mitad del precio base del objeto
+    tiempo: 1 día por cada 1.000 po del precio base (mínimo 1 día)
+    prueba: Conocimiento de conjuros (o la habilidad de Artesanía apropiada) CD 5 + nivel de lanzador
+      del objeto
+    requisitos_omitidos: +5 a la CD por cada requisito que no se cumpla
+    formulas_precio:
+      pocion: nivel del conjuro × nivel de lanzador × 50 po
+      pergamino: nivel del conjuro × nivel de lanzador × 25 po
+      varita: nivel del conjuro × nivel de lanzador × 750 po (50 cargas)
+      uso_continuo_por_dia: nivel conjuro × NL × 2.000 po × (5 / usos por día)
+      uso_ilimitado: nivel conjuro × NL × 2.000 po
+      arma_o_armadura: 'coste según bonificador equivalente: (bonif.^2) × 1.000 po (armas) / × 1.000 po
+        (armaduras)'
+    dotes:
+    - Elaborar poción (NL 3)
+    - Inscribir pergamino (NL 1)
+    - Fabricar varita (NL 5)
+    - Fabricar cetro (NL 9)
+    - Fabricar bastón (NL 11)
+    - Forjar anillo (NL 7)
+    - Fabricar armas y armaduras mágicas (NL 5)
+    - Fabricar objeto maravilloso (NL 3)
+    - Artesano maestro (permite crear sin lanzar conjuros)
+  bonificadores_arma:
+    max_potenciador: 5
+    max_total_equivalente: 10
+  bonificadores_armadura:
+    max_potenciador: 5
+    max_total_equivalente: 10
+  destruccion: Los objetos mágicos tienen dureza y pg superiores; la mayoría requiere condiciones especiales
+    para ser destruida
+entorno:
+  pagina: 408
+  trampas:
+    vd: El VD de una trampa depende de su CD de Percepción/Inutilizar mecanismo, su ataque/CD de salvación
+      y su daño
+    detectar: Percepción; los pícaros pueden detectar trampas mágicas con Percepción
+    desactivar: Inutilizar mecanismo; se necesita rango en la habilidad para trampas mágicas (CD 25 o
+      superior)
+    tipos:
+    - mecánica
+    - mágica
+  danyo_por_caida: 1d6 por cada 10 pies (máximo 20d6); una prueba de Acrobacias CD 15 reduce en 1d6 la
+    primera caída
+  ahogarse: Se puede aguantar la respiración 2 asaltos por punto de Constitución; después, prueba de Con
+    CD 10 (+1 por asalto) o quedar a 0 pg, luego -1 y muerte
+  hambre_y_sed: 'Sin agua: prueba de Con CD 10 (+1 acumulativo) por día o 1d6 de daño no letal; sin comida:
+    cada día tras 3 días + Con'
+  temperatura:
+    calor_severo: Fortaleza CD 15 (+1 acumulativo) cada hora o 1d4 de daño no letal
+    frio_severo: Fortaleza CD 15 (+1 acumulativo) cada hora o 1d6 de daño no letal
+  iluminacion:
+  - luz brillante
+  - luz normal
+  - luz tenue (ocultación 20%)
+  - oscuridad (ocultación total)
+  planos:
+    transitivos:
+    - Etéreo
+    - Astral
+    - de las Sombras
+    internos:
+    - Aire
+    - Tierra
+    - Fuego
+    - Agua
+    - Energía positiva
+    - Energía negativa
+    externos:
+    - Alineados según los nueve alineamientos
+  dureza_objetos:
+    papel/tela: 0
+    cuerda: 0
+    vidrio: 1
+    hielo: 0
+    madera: 5
+    piedra: 8
+    hierro/acero: 10
+    mitral: 15
+    adamantina: 20
+direccion_de_juego:
+  pagina: 394
+  diseno_de_encuentros:
+    vd_medio: Un encuentro de VD igual al nivel medio del grupo consume aproximadamente el 20% de sus
+      recursos
+    px_por_vd: Los PX otorgados dependen del VD del encuentro y se reparten entre los personajes
+    dificultad:
+      fácil: VD = nivel del grupo - 1
+      media: VD = nivel del grupo
+      difícil: VD = nivel del grupo + 1
+      épica: VD = nivel del grupo + 2 o más
+  clases_de_pnj:
+  - nombre: Adepto
+    dado_golpe: d6
+    bab: 1/2
+    rangos: 2
+    lanzador: divino limitado
+  - nombre: Aristócrata
+    dado_golpe: d8
+    bab: 3/4
+    rangos: 4
+    lanzador: null
+  - nombre: Combatiente
+    dado_golpe: d10
+    bab: completo
+    rangos: 2
+    lanzador: null
+  - nombre: Experto
+    dado_golpe: d8
+    bab: 3/4
+    rangos: 6
+    lanzador: null
+  - nombre: Plebeyo
+    dado_golpe: d6
+    bab: 1/2
+    rangos: 2
+    lanzador: null
+estados:
+- nombre: Apresado
+  efecto: 'Inmovilizado por otra criatura o efecto: -4 Des, -2 a ataques y maniobras (salvo apresar/escapar),
+    no puede usar acciones a dos manos ni AdO; concentración CD 10 + BMC + nivel para lanzar.'
+- nombre: Asustado
+  efecto: Huye del origen del miedo si puede; -2 a ataques, salvaciones y pruebas.
+- nombre: Aterrado
+  efecto: 'Helado de miedo: no puede actuar, -2 a la CA y pierde el bonificador por Des.'
+- nombre: Atontado
+  efecto: No puede llevar a cabo acción alguna, pero no sufre penalizador a la CA. Suele durar 1 asalto.
+- nombre: Aturdido
+  efecto: Suelta lo que lleva, no puede actuar, -2 a la CA y pierde el bonificador por Des.
+- nombre: Cegado
+  efecto: 'No ve: -2 a la CA, pierde el bonificador por Des, -4 a la mayoría de pruebas de Fue/Des y a
+    Percepción enfrentada; los enemigos tienen ocultación total; media velocidad.'
+- nombre: Confuso
+  efecto: No distingue amigos de enemigos; su comportamiento cada asalto se determina en una tabla aleatoria;
+    si es atacado responde contra el atacante.
+- nombre: Deslumbrado
+  efecto: -1 a las tiradas de ataque y a las pruebas de Percepción basadas en la vista.
+- nombre: Despavorido
+  efecto: Suelta lo que lleva y huye en dirección aleatoria; -2 a salvaciones y pruebas; si se ve acorralado
+    pasa a aterrado. Miedo más severo que estremecido o asustado.
+- nombre: Desprevenido
+  efecto: 'Antes de actuar en combate: pierde el bonificador por Des a la CA y no puede hacer AdO.'
+- nombre: Energía consumida
+  efecto: Uno o más niveles negativos; si iguala o supera sus DG, muere.
+- nombre: Enmarañado
+  efecto: Media velocidad, no puede correr ni cargar; -2 a ataques y -4 a Des; concentración CD 15 + nivel
+    para lanzar conjuros.
+- nombre: Ensordecido
+  efecto: -4 a iniciativa, falla las pruebas de Percepción basadas en el oído y 20% de fallo al lanzar
+    conjuros con componente verbal.
+- nombre: Estable
+  efecto: Deja de perder pg estando por debajo de 0; sigue inconsciente. Prueba de Con CD 10 cada hora
+    para recuperar la consciencia y pasar a incapacitado.
+- nombre: Estremecido
+  efecto: -2 a ataques, salvaciones y pruebas de habilidad y de característica. Miedo menos severo.
+- nombre: Exhausto
+  efecto: Media velocidad, -6 a Fue y Des. Tras 1 hora de descanso pasa a fatigado.
+- nombre: Fascinado
+  efecto: Se queda quieto atendiendo al efecto; -4 a las pruebas de habilidad hechas como reacción; una
+    amenaza potencial permite nueva salvación y una obvia rompe el efecto.
+- nombre: Fatigado
+  efecto: No puede correr ni cargar; -2 a Fue y Des. Se recupera con 8 horas de descanso. Fatigarse de
+    nuevo lleva a exhausto.
+- nombre: Grogui
+  efecto: 'Daño no letal exactamente igual a los pg actuales: sólo una acción estándar o de movimiento
+    por asalto (no ambas).'
+- nombre: Incapacitado
+  efecto: '0 pg (o negativos pero estabilizado y consciente): una sola acción estándar o de movimiento
+    por asalto y media velocidad; una acción estándar agrava las heridas.'
+- nombre: Inconsciente
+  efecto: Tumbado e indefenso. Por pg negativos o por daño no letal superior a los pg actuales.
+- nombre: Incorporal
+  efecto: 'Sin cuerpo físico: inmune a ataques no mágicos, mitad de daño de armas mágicas, conjuros y
+    efectos Sb/Sy; daño completo de efectos de fuerza y otras criaturas incorporales.'
+- nombre: Indefenso
+  efecto: Se considera Des 0 (mod. -5); los ataques cuerpo a cuerpo obtienen +4 y permiten golpe de gracia.
+- nombre: Indispuesto
+  efecto: -2 a todas las tiradas de ataque, daño, salvaciones y pruebas de habilidad y de característica.
+- nombre: Invisible
+  efecto: 'Visualmente indetectable: +2 a las tiradas de ataque contra oponentes con vista, que además
+    pierden su bonificador por Des a la CA.'
+- nombre: Mareado
+  efecto: No puede atacar, lanzar conjuros ni concentrarse; sólo una acción de movimiento por turno.
+- nombre: Moribundo
+  efecto: Inconsciente con pg negativos y sin estabilizar; prueba de Con CD 10 (penalizada por los pg
+    negativos) cada turno o pierde 1 pg.
+- nombre: Muerto
+  efecto: pg negativos iguales a la Constitución, Con reducida a 0 o efecto de muerte. Sólo la magia puede
+    devolverlo a la vida.
+- nombre: Paralizado
+  efecto: Fue y Des efectivas 0, indefenso, sólo acciones mentales; una criatura voladora cae.
+- nombre: Petrificado
+  efecto: Convertido en piedra; se considera inconsciente. Los trozos perdidos causan daño permanente
+    al volver a la carne.
+- nombre: Roto
+  efecto: 'Objeto con más de la mitad de sus pg perdidos: armas -2 al ataque y al daño y sólo crítico
+    ×2 con 20 natural; armaduras y escudos dan la mitad del bonificador; herramientas -2; varitas y bastones
+    gastan doble carga; valor 75%.'
+- nombre: Sangrando
+  efecto: Sufre el daño indicado al inicio de cada turno; se detiene con Curar CD 15 o con cualquier conjuro
+    que cure pg.
+- nombre: Sujeto
+  efecto: 'Versión severa de apresado: no puede moverse, pierde el bonificador por Des y sufre -4 adicional
+    a la CA; no puede lanzar con componentes somáticos o materiales.'
+- nombre: Tumbado
+  efecto: -4 a las tiradas de ataque cuerpo a cuerpo; +4 a la CA contra ataques a distancia y -4 contra
+    cuerpo a cuerpo. Levantarse es una acción de movimiento que provoca AdO.
