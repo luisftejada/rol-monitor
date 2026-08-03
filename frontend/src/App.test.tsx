@@ -21,4 +21,20 @@ describe("App routing", () => {
     await waitFor(() => expect(card).toBeInTheDocument());
     expect(within(card).getByRole("heading", { name: "Aldous" })).toBeInTheDocument();
   });
+
+  it("opens the creation editor from the roster", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />, { route: "/" });
+    await user.click(await screen.findByRole("link", { name: "Nuevo personaje" }));
+    expect(
+      await screen.findByRole("heading", { name: "Nuevo personaje", level: 1 }),
+    ).toBeInTheDocument();
+  });
+
+  it("opens the edit editor for an existing character", async () => {
+    renderWithProviders(<App />, { route: "/characters/char-1/edit" });
+    expect(
+      await screen.findByRole("heading", { name: "Editar personaje", level: 1 }),
+    ).toBeInTheDocument();
+  });
 });

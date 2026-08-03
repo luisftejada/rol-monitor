@@ -22,3 +22,17 @@ export type SkillLineDTO = Schemas["SkillLineDTO"];
 export type SpeedDTO = Schemas["SpeedDTO"];
 export type HpDTO = Schemas["HpDTO"];
 export type BabDTO = Schemas["BabDTO"];
+
+// Rules catalog
+export type MetaDTO = Schemas["MetaDTO"];
+export type RaceDTO = Schemas["RaceDTO"];
+export type ClassSummaryDTO = Schemas["ClassSummaryDTO"];
+export type SkillDTO = Schemas["SkillDTO"];
+export type FeatDTO = Schemas["FeatDTO"];
+export type WeaponDTO = Schemas["WeaponDTO"];
+export type ArmorDTO = Schemas["ArmorDTO"];
+
+// Character editing
+export type ClassLevelIn = Schemas["ClassLevelIn"];
+export type EquippedArmorIn = Schemas["EquippedArmorIn"];
+export type EquippedWeaponIn = Schemas["EquippedWeaponIn"];

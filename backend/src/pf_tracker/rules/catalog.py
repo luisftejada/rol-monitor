@@ -52,6 +52,8 @@ class MetaDTO(_CatalogModel):
     sizes: list[SizeDTO]
     action_types: list[ActionTypeDTO]
     units: dict[str, str]
+    #: Point-buy cost per ability score (from ``caracteristicas.coste_compra_puntos``).
+    point_buy_costs: dict[int, int]
 
 
 # -------------------------------------------------------------------------- races

@@ -70,6 +70,63 @@ export const es = {
   "breakdown.suppressed": "Anulados por apilamiento",
   "breakdown.untyped": "sin tipo",
   "breakdown.empty": "Sin bonificadores.",
+
+  "combobox.noResults": "Sin resultados",
+
+  "list.action.new": "Nuevo personaje",
+
+  "editor.new": "Nuevo personaje",
+  "editor.edit": "Editar personaje",
+  "editor.save": "Guardar",
+  "editor.livePreview": "Vista de combate en vivo",
+  "editor.section.identity": "Identidad",
+  "editor.section.abilities": "Características",
+  "editor.section.classes": "Clases y nivel",
+  "editor.section.skills": "Habilidades",
+  "editor.section.feats": "Dotes",
+  "editor.section.equipment": "Equipo",
+  "editor.saveState.idle": "Sin cambios",
+  "editor.saveState.dirty": "Cambios sin guardar",
+  "editor.saveState.saving": "Guardando…",
+  "editor.saveState.saved": "Guardado",
+  "editor.saveState.error": "Error al guardar",
+
+  "identity.name": "Nombre",
+  "identity.player": "Jugador",
+  "identity.race": "Raza",
+  "identity.alignment": "Alineamiento",
+
+  "abilities.method": "Método",
+  "abilities.method.pointBuy": "Compra de puntos",
+  "abilities.method.manual": "Manual",
+  "abilities.method.standard": "Matriz estándar",
+  "abilities.points": "Puntos: {spent} / {budget}",
+  "abilities.pointsOver": "Te has pasado del presupuesto de puntos.",
+  "abilities.col.base": "Base",
+  "abilities.col.racial": "Racial",
+  "abilities.col.final": "Final",
+
+  "classes.class": "Clase",
+  "classes.level": "Nivel",
+  "classes.add": "Añadir clase",
+  "classes.remove": "Quitar",
+
+  "skills.ranks": "Rangos: {spent} / {available}",
+  "skills.classSkill": "Habilidad de clase",
+  "skills.increment": "Subir rango de {skill}",
+  "skills.decrement": "Bajar rango de {skill}",
+
+  "feats.owned": "Dotes seleccionadas",
+  "feats.add": "Añadir dote",
+  "feats.remove": "Quitar {feat}",
+  "feats.ineligible": "No cumples los prerrequisitos: {prereq}",
+
+  "equipment.armor": "Armadura",
+  "equipment.shield": "Escudo",
+  "equipment.weapon": "Arma",
+  "equipment.addWeapon": "Añadir arma",
+  "equipment.removeWeapon": "Quitar {weapon}",
+  "equipment.none": "Ninguna",
 } as const;
 
 export type MessageKey = keyof typeof es;

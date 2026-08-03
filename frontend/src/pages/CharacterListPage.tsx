@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import type { CharacterSummary } from "@/api/types";
 import { CharacterTable } from "@/components/CharacterTable";
@@ -19,7 +20,12 @@ export function CharacterListPage(): React.JSX.Element {
 
   return (
     <section>
-      <h1>{t("list.title")}</h1>
+      <div className="list__header">
+        <h1>{t("list.title")}</h1>
+        <Link className="button" to="/new">
+          {t("list.action.new")}
+        </Link>
+      </div>
 
       <label className="search">
         <span>{t("list.search")}</span>

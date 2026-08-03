@@ -1,4 +1,4 @@
-import { apiDelete, apiGet, apiPost } from "./client";
+import { apiDelete, apiGet, apiPost, apiPut } from "./client";
 import type {
   CharacterCreate,
   CharacterListResponse,
@@ -23,6 +23,14 @@ export function getCharacters(params: ListParams = {}): Promise<CharacterListRes
 
 export function getCharacter(id: string): Promise<CharacterRead> {
   return apiGet<CharacterRead>(`/characters/${id}`);
+}
+
+export function createCharacter(body: CharacterCreate): Promise<CharacterRead> {
+  return apiPost<CharacterRead>("/characters", body);
+}
+
+export function updateCharacter(id: string, body: CharacterCreate): Promise<CharacterRead> {
+  return apiPut<CharacterRead>(`/characters/${id}`, body);
 }
 
 export function getCombatSheet(id: string): Promise<CombatSheetResponse> {

@@ -96,6 +96,10 @@ class RulesRepository:
                 for a in self._nucleo["combate"]["tipos_de_accion"]
             ],
             units=dict(sistema["unidades"]),
+            point_buy_costs={
+                int(score): cost
+                for score, cost in self._nucleo["caracteristicas"]["coste_compra_puntos"].items()
+            },
         )
 
     # ------------------------------------------------------------------ races

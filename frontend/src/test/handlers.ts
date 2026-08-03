@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
 
+import * as catalog from "./catalog";
 import { fighterCharacter, fighterSheet, listResponse } from "./fixtures";
 
 const BASE = "/api/v1";
@@ -17,5 +18,16 @@ export const handlers = [
     HttpResponse.json(fighterCharacter, { status: 201 }),
   ),
   http.delete(`${BASE}/characters/:id`, () => new HttpResponse(null, { status: 204 })),
+  http.put(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),
+  http.post(`${BASE}/characters`, () => HttpResponse.json(fighterCharacter, { status: 201 })),
   http.post(`${BASE}/derive`, () => HttpResponse.json(fighterSheet)),
+
+  // Rules catalog
+  http.get(`${BASE}/rules/meta`, () => HttpResponse.json(catalog.meta)),
+  http.get(`${BASE}/rules/races`, () => HttpResponse.json(catalog.races)),
+  http.get(`${BASE}/rules/classes`, () => HttpResponse.json(catalog.classes)),
+  http.get(`${BASE}/rules/skills`, () => HttpResponse.json(catalog.skills)),
+  http.get(`${BASE}/rules/feats`, () => HttpResponse.json(catalog.feats)),
+  http.get(`${BASE}/rules/weapons`, () => HttpResponse.json(catalog.weapons)),
+  http.get(`${BASE}/rules/armor`, () => HttpResponse.json(catalog.armor)),
 ];

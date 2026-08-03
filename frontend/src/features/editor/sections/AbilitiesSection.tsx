@@ -1,0 +1,198 @@
+import { useState } from "react";
+
+import type { CharacterCreate } from "@/api/types";
+import { ABILITY_ORDER, POINT_BUY_BUDGET, STANDARD_ARRAY } from "@/features/editor/draft";
+import { useMeta, useRaces } from "@/hooks/useRules";
+import { t } from "@/i18n";
+
+interface SectionProps {
+  draft: CharacterCreate;
+  patch: (partial: Partial<CharacterCreate>) => void;
+}
+
+type Method = "point-buy" | "manual" | "standard";
+
+const FLEXIBLE_KEY = "cualquiera";
+
+export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Element {
+  const meta = useMeta();
+  const races = useRaces();
+  const [method, setMethod] = useState<Method>("point-buy");
+
+  const costs = meta.data?.point_buy_costs ?? {};
+  const baseScores = draft.base_scores ?? {};
+  const racialChoices = draft.racial_bonus_choices ?? {};
+  const race = (races.data ?? []).find((r) => r.slug === draft.race);
+  const raceMods = race?.ability_modifiers ?? {};
+  const flexibleAmount = raceMods[FLEXIBLE_KEY];
+
+  const racialFor = (abbr: string): number => (raceMods[abbr] ?? 0) + (racialChoices[abbr] ?? 0);
+
+  const setScore = (abbr: string, score: number): void => {
+    patch({ base_scores: { ...baseScores, [abbr]: score } });
+  };
+
+  const pointsSpent = ABILITY_ORDER.reduce(
+    (sum, abbr) => sum + (costs[String(baseScores[abbr] ?? 10)] ?? 0),
+    0,
+  );
+
+  const applyStandardArray = (): void => {
+    const scores: Record<string, number> = {};
+    ABILITY_ORDER.forEach((abbr, index) => {
+      scores[abbr] = STANDARD_ARRAY[index] ?? 10;
+    });
+    patch({ base_scores: scores });
+  };
+
+  const chooseMethod = (next: Method): void => {
+    setMethod(next);
+    if (next === "standard") applyStandardArray();
+  };
+
+  return (
+    <section aria-labelledby="section-abilities" className="editor__section">
+      <h2 id="section-abilities">{t("editor.section.abilities")}</h2>
+
+      <fieldset className="ability-method">
+        <legend>{t("abilities.method")}</legend>
+        {(["point-buy", "manual", "standard"] as const).map((option) => (
+          <label key={option}>
+            <input
+              type="radio"
+              name="ability-method"
+              checked={method === option}
+              onChange={() => chooseMethod(option)}
+            />
+            {t(`abilities.method.${option === "point-buy" ? "pointBuy" : option}` as const)}
+          </label>
+        ))}
+      </fieldset>
+
+      {flexibleAmount !== undefined && (
+        <label className="field">
+          <span>{`+${flexibleAmount} racial`}</span>
+          <select
+            value={Object.keys(racialChoices)[0] ?? ""}
+            onChange={(event) =>
+              patch({
+                racial_bonus_choices: event.target.value
+                  ? { [event.target.value]: flexibleAmount }
+                  : {},
+              })
+            }
+          >
+            <option value="">—</option>
+            {ABILITY_ORDER.map((abbr) => (
+              <option key={abbr} value={abbr}>
+                {abbr}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+
+      {method === "point-buy" && (
+        <p className={pointsSpent > POINT_BUY_BUDGET ? "points points--over" : "points"}>
+          {t("abilities.points", { spent: pointsSpent, budget: POINT_BUY_BUDGET })}
+          {pointsSpent > POINT_BUY_BUDGET && <span role="alert"> {t("abilities.pointsOver")}</span>}
+        </p>
+      )}
+
+      <table className="abilities">
+        <thead>
+          <tr>
+            <th scope="col">·</th>
+            <th scope="col">{t("abilities.col.base")}</th>
+            <th scope="col">{t("abilities.col.racial")}</th>
+            <th scope="col">{t("abilities.col.final")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ABILITY_ORDER.map((abbr) => {
+            const base = baseScores[abbr] ?? 10;
+            const racial = racialFor(abbr);
+            return (
+              <tr key={abbr}>
+                <th scope="row">{abbr}</th>
+                <td>
+                  {method === "standard" ? (
+                    <StandardArraySelect abbr={abbr} scores={baseScores} onPick={setScore} />
+                  ) : method === "point-buy" ? (
+                    <PointBuyStepper abbr={abbr} value={base} onChange={setScore} />
+                  ) : (
+                    <input
+                      type="number"
+                      aria-label={abbr}
+                      value={base}
+                      onChange={(event) => setScore(abbr, Number(event.target.value))}
+                    />
+                  )}
+                </td>
+                <td>{racial >= 0 ? `+${racial}` : racial}</td>
+                <td>{base + racial}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
+function PointBuyStepper({
+  abbr,
+  value,
+  onChange,
+}: {
+  abbr: string;
+  value: number;
+  onChange: (abbr: string, score: number) => void;
+}): React.JSX.Element {
+  return (
+    <span className="stepper">
+      <button
+        type="button"
+        aria-label={`− ${abbr}`}
+        onClick={() => onChange(abbr, Math.max(7, value - 1))}
+      >
+        −
+      </button>
+      <span aria-label={abbr}>{value}</span>
+      <button
+        type="button"
+        aria-label={`+ ${abbr}`}
+        onClick={() => onChange(abbr, Math.min(18, value + 1))}
+      >
+        +
+      </button>
+    </span>
+  );
+}
+
+function StandardArraySelect({
+  abbr,
+  scores,
+  onPick,
+}: {
+  abbr: string;
+  scores: Record<string, number>;
+  onPick: (abbr: string, score: number) => void;
+}): React.JSX.Element {
+  const usedElsewhere = new Set(
+    ABILITY_ORDER.filter((other) => other !== abbr).map((other) => scores[other]),
+  );
+  return (
+    <select
+      aria-label={abbr}
+      value={scores[abbr] ?? ""}
+      onChange={(event) => onPick(abbr, Number(event.target.value))}
+    >
+      {STANDARD_ARRAY.map((score) => (
+        <option key={score} value={score} disabled={usedElsewhere.has(score)}>
+          {score}
+        </option>
+      ))}
+    </select>
+  );
+}

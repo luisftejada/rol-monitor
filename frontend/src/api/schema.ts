@@ -1244,6 +1244,10 @@ export interface components {
       units: {
         [key: string]: string;
       };
+      /** Point Buy Costs */
+      point_buy_costs: {
+        [key: string]: number;
+      };
     };
     /** ModifierIn */
     ModifierIn: {

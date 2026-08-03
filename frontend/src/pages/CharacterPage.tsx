@@ -11,8 +11,9 @@ export function CharacterPage(): React.JSX.Element {
 
   return (
     <section>
-      <p>
+      <p className="page-actions">
         <Link to="/">← {t("common.back")}</Link>
+        {character.data && <Link to={`/characters/${id}/edit`}>{t("editor.edit")}</Link>}
       </p>
 
       {(character.isPending || sheet.isPending) && <p role="status">{t("common.loading")}</p>}
