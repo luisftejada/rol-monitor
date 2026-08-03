@@ -38,7 +38,7 @@ class ValueBreakdown(BaseModel):
     suppressed: list[SuppressedEntry]
 
 
-class AbilityDTO(BaseModel):
+class AbilityScoreDTO(BaseModel):
     score: int
     modifier: int
     base: int
@@ -75,7 +75,7 @@ class AttackDTO(BaseModel):
     is_proficient: bool
 
 
-class SkillDTO(BaseModel):
+class SkillLineDTO(BaseModel):
     slug: str
     name: str
     ability: str
@@ -100,7 +100,7 @@ class HpDTO(BaseModel):
 
 
 class CombatSheetResponse(BaseModel):
-    abilities: dict[str, AbilityDTO]
+    abilities: dict[str, AbilityScoreDTO]
     ac: ACDTO
     saves: dict[str, ValueBreakdown]
     bab: BabDTO
@@ -108,7 +108,7 @@ class CombatSheetResponse(BaseModel):
     cmb: ValueBreakdown
     cmd: ValueBreakdown
     attacks: list[AttackDTO]
-    skills: list[SkillDTO]
+    skills: list[SkillLineDTO]
     speed: SpeedDTO
     armor_check_penalty: int
     arcane_spell_failure: int
@@ -171,8 +171,8 @@ def _attack(routine: AttackRoutine) -> AttackDTO:
     )
 
 
-def _skill(skill: SkillResult) -> SkillDTO:
-    return SkillDTO(
+def _skill(skill: SkillResult) -> SkillLineDTO:
+    return SkillLineDTO(
         slug=skill.slug,
         name=skill.name,
         ability=skill.ability.value,
@@ -188,7 +188,7 @@ def to_combat_sheet_response(sheet: CombatSheet) -> CombatSheetResponse:
     """Map the domain combat sheet to its API representation."""
     return CombatSheetResponse(
         abilities={
-            ability.value: AbilityDTO(
+            ability.value: AbilityScoreDTO(
                 score=result.score,
                 modifier=result.modifier,
                 base=result.base,

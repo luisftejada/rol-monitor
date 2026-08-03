@@ -1,14 +1,24 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { App } from "@/App";
 import { renderWithProviders } from "@/test/render";
 
-describe("App", () => {
-  it("renders the title and reports the backend as healthy", async () => {
-    renderWithProviders(<App />);
+describe("App routing", () => {
+  it("lists characters and navigates to the combat card", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<App />, { route: "/" });
 
-    expect(screen.getByRole("heading", { name: "pf-tracker" })).toBeInTheDocument();
-    expect(await screen.findByText(/Servicio operativo · v0\.1\.0/)).toBeInTheDocument();
+    // The roster shows the derived AC for the character.
+    const row = await screen.findByRole("row", { name: /Aldous/ });
+    expect(within(row).getByText("18")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("link", { name: "Aldous" }));
+
+    // The combat card for that character appears.
+    const card = await screen.findByRole("article", { name: "Aldous" });
+    await waitFor(() => expect(card).toBeInTheDocument());
+    expect(within(card).getByRole("heading", { name: "Aldous" })).toBeInTheDocument();
   });
 });

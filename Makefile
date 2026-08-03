@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help install dev test test-backend test-frontend lint format typecheck coverage migrate seed check
+.PHONY: help install dev test test-backend test-frontend lint format typecheck coverage migrate seed check gen-api
 
 BACKEND  := backend
 FRONTEND := frontend
@@ -45,5 +45,9 @@ migrate: ## Apply database migrations (available from phase 3)
 
 seed: ## Seed local data (available from phase 3)
 	@echo "seed: not implemented until phase 3"
+
+gen-api: ## Regenerate the frontend API types from the backend OpenAPI schema
+	cd $(BACKEND) && poetry run python -c "import json; from pf_tracker.main import create_app; print(json.dumps(create_app().openapi()))" > openapi.json
+	cd $(FRONTEND) && npm run gen:api
 
 check: lint typecheck test ## Run the full CI gate locally

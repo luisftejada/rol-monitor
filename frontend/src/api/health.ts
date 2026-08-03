@@ -1,10 +1,8 @@
 import { apiGet } from "./client";
-
-export interface Health {
-  status: "ok";
-  version: string;
-}
+import type { Health } from "./types";
 
 export function getHealth(): Promise<Health> {
   return apiGet<Health>("/health");
 }
+
+export type { Health };

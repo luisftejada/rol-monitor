@@ -25,7 +25,14 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html"],
       include: ["src/**/*.{ts,tsx}"],
-      exclude: ["src/**/*.test.{ts,tsx}", "src/test/**", "src/api/schema.ts"],
+      exclude: [
+        "src/**/*.test.{ts,tsx}",
+        "src/test/**",
+        "src/api/schema.ts",
+        "src/api/types.ts",
+        "src/main.tsx",
+      ],
+      thresholds: { statements: 80, branches: 80, functions: 80, lines: 80 },
     },
   },
 });

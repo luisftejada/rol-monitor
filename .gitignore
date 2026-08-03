@@ -11,6 +11,8 @@ htmlcov/
 coverage.xml
 *.db
 *.sqlite3
+# Generated OpenAPI dump (source of truth is the app; TS types are committed)
+backend/openapi.json
 
 # Node / frontend
 node_modules/
