@@ -303,6 +303,41 @@ class RulesRepository:
             for e in self._nucleo["estados"]
         ]
 
+    # --------------------------------------------------------------- lookups
+    # Single-entity lookups used by the assembler (service layer). They return None
+    # rather than raising so the assembler can attach a warning and carry on.
+    def race(self, slug: str) -> RaceDTO | None:
+        target = _norm(slug)
+        return next((r for r in self.races if _norm(r.slug) == target), None)
+
+    def class_summary(self, slug: str) -> ClassSummaryDTO | None:
+        target = _norm(slug)
+        return next(
+            (c for c in self.classes(include_prestige=True) if _norm(c.slug) == target), None
+        )
+
+    def weapon(self, name: str) -> WeaponDTO | None:
+        target = _norm(name)
+        return next((w for w in self._all_weapons if _norm(w.name) == target), None)
+
+    def armor_item(self, name: str) -> ArmorDTO | None:
+        target = _norm(name)
+        return next((a for a in self._all_armor if _norm(a.name) == target), None)
+
+    def skill(self, slug: str) -> SkillDTO | None:
+        target = _norm(slug)
+        return next((s for s in self.skills if _norm(s.slug) == target), None)
+
+    def condition_name(self, slug: str) -> str | None:
+        """Canonical Spanish name for a condition slug (or the input if unknown)."""
+        target = _norm(slug)
+        return next((c.name for c in self.conditions if _norm(c.slug) == target), None)
+
+    def carrying_capacity(self, strength: int) -> tuple[int, int, int]:
+        """Return (light_max, medium_max, heavy_max) for a Strength score."""
+        table = self._r.carga(strength)
+        return int(table["ligera_max"]), int(table["media"][1]), int(table["pesada"][1])
+
     # ----------------------------------------------------------------- spells
     def _spell_dto(self, data: dict[str, Any]) -> SpellDTO:
         return SpellDTO(

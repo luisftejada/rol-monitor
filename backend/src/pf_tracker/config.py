@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     # Async SQLAlchemy URL; SQLite by default, Postgres-compatible types elsewhere.
     database_url: str = "sqlite+aiosqlite:///./pf_tracker.db"
 
+    # Create tables on startup (dev convenience). Use Alembic migrations in prod.
+    auto_create_tables: bool = True
+
     # CORS origins allowed to call the API (the Vite dev server by default).
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
 

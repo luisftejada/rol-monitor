@@ -13,15 +13,28 @@ from pf_tracker import __version__
 from pf_tracker.api.deps import NotModified
 from pf_tracker.api.v1 import router as api_v1_router
 from pf_tracker.config import Settings, get_settings
+from pf_tracker.persistence import models as _models  # noqa: F401 - register ORM metadata
+from pf_tracker.persistence.database import Base, create_engine, create_session_factory
 from pf_tracker.rules.repository import RuleNotFoundError, RulesRepository
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Load the read-only rules corpus once, at startup."""
+    """Load the read-only rules corpus and wire the database at startup."""
     settings: Settings = app.state.settings
     app.state.rules_repo = RulesRepository.from_data_dir(settings.data_dir)
-    yield
+
+    engine = create_engine(settings.database_url)
+    app.state.db_engine = engine
+    app.state.session_factory = create_session_factory(engine)
+    if settings.auto_create_tables:
+        async with engine.begin() as connection:
+            await connection.run_sync(Base.metadata.create_all)
+
+    try:
+        yield
+    finally:
+        await engine.dispose()
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:

@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import hashlib
+from collections.abc import AsyncIterator
 from typing import Annotated
 
 from fastapi import Depends, Request, Response
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from pf_tracker.persistence.database import session_scope
 from pf_tracker.rules.repository import RulesRepository
+from pf_tracker.services.character_service import CharacterService
 
 
 class NotModified(Exception):
@@ -46,3 +50,20 @@ def rules_cache(
     if_none_match = request.headers.get("if-none-match")
     if if_none_match and etag in {tag.strip() for tag in if_none_match.split(",")}:
         raise NotModified(etag)
+
+
+async def get_session(request: Request) -> AsyncIterator[AsyncSession]:
+    """Yield a request-scoped database session (commit on success, rollback on error)."""
+    factory: async_sessionmaker[AsyncSession] = request.app.state.session_factory
+    async for session in session_scope(factory):
+        yield session
+
+
+def get_character_service(
+    session: Annotated[AsyncSession, Depends(get_session)],
+    rules: Annotated[RulesRepository, Depends(get_rules_repository)],
+) -> CharacterService:
+    return CharacterService(session, rules)
+
+
+CharacterServiceDep = Annotated[CharacterService, Depends(get_character_service)]

@@ -43,11 +43,15 @@ def conjuros_raw(settings: Settings) -> dict[str, Any]:
 
 
 @pytest_asyncio.fixture
-async def client() -> AsyncIterator[AsyncClient]:
-    """An httpx client wired to the ASGI app, with lifespan (corpus load) run."""
-    app = create_app()
-    # Run FastAPI's lifespan (loads the corpus into app.state); httpx's
-    # ASGITransport does not trigger lifespan events on its own.
+async def client(tmp_path: Path) -> AsyncIterator[AsyncClient]:
+    """An httpx client wired to the ASGI app, with an isolated per-test database.
+
+    Lifespan runs (loading the corpus and creating tables); httpx's ASGITransport
+    does not trigger lifespan events on its own.
+    """
+    db_path = tmp_path / "test.db"
+    settings = Settings(database_url=f"sqlite+aiosqlite:///{db_path}")
+    app = create_app(settings)
     async with app.router.lifespan_context(app):
         transport = ASGITransport(app=app)
         async with AsyncClient(transport=transport, base_url="http://test") as ac:
