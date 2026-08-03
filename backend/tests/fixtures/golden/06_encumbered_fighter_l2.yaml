@@ -1,0 +1,38 @@
+name: "Guerrero nivel 2 con carga por encima del máximo pesado"
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: guerrero, class_name: Guerrero, level: 2, bab_type: completo, hit_die: 10,
+       base_saves: {Fortaleza: 3, Reflejos: 0, Voluntad: 0}}
+  base_ability_scores: {Fue: 13, Des: 16, Con: 12, Int: 10, Sab: 10, Car: 8}
+  racial_ability_modifiers: {Fue: 2}   # human +2 to Strength -> 15
+  weapons:
+    - {name: "Espada larga", wield: one_handed, is_ranged: false, threat_range: 19,
+       crit_multiplier: 2, damage_dice: "1d8", damage_type: Cor}
+  max_hp: 20
+  current_hp: 20
+  load: {light_max: 66, medium_max: 133, heavy_max: 200, carried_lb: 210}   # over heavy
+  skills:
+    - {slug: trepar, name: Trepar, ability: Fue, ranks: 2, is_class_skill: true,
+       uses_armor_check_penalty: true}
+expected:
+  abilities:
+    Fue: {score: 15, modifier: 2}
+    Des: {score: 16, modifier: 3}
+  # No armor, but an over-heavy load caps Dex to AC at +1 and imposes -6 check penalty.
+  ac: {total: 11, touch: 11, flat_footed: 10, cap_binds: true}
+  bab: {total: 2, iteratives: [2]}
+  saves: {Fortaleza: 4, Reflejos: 3, Voluntad: 0}
+  initiative: 3
+  cmb: 4
+  cmd: 17     # CMD uses full Dex +3 (not capped by load)
+  attacks:
+    - {weapon: "Espada larga", line: "+4", damage: "1d8+2"}
+  skills:
+    trepar: 1   # 2 ranks + Str 2 + 3 class - 6 load check penalty
+  armor_check_penalty: -6
+  arcane_spell_failure: 0
+  speed: 20
+  warnings_contains:
+    - "Carga por encima del máximo pesado"

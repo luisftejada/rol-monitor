@@ -1,0 +1,41 @@
+name: "Mediano (halfling) pícaro nivel 1 con modificadores de tamaño"
+input:
+  size: Pequeño
+  base_speed_ft: 20
+  class_levels:
+    - {class_slug: picaro, class_name: Pícaro, level: 1, bab_type: "3/4", hit_die: 8,
+       base_saves: {Fortaleza: 0, Reflejos: 2, Voluntad: 0}, is_favored: true}
+  base_ability_scores: {Fue: 12, Des: 15, Con: 12, Int: 10, Sab: 12, Car: 10}
+  racial_ability_modifiers: {Fue: -2, Des: 2, Car: 2}
+  armor: {name: "Cuero", is_shield: false, ac_bonus: 2, max_dex: 6,
+          armor_check_penalty: 0, arcane_spell_failure: 10, category: ligera}
+  weapons:
+    - {name: "Espada corta", wield: one_handed, is_ranged: false, threat_range: 19,
+       crit_multiplier: 2, damage_dice: "1d4", damage_type: Per}
+  natural_armor_bonus: 0
+  max_hp: 9
+  current_hp: 9
+  modifiers:
+    - {target: ALL_SAVES, value: 1, bonus_type: racial, source: "Suerte del mediano",
+       source_kind: race}
+  skills:
+    - {slug: sigilo, name: Sigilo, ability: Des, ranks: 1, is_class_skill: true,
+       uses_armor_check_penalty: true}
+expected:
+  abilities:
+    Fue: {score: 10, modifier: 0}
+    Des: {score: 17, modifier: 3}
+    Car: {score: 12, modifier: 1}
+  ac: {total: 16, touch: 14, flat_footed: 13, cap_binds: false}   # +1 size to AC
+  bab: {total: 0, iteratives: [0]}
+  saves: {Fortaleza: 2, Reflejos: 6, Voluntad: 2}   # includes +1 racial luck to all
+  initiative: 3
+  cmb: -1    # BAB 0 + Str 0 + size -1
+  cmd: 12    # 10 + 0 + 0 + Dex 3 + size -1
+  attacks:
+    - {weapon: "Espada corta", line: "+1", damage: "1d4"}   # BAB 0 + size +1; no Str bonus
+  skills:
+    sigilo: 11   # 1 rank + Dex 3 + 3 class + 4 size (Sigilo)
+  armor_check_penalty: 0
+  arcane_spell_failure: 10
+  speed: 20

@@ -1,0 +1,38 @@
+name: "Multiclase guerrero 8 / pícaro 4 con ataques iterativos"
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: guerrero, class_name: Guerrero, level: 8, bab_type: completo, hit_die: 10,
+       base_saves: {Fortaleza: 6, Reflejos: 2, Voluntad: 2}}
+    - {class_slug: picaro, class_name: Pícaro, level: 4, bab_type: "3/4", hit_die: 8,
+       base_saves: {Fortaleza: 1, Reflejos: 4, Voluntad: 1}, is_favored: true}
+  base_ability_scores: {Fue: 20, Des: 14, Con: 14, Int: 12, Sab: 10, Car: 8}
+  armor: {name: "Cota de mallas", is_shield: false, ac_bonus: 6, max_dex: 2,
+          armor_check_penalty: -5, arcane_spell_failure: 30, category: intermedia}
+  weapons:
+    - {name: "Espada larga +1", wield: one_handed, is_ranged: false, threat_range: 19,
+       crit_multiplier: 2, damage_dice: "1d8", damage_type: Cor, enhancement_bonus: 1}
+  max_hp: 100
+  current_hp: 100
+  skills:
+    - {slug: acrobacias, name: Acrobacias, ability: Des, ranks: 12, is_class_skill: true,
+       uses_armor_check_penalty: true}
+expected:
+  abilities:
+    Fue: {score: 20, modifier: 5}
+    Des: {score: 14, modifier: 2}
+    Con: {score: 14, modifier: 2}
+  ac: {total: 18, touch: 12, flat_footed: 16, cap_binds: false}
+  bab: {total: 11, iteratives: [11, 6, 1]}
+  saves: {Fortaleza: 9, Reflejos: 8, Voluntad: 3}
+  initiative: 2
+  cmb: 16
+  cmd: 28
+  attacks:
+    - {weapon: "Espada larga +1", line: "+17/+12/+7", damage: "1d8+6"}
+  skills:
+    acrobacias: 12   # 12 ranks + Dex 2 + 3 class - 5 ACP
+  armor_check_penalty: -5
+  arcane_spell_failure: 30
+  speed: 20

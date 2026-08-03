@@ -1,0 +1,41 @@
+name: "Guerrero humano nivel 1 con cota de escamas y escudo"
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: guerrero, class_name: Guerrero, level: 1, bab_type: completo, hit_die: 10,
+       base_saves: {Fortaleza: 2, Reflejos: 0, Voluntad: 0}}
+  base_ability_scores: {Fue: 15, Des: 13, Con: 14, Int: 10, Sab: 12, Car: 8}
+  racial_ability_modifiers: {Fue: 2}   # human +2 to Strength
+  armor: {name: "Cota de escamas", is_shield: false, ac_bonus: 5, max_dex: 3,
+          armor_check_penalty: -4, arcane_spell_failure: 25, category: intermedia}
+  shield: {name: "Escudo pesado de acero", is_shield: true, ac_bonus: 2, max_dex: null,
+           armor_check_penalty: -2, arcane_spell_failure: 15, category: escudo}
+  weapons:
+    - {name: "Espada larga", wield: one_handed, is_ranged: false, threat_range: 19,
+       crit_multiplier: 2, damage_dice: "1d8", damage_type: Cor}
+  max_hp: 12
+  current_hp: 12
+  skills:
+    - {slug: intimidar, name: Intimidar, ability: Car, ranks: 1, is_class_skill: true}
+    - {slug: trepar, name: Trepar, ability: Fue, ranks: 1, is_class_skill: true,
+       uses_armor_check_penalty: true}
+expected:
+  abilities:
+    Fue: {score: 17, modifier: 3}
+    Des: {score: 13, modifier: 1}
+    Con: {score: 14, modifier: 2}
+  ac: {total: 18, touch: 11, flat_footed: 17, cap_binds: false}
+  bab: {total: 1, iteratives: [1]}
+  saves: {Fortaleza: 4, Reflejos: 1, Voluntad: 1}
+  initiative: 1
+  cmb: 4
+  cmd: 15
+  attacks:
+    - {weapon: "Espada larga", line: "+4", damage: "1d8+3"}
+  skills:
+    intimidar: 3      # 1 rank + Car -1 + 3 class
+    trepar: 1         # 1 rank + Str 3 + 3 class - 6 ACP
+  armor_check_penalty: -6
+  arcane_spell_failure: 40
+  speed: 20

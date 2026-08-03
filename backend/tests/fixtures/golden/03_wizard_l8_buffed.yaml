@@ -1,0 +1,35 @@
+name: "Mago nivel 8 sin armadura con armadura de mago y escudo activos"
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: mago, class_name: Mago, level: 8, bab_type: "1/2", hit_die: 6,
+       base_saves: {Fortaleza: 2, Reflejos: 2, Voluntad: 6}}
+  base_ability_scores: {Fue: 8, Des: 14, Con: 12, Int: 18, Sab: 12, Car: 10}
+  weapons:
+    - {name: "Bastón", wield: two_handed, is_ranged: false, threat_range: 20,
+       crit_multiplier: 2, damage_dice: "1d6", damage_type: Con}
+  max_hp: 38
+  current_hp: 38
+  modifiers:
+    - {target: AC, value: 4, bonus_type: armadura, source: "Armadura de mago", source_kind: spell}
+    - {target: AC, value: 4, bonus_type: escudo, source: "Escudo (conjuro)", source_kind: spell}
+  skills:
+    - {slug: saber-arcano, name: "Saber (arcano)", ability: Int, ranks: 8, is_class_skill: true}
+expected:
+  abilities:
+    Fue: {score: 8, modifier: -1}
+    Int: {score: 18, modifier: 4}
+  ac: {total: 20, touch: 12, flat_footed: 18, cap_binds: false}
+  bab: {total: 4, iteratives: [4]}
+  saves: {Fortaleza: 3, Reflejos: 4, Voluntad: 7}
+  initiative: 2
+  cmb: 3
+  cmd: 15
+  attacks:
+    - {weapon: "Bastón", line: "+3", damage: "1d6-2"}   # two-handed: Str -1 x1.5 -> -2
+  skills:
+    saber-arcano: 15   # 8 ranks + Int 4 + 3 class
+  armor_check_penalty: 0
+  arcane_spell_failure: 0
+  speed: 30

@@ -1,0 +1,44 @@
+name: "Pícaro nivel 5 con combate con dos armas (dos espadas cortas)"
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: picaro, class_name: Pícaro, level: 5, bab_type: "3/4", hit_die: 8,
+       base_saves: {Fortaleza: 1, Reflejos: 4, Voluntad: 1}}
+  base_ability_scores: {Fue: 14, Des: 16, Con: 12, Int: 13, Sab: 10, Car: 8}
+  racial_ability_modifiers: {Des: 2}   # human +2 to Dexterity
+  armor: {name: "Cuero", is_shield: false, ac_bonus: 2, max_dex: 6,
+          armor_check_penalty: 0, arcane_spell_failure: 10, category: ligera}
+  weapons:
+    - {name: "Espada corta (principal)", wield: one_handed, is_ranged: false,
+       threat_range: 19, crit_multiplier: 2, damage_dice: "1d6", damage_type: Per}
+    - {name: "Espada corta (secundaria)", wield: off_hand, is_ranged: false,
+       threat_range: 19, crit_multiplier: 2, damage_dice: "1d6", damage_type: Per}
+  two_weapon_fighting: {enabled: true, has_light_off_hand: true, has_twf_feat: true}
+  max_hp: 34
+  current_hp: 34
+  skills:
+    - {slug: acrobacias, name: Acrobacias, ability: Des, ranks: 5, is_class_skill: true,
+       uses_armor_check_penalty: true}
+    - {slug: sigilo, name: Sigilo, ability: Des, ranks: 5, is_class_skill: true,
+       uses_armor_check_penalty: true}
+expected:
+  abilities:
+    Fue: {score: 14, modifier: 2}
+    Des: {score: 18, modifier: 4}
+  ac: {total: 16, touch: 14, flat_footed: 12, cap_binds: false}
+  bab: {total: 3, iteratives: [3]}
+  saves: {Fortaleza: 2, Reflejos: 8, Voluntad: 1}
+  initiative: 4
+  cmb: 5
+  cmd: 19
+  attacks:
+    # -2/-2 two-weapon penalty (light off-hand + TWF feat). Melee uses Strength.
+    - {weapon: "Espada corta (principal)", line: "+3", damage: "1d6+2"}
+    - {weapon: "Espada corta (secundaria)", line: "+3", damage: "1d6+1"}  # off-hand: Str x1/2
+  skills:
+    acrobacias: 12   # 5 ranks + Dex 4 + 3 class
+    sigilo: 12
+  armor_check_penalty: 0
+  arcane_spell_failure: 10
+  speed: 30
