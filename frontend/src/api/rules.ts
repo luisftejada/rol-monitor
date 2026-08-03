@@ -2,6 +2,7 @@ import { apiGet } from "./client";
 import type {
   ArmorDTO,
   ClassSummaryDTO,
+  ConditionDTO,
   FeatDTO,
   MetaDTO,
   RaceDTO,
@@ -52,4 +53,8 @@ export function getWeapons(): Promise<WeaponDTO[]> {
 
 export function getArmor(): Promise<ArmorDTO[]> {
   return apiGet<ArmorDTO[]>("/rules/armor");
+}
+
+export function getConditions(): Promise<ConditionDTO[]> {
+  return apiGet<ConditionDTO[]>("/rules/conditions");
 }

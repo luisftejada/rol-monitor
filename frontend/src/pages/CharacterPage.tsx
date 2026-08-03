@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 
 import { CombatCard } from "@/components/CombatCard";
+import { CombatTracker } from "@/features/tracker/CombatTracker";
 import { useCharacter, useCombatSheet } from "@/hooks/useCharacters";
 import { t } from "@/i18n";
 
@@ -33,7 +34,12 @@ export function CharacterPage(): React.JSX.Element {
         </div>
       )}
 
-      {character.data && sheet.data && <CombatCard name={character.data.name} sheet={sheet.data} />}
+      {character.data && sheet.data && (
+        <div className="combat-view">
+          <CombatCard name={character.data.name} sheet={sheet.data} />
+          <CombatTracker character={character.data} />
+        </div>
+      )}
     </section>
   );
 }

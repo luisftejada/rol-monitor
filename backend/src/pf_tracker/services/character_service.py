@@ -16,8 +16,10 @@ from pf_tracker.schemas.character import (
     CharacterPatch,
     CharacterRead,
     CharacterSummary,
+    ModifierIn,
     new_character,
 )
+from pf_tracker.schemas.combat import ModifierCreate, ModifierPatch
 from pf_tracker.schemas.combat_sheet import CombatSheetResponse, to_combat_sheet_response
 from pf_tracker.services.assembler import assemble
 
@@ -69,6 +71,88 @@ class CharacterService:
         clone = CharacterCreate(**existing.model_dump(exclude={"id", "created_at", "updated_at"}))
         clone.name = f"{clone.name} (copia)"
         return await self.create(clone)
+
+    # ------------------------------------------------------ combat tracking
+    async def _save(self, character: CharacterRead) -> CharacterRead | None:
+        character.updated_at = _now()
+        return await self._repo.replace(character)
+
+    async def add_modifier(self, character_id: str, data: ModifierCreate) -> CharacterRead | None:
+        character = await self._repo.get(character_id)
+        if character is None:
+            return None
+        character.modifiers = [*character.modifiers, ModifierIn(**data.model_dump())]
+        return await self._save(character)
+
+    async def remove_modifier(self, character_id: str, modifier_id: str) -> CharacterRead | None:
+        character = await self._repo.get(character_id)
+        if character is None:
+            return None
+        remaining = [m for m in character.modifiers if m.id != modifier_id]
+        if len(remaining) == len(character.modifiers):
+            return None  # modifier not found -> 404
+        character.modifiers = remaining
+        return await self._save(character)
+
+    async def patch_modifier(
+        self, character_id: str, modifier_id: str, patch: ModifierPatch
+    ) -> CharacterRead | None:
+        character = await self._repo.get(character_id)
+        if character is None:
+            return None
+        changes = patch.model_dump(exclude_unset=True)
+        updated: list[ModifierIn] = []
+        found = False
+        for modifier in character.modifiers:
+            if modifier.id == modifier_id:
+                found = True
+                updated.append(modifier.model_copy(update=changes))
+            else:
+                updated.append(modifier)
+        if not found:
+            return None
+        character.modifiers = updated
+        return await self._save(character)
+
+    async def set_condition(
+        self, character_id: str, condition: str, active: bool
+    ) -> CharacterRead | None:
+        character = await self._repo.get(character_id)
+        if character is None:
+            return None
+        conditions = [c for c in character.active_conditions if c != condition]
+        if active:
+            conditions.append(condition)
+        character.active_conditions = conditions
+        return await self._save(character)
+
+    async def tick(self, character_id: str, rounds: int) -> CharacterRead | None:
+        """Advance N rounds: decrement timed durations and drop expired effects."""
+        character = await self._repo.get(character_id)
+        if character is None:
+            return None
+
+        kept_modifiers: list[ModifierIn] = []
+        for modifier in character.modifiers:
+            if modifier.expires_in_rounds is None:
+                kept_modifiers.append(modifier)
+                continue
+            remaining = modifier.expires_in_rounds - rounds
+            if remaining > 0:
+                kept_modifiers.append(modifier.model_copy(update={"expires_in_rounds": remaining}))
+        character.modifiers = kept_modifiers
+
+        kept_effects = []
+        for effect in character.active_effects:
+            if effect.remaining_rounds is None:
+                kept_effects.append(effect)
+                continue
+            remaining = effect.remaining_rounds - rounds
+            if remaining > 0:
+                kept_effects.append(effect.model_copy(update={"remaining_rounds": remaining}))
+        character.active_effects = kept_effects
+
+        return await self._save(character)
 
     async def list(self, *, limit: int, offset: int, search: str | None) -> CharacterListResponse:
         characters, total = await self._repo.list(limit=limit, offset=offset, search=search)

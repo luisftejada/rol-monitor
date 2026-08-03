@@ -5,6 +5,7 @@
 import type {
   ArmorDTO,
   ClassSummaryDTO,
+  ConditionDTO,
   FeatDTO,
   MetaDTO,
   RaceDTO,
@@ -185,4 +186,10 @@ export const armor: ArmorDTO[] = [
     speed_20: null,
     weight: "15 libras",
   },
+];
+
+export const conditions: ConditionDTO[] = [
+  { slug: "fatigado", name: "Fatigado", effect: "-2 a Fue y Des." },
+  { slug: "cegado", name: "Cegado", effect: "-2 a la CA, pierde Des." },
+  { slug: "sacudido", name: "Sacudido", effect: "-2 a ataques, salvaciones y pruebas." },
 ];

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getArmor,
   getClasses,
+  getConditions,
   getFeats,
   getMeta,
   getRaces,
@@ -40,6 +41,10 @@ export function useWeapons() {
 
 export function useArmor() {
   return useQuery({ queryKey: ["rules", "armor"], queryFn: getArmor, ...CATALOG });
+}
+
+export function useConditions() {
+  return useQuery({ queryKey: ["rules", "conditions"], queryFn: getConditions, ...CATALOG });
 }
 
 export function useFeats(params: FeatParams) {

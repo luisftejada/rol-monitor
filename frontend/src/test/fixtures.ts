@@ -86,6 +86,26 @@ export const fighterCharacter: CharacterRead = {
   updated_at: "2026-08-03T00:00:00Z",
 };
 
+export const trackedCharacter: CharacterRead = {
+  ...fighterCharacter,
+  current_hp: 12,
+  max_hp: 12,
+  active_conditions: ["fatigado"],
+  modifiers: [
+    {
+      id: "mod-1",
+      target: "ALL_ATTACKS",
+      value: 1,
+      bonus_type: "moral",
+      source: "Bendecir",
+      source_kind: "spell",
+      condition: null,
+      is_active: true,
+      expires_in_rounds: 3,
+    },
+  ],
+};
+
 export const fighterSheet: CombatSheetResponse = {
   abilities: {
     Fue: { score: 17, modifier: 3, base: 15, racial: 2, level_increment: 0, damage: 0 },

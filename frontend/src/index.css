@@ -379,3 +379,95 @@ select,
 .field--narrow {
   max-width: 6rem;
 }
+
+/* --- combat tracker --- */
+.combat-view {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 60rem) {
+  .combat-view {
+    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+  }
+}
+.tracker {
+  display: grid;
+  gap: 1rem;
+}
+.tracker__block {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+.tracker__block h3 {
+  margin: 0;
+}
+.tracker__block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.hp__total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+.hp__controls {
+  display: flex;
+  align-items: end;
+  gap: 0.5rem;
+}
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 999px;
+}
+.stances {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+.effects {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+.effects li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.effects li.is-inactive {
+  opacity: 0.55;
+}
+.effects__rounds {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.add-modifier {
+  align-items: end;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+}

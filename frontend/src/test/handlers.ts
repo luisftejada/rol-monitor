@@ -19,8 +19,18 @@ export const handlers = [
   ),
   http.delete(`${BASE}/characters/:id`, () => new HttpResponse(null, { status: 204 })),
   http.put(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),
+  http.patch(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),
   http.post(`${BASE}/characters`, () => HttpResponse.json(fighterCharacter, { status: 201 })),
   http.post(`${BASE}/derive`, () => HttpResponse.json(fighterSheet)),
+
+  // Combat tracking
+  http.post(`${BASE}/characters/:id/modifiers`, () =>
+    HttpResponse.json(fighterCharacter, { status: 201 }),
+  ),
+  http.patch(`${BASE}/characters/:id/modifiers/:mid`, () => HttpResponse.json(fighterCharacter)),
+  http.delete(`${BASE}/characters/:id/modifiers/:mid`, () => HttpResponse.json(fighterCharacter)),
+  http.post(`${BASE}/characters/:id/conditions`, () => HttpResponse.json(fighterCharacter)),
+  http.post(`${BASE}/characters/:id/tick`, () => HttpResponse.json(fighterCharacter)),
 
   // Rules catalog
   http.get(`${BASE}/rules/meta`, () => HttpResponse.json(catalog.meta)),
@@ -30,4 +40,5 @@ export const handlers = [
   http.get(`${BASE}/rules/feats`, () => HttpResponse.json(catalog.feats)),
   http.get(`${BASE}/rules/weapons`, () => HttpResponse.json(catalog.weapons)),
   http.get(`${BASE}/rules/armor`, () => HttpResponse.json(catalog.armor)),
+  http.get(`${BASE}/rules/conditions`, () => HttpResponse.json(catalog.conditions)),
 ];

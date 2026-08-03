@@ -300,6 +300,75 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/characters/{character_id}/modifiers": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Add Modifier */
+    post: operations["add_modifier_api_v1_characters__character_id__modifiers_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/characters/{character_id}/modifiers/{modifier_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** Remove Modifier */
+    delete: operations["remove_modifier_api_v1_characters__character_id__modifiers__modifier_id__delete"];
+    options?: never;
+    head?: never;
+    /** Patch Modifier */
+    patch: operations["patch_modifier_api_v1_characters__character_id__modifiers__modifier_id__patch"];
+    trace?: never;
+  };
+  "/api/v1/characters/{character_id}/conditions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Set Condition */
+    post: operations["set_condition_api_v1_characters__character_id__conditions_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/characters/{character_id}/tick": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Tick */
+    post: operations["tick_api_v1_characters__character_id__tick_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/derive": {
     parameters: {
       query?: never;
@@ -1121,6 +1190,19 @@ export interface components {
       /** Effect */
       effect: string;
     };
+    /**
+     * ConditionUpdate
+     * @description Apply or remove a condition (`estado`) by slug.
+     */
+    ConditionUpdate: {
+      /** Condition */
+      condition: string;
+      /**
+       * Active
+       * @default true
+       */
+      active: boolean;
+    };
     /** CriticalDTO */
     CriticalDTO: {
       /** Threat Range */
@@ -1249,6 +1331,34 @@ export interface components {
         [key: string]: number;
       };
     };
+    /**
+     * ModifierCreate
+     * @description Body for adding an ad-hoc / spell / item modifier to a character.
+     */
+    ModifierCreate: {
+      /** Target */
+      target: string;
+      /** Value */
+      value: number;
+      /** Bonus Type */
+      bonus_type?: string | null;
+      /** Source */
+      source: string;
+      /**
+       * Source Kind
+       * @default manual
+       */
+      source_kind: string;
+      /** Condition */
+      condition?: string | null;
+      /**
+       * Is Active
+       * @default true
+       */
+      is_active: boolean;
+      /** Expires In Rounds */
+      expires_in_rounds?: number | null;
+    };
     /** ModifierIn */
     ModifierIn: {
       /** Id */
@@ -1273,6 +1383,20 @@ export interface components {
        * @default true
        */
       is_active: boolean;
+      /** Expires In Rounds */
+      expires_in_rounds?: number | null;
+    };
+    /**
+     * ModifierPatch
+     * @description Partial update of a modifier: toggle active or edit its duration/value.
+     */
+    ModifierPatch: {
+      /** Is Active */
+      is_active?: boolean | null;
+      /** Value */
+      value?: number | null;
+      /** Condition */
+      condition?: string | null;
       /** Expires In Rounds */
       expires_in_rounds?: number | null;
     };
@@ -1440,6 +1564,17 @@ export interface components {
       type: string | null;
       /** Reason */
       reason: string;
+    };
+    /**
+     * TickRequest
+     * @description Advance the combat clock by N rounds, expiring timed effects.
+     */
+    TickRequest: {
+      /**
+       * Rounds
+       * @default 1
+       */
+      rounds: number;
     };
     /** ValidationError */
     ValidationError: {
@@ -2102,6 +2237,179 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["CombatSheetResponse"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  add_modifier_api_v1_characters__character_id__modifiers_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        character_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifierCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CharacterRead"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  remove_modifier_api_v1_characters__character_id__modifiers__modifier_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        character_id: string;
+        modifier_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CharacterRead"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  patch_modifier_api_v1_characters__character_id__modifiers__modifier_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        character_id: string;
+        modifier_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ModifierPatch"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CharacterRead"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  set_condition_api_v1_characters__character_id__conditions_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        character_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ConditionUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CharacterRead"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  tick_api_v1_characters__character_id__tick_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        character_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TickRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CharacterRead"];
         };
       };
       /** @description Validation Error */

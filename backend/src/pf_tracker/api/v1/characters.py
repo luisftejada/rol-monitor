@@ -14,6 +14,12 @@ from pf_tracker.schemas.character import (
     CharacterPatch,
     CharacterRead,
 )
+from pf_tracker.schemas.combat import (
+    ConditionUpdate,
+    ModifierCreate,
+    ModifierPatch,
+    TickRequest,
+)
 from pf_tracker.schemas.combat_sheet import CombatSheetResponse
 
 router = APIRouter(prefix="/characters", tags=["characters"])
@@ -102,3 +108,56 @@ async def combat_sheet(service: CharacterServiceDep, character_id: str) -> Comba
     if sheet is None:
         raise _NOT_FOUND
     return sheet
+
+
+# ---------------------------------------------------------------- combat tracking
+@router.post(
+    "/{character_id}/modifiers",
+    response_model=CharacterRead,
+    status_code=status.HTTP_201_CREATED,
+)
+async def add_modifier(
+    service: CharacterServiceDep, character_id: str, body: ModifierCreate
+) -> CharacterRead:
+    character = await service.add_modifier(character_id, body)
+    if character is None:
+        raise _NOT_FOUND
+    return character
+
+
+@router.patch("/{character_id}/modifiers/{modifier_id}", response_model=CharacterRead)
+async def patch_modifier(
+    service: CharacterServiceDep, character_id: str, modifier_id: str, body: ModifierPatch
+) -> CharacterRead:
+    character = await service.patch_modifier(character_id, modifier_id, body)
+    if character is None:
+        raise _NOT_FOUND
+    return character
+
+
+@router.delete("/{character_id}/modifiers/{modifier_id}", response_model=CharacterRead)
+async def remove_modifier(
+    service: CharacterServiceDep, character_id: str, modifier_id: str
+) -> CharacterRead:
+    character = await service.remove_modifier(character_id, modifier_id)
+    if character is None:
+        raise _NOT_FOUND
+    return character
+
+
+@router.post("/{character_id}/conditions", response_model=CharacterRead)
+async def set_condition(
+    service: CharacterServiceDep, character_id: str, body: ConditionUpdate
+) -> CharacterRead:
+    character = await service.set_condition(character_id, body.condition, body.active)
+    if character is None:
+        raise _NOT_FOUND
+    return character
+
+
+@router.post("/{character_id}/tick", response_model=CharacterRead)
+async def tick(service: CharacterServiceDep, character_id: str, body: TickRequest) -> CharacterRead:
+    character = await service.tick(character_id, body.rounds)
+    if character is None:
+        raise _NOT_FOUND
+    return character

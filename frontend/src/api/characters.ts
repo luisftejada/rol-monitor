@@ -1,9 +1,13 @@
-import { apiDelete, apiGet, apiPost, apiPut } from "./client";
+import { apiDelete, apiGet, apiPatch, apiPost, apiPut } from "./client";
 import type {
   CharacterCreate,
   CharacterListResponse,
+  CharacterPatch,
   CharacterRead,
   CombatSheetResponse,
+  ConditionUpdate,
+  ModifierCreate,
+  ModifierPatch,
 } from "./types";
 
 export interface ListParams {
@@ -46,5 +50,34 @@ export function duplicateCharacter(id: string): Promise<CharacterRead> {
 }
 
 export function deleteCharacter(id: string): Promise<void> {
-  return apiDelete(`/characters/${id}`);
+  return apiDelete<void>(`/characters/${id}`);
+}
+
+export function patchCharacter(id: string, body: CharacterPatch): Promise<CharacterRead> {
+  return apiPatch<CharacterRead>(`/characters/${id}`, body);
+}
+
+// --- combat tracking ---
+export function addModifier(id: string, body: ModifierCreate): Promise<CharacterRead> {
+  return apiPost<CharacterRead>(`/characters/${id}/modifiers`, body);
+}
+
+export function patchModifier(
+  id: string,
+  modifierId: string,
+  body: ModifierPatch,
+): Promise<CharacterRead> {
+  return apiPatch<CharacterRead>(`/characters/${id}/modifiers/${modifierId}`, body);
+}
+
+export function removeModifier(id: string, modifierId: string): Promise<CharacterRead> {
+  return apiDelete<CharacterRead>(`/characters/${id}/modifiers/${modifierId}`);
+}
+
+export function setCondition(id: string, body: ConditionUpdate): Promise<CharacterRead> {
+  return apiPost<CharacterRead>(`/characters/${id}/conditions`, body);
+}
+
+export function tickRounds(id: string, rounds: number): Promise<CharacterRead> {
+  return apiPost<CharacterRead>(`/characters/${id}/tick`, { rounds });
 }

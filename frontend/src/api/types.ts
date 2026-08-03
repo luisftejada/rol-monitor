@@ -32,7 +32,19 @@ export type FeatDTO = Schemas["FeatDTO"];
 export type WeaponDTO = Schemas["WeaponDTO"];
 export type ArmorDTO = Schemas["ArmorDTO"];
 
+export type ConditionDTO = Schemas["ConditionDTO"];
+
 // Character editing
+export type CharacterPatch = Schemas["CharacterPatch"];
 export type ClassLevelIn = Schemas["ClassLevelIn"];
 export type EquippedArmorIn = Schemas["EquippedArmorIn"];
 export type EquippedWeaponIn = Schemas["EquippedWeaponIn"];
+export type ModifierIn = Schemas["ModifierIn"];
+export type ActiveEffectIn = Schemas["ActiveEffectIn"];
+export type StancesIn = Schemas["StancesIn"];
+
+// Combat tracking
+export type ModifierCreate = Schemas["ModifierCreate"];
+export type ModifierPatch = Schemas["ModifierPatch"];
+export type ConditionUpdate = Schemas["ConditionUpdate"];
+export type TickRequest = Schemas["TickRequest"];
