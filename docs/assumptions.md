@@ -8,6 +8,4 @@ Format: one entry per assumption, newest first.
 
 | Date | Area | Assumption | Rationale |
 | ---- | ---- | ---------- | --------- |
-
-_No assumptions recorded yet. Entries will be added as the domain engine is built
-in phase 2._
+| 2026-08-03 | Prestige classes | Three prestige classes ship with incomplete `progresion` in the vendored corpus: `cronista_pathfinder` and `danzarin_sombrio` have 0 rows, `duelista` has 1. The catalog exposes them with `max_level` equal to the rows present; requesting a progression level beyond that returns 404. | The corpus is vendored, read-only, and the PC module is the milestone; prestige/NPC support is secondary. We surface what exists rather than inventing missing rows. A data-contract test pins the known-incomplete set so any change is caught. |
