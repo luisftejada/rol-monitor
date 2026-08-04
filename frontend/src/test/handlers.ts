@@ -17,6 +17,10 @@ export const handlers = [
   http.post(`${BASE}/characters/:id/duplicate`, () =>
     HttpResponse.json(fighterCharacter, { status: 201 }),
   ),
+  http.get(`${BASE}/characters/:id/export`, () => HttpResponse.json(fighterCharacter)),
+  http.post(`${BASE}/characters/import`, () =>
+    HttpResponse.json(fighterCharacter, { status: 201 }),
+  ),
   http.delete(`${BASE}/characters/:id`, () => new HttpResponse(null, { status: 204 })),
   http.put(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),
   http.patch(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),

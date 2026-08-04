@@ -36,8 +36,9 @@ typecheck: ## Type-check both stacks
 	cd $(BACKEND) && poetry run mypy
 	cd $(FRONTEND) && npm run typecheck
 
-coverage: ## Run tests with coverage thresholds enforced
+coverage: ## Run tests with coverage thresholds enforced (domain >= 95%, overall >= 85%)
 	cd $(BACKEND) && poetry run pytest --cov=pf_tracker --cov-report=term-missing --cov-fail-under=85
+	cd $(BACKEND) && poetry run coverage report --include="*/pf_tracker/domain/*" --fail-under=95
 	cd $(FRONTEND) && npm run coverage
 
 migrate: ## Apply database migrations (available from phase 3)

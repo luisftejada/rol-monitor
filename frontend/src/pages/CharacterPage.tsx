@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { CombatCard } from "@/components/CombatCard";
 import { CombatTracker } from "@/features/tracker/CombatTracker";
+import { ExportButton } from "@/features/io/ExportButton";
 import { useCharacter, useCombatSheet } from "@/hooks/useCharacters";
 import { t } from "@/i18n";
 
@@ -15,6 +16,7 @@ export function CharacterPage(): React.JSX.Element {
       <p className="page-actions">
         <Link to="/">← {t("common.back")}</Link>
         {character.data && <Link to={`/characters/${id}/edit`}>{t("editor.edit")}</Link>}
+        {character.data && <ExportButton id={id} name={character.data.name} />}
       </p>
 
       {(character.isPending || sheet.isPending) && <p role="status">{t("common.loading")}</p>}

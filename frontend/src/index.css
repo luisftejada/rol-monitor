@@ -471,3 +471,50 @@ select,
   align-items: end;
   grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
 }
+
+.list__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 0 0 0.375rem 0;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #a78bfa;
+    --warn-bg: #78350f;
+    --warn-text: #fde68a;
+    color-scheme: dark;
+  }
+  .roster th {
+    background: #334155;
+  }
+  .combobox__option.is-active {
+    background: #4c1d95;
+  }
+  .owned-feats li,
+  .weapons li {
+    background: #334155;
+  }
+  .chip {
+    background: #7f1d1d;
+    color: #fecaca;
+  }
+}

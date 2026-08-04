@@ -69,15 +69,27 @@ docs/      Architecture Decision Records and recorded rules assumptions.
 
 See [CLAUDE.md](CLAUDE.md) for the layering rules and conventions.
 
+## Accessibility
+
+The UI targets WCAG 2.1 AA: semantic HTML, labelled controls, keyboard-complete
+comboboxes, a skip link, visible focus rings, an `aria-live` combat card, and no
+colour-only signalling. It is theme-aware (light/dark via `prefers-color-scheme`).
+Automated `jest-axe` checks run over the key screens in the test suite.
+
 ## Architecture decisions
+
+Recorded as ADRs in [docs/adr/](docs/adr/):
 
 - **Single source of truth for calculations is the backend.** The frontend never
   re-implements a Pathfinder formula; it renders the breakdowns `/derive` returns.
 - **Spanish data, English code.** The rules corpus is Spanish and treated as opaque
   canonical identifiers; all code artifacts are English; the UI is localised to `es`
   through an i18n layer.
-- **The vendored rules loader is wrapped, not forked.** See
-  [docs/adr/](docs/adr/).
+- **The vendored rules loader is wrapped, not forked.**
+- **Modifiers are first-class persisted entities**, resolved by the stacking engine
+  at read time, so every number is auditable.
+- **Multiclass BAB from formula, saves from tables**; **characters persist as a JSON
+  document**; **the editor uses controlled draft state**.
 
 ## How the rules corpus is consumed
 

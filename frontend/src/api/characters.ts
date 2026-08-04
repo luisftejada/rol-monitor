@@ -49,6 +49,14 @@ export function duplicateCharacter(id: string): Promise<CharacterRead> {
   return apiPost<CharacterRead>(`/characters/${id}/duplicate`);
 }
 
+export function exportCharacter(id: string): Promise<CharacterRead> {
+  return apiGet<CharacterRead>(`/characters/${id}/export`);
+}
+
+export function importCharacter(document: unknown): Promise<CharacterRead> {
+  return apiPost<CharacterRead>("/characters/import", document);
+}
+
 export function deleteCharacter(id: string): Promise<void> {
   return apiDelete<void>(`/characters/${id}`);
 }

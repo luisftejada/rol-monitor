@@ -34,8 +34,11 @@ jobs:
       - name: Type-check (mypy --strict)
         run: poetry run mypy
 
-      - name: Tests + coverage gate
+      - name: Tests + overall coverage gate (>= 85%)
         run: poetry run pytest --cov=pf_tracker --cov-report=term-missing --cov-fail-under=85
+
+      - name: Domain coverage gate (>= 95%)
+        run: poetry run coverage report --include="*/pf_tracker/domain/*" --fail-under=95
 
   frontend:
     runs-on: ubuntu-latest

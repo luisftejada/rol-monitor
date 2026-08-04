@@ -6,6 +6,9 @@ import { t } from "@/i18n";
 export function Layout(): React.JSX.Element {
   return (
     <div className="layout">
+      <a className="skip-link" href="#main">
+        {t("skip.toContent")}
+      </a>
       <header className="layout__header">
         <Link to="/" className="layout__brand">
           <strong>{t("app.title")}</strong>
@@ -13,7 +16,7 @@ export function Layout(): React.JSX.Element {
         </Link>
         <HealthBadge />
       </header>
-      <main className="layout__main">
+      <main id="main" className="layout__main">
         <Outlet />
       </main>
     </div>

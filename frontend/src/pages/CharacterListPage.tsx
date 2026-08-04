@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import type { CharacterSummary } from "@/api/types";
 import { CharacterTable } from "@/components/CharacterTable";
+import { ImportButton } from "@/features/io/ImportButton";
 import { useCharacters, useDeleteCharacter, useDuplicateCharacter } from "@/hooks/useCharacters";
 import { t } from "@/i18n";
 
@@ -22,9 +23,12 @@ export function CharacterListPage(): React.JSX.Element {
     <section>
       <div className="list__header">
         <h1>{t("list.title")}</h1>
-        <Link className="button" to="/new">
-          {t("list.action.new")}
-        </Link>
+        <div className="list__actions">
+          <ImportButton />
+          <Link className="button" to="/new">
+            {t("list.action.new")}
+          </Link>
+        </div>
       </div>
 
       <label className="search">

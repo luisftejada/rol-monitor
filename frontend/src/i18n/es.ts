@@ -74,6 +74,10 @@ export const es = {
   "combobox.noResults": "Sin resultados",
 
   "list.action.new": "Nuevo personaje",
+  "list.action.import": "Importar personaje",
+  "list.importError": "El archivo no es un personaje válido.",
+  "sheet.action.export": "Exportar",
+  "skip.toContent": "Saltar al contenido",
 
   "editor.new": "Nuevo personaje",
   "editor.edit": "Editar personaje",

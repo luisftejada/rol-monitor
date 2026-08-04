@@ -91,7 +91,7 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
       </section>
 
       {sheet.attacks.length > 0 && (
-        <section aria-label={t("sheet.attacks")} className="card__attacks">
+        <section className="card__attacks">
           <h3>{t("sheet.attacks")}</h3>
           {sheet.attacks.map((attack, index) => (
             <div key={`${attack.weapon}-${index}`} className="attack">
@@ -124,7 +124,7 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
       )}
 
       {sheet.skills.length > 0 && (
-        <section aria-label={t("sheet.skills")} className="card__skills">
+        <section className="card__skills">
           <h3>{t("sheet.skills")}</h3>
           {sheet.skills.map((skill) => (
             <StatBreakdown
@@ -138,7 +138,7 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
         </section>
       )}
 
-      <section aria-label={t("sheet.hp")} className="card__vitals">
+      <section className="card__vitals">
         <p>
           {t("sheet.hp")}: {sheet.hp.current}/{sheet.hp.max}
           {sheet.hp.temporary > 0 && ` (+${sheet.hp.temporary} ${t("sheet.hp.temp")})`}
