@@ -53,7 +53,8 @@ make test             # backend + frontend test suites
 make test-backend
 make test-frontend
 make coverage         # enforces coverage thresholds
-make check            # lint + typecheck + tests, both stacks (the CI gate)
+make format-check     # verifies formatting without writing
+make check            # lint + format + typecheck + coverage (mirrors CI exactly)
 ```
 
 ## Project structure

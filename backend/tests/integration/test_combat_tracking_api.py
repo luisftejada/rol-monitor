@@ -52,9 +52,7 @@ async def test_patch_modifier_toggles_active(client: AsyncClient) -> None:
         0
     ]["id"]
 
-    patched = await client.patch(
-        f"{BASE}/{cid}/modifiers/{modifier_id}", json={"is_active": False}
-    )
+    patched = await client.patch(f"{BASE}/{cid}/modifiers/{modifier_id}", json={"is_active": False})
     assert patched.status_code == 200
     assert patched.json()["modifiers"][0]["is_active"] is False
 
@@ -111,6 +109,4 @@ async def test_combat_endpoints_404_for_missing_character(client: AsyncClient) -
     assert (
         await client.post(f"{BASE}/{missing}/conditions", json={"condition": "cegado"})
     ).status_code == 404
-    assert (
-        await client.post(f"{BASE}/{missing}/modifiers", json=_bless())
-    ).status_code == 404
+    assert (await client.post(f"{BASE}/{missing}/modifiers", json=_bless())).status_code == 404

@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help install dev test test-backend test-frontend lint format typecheck coverage migrate seed check gen-api
+.PHONY: help install dev test test-backend test-frontend lint format format-check typecheck coverage migrate seed check gen-api
 
 BACKEND  := backend
 FRONTEND := frontend
@@ -32,6 +32,10 @@ format: ## Auto-format both stacks
 	cd $(BACKEND) && poetry run ruff format .
 	cd $(FRONTEND) && npm run format
 
+format-check: ## Verify formatting without writing (same gate as CI)
+	cd $(BACKEND) && poetry run ruff format --check .
+	cd $(FRONTEND) && npm run format:check
+
 typecheck: ## Type-check both stacks
 	cd $(BACKEND) && poetry run mypy
 	cd $(FRONTEND) && npm run typecheck
@@ -51,4 +55,4 @@ gen-api: ## Regenerate the frontend API types from the backend OpenAPI schema
 	cd $(BACKEND) && poetry run python -c "import json; from pf_tracker.main import create_app; print(json.dumps(create_app().openapi()))" > openapi.json
 	cd $(FRONTEND) && npm run gen:api
 
-check: lint typecheck test ## Run the full CI gate locally
+check: lint format-check typecheck coverage ## Run the full CI gate locally (mirrors .github/workflows/ci.yml)
