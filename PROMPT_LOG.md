@@ -1,5 +1,32 @@
 # Prompt log
 
+### 2026-08-08 — Prestige classes grant their bonus feats
+**Prompt:** sigue
+**Files affected:** `backend/data/pathfinder_nucleo.yaml`,
+`backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/tests/unit/rules/{test_data_contract,test_repository}.py`,
+`backend/tests/unit/services/test_assembler.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `docs/{assumptions,HANDOFF}.md`,
+`docs/corpus/README.md`, `PROMPT_LOG.md`
+**Summary:** First of the corpus errands from the manual sweep. `caballero_arcano`
+(Combat feat at 1/5/9) and `discipulo_del_dragon` (2/5/8) now declare
+`dotes_adicionales`; no code was needed to make them count, since prestige classes
+already went through the same slot mapping — that is what "the container exists and
+is empty" meant. The disciple needed one new thing: a slot can pin *one branch* of a
+list keyed by a choice (`opcion: draconico`), so it resolves to the exact 7 draconic
+feats instead of the 40-feat union a sorcerer's own slot still gets. Resolved lists
+are filed under `key/branch`, because a sorcerer 7 / dragon disciple 2 references
+both. A branch that does not exist resolves to nothing, never to the union: an empty
+picker is visibly wrong, a plausible wrong answer is not. A new contract test walks
+all 42 bonus-feat slots in the corpus and checks every `lista`, `opcion`, `dote` and
+`tipos` hits a real target. `maestro_del_saber` was left out on purpose — its feats
+hang off a *secret*, which is a choice, not a level, so it belongs with domains,
+schools and rogue talents.
+
+---
+
 ### 2026-08-08 — An attack line that costs CMB says so
 **Prompt:** seguimos
 **Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py`,

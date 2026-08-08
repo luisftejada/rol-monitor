@@ -143,6 +143,16 @@ class ClassProgressionRowDTO(_CatalogModel):
     spells_per_day: list[str] | None = None
 
 
+def list_ref(key: str, option: str | None) -> str:
+    """The handle a resolved restricted list is filed under.
+
+    Two slots sharing a corpus key but pinning different branches are two different
+    lists — a sorcerer 7 / dragon disciple 2 has both — so the branch is part of the
+    handle rather than something every caller has to re-derive.
+    """
+    return key if option is None else f"{key}/{option}"
+
+
 class FeatSlotDTO(_CatalogModel):
     """One feat a class or race grants, and what may fill it.
 
@@ -156,11 +166,22 @@ class FeatSlotDTO(_CatalogModel):
     types: list[str] = []
     #: Key into ``dotes.listas_restringidas`` when ``choice`` is ``lista``.
     list_key: str | None = None
+    #: One branch of that list, when the slot pins the choice the list is keyed by.
+    #: A dragon disciple draws from the *draconic* bloodline, not from every one, so
+    #: its list is exact where the sorcerer's own slots resolve to a wider union.
+    list_option: str | None = None
     #: The feat itself when ``choice`` is ``fija``.
     feat: str | None = None
     note: str | None = None
     #: Manual page the entry was taken from, for auditing.
     page: str | None = None
+
+    @property
+    def list_ref(self) -> str | None:
+        """This slot's handle into the resolved lists, if it points at one."""
+        if self.list_key is None:
+            return None
+        return list_ref(self.list_key, self.list_option)
 
 
 # -------------------------------------------------------------------------- skills

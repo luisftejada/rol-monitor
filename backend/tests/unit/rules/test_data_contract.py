@@ -115,6 +115,69 @@ def test_prestige_progression_is_a_valid_subset_of_1_to_10(nucleo_raw: dict[str,
         )
 
 
+# ------------------------------------------------------------- bonus feat slots
+def _bonus_feat_slots(nucleo_raw: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+    """Every ``dotes_adicionales`` entry in the corpus, tagged with its owner.
+
+    Classes are keyed by slug and races are a list, so both shapes are flattened to
+    (owner, slot) rather than special-cased at every call site.
+    """
+    classes = (nucleo_raw["clases"], nucleo_raw["clases_de_prestigio"])
+    owners: list[tuple[str, dict[str, Any]]] = [
+        (key, data) for group in classes for key, data in group.items()
+    ]
+    owners += [(race["nombre"], race) for race in nucleo_raw["razas"]]
+    return [(owner, slot) for owner, data in owners for slot in data.get("dotes_adicionales") or []]
+
+
+def test_every_bonus_feat_slot_is_well_formed(nucleo_raw: dict[str, Any]) -> None:
+    """A slot whose `lista`, `opcion` or `dote` misses its target resolves to an
+    empty list of choices — a silent failure, since an empty picker looks like a
+    filter that matched nothing."""
+    lists = nucleo_raw["dotes"]["listas_restringidas"]
+    feats = {feat["nombre"] for feat in nucleo_raw["dotes"]["lista"]}
+    types = set(nucleo_raw["dotes"]["reglas"]["tipos"])
+
+    for owner, slot in _bonus_feat_slots(nucleo_raw):
+        where = f"{owner} level {slot.get('nivel')}"
+        choice = slot["eleccion"]
+        assert choice in {"libre", "tipos", "lista", "fija"}, f"{where}: unknown choice {choice!r}"
+
+        if choice == "tipos":
+            unknown = set(slot["tipos"]) - types
+            assert not unknown, f"{where}: undeclared feat types {sorted(unknown)}"
+        elif choice == "fija":
+            assert slot["dote"] in feats, f"{where}: grants unknown feat {slot['dote']!r}"
+        elif choice == "lista":
+            spec = lists.get(slot["lista"])
+            assert spec is not None, f"{where}: unknown restricted list {slot['lista']!r}"
+            option = slot.get("opcion")
+            if option is not None:
+                branches = spec.get("opciones") or {}
+                assert option in branches, f"{where}: {slot['lista']} has no branch {option!r}"
+
+
+def test_prestige_classes_that_grant_feats_declare_them(nucleo_raw: dict[str, Any]) -> None:
+    """Pins the three the manual sweep found (docs/corpus/INVENTARIO…), so a corpus
+    regeneration that drops them fails here instead of quietly shrinking a budget.
+
+    `maestro_del_saber` is absent on purpose: its feats hang off a *secret*, a choice
+    the sheet does not model, so it is grouped with domains and rogue talents.
+    """
+    granting = {
+        key
+        for key, data in nucleo_raw["clases_de_prestigio"].items()
+        if data.get("dotes_adicionales")
+    }
+    assert granting == {"caballero_arcano", "discipulo_del_dragon"}
+
+    levels = {
+        key: [slot["nivel"] for slot in nucleo_raw["clases_de_prestigio"][key]["dotes_adicionales"]]
+        for key in granting
+    }
+    assert levels == {"caballero_arcano": [1, 5, 9], "discipulo_del_dragon": [2, 5, 8]}
+
+
 def test_every_bab_string_parses(nucleo_raw: dict[str, Any]) -> None:
     groups = (nucleo_raw["clases"], nucleo_raw["clases_de_prestigio"])
     for group in groups:

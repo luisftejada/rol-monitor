@@ -3966,6 +3966,25 @@ clases_de_prestigio:
     - Voluntad
     clave: caballero_arcano
     requisitos: Competente con todas las armas marciales; capaz de lanzar conjuros arcanos de 3er nivel.
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: el caballero arcano debe cumplir los prerrequisitos de la dote elegida
+      fuente: pág. 380
+    - nivel: 5
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: el caballero arcano debe cumplir los prerrequisitos de la dote elegida
+      fuente: pág. 380
+    - nivel: 9
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: el caballero arcano debe cumplir los prerrequisitos de la dote elegida
+      fuente: pág. 380
     progresion:
     - nivel: 1
       bab: '+1'
@@ -4053,6 +4072,25 @@ clases_de_prestigio:
     - Voluntad
     clave: discipulo_del_dragon
     requisitos: Cualquier raza que no sea dragón; capaz de lanzar conjuros arcanos de 1er nivel sin preparación.
+    dotes_adicionales:
+    - nivel: 2
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      opcion: draconico
+      nota: la dote se elige de la lista del linaje dracónico (pág. 64)
+      fuente: pág. 387
+    - nivel: 5
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      opcion: draconico
+      nota: la dote se elige de la lista del linaje dracónico (pág. 64)
+      fuente: pág. 387
+    - nivel: 8
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      opcion: draconico
+      nota: la dote se elige de la lista del linaje dracónico (pág. 64)
+      fuente: pág. 387
     progresion:
     - nivel: 1
       bab: '+0'

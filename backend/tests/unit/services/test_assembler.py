@@ -464,6 +464,51 @@ def test_combat_expertise_splits_across_the_stance_and_the_weapon_line(
     assert variant.cmb_modifiers == ()
 
 
+def test_a_prestige_class_contributes_its_bonus_feat_slots(
+    rules_repository: RulesRepository,
+) -> None:
+    """The arcane knight grants a combat feat at 1, 5 and 9. Class slots are gated on
+    the level *in that class*, so a wizard 5 / knight 5 has two of the three."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[
+            {"class_slug": "mago", "level": 5},
+            {"class_slug": "caballero_arcano", "level": 5},
+        ],
+    )
+    budget = result.feats
+    knight = [s for s in budget.slots if s.source == "Caballero arcano"]
+    assert [s.level for s in knight] == [1, 5]
+    assert all(s.slot.types == ["Combate"] for s in knight)
+
+
+def test_a_pinned_list_stays_distinct_from_the_wider_one_it_branches_from(
+    rules_repository: RulesRepository,
+) -> None:
+    """A sorcerer 7 / dragon disciple 2 draws from both: the union across bloodlines
+    for their own slot, and the draconic branch for the disciple's. Filing both under
+    the bare corpus key would let one overwrite the other."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[
+            {"class_slug": "hechicero", "level": 7},
+            {"class_slug": "discipulo_del_dragon", "level": 2},
+        ],
+    )
+    lists = result.feats.lists
+    assert "dotes_de_linaje_hechicero" in lists
+    assert "dotes_de_linaje_hechicero/draconico" in lists
+    draconic = set(lists["dotes_de_linaje_hechicero/draconico"])
+    assert draconic and draconic < set(lists["dotes_de_linaje_hechicero"])
+
+    # Each slot points at the list it actually draws from.
+    refs = {s.source: s.slot.list_ref for s in result.feats.slots if s.slot.list_key}
+    assert refs["Hechicero"] == "dotes_de_linaje_hechicero"
+    assert refs["Discípulo del dragón"] == "dotes_de_linaje_hechicero/draconico"
+
+
 def test_a_feat_stance_needs_the_feat(rules_repository: RulesRepository) -> None:
     """Switching on a stance for a feat the character lacks must change nothing."""
     result = _assemble(

@@ -192,3 +192,45 @@ def test_an_unknown_restricted_list_resolves_to_nothing(
     rules_repository: RulesRepository,
 ) -> None:
     assert rules_repository.restricted_feat_list("no_existe", 20) == []
+
+
+def test_pinning_a_branch_narrows_a_list_to_the_exact_one(
+    rules_repository: RulesRepository,
+) -> None:
+    """A dragon disciple draws from the draconic bloodline by definition, so unlike
+    a sorcerer's own slots its list is the truth rather than a union over branches."""
+    key = "dotes_de_linaje_hechicero"
+    draconic = rules_repository.restricted_feat_list(key, 8, "draconico")
+    union = rules_repository.restricted_feat_list(key, 8)
+
+    assert draconic and set(draconic) < set(union)
+    assert "Lucha a ciegas" in draconic  # draconic
+    assert "Conjurar en silencio" not in draconic  # aberrant
+
+
+def test_an_unknown_branch_resolves_to_nothing_rather_than_the_union(
+    rules_repository: RulesRepository,
+) -> None:
+    """Falling back to every bloodline would hide a corpus error behind an answer
+    that looks plausible."""
+    assert rules_repository.restricted_feat_list("dotes_de_linaje_hechicero", 8, "no_existe") == []
+
+
+def test_prestige_classes_carry_their_bonus_feat_slots(
+    rules_repository: RulesRepository,
+) -> None:
+    knight = rules_repository.class_summary("caballero_arcano")
+    assert knight is not None and knight.is_prestige
+    assert [(s.level, s.choice, tuple(s.types)) for s in knight.bonus_feats] == [
+        (1, "tipos", ("Combate",)),
+        (5, "tipos", ("Combate",)),
+        (9, "tipos", ("Combate",)),
+    ]
+
+    disciple = rules_repository.class_summary("discipulo_del_dragon")
+    assert disciple is not None
+    assert [(s.level, s.list_ref) for s in disciple.bonus_feats] == [
+        (2, "dotes_de_linaje_hechicero/draconico"),
+        (5, "dotes_de_linaje_hechicero/draconico"),
+        (8, "dotes_de_linaje_hechicero/draconico"),
+    ]

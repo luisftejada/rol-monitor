@@ -114,6 +114,9 @@ class FeatSlotLineDTO(BaseModel):
     source: str
     choice: str
     types: list[str] = []
+    #: Handle into ``FeatBudgetDTO.lists``. It is the corpus list key, plus the
+    #: branch when the slot pins one (``dotes_de_linaje_hechicero/draconico``), so
+    #: two slots drawing from different branches of one list stay distinct.
     list_key: str | None = None
     feat: str | None = None
     note: str | None = None
@@ -236,7 +239,7 @@ def to_feat_budget_response(budget: FeatBudget) -> FeatBudgetDTO:
                 source=s.source,
                 choice=s.slot.choice,
                 types=list(s.slot.types),
-                list_key=s.slot.list_key,
+                list_key=s.slot.list_ref,
                 feat=s.slot.feat,
                 note=s.slot.note,
             )

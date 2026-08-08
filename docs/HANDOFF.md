@@ -22,7 +22,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **370 backend tests, 101 frontend tests**, coverage 96%+
+Everything should be green: **377 backend tests, 101 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -71,18 +71,26 @@ that motivated each choice.
 
 Roughly in order of value:
 
-1. **Corpus errands**, sized in `docs/corpus/INVENTARIO_dotes_fuera_de_progresion.md`:
-   prestige-class feats (3, container already exists and is empty), then automatic
-   proficiencies (5, they unlock chained prerequisite validation). A schema for
-   domains, arcane schools and rogue talents is proposed but **not applied** in
-   `docs/corpus/DISENO_dominios_talentos.md`.
-2. **A known corpus error**, harmless today, listed in `docs/corpus/README.md`:
+1. **Automatic proficiencies** (5 feats), sized in §4 of
+   `docs/corpus/INVENTARIO_dotes_fuera_de_progresion.md`. They live in
+   `clases.<slug>.competencias` as free prose today; making them real feats unlocks
+   chained prerequisite validation — Competencia con escudo gates Golpear con el
+   escudo mejorado, which is in the ranger's two-weapon style list. Decide which of
+   the two is the source of truth before writing. Fold the known ranger-armour error
+   below into the same errand.
+2. **Choice-gated feat sources**: cleric domains, arcane schools, rogue talents and
+   the lore master's secrets. All four hang off a choice rather than a level, so
+   they wait on their own subsystems; a schema is proposed but **not applied** in
+   `docs/corpus/DISENO_dominios_talentos.md`. The `opcion` key added for the dragon
+   disciple is the mechanism for pointing at one branch of an existing list.
+3. **A known corpus error**, harmless today, listed in `docs/corpus/README.md`:
    the ranger's armour proficiency says light where the manual says light and medium.
-3. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
+4. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
    the weapon picker is built, because the engine acts on nothing else yet.
-4. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
+5. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
    the *union* of all branches, which is wider than the truth, because the sheet does
-   not model the choice. The corpus caveat is shown alongside.
+   not model the choice. The corpus caveat is shown alongside. `opcion` is how a slot
+   pins one branch once the sheet can say which it is.
 
 ## Traps that already cost time here
 

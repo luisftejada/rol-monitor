@@ -262,7 +262,7 @@ class RulesRepository:
     def _restricted_feat_lists(self) -> dict[str, Any]:
         return dict(self._nucleo["dotes"].get("listas_restringidas") or {})
 
-    def restricted_feat_list(self, key: str, level: int) -> list[str]:
+    def restricted_feat_list(self, key: str, level: int, option: str | None = None) -> list[str]:
         """Feat names that may fill a slot restricted to ``key`` at ``level``.
 
         The corpus states these four lists in four different shapes: a type filter
@@ -273,7 +273,9 @@ class RulesRepository:
 
         Where the list depends on a choice the sheet does not model yet — the
         ranger's combat style, the sorcerer's bloodline — the union across choices
-        is returned. It is wider than the truth, and the caller says so.
+        is returned. It is wider than the truth, and the caller says so. ``option``
+        pins that choice where the slot already makes it: a dragon disciple draws
+        from the draconic bloodline by definition, so its list is exact.
         """
         spec = self._restricted_feat_lists.get(key)
         if spec is None:
@@ -288,13 +290,24 @@ class RulesRepository:
                 if any(_norm(t) in wanted_types for t in d["tipos"])
             }
         names |= set(spec.get("dotes") or [])
-        names |= _collect_feat_names(spec.get("opciones"), level)
+        names |= _collect_feat_names(_branch(spec.get("opciones"), option), level)
         return sorted(names)
 
-    def restricted_list_note(self, key: str) -> str | None:
-        """The corpus' own caveat for a list, if it has one."""
+    def restricted_list_note(self, key: str, option: str | None = None) -> str | None:
+        """The corpus' own caveat for a list, if it has one.
+
+        A pinned branch drops the parent's warning about accumulation across levels
+        only if the branch states its own; otherwise the parent's still applies.
+        """
         spec = self._restricted_feat_lists.get(key)
-        return spec.get("nota") if spec else None
+        if spec is None:
+            return None
+        branch = _branch(spec.get("opciones"), option)
+        if isinstance(branch, dict) and branch.get("nota"):
+            note: str = branch["nota"]
+            return note
+        parent: str | None = spec.get("nota")
+        return parent
 
     # ---------------------------------------------------------------- weapons
     @cached_property
@@ -450,6 +463,20 @@ class RulesRepository:
         return result
 
 
+def _branch(options: Any, option: str | None) -> Any:
+    """One named branch of an ``opciones`` block, or the whole block.
+
+    An option the corpus does not have yields nothing rather than silently falling
+    back to the union: a slot pinned to a branch that no longer exists is a corpus
+    error, and returning every bloodline would hide it behind a plausible answer.
+    """
+    if option is None:
+        return options
+    if not isinstance(options, dict):
+        return None
+    return options.get(option)
+
+
 def _collect_feat_names(node: Any, level: int) -> set[str]:
     """Walk an ``opciones`` block, honouring level keys.
 
@@ -480,6 +507,7 @@ def _feat_slots(raw: dict[str, Any]) -> list[FeatSlotDTO]:
             choice=s["eleccion"],
             types=list(s.get("tipos") or []),
             list_key=s.get("lista"),
+            list_option=s.get("opcion"),
             feat=s.get("dote"),
             note=s.get("nota"),
             page=s.get("fuente"),

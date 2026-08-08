@@ -36,7 +36,7 @@ from pf_tracker.domain.models import (
     Character as DomainCharacter,
 )
 from pf_tracker.domain.modifiers import Modifier
-from pf_tracker.rules.catalog import FeatDTO
+from pf_tracker.rules.catalog import FeatDTO, list_ref
 from pf_tracker.rules.feat_effects import apply_feats, effect_holds
 from pf_tracker.rules.feat_slots import ClassLevelRef, FeatBudget, build_budget
 from pf_tracker.rules.feat_targets import parse_feat_target
@@ -394,15 +394,27 @@ def _feat_budget(
         race_slots=race.bonus_feats if race else [],
         chosen=character.feats,
     )
-    # Resolve every restricted list the character's slots point at, once each.
-    keys = {s.slot.list_key for s in budget.slots if s.slot.list_key}
-    if keys:
-        levels = {key: max(s.level for s in budget.slots if s.slot.list_key == key) for key in keys}
+    # Resolve every restricted list the character's slots point at, once each, at the
+    # highest level that references it. A slot pinning a branch of a list is a list of
+    # its own, so the branch is part of what makes two references distinct.
+    highest: dict[tuple[str, str | None], int] = {}
+    for entry in budget.slots:
+        if entry.slot.list_key is None:
+            continue
+        ref = (entry.slot.list_key, entry.slot.list_option)
+        highest[ref] = max(highest.get(ref, entry.level), entry.level)
+
+    if highest:
         budget = replace(
             budget,
-            lists={k: tuple(repo.restricted_feat_list(k, levels[k])) for k in keys},
+            lists={
+                list_ref(key, option): tuple(repo.restricted_feat_list(key, level, option))
+                for (key, option), level in highest.items()
+            },
             list_notes={
-                k: note for k in keys if (note := repo.restricted_list_note(k)) is not None
+                list_ref(key, option): note
+                for key, option in highest
+                if (note := repo.restricted_list_note(key, option)) is not None
             },
         )
 

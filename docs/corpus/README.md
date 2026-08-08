@@ -13,6 +13,17 @@ kept so a number on the sheet can be traced back to a page of the manual.
 
 The corpus itself stays vendored and read-only in `backend/data/`, per CLAUDE.md.
 
+## Applied from the inventory
+
+| Date | What | Where |
+| ---- | ---- | ----- |
+| 2026-08-08 | Prestige-class bonus feats: `caballero_arcano` (1/5/9, p. 380) and `discipulo_del_dragon` (2/5/8, p. 387). The disciple points at the existing draconic bloodline list through a new `opcion` key rather than duplicating it. `maestro_del_saber` was left out on purpose — its feats hang off a *secret*, which is a choice, not a level. | `clases_de_prestigio.{caballero_arcano,discipulo_del_dragon}.dotes_adicionales` |
+
+Still open from the inventory: automatic proficiencies (§4, five feats, they unlock
+chained prerequisite validation), and the choice-gated axes — domains, arcane
+schools, rogue talents and the lore master's secrets — which wait on their own
+subsystems (`DISENO_dominios_talentos.md`).
+
 ## Known corpus errors, not yet corrected
 
 | Where | Says | Manual says | Impact today |

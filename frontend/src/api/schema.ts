@@ -1437,6 +1437,8 @@ export interface components {
       types: string[];
       /** List Key */
       list_key?: string | null;
+      /** List Option */
+      list_option?: string | null;
       /** Feat */
       feat?: string | null;
       /** Note */
