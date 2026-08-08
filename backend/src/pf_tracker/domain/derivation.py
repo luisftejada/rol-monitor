@@ -8,6 +8,7 @@ untyped modifiers so they appear in the breakdown and always stack.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from fractions import Fraction
 
@@ -27,7 +28,7 @@ from pf_tracker.domain.models import CarryingLoad, Character, EquippedWeapon
 from pf_tracker.domain.modifiers import Modifier, ResolvedValue, resolve
 from pf_tracker.domain.rounding import round_down, scaled
 from pf_tracker.domain.sizes import SIZE_AC_ATTACK_MOD, SIZE_CMB_CMD_MOD, SIZE_STEALTH_MOD
-from pf_tracker.domain.stances import power_attack_damage_bonus, stance_modifiers
+from pf_tracker.domain.stances import stance_modifiers
 
 _SAVE_ABILITY: dict[SaveKind, Ability] = {
     SaveKind.FORTITUDE: Ability.CON,
@@ -98,12 +99,17 @@ class AttackRoutine:
     attack_line: str
     attack_breakdown: ResolvedValue
     damage_expression: str | None
+    #: Set only when the first attack differs from the rest (Manyshot): the sheet
+    #: shows both, since "2d8 then 1d8" is not one number.
+    first_attack_damage_expression: str | None
     damage_breakdown: ResolvedValue
     threat_range: int
     crit_multiplier: int
     damage_type: str | None
     range_increment: str | None
     is_proficient: bool
+    #: Prose annotations carried by the weapon (see :attr:`EquippedWeapon.notes`).
+    notes: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -424,6 +430,32 @@ def _str_damage(str_mod: int, weapon: EquippedWeapon) -> int:
     return str_mod
 
 
+_DICE = re.compile(r"^(\d+)d(\d+)$")
+
+
+def multiply_damage_dice(dice: str, factor: int) -> str:
+    """Roll the same dice more times: ``1d8`` twice is ``2d8``.
+
+    Anything that is not a plain ``NdM`` is returned untouched rather than guessed
+    at, so an unexpected corpus notation degrades to the base expression.
+    """
+    if factor <= 1:
+        return dice
+    match = _DICE.match(dice.strip())
+    if match is None:
+        return dice
+    count, faces = int(match.group(1)), match.group(2)
+    return f"{count * factor}d{faces}"
+
+
+def _damage_expression(dice: str | None, total: int, factor: int) -> str | None:
+    """``2d6+7``: the dice (possibly multiplied) plus the resolved flat damage."""
+    if dice is None:
+        return None
+    rolled = multiply_damage_dice(dice, factor)
+    return f"{rolled}{total:+d}" if total else rolled
+
+
 def _attack_routine(
     character: Character,
     weapon: EquippedWeapon,
@@ -479,8 +511,14 @@ def _attack_routine(
             + (1 if character.two_weapon_fighting.greater else 0)
         )
         attack_bonuses = [first - 5 * step for step in range(steps)]
+    elif weapon.single_attack:
+        attack_bonuses = [first]
     else:
         attack_bonuses = [first - 5 * step for step in range(len(bab.iteratives))]
+
+    # Extra attacks are made at the top bonus, so they lead the routine rather than
+    # continuing the iterative sequence downwards.
+    attack_bonuses = [first] * weapon.extra_attacks_at_full_bab + attack_bonuses
 
     # Damage
     dmg_mods: list[Modifier] = []
@@ -497,22 +535,20 @@ def _attack_routine(
                 SourceKind.ITEM,
             )
         )
-    if character.stances.power_attack and not is_ranged:
-        dmg_mods.append(
-            _struct(
-                dmg_target,
-                power_attack_damage_bonus(bab.total, weapon.wield),
-                "Ataque poderoso",
-                SourceKind.STANCE,
-            )
-        )
     dmg_mods.extend(weapon.damage_modifiers)
     damage_breakdown = resolve(dmg_target, [*general_pool, *dmg_mods])
 
-    damage_expression: str | None = None
-    if weapon.damage_dice is not None:
-        total = damage_breakdown.total
-        damage_expression = f"{weapon.damage_dice}{total:+d}" if total else weapon.damage_dice
+    # Only the dice multiply: rolling 2d8 twice does not double the +4 from Strength.
+    damage_expression = _damage_expression(weapon.damage_dice, damage_breakdown.total, 1)
+    first_attack_damage_expression: str | None = None
+    if weapon.damage_dice is not None and weapon.damage_dice_multiplier > 1:
+        multiplied = _damage_expression(
+            weapon.damage_dice, damage_breakdown.total, weapon.damage_dice_multiplier
+        )
+        if weapon.dice_multiplier_first_attack_only:
+            first_attack_damage_expression = multiplied
+        else:
+            damage_expression = multiplied
 
     return AttackRoutine(
         weapon_name=weapon.name,
@@ -521,12 +557,14 @@ def _attack_routine(
         attack_line="/".join(f"{b:+d}" for b in attack_bonuses),
         attack_breakdown=attack_breakdown,
         damage_expression=damage_expression,
+        first_attack_damage_expression=first_attack_damage_expression,
         damage_breakdown=damage_breakdown,
         threat_range=weapon.threat_range,
         crit_multiplier=weapon.crit_multiplier,
         damage_type=weapon.damage_type,
         range_increment=weapon.range_increment,
         is_proficient=weapon.is_proficient,
+        notes=weapon.notes,
     )
 
 

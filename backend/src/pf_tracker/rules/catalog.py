@@ -7,11 +7,36 @@ client key or URL segment.
 
 from __future__ import annotations
 
+import hashlib
+import json
+from functools import cache
+
 from pydantic import BaseModel, ConfigDict
 
 
 class _CatalogModel(BaseModel):
     model_config = ConfigDict(frozen=True)
+
+
+@cache
+def catalog_schema_fingerprint() -> str:
+    """Fingerprint the shape of every catalog DTO.
+
+    Cache validators are built from the corpus bytes, which do not change when a
+    field is added to a DTO. Without this, clients keep serving a cached response
+    that is missing the new field until their freshness window expires. Hashing the
+    JSON schemas means any added, removed, or renamed field invalidates the cache.
+    """
+    models = sorted(
+        (name, obj)
+        for name, obj in globals().items()
+        if isinstance(obj, type) and issubclass(obj, _CatalogModel) and obj is not _CatalogModel
+    )
+    digest = hashlib.sha256()
+    for name, model in models:
+        digest.update(name.encode())
+        digest.update(json.dumps(model.model_json_schema(), sort_keys=True).encode())
+    return digest.hexdigest()[:16]
 
 
 # --------------------------------------------------------------------------- meta
@@ -54,6 +79,24 @@ class MetaDTO(_CatalogModel):
     units: dict[str, str]
     #: Point-buy cost per ability score (from ``caracteristicas.coste_compra_puntos``).
     point_buy_costs: dict[int, int]
+    #: Character levels at which every character gains a feat (``niveles_con_dote``).
+    feat_levels: list[int]
+    #: Canonical feat categories, verbatim from ``dotes.reglas.tipos``. Drives the
+    #: two-level feat picker; taken from the corpus rather than inferred from the
+    #: feats themselves, so the ordering and wording stay authoritative.
+    feat_types: list[str]
+
+
+# --------------------------------------------------------------------- alignments
+class AlignmentDTO(_CatalogModel):
+    """One entry of ``alineamiento.valores`` with its display name from ``nombres``.
+
+    ``code`` (``LB``, ``NB``, …) is the corpus' own ASCII identifier, so it is used
+    verbatim as the stable key instead of slugging the Spanish name.
+    """
+
+    code: str
+    name: str
 
 
 # -------------------------------------------------------------------------- races
@@ -68,6 +111,8 @@ class RaceDTO(_CatalogModel):
     vision: str | None = None
     traits: list[str]
     languages: dict[str, list[str]]
+    #: Feats this race grants (the human's free one, the half-elf's fixed one).
+    bonus_feats: list[FeatSlotDTO] = []
 
 
 # ------------------------------------------------------------------------- classes
@@ -83,6 +128,8 @@ class ClassSummaryDTO(_CatalogModel):
     is_spellcaster: bool
     is_prestige: bool
     max_level: int
+    #: Feats this class grants on top of the ones every character gets.
+    bonus_feats: list[FeatSlotDTO] = []
 
 
 class ClassProgressionRowDTO(_CatalogModel):
@@ -96,6 +143,26 @@ class ClassProgressionRowDTO(_CatalogModel):
     spells_per_day: list[str] | None = None
 
 
+class FeatSlotDTO(_CatalogModel):
+    """One feat a class or race grants, and what may fill it.
+
+    ``choice`` is the corpus' own ``eleccion``: ``libre`` (any feat), ``tipos``
+    (any of the listed categories), ``lista`` (a named restricted list), or ``fija``
+    (already decided — it costs the character no choice).
+    """
+
+    level: int
+    choice: str
+    types: list[str] = []
+    #: Key into ``dotes.listas_restringidas`` when ``choice`` is ``lista``.
+    list_key: str | None = None
+    #: The feat itself when ``choice`` is ``fija``.
+    feat: str | None = None
+    note: str | None = None
+    #: Manual page the entry was taken from, for auditing.
+    page: str | None = None
+
+
 # -------------------------------------------------------------------------- skills
 class SkillDTO(_CatalogModel):
     slug: str
@@ -107,6 +174,29 @@ class SkillDTO(_CatalogModel):
 
 
 # --------------------------------------------------------------------------- feats
+class FeatModifierDTO(_CatalogModel):
+    """One numeric contribution of a feat, in the feats file's own vocabulary.
+
+    ``value`` is an ``int`` for additive bonuses, or a string for the non-scalar
+    forms the corpus warns about ("x2", "2d6", "1_por_dado_de_golpe").
+    """
+
+    target: str
+    bonus_type: str
+    value: int | str
+
+
+class FeatEffectDTO(_CatalogModel):
+    """A feat's mechanical decomposition, gated by an optional condition."""
+
+    condition: str | None = None
+    #: Machine-readable predicate (``ataque_base``, ``rangos_habilidad``, …).
+    when: dict[str, object] = {}
+    modifiers: list[FeatModifierDTO] = []
+    #: Prose for what is not expressible as a modifier.
+    rules: list[str] = []
+
+
 class FeatDTO(_CatalogModel):
     slug: str
     name: str
@@ -114,6 +204,15 @@ class FeatDTO(_CatalogModel):
     prerequisites: str | None = None
     benefit: str | None = None
     is_eligible: bool = True
+    #: How the feat is used; only ``pasiva`` effects apply without being declared.
+    activation: str | None = None
+    #: Whether it is a round-long choice the GM toggles (``Acometer``) rather than a
+    #: passive bonus or a way of attacking.
+    is_stance: bool = False
+    #: What the player must pick when taking it (``weapon``, ``skill``, ``school``),
+    #: stored in the character's ``feat_options``. ``None`` when it takes no option.
+    choice_kind: str | None = None
+    effects: list[FeatEffectDTO] = []
 
 
 # --------------------------------------------------------------------------- weapons

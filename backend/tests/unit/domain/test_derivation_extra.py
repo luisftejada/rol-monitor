@@ -8,6 +8,7 @@ from pf_tracker.domain.derivation import (
     base_bab,
     derive_combat_sheet,
     iterative_bonuses,
+    multiply_damage_dice,
     reduced_speed,
 )
 from pf_tracker.domain.enums import Ability, BabProgression, SaveKind, Size, Wield
@@ -156,3 +157,17 @@ def test_carrying_capacity_reported_and_overload_warning() -> None:
     sheet = derive_combat_sheet(_character(load=load))
     assert sheet.carrying_capacity == {"light_max": 66, "medium_max": 133, "heavy_max": 200}
     assert any("máximo pesado" in w for w in sheet.warnings)
+
+
+@pytest.mark.parametrize(
+    ("dice", "factor", "expected"),
+    [
+        ("1d8", 1, "1d8"),
+        ("1d8", 2, "2d8"),
+        ("2d6", 2, "4d6"),
+        ("1d10", 3, "3d10"),
+        ("special", 2, "special"),  # unparseable notation is left alone
+    ],
+)
+def test_multiply_damage_dice(dice: str, factor: int, expected: str) -> None:
+    assert multiply_damage_dice(dice, factor) == expected

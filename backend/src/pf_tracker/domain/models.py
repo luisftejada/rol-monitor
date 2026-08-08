@@ -57,6 +57,8 @@ class EquippedWeapon:
     is_ranged: bool
     threat_range: int
     crit_multiplier: int
+    #: Unarmed strikes are their own category: some feats only add attacks to them.
+    is_unarmed: bool = False
     is_thrown: bool = False
     damage_dice: str | None = None  # size-appropriate dice, e.g. "1d8"
     damage_type: str | None = None
@@ -66,6 +68,23 @@ class EquippedWeapon:
     #: Extra per-weapon modifiers (weapon-specific feats/stances), applied on top.
     attack_modifiers: tuple[Modifier, ...] = ()
     damage_modifiers: tuple[Modifier, ...] = ()
+    #: How many times the weapon's damage dice are rolled (Vital Strike, Manyshot).
+    #: Only the dice multiply; flat damage bonuses are added once.
+    damage_dice_multiplier: int = 1
+    #: Whether that multiplier applies to the first attack only (Manyshot) rather
+    #: than to every attack in the routine.
+    dice_multiplier_first_attack_only: bool = False
+    #: Extra attacks made at the highest attack bonus (Rapid Shot, Medusa's Wrath).
+    #: They are added to the routine rather than following the iterative sequence.
+    extra_attacks_at_full_bab: int = 0
+    #: Prose shown with this line: what a feat does that is not a number of yours
+    #: (a critical feat applies a condition to the *target*, which no sheet field
+    #: can hold until there is an opponent to hold it).
+    notes: tuple[str, ...] = ()
+    #: Whether this line is a single attack rather than a full-attack routine.
+    #: Vital Strike trades the iteratives for extra dice on one blow, so showing
+    #: "+20/+15/+10/+5" beside its damage would advertise four of them.
+    single_attack: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -89,10 +108,11 @@ class Stances:
     charge: bool = False
     fighting_defensively: bool = False
     total_defense: bool = False
-    power_attack: bool = False
-    combat_expertise: bool = False
     flanking: bool = False
     higher_ground: bool = False
+    #: Names of declared feats currently active (``Acometer``, ``Hendedura``…). Their
+    #: modifiers come from the corpus, so no scaling is recomputed here.
+    feat_stances: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)

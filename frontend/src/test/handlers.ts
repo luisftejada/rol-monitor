@@ -38,6 +38,7 @@ export const handlers = [
 
   // Rules catalog
   http.get(`${BASE}/rules/meta`, () => HttpResponse.json(catalog.meta)),
+  http.get(`${BASE}/rules/alignments`, () => HttpResponse.json(catalog.alignments)),
   http.get(`${BASE}/rules/races`, () => HttpResponse.json(catalog.races)),
   http.get(`${BASE}/rules/classes`, () => HttpResponse.json(catalog.classes)),
   http.get(`${BASE}/rules/skills`, () => HttpResponse.json(catalog.skills)),

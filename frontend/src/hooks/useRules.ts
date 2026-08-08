@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  getAlignments,
   getArmor,
   getClasses,
   getConditions,
@@ -17,6 +18,10 @@ const CATALOG = { staleTime: Infinity, gcTime: Infinity } as const;
 
 export function useMeta() {
   return useQuery({ queryKey: ["rules", "meta"], queryFn: getMeta, ...CATALOG });
+}
+
+export function useAlignments() {
+  return useQuery({ queryKey: ["rules", "alignments"], queryFn: getAlignments, ...CATALOG });
 }
 
 export function useRaces() {

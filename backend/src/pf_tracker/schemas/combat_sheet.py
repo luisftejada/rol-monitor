@@ -16,6 +16,7 @@ from pf_tracker.domain.derivation import (
     SkillResult,
 )
 from pf_tracker.domain.modifiers import Modifier, ResolvedValue, SuppressedModifier
+from pf_tracker.rules.feat_slots import FeatBudget
 
 
 class BreakdownEntry(BaseModel):
@@ -67,12 +68,16 @@ class AttackDTO(BaseModel):
     attack_line: str
     attack: ValueBreakdown
     damage_expression: str | None
+    #: Present only when the first attack differs (Manyshot rolls its dice twice).
+    first_attack_damage_expression: str | None = None
     damage: ValueBreakdown
     threat_range: int
     crit_multiplier: int
     damage_type: str | None
     range_increment: str | None
     is_proficient: bool
+    #: What this weapon does that is not one of your numbers (critical feats).
+    notes: list[str] = []
 
 
 class SkillLineDTO(BaseModel):
@@ -99,6 +104,34 @@ class HpDTO(BaseModel):
     nonlethal: int
 
 
+class FeatSlotLineDTO(BaseModel):
+    """One feat the character is entitled to, and where it came from."""
+
+    level: int
+    source: str
+    choice: str
+    types: list[str] = []
+    list_key: str | None = None
+    feat: str | None = None
+    note: str | None = None
+
+
+class FeatBudgetDTO(BaseModel):
+    """The feat budget, with the same shape as the other counters: a number plus
+    where it came from."""
+
+    available: int
+    spent: int
+    #: Feats a class or race hands over; they cost no choice.
+    granted: list[str] = []
+    slots: list[FeatSlotLineDTO] = []
+    #: Restricted lists referenced by ``slots[].list_key``, resolved to feat names.
+    lists: dict[str, list[str]] = {}
+    #: The corpus' caveat for a list, where it has one (a ranger's style is a choice
+    #: the sheet does not model, so its list is wider than the truth).
+    list_notes: dict[str, str] = {}
+
+
 class CombatSheetResponse(BaseModel):
     abilities: dict[str, AbilityScoreDTO]
     ac: ACDTO
@@ -108,6 +141,7 @@ class CombatSheetResponse(BaseModel):
     cmb: ValueBreakdown
     cmd: ValueBreakdown
     attacks: list[AttackDTO]
+    feats: FeatBudgetDTO
     skills: list[SkillLineDTO]
     speed: SpeedDTO
     armor_check_penalty: int
@@ -162,12 +196,14 @@ def _attack(routine: AttackRoutine) -> AttackDTO:
         attack_line=routine.attack_line,
         attack=_value(routine.attack_breakdown),
         damage_expression=routine.damage_expression,
+        first_attack_damage_expression=routine.first_attack_damage_expression,
         damage=_value(routine.damage_breakdown),
         threat_range=routine.threat_range,
         crit_multiplier=routine.crit_multiplier,
         damage_type=routine.damage_type,
         range_increment=routine.range_increment,
         is_proficient=routine.is_proficient,
+        notes=list(routine.notes),
     )
 
 
@@ -184,9 +220,35 @@ def _skill(skill: SkillResult) -> SkillLineDTO:
     )
 
 
-def to_combat_sheet_response(sheet: CombatSheet) -> CombatSheetResponse:
+def to_feat_budget_response(budget: FeatBudget) -> FeatBudgetDTO:
+    """Map the assembled feat budget to its API representation."""
+    return FeatBudgetDTO(
+        available=budget.available,
+        spent=budget.spent,
+        granted=list(budget.granted),
+        slots=[
+            FeatSlotLineDTO(
+                level=s.level,
+                source=s.source,
+                choice=s.slot.choice,
+                types=list(s.slot.types),
+                list_key=s.slot.list_key,
+                feat=s.slot.feat,
+                note=s.slot.note,
+            )
+            for s in budget.slots
+        ],
+        lists={k: list(v) for k, v in budget.lists.items()},
+        list_notes=dict(budget.list_notes),
+    )
+
+
+def to_combat_sheet_response(
+    sheet: CombatSheet, feats: FeatBudgetDTO | None = None
+) -> CombatSheetResponse:
     """Map the domain combat sheet to its API representation."""
     return CombatSheetResponse(
+        feats=feats or FeatBudgetDTO(available=0, spent=0),
         abilities={
             ability.value: AbilityScoreDTO(
                 score=result.score,

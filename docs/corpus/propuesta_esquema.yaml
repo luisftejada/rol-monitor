@@ -1,0 +1,158 @@
+# PROPUESTA DE ESQUEMA — fragmento de referencia, NO es un parche.
+# No insertar tal cual: sirve para validar la forma y discutirla.
+# Los datos incluidos son reales y verificados contra el PDF; el resto de entradas
+# de cada pool quedarian igual.
+
+# ===========================================================================
+# 1. POOLS  (catalogos compartidos, al mismo nivel que `dotes` o `habilidades`)
+# ===========================================================================
+
+dominios:
+  # clave: slug ASCII snake_case. Compartido por clerigo y druida.
+  oscuridad:
+    nombre: Oscuridad
+    dioses:
+    - Zon-Kuthon
+    pagina: 46
+    dotes_adicionales:
+    - nivel_de_clase: 1
+      eleccion: fija
+      dote: Lucha a ciegas
+      fuente: pág. 46
+    poderes: []            # pendiente; el contenedor existe desde ya
+    conjuros: []           # idem
+
+  nobleza:
+    nombre: Nobleza
+    dioses:
+    - Abadar
+    pagina: 45
+    dotes_adicionales:
+    - nivel_de_clase: 8
+      eleccion: fija
+      dote: Liderazgo
+      condicion: mientras el personaje siga los mandatos de su dios o concepto divino
+      revocable: true
+      nota: concede además un bonificador +2 a la puntuación de Liderazgo, que no es
+        una dote y se modela aparte
+      fuente: pág. 46
+    poderes: []
+    conjuros: []
+
+  runas:
+    nombre: Runas
+    dioses:
+    - Irori
+    - Nethys
+    pagina: 46
+    dotes_adicionales:
+    - nivel_de_clase: 1
+      eleccion: fija
+      dote: Inscribir pergamino
+      fuente: pág. 47
+    poderes: []
+    conjuros: []
+
+  # … los otros 30 dominios, sin `dotes_adicionales`
+
+escuelas_arcanas:
+  nigromancia:
+    nombre: Nigromancia
+    escuela_de_magia: nigromancia      # enlaza con magia.escuelas (en minúscula, como allí)
+    pagina: 71
+    dotes_adicionales:
+    - nivel_de_clase: 1
+      eleccion: lista
+      lista: poder_sobre_los_muertos_vivientes
+      nota: la dote escogida es la única que puede usarse con la canalización de esta
+        aptitud
+      fuente: pág. 71
+    poderes: []
+
+  # … las otras 7 escuelas y universalista, sin `dotes_adicionales`
+
+talentos:
+  picaro:
+    nivel_minimo: 2
+    cada_n_niveles: 2
+    pagina: 81
+    opciones:
+      entrenamiento_en_armas:
+        nombre: Entrenamiento en armas
+        pagina: 82
+        dotes_adicionales:
+        - nivel_de_clase: null       # sin nivel fijo: depende del hueco de talento
+          eleccion: fija
+          dote: Soltura con un arma
+          fuente: pág. 82
+      picaro_sutil:
+        nombre: Pícaro sutil
+        pagina: 82
+        dotes_adicionales:
+        - nivel_de_clase: null
+          eleccion: fija
+          dote: Sutileza con las armas
+          fuente: pág. 82
+      # … el resto de talentos, sin `dotes_adicionales`
+
+  picaro_avanzados:
+    nivel_minimo: 10
+    cada_n_niveles: 2
+    sustituye_a: picaro
+    pagina: 82
+    opciones: {}
+
+# ===========================================================================
+# 2. SLOTS  (dentro de cada clase: cuando y cuantas se escogen)
+# ===========================================================================
+
+clases:
+  clerigo:
+    elecciones:
+    - clave: dominios
+      pool: dominios
+      nivel: 1
+      cantidad: 2
+      restriccion: sólo dominios del dios del clérigo
+      fuente: pág. 40
+
+  druida:
+    elecciones:
+    - clave: vinculo_con_la_naturaleza
+      pool: dominios
+      nivel: 1
+      cantidad: 1
+      subconjunto:
+      - agua
+      - aire
+      - animal
+      - clima
+      - fuego
+      - plantas
+      - tierra
+      excluyente_con: companero_animal
+      fuente: pág. 49
+
+  mago:
+    elecciones:
+    - clave: escuela_arcana
+      pool: escuelas_arcanas
+      nivel: 1
+      cantidad: 1
+      fuente: pág. 69
+    - clave: escuelas_opuestas
+      pool: escuelas_arcanas
+      nivel: 1
+      cantidad: 2
+      tipo: penalizacion
+      nota: escuelas sacrificadas; no conceden nada, encarecen sus conjuros
+      fuente: pág. 69
+
+  picaro:
+    elecciones:
+    - clave: talentos
+      pool: talentos.picaro
+      nivel: 2
+      cada_n_niveles: 2
+      cantidad: 1
+      fuente: pág. 81

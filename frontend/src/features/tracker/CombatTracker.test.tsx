@@ -90,12 +90,90 @@ describe("CombatTracker", () => {
     const user = userEvent.setup();
     const patch = capture("patch", "/api/v1/characters/:id");
     renderWithProviders(<CombatTracker character={trackedCharacter} />);
-    await user.click(screen.getByRole("checkbox", { name: "Ataque poderoso" }));
+    await user.click(screen.getByRole("checkbox", { name: "Cargar" }));
     await waitFor(() =>
-      expect((patch.body as { stances: { power_attack: boolean } }).stances.power_attack).toBe(
-        true,
-      ),
+      expect((patch.body as { stances: { charge: boolean } }).stances.charge).toBe(true),
     );
+  });
+
+  it("offers only the situational stances", async () => {
+    renderWithProviders(<CombatTracker character={trackedCharacter} />);
+    const stances = await screen.findByRole("region", { name: "Posturas" });
+
+    for (const name of [
+      "Cargar",
+      "Luchar a la defensiva",
+      "Defensa total",
+      "Flanqueo",
+      "Superioridad de altura",
+    ]) {
+      expect(within(stances).getByRole("checkbox", { name })).toBeInTheDocument();
+    }
+    expect(within(stances).getAllByRole("checkbox")).toHaveLength(5);
+
+    // Power Attack and Combat Expertise belong to a weapon: they are attack lines,
+    // not round-long choices, and a toggle here would double-count them.
+    expect(screen.queryByRole("checkbox", { name: "Ataque poderoso" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("checkbox", { name: "Pericia en combate" })).not.toBeInTheDocument();
+  });
+
+  it("offers a stance for a feat the character has, and toggles it", async () => {
+    const user = userEvent.setup();
+    const patch = capture("patch", "/api/v1/characters/:id");
+    renderWithProviders(
+      <CombatTracker character={{ ...trackedCharacter, feats: ["Hendedura"] }} />,
+    );
+
+    const toggle = await screen.findByRole("checkbox", { name: "Hendedura" });
+    await user.click(toggle);
+    await waitFor(() =>
+      expect((patch.body as { stances: { feat_stances: string[] } }).stances.feat_stances).toEqual([
+        "Hendedura",
+      ]),
+    );
+  });
+
+  it("explains where each half of a stance feat is applied", async () => {
+    renderWithProviders(
+      <CombatTracker character={{ ...trackedCharacter, feats: ["Hendedura"] }} />,
+    );
+    await screen.findByRole("checkbox", { name: "Hendedura" });
+    expect(screen.getByText(/aparece en su línea de arma/)).toBeInTheDocument();
+  });
+
+  it("spells out what a stance does while it is switched on", async () => {
+    const withFeat = { ...trackedCharacter, feats: ["Hendedura"] };
+
+    // Off: the benefit stays a tooltip.
+    const { unmount } = renderWithProviders(<CombatTracker character={withFeat} />);
+    await screen.findByRole("checkbox", { name: "Hendedura" });
+    expect(screen.queryByText(/Atacas a un segundo enemigo/)).not.toBeInTheDocument();
+    unmount();
+
+    // On: it is on screen, because a number the GM must keep applying each round is
+    // useless hidden behind a hover.
+    renderWithProviders(
+      <CombatTracker
+        character={{
+          ...withFeat,
+          stances: {
+            charge: false,
+            fighting_defensively: false,
+            total_defense: false,
+            flanking: false,
+            higher_ground: false,
+            feat_stances: ["Hendedura"],
+          },
+        }}
+      />,
+    );
+    expect(await screen.findByText(/Atacas a un segundo enemigo/)).toBeInTheDocument();
+  });
+
+  it("does not offer a stance for a feat the character lacks", async () => {
+    renderWithProviders(<CombatTracker character={trackedCharacter} />);
+    await screen.findByRole("region", { name: "Posturas" });
+    expect(screen.queryByRole("checkbox", { name: "Hendedura" })).not.toBeInTheDocument();
   });
 
   it("lists timed effects and advances the round", async () => {

@@ -102,6 +102,10 @@ export function Combobox({
           setActiveIndex(-1);
         }}
         onFocus={() => setOpen(true)}
+        // Committing a selection keeps focus on the input, so a later click emits
+        // no focus event. Without this the list could not be reopened by clicking
+        // the field again — only from the keyboard.
+        onClick={() => setOpen(true)}
         onKeyDown={handleKeyDown}
       />
       {open && (

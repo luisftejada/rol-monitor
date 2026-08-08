@@ -2,16 +2,9 @@
 
 from __future__ import annotations
 
-import pytest
-
-from pf_tracker.domain.enums import BonusType, ModifierTarget, Wield
+from pf_tracker.domain.enums import BonusType, ModifierTarget
 from pf_tracker.domain.models import Stances
-from pf_tracker.domain.stances import power_attack_damage_bonus, scale_step, stance_modifiers
-
-
-@pytest.mark.parametrize(("bab", "step"), [(0, 1), (3, 1), (4, 2), (8, 3), (16, 5)])
-def test_scale_step(bab: int, step: int) -> None:
-    assert scale_step(bab) == step
+from pf_tracker.domain.stances import stance_modifiers
 
 
 def test_no_stances_no_modifiers() -> None:
@@ -34,31 +27,14 @@ def test_fighting_defensively_and_total_defense_are_dodge() -> None:
     assert any(m.value == 4 and m.bonus_type == BonusType.DODGE for m in td)
 
 
-def test_power_attack_and_combat_expertise_scale() -> None:
-    mods = stance_modifiers(Stances(power_attack=True, combat_expertise=True), bab=8)
-    # Each scales to -3 at BAB 8.
-    penalties = [m.value for m in mods if m.target == ModifierTarget.ATTACK_MELEE.value]
-    assert penalties.count(-3) == 2
-    assert any(m.value == 3 and m.bonus_type == BonusType.DODGE for m in mods)
-
-
 def test_flanking_and_higher_ground() -> None:
     mods = stance_modifiers(Stances(flanking=True, higher_ground=True), bab=1)
     values = {m.value for m in mods if m.target == ModifierTarget.ATTACK_MELEE.value}
     assert values == {2, 1}
 
 
-@pytest.mark.parametrize(
-    ("bab", "wield", "expected"),
-    [
-        (0, Wield.ONE_HANDED, 2),
-        (0, Wield.TWO_HANDED, 3),
-        (0, Wield.OFF_HAND, 1),
-        (8, Wield.ONE_HANDED, 6),
-        (8, Wield.TWO_HANDED, 9),
-        (8, Wield.OFF_HAND, 3),
-        (0, Wield.NATURAL, 2),
-    ],
-)
-def test_power_attack_damage_bonus(bab: int, wield: Wield, expected: int) -> None:
-    assert power_attack_damage_bonus(bab, wield) == expected
+def test_power_attack_and_combat_expertise_are_not_stances() -> None:
+    """They belong to a weapon, not to the round: the sheet renders them as
+    alternative attack lines, so a toggle here would count them twice."""
+    assert not hasattr(Stances(), "power_attack")
+    assert not hasattr(Stances(), "combat_expertise")

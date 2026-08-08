@@ -2,9 +2,16 @@
 
 from __future__ import annotations
 
+import pytest
 from httpx import AsyncClient
 
+from pf_tracker.api import deps
+
 BASE = "/api/v1/rules"
+
+# Pinned so a corpus change is noticed rather than silently absorbed. The 2026-08-06
+# feats rewrite took this from 174 to 176.
+FEAT_COUNT = 176
 
 
 async def test_meta_endpoint(client: AsyncClient) -> None:
@@ -18,8 +25,21 @@ async def test_meta_endpoint(client: AsyncClient) -> None:
 
 async def test_meta_sets_cache_headers(client: AsyncClient) -> None:
     response = await client.get(f"{BASE}/meta")
-    assert response.headers["cache-control"] == "public, max-age=3600"
+    assert response.headers["cache-control"] == "public, max-age=60, must-revalidate"
     assert response.headers["etag"]
+
+
+async def test_etag_changes_when_the_response_shape_changes(
+    client: AsyncClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A DTO gaining a field changes no corpus bytes. If the validator ignored the
+    schema, clients would keep serving the older, field-less response."""
+    before = (await client.get(f"{BASE}/meta")).headers["etag"]
+
+    monkeypatch.setattr(deps, "catalog_schema_fingerprint", lambda: "different-shape")
+    after = (await client.get(f"{BASE}/meta")).headers["etag"]
+
+    assert before != after
 
 
 async def test_conditional_request_returns_304(client: AsyncClient) -> None:
@@ -44,6 +64,14 @@ async def test_races_endpoint(client: AsyncClient) -> None:
     races = response.json()
     assert len(races) == 7
     assert {"slug", "name", "ability_modifiers", "languages"} <= races[0].keys()
+
+
+async def test_alignments_endpoint(client: AsyncClient) -> None:
+    response = await client.get(f"{BASE}/alignments")
+    assert response.status_code == 200
+    alignments = response.json()
+    assert len(alignments) == 9
+    assert {"code", "name"} == alignments[0].keys()
 
 
 async def test_classes_include_prestige(client: AsyncClient) -> None:
@@ -92,7 +120,7 @@ async def test_feats_eligibility_query(client: AsyncClient) -> None:
 async def test_feats_default_shows_all_annotated(client: AsyncClient) -> None:
     response = await client.get(f"{BASE}/feats")
     feats = response.json()
-    assert len(feats) == 174
+    assert len(feats) == FEAT_COUNT
     assert all("is_eligible" in f for f in feats)
 
 
@@ -102,7 +130,7 @@ async def test_feats_ignores_malformed_ability_params(client: AsyncClient) -> No
         params={"abilities": ["garbage", "Fue:notanumber"]},
     )
     assert response.status_code == 200
-    assert len(response.json()) == 174
+    assert len(response.json()) == FEAT_COUNT
 
 
 async def test_weapons_search(client: AsyncClient) -> None:

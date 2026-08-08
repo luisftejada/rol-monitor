@@ -14,6 +14,7 @@ def test_meta_exposes_stacking_classification(rules_repository: RulesRepository)
     assert [a.abbr for a in meta.abilities] == ["Fue", "Des", "Con", "Int", "Sab", "Car"]
     assert len(meta.sizes) == 9
     assert meta.units  # non-empty units map
+    assert meta.feat_types == ["General", "Combate", "Metamágica", "Creación de objeto", "Crítico"]
 
 
 def test_size_ac_and_cmb_modifiers_are_inverse(rules_repository: RulesRepository) -> None:
@@ -128,6 +129,12 @@ def test_armor_filter_and_penalty_sign(rules_repository: RulesRepository) -> Non
     assert all(a.armor_check_penalty <= 0 for a in heavy)
 
 
+def test_alignments_follow_corpus_order(rules_repository: RulesRepository) -> None:
+    alignments = rules_repository.alignments
+    assert [a.code for a in alignments] == ["LB", "NB", "CB", "LN", "N", "CN", "LM", "NM", "CM"]
+    assert next(a for a in alignments if a.code == "LN").name == "Legal neutral"
+
+
 def test_conditions_present(rules_repository: RulesRepository) -> None:
     conditions = rules_repository.conditions
     assert len(conditions) == 34
@@ -159,3 +166,29 @@ def test_spells_class_and_search_combined(rules_repository: RulesRepository) -> 
 
 def test_spells_unfiltered_returns_all(rules_repository: RulesRepository) -> None:
     assert len(rules_repository.spells()) == 623
+
+
+def test_restricted_feat_lists_resolve_and_scale_with_level(
+    rules_repository: RulesRepository,
+) -> None:
+    """The corpus states these four lists in four different shapes; resolving them
+    here is what keeps that structure out of the frontend."""
+    monk_1 = rules_repository.restricted_feat_list("dotes_adicionales_monje", 1)
+    monk_6 = rules_repository.restricted_feat_list("dotes_adicionales_monje", 6)
+    assert monk_1 and set(monk_1) < set(monk_6), "later levels add to the list"
+
+    # A type filter plus explicit extras (wizard) resolves to real feat names.
+    wizard = rules_repository.restricted_feat_list("dotes_adicionales_mago", 5)
+    known = {f.name for f in rules_repository.feats()}
+    assert wizard and set(wizard) <= known
+
+    # A choice the sheet does not model yet (the ranger's style) unions its branches.
+    ranger = rules_repository.restricted_feat_list("estilo_de_combate_explorador", 2)
+    assert "Disparo a bocajarro" in ranger and "Combate con dos armas" in ranger
+    assert rules_repository.restricted_list_note("estilo_de_combate_explorador")
+
+
+def test_an_unknown_restricted_list_resolves_to_nothing(
+    rules_repository: RulesRepository,
+) -> None:
+    assert rules_repository.restricted_feat_list("no_existe", 20) == []

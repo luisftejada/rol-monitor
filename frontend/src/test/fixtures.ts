@@ -69,8 +69,6 @@ const characterDefaults = {
     charge: false,
     fighting_defensively: false,
     total_defense: false,
-    power_attack: false,
-    combat_expertise: false,
     flanking: false,
     higher_ground: false,
   },
@@ -160,6 +158,7 @@ export const fighterSheet: CombatSheetResponse = {
       damage_type: "Cor",
       range_increment: null,
       is_proficient: true,
+      notes: ["Crítico agotador: tu oponente queda exhausto."],
     },
   ],
   skills: [
@@ -179,6 +178,17 @@ export const fighterSheet: CombatSheetResponse = {
   arcane_spell_failure: 40,
   hp: { max: 12, current: 12, temporary: 0, nonlethal: 0 },
   carrying_capacity: {},
+  feats: {
+    available: 2,
+    spent: 1,
+    granted: ["Impacto sin arma mejorado"],
+    slots: [
+      { level: 1, source: "base", choice: "libre", types: [] },
+      { level: 1, source: "Humano", choice: "libre", types: [] },
+    ],
+    lists: {},
+    list_notes: {},
+  },
   warnings: [],
 };
 

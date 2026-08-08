@@ -41,6 +41,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/rules/alignments": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Alignments */
+    get: operations["get_alignments_api_v1_rules_alignments_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/rules/races": {
     parameters: {
       query?: never;
@@ -447,6 +464,19 @@ export interface components {
       /** Remaining Rounds */
       remaining_rounds?: number | null;
     };
+    /**
+     * AlignmentDTO
+     * @description One entry of ``alineamiento.valores`` with its display name from ``nombres``.
+     *
+     *     ``code`` (``LB``, ``NB``, …) is the corpus' own ASCII identifier, so it is used
+     *     verbatim as the stable key instead of slugging the Spanish name.
+     */
+    AlignmentDTO: {
+      /** Code */
+      code: string;
+      /** Name */
+      name: string;
+    };
     /** ArmorDTO */
     ArmorDTO: {
       /** Slug */
@@ -483,6 +513,8 @@ export interface components {
       attack: components["schemas"]["ValueBreakdown"];
       /** Damage Expression */
       damage_expression: string | null;
+      /** First Attack Damage Expression */
+      first_attack_damage_expression?: string | null;
       damage: components["schemas"]["ValueBreakdown"];
       /** Threat Range */
       threat_range: number;
@@ -494,6 +526,11 @@ export interface components {
       range_increment: string | null;
       /** Is Proficient */
       is_proficient: boolean;
+      /**
+       * Notes
+       * @default []
+       */
+      notes: string[];
     };
     /** BabDTO */
     BabDTO: {
@@ -1148,6 +1185,11 @@ export interface components {
       is_prestige: boolean;
       /** Max Level */
       max_level: number;
+      /**
+       * Bonus Feats
+       * @default []
+       */
+      bonus_feats: components["schemas"]["FeatSlotDTO"][];
     };
     /** CombatSheetResponse */
     CombatSheetResponse: {
@@ -1166,6 +1208,7 @@ export interface components {
       cmd: components["schemas"]["ValueBreakdown"];
       /** Attacks */
       attacks: components["schemas"]["AttackDTO"][];
+      feats: components["schemas"]["FeatBudgetDTO"];
       /** Skills */
       skills: components["schemas"]["SkillLineDTO"][];
       speed: components["schemas"]["SpeedDTO"];
@@ -1266,6 +1309,41 @@ export interface components {
         [key: string]: unknown;
       } | null;
     };
+    /**
+     * FeatBudgetDTO
+     * @description The feat budget, with the same shape as the other counters: a number plus
+     *     where it came from.
+     */
+    FeatBudgetDTO: {
+      /** Available */
+      available: number;
+      /** Spent */
+      spent: number;
+      /**
+       * Granted
+       * @default []
+       */
+      granted: string[];
+      /**
+       * Slots
+       * @default []
+       */
+      slots: components["schemas"]["FeatSlotLineDTO"][];
+      /**
+       * Lists
+       * @default {}
+       */
+      lists: {
+        [key: string]: string[];
+      };
+      /**
+       * List Notes
+       * @default {}
+       */
+      list_notes: {
+        [key: string]: string;
+      };
+    };
     /** FeatDTO */
     FeatDTO: {
       /** Slug */
@@ -1283,6 +1361,110 @@ export interface components {
        * @default true
        */
       is_eligible: boolean;
+      /** Activation */
+      activation?: string | null;
+      /**
+       * Is Stance
+       * @default false
+       */
+      is_stance: boolean;
+      /** Choice Kind */
+      choice_kind?: string | null;
+      /**
+       * Effects
+       * @default []
+       */
+      effects: components["schemas"]["FeatEffectDTO"][];
+    };
+    /**
+     * FeatEffectDTO
+     * @description A feat's mechanical decomposition, gated by an optional condition.
+     */
+    FeatEffectDTO: {
+      /** Condition */
+      condition?: string | null;
+      /**
+       * When
+       * @default {}
+       */
+      when: {
+        [key: string]: unknown;
+      };
+      /**
+       * Modifiers
+       * @default []
+       */
+      modifiers: components["schemas"]["FeatModifierDTO"][];
+      /**
+       * Rules
+       * @default []
+       */
+      rules: string[];
+    };
+    /**
+     * FeatModifierDTO
+     * @description One numeric contribution of a feat, in the feats file's own vocabulary.
+     *
+     *     ``value`` is an ``int`` for additive bonuses, or a string for the non-scalar
+     *     forms the corpus warns about ("x2", "2d6", "1_por_dado_de_golpe").
+     */
+    FeatModifierDTO: {
+      /** Target */
+      target: string;
+      /** Bonus Type */
+      bonus_type: string;
+      /** Value */
+      value: number | string;
+    };
+    /**
+     * FeatSlotDTO
+     * @description One feat a class or race grants, and what may fill it.
+     *
+     *     ``choice`` is the corpus' own ``eleccion``: ``libre`` (any feat), ``tipos``
+     *     (any of the listed categories), ``lista`` (a named restricted list), or ``fija``
+     *     (already decided — it costs the character no choice).
+     */
+    FeatSlotDTO: {
+      /** Level */
+      level: number;
+      /** Choice */
+      choice: string;
+      /**
+       * Types
+       * @default []
+       */
+      types: string[];
+      /** List Key */
+      list_key?: string | null;
+      /** Feat */
+      feat?: string | null;
+      /** Note */
+      note?: string | null;
+      /** Page */
+      page?: string | null;
+    };
+    /**
+     * FeatSlotLineDTO
+     * @description One feat the character is entitled to, and where it came from.
+     */
+    FeatSlotLineDTO: {
+      /** Level */
+      level: number;
+      /** Source */
+      source: string;
+      /** Choice */
+      choice: string;
+      /**
+       * Types
+       * @default []
+       */
+      types: string[];
+      /** List Key */
+      list_key?: string | null;
+      /** Feat */
+      feat?: string | null;
+      /** Note */
+      note?: string | null;
     };
     /** HTTPValidationError */
     HTTPValidationError: {
@@ -1330,6 +1512,10 @@ export interface components {
       point_buy_costs: {
         [key: string]: number;
       };
+      /** Feat Levels */
+      feat_levels: number[];
+      /** Feat Types */
+      feat_types: string[];
     };
     /**
      * ModifierCreate
@@ -1426,6 +1612,11 @@ export interface components {
       languages: {
         [key: string]: string[];
       };
+      /**
+       * Bonus Feats
+       * @default []
+       */
+      bonus_feats: components["schemas"]["FeatSlotDTO"][];
     };
     /** SizeDTO */
     SizeDTO: {
@@ -1534,16 +1725,6 @@ export interface components {
        */
       total_defense: boolean;
       /**
-       * Power Attack
-       * @default false
-       */
-      power_attack: boolean;
-      /**
-       * Combat Expertise
-       * @default false
-       */
-      combat_expertise: boolean;
-      /**
        * Flanking
        * @default false
        */
@@ -1553,6 +1734,8 @@ export interface components {
        * @default false
        */
       higher_ground: boolean;
+      /** Feat Stances */
+      feat_stances?: string[];
     };
     /** SuppressedEntry */
     SuppressedEntry: {
@@ -1670,6 +1853,26 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["MetaDTO"];
+        };
+      };
+    };
+  };
+  get_alignments_api_v1_rules_alignments_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AlignmentDTO"][];
         };
       };
     };

@@ -25,6 +25,42 @@ describe("CharacterListPage", () => {
     expect(screen.getByRole("searchbox", { name: "Buscar por nombre" })).toBeInTheDocument();
   });
 
+  it("exposes the row actions as buttons, not links", async () => {
+    renderWithProviders(<CharacterListPage />);
+    await screen.findByRole("link", { name: "Aldous" });
+
+    // Actions are buttons; links are reserved for navigating to a section.
+    expect(screen.getByRole("button", { name: "Duplicar" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Eliminar" })).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Duplicar" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Eliminar" })).not.toBeInTheDocument();
+  });
+
+  it("labels the icon actions for hover and for screen readers", async () => {
+    renderWithProviders(<CharacterListPage />);
+    await screen.findByRole("link", { name: "Aldous" });
+
+    // The glyph alone would be a guess: `title` shows the word on hover, and the
+    // accessible name says the same thing.
+    for (const [role, name] of [
+      ["link", "Editar"],
+      ["button", "Duplicar"],
+      ["button", "Eliminar"],
+    ] as const) {
+      const action = screen.getByRole(role, { name });
+      expect(action).toHaveAttribute("title", name);
+    }
+  });
+
+  it("links the edit action to the character's editor", async () => {
+    renderWithProviders(<CharacterListPage />);
+    await screen.findByRole("link", { name: "Aldous" });
+    expect(screen.getByRole("link", { name: "Editar" })).toHaveAttribute(
+      "href",
+      "/characters/char-1/edit",
+    );
+  });
+
   it("confirms before deleting", async () => {
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
     const user = userEvent.setup();

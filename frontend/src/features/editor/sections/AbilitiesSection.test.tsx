@@ -8,26 +8,93 @@ import { AbilitiesSection } from "@/features/editor/sections/AbilitiesSection";
 import { defaultDraft } from "@/features/editor/draft";
 import { renderWithProviders } from "@/test/render";
 
-function Host(): React.JSX.Element {
+function Host({ modifiers }: { modifiers?: Record<string, number> } = {}): React.JSX.Element {
   const [draft, setDraft] = useState<CharacterCreate>(defaultDraft());
-  return <AbilitiesSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} />;
+  return (
+    <AbilitiesSection
+      draft={draft}
+      patch={(p) => setDraft((c) => ({ ...c, ...p }))}
+      modifiers={modifiers}
+    />
+  );
+}
+
+/** Last cell of a row is the "Bonif" column. */
+function modifierCell(ability: string): HTMLElement {
+  const cells = within(screen.getByRole("row", { name: new RegExp(ability) })).getAllByRole("cell");
+  const last = cells.at(-1);
+  if (!last) throw new Error(`no cells in row ${ability}`);
+  return last;
 }
 
 describe("AbilitiesSection", () => {
-  it("shows the point-buy counter for the standard array (15/15)", async () => {
+  it("shows the point-buy counter against the default budget of 20", async () => {
     renderWithProviders(<Host />);
     // 7+5+3+2+0-2 = 15 for {15,14,13,12,10,8}
-    await waitFor(() => expect(screen.getByText("Puntos: 15 / 15")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("Puntos: 15 / 20")).toBeInTheDocument());
+    expect(screen.getByLabelText("Puntos disponibles")).toHaveValue(20);
   });
 
-  it("flags going over the point budget", async () => {
+  it("adjusts the budget with the steppers and direct entry", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Host />);
+    await waitFor(() => expect(screen.getByText("Puntos: 15 / 20")).toBeInTheDocument());
+
+    await user.click(screen.getByRole("button", { name: "Subir puntos disponibles" }));
+    expect(screen.getByText("Puntos: 15 / 21")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Bajar puntos disponibles" }));
+    expect(screen.getByText("Puntos: 15 / 20")).toBeInTheDocument();
+
+    const budget = screen.getByLabelText("Puntos disponibles");
+    await user.clear(budget);
+    await user.type(budget, "25");
+    expect(screen.getByText("Puntos: 15 / 25")).toBeInTheDocument();
+  });
+
+  it("flags going over the budget, and clears once the budget is raised", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Host />);
+    await waitFor(() => expect(screen.getByText(/Puntos: 15/)).toBeInTheDocument());
+
+    // Drop the budget below what the standard array already spends.
+    const budget = screen.getByLabelText("Puntos disponibles");
+    await user.clear(budget);
+    await user.type(budget, "10");
+    expect(screen.getByText(/Puntos: 15 \/ 10/)).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveTextContent("presupuesto");
+
+    // Raising it past the spend clears the warning.
+    await user.clear(budget);
+    await user.type(budget, "20");
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("counts a raised score against the budget", async () => {
     const user = userEvent.setup();
     renderWithProviders(<Host />);
     await waitFor(() => expect(screen.getByText(/Puntos: 15/)).toBeInTheDocument());
     await user.click(screen.getByRole("button", { name: "+ Fue" }));
-    // 15 -> 16 costs 10 instead of 7: total 18 > 15.
-    expect(screen.getByText(/Puntos: 18 \/ 15/)).toBeInTheDocument();
-    expect(screen.getByRole("alert")).toHaveTextContent("presupuesto");
+    // 15 -> 16 costs 10 instead of 7: total 18, still inside the default 20.
+    expect(screen.getByText(/Puntos: 18 \/ 20/)).toBeInTheDocument();
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
+
+  it("renders the modifier column from the derived values", async () => {
+    // Values stand in for what /derive returned; the modifier is a Pathfinder
+    // formula and is never recomputed in the frontend.
+    renderWithProviders(<Host modifiers={{ Fue: 2, Des: 2, Con: 1, Int: 1, Sab: 0, Car: -1 }} />);
+    await screen.findByRole("columnheader", { name: "Bonif" });
+
+    expect(modifierCell("Fue")).toHaveTextContent("+2");
+    expect(modifierCell("Sab")).toHaveTextContent("+0");
+    expect(modifierCell("Car")).toHaveTextContent("-1");
+  });
+
+  it("shows a placeholder in the modifier column until derivation arrives", async () => {
+    renderWithProviders(<Host />);
+    await screen.findByRole("columnheader", { name: "Bonif" });
+    expect(modifierCell("Fue")).toHaveTextContent("—");
   });
 
   it("clamps point-buy scores to a minimum of 7", async () => {

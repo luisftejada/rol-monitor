@@ -6,7 +6,8 @@ export const ABILITY_ORDER = ["Fue", "Des", "Con", "Int", "Sab", "Car"] as const
 /** The standard array preset (a common convention, offered as a UI starting point). */
 export const STANDARD_ARRAY = [15, 14, 13, 12, 10, 8] as const;
 
-export const POINT_BUY_BUDGET = 15;
+/** Default point-buy budget; the editor lets the GM raise or lower it per table. */
+export const POINT_BUY_BUDGET = 20;
 
 /**
  * A fresh draft: a level-1 human fighter with the standard array, mirroring the
@@ -51,8 +52,6 @@ export function defaultDraft(): CharacterCreate {
       charge: false,
       fighting_defensively: false,
       total_defense: false,
-      power_attack: false,
-      combat_expertise: false,
       flanking: false,
       higher_ground: false,
     },

@@ -20,7 +20,11 @@ from pf_tracker.schemas.character import (
     new_character,
 )
 from pf_tracker.schemas.combat import ModifierCreate, ModifierPatch
-from pf_tracker.schemas.combat_sheet import CombatSheetResponse, to_combat_sheet_response
+from pf_tracker.schemas.combat_sheet import (
+    CombatSheetResponse,
+    to_combat_sheet_response,
+    to_feat_budget_response,
+)
 from pf_tracker.services.assembler import assemble
 
 
@@ -177,7 +181,7 @@ class CharacterService:
     def _combat_sheet(self, character: CharacterRead) -> CombatSheetResponse:
         assembled = assemble(character, self._rules)
         sheet = derive_combat_sheet(assembled.character)
-        response = to_combat_sheet_response(sheet)
+        response = to_combat_sheet_response(sheet, to_feat_budget_response(assembled.feats))
         # Assembler warnings (unknown catalog entries, incomplete data) come first.
         response.warnings = [*assembled.warnings, *response.warnings]
         return response

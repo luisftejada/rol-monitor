@@ -3,6 +3,7 @@
  * OpenAPI models so a mock that drifts from the contract fails to compile.
  */
 import type {
+  AlignmentDTO,
   ArmorDTO,
   ClassSummaryDTO,
   ConditionDTO,
@@ -38,7 +39,15 @@ export const meta: MetaDTO = {
     "17": 13,
     "18": 17,
   },
+  feat_levels: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19],
+  feat_types: ["General", "Combate", "Metamágica"],
 };
+
+export const alignments: AlignmentDTO[] = [
+  { code: "LB", name: "Legal bueno" },
+  { code: "LN", name: "Legal neutral" },
+  { code: "CM", name: "Caótico maligno" },
+];
 
 export const races: RaceDTO[] = [
   {
@@ -52,6 +61,7 @@ export const races: RaceDTO[] = [
     vision: null,
     traits: [],
     languages: { inicio: ["común"], adicionales: [] },
+    bonus_feats: [{ level: 1, choice: "libre", types: [] }],
   },
   {
     slug: "mediano",
@@ -64,6 +74,7 @@ export const races: RaceDTO[] = [
     vision: null,
     traits: [],
     languages: { inicio: ["común"], adicionales: [] },
+    bonus_feats: [],
   },
 ];
 
@@ -80,6 +91,7 @@ export const classes: ClassSummaryDTO[] = [
     is_spellcaster: false,
     is_prestige: false,
     max_level: 20,
+    bonus_feats: [],
   },
   {
     slug: "mago",
@@ -93,6 +105,7 @@ export const classes: ClassSummaryDTO[] = [
     is_spellcaster: true,
     is_prestige: false,
     max_level: 20,
+    bonus_feats: [],
   },
 ];
 
@@ -123,7 +136,28 @@ export const skills: SkillDTO[] = [
   },
 ];
 
+/** A feat the backend classifies as a round-long choice, not a way of attacking. */
+export const stanceFeat: FeatDTO = {
+  slug: "hendedura",
+  name: "Hendedura",
+  types: ["Combate"],
+  prerequisites: "Fue 13, Ataque poderoso, ataque base +1",
+  benefit: "Atacas a un segundo enemigo adyacente a costa de -2 a la CA.",
+  is_eligible: true,
+  activation: "estandar",
+  is_stance: true,
+  effects: [
+    {
+      condition: null,
+      when: {},
+      modifiers: [{ target: "ca", bonus_type: "penalizador", value: -2 }],
+      rules: [],
+    },
+  ],
+};
+
 export const feats: FeatDTO[] = [
+  stanceFeat,
   {
     slug: "esquiva",
     name: "Esquiva",
@@ -131,14 +165,57 @@ export const feats: FeatDTO[] = [
     prerequisites: null,
     benefit: "+1 CA",
     is_eligible: true,
+    activation: "pasiva",
+    is_stance: false,
+    effects: [
+      {
+        condition: null,
+        when: {},
+        modifiers: [{ target: "ca", bonus_type: "esquiva", value: 1 }],
+        rules: ["Pierdes este bonificador cuando pierdes tu bonificador por Destreza a la CA."],
+      },
+    ],
   },
   {
     slug: "acometer",
     name: "Acometer",
     types: ["Combate"],
     prerequisites: "ataque base +6",
-    benefit: "…",
+    benefit: "Atacas con un arma de alcance a enemigos fuera de tu alcance.",
     is_eligible: false,
+    activation: "pasiva",
+    is_stance: false,
+    effects: [],
+  },
+  {
+    slug: "soltura-con-un-arma",
+    name: "Soltura con un arma",
+    types: ["Combate"],
+    prerequisites: null,
+    benefit: "+1 a las tiradas de ataque con el arma elegida.",
+    is_eligible: true,
+    activation: "pasiva",
+    is_stance: false,
+    choice_kind: "weapon",
+    effects: [
+      {
+        condition: null,
+        when: {},
+        modifiers: [{ target: "ataque_arma_seleccionada", bonus_type: "sin_tipo", value: 1 }],
+        rules: [],
+      },
+    ],
+  },
+  {
+    slug: "abstencion-de-materiales",
+    name: "Abstención de materiales",
+    types: ["General"],
+    prerequisites: null,
+    benefit: "Lanzas conjuros con componente material barato sin gastarlo.",
+    is_eligible: true,
+    activation: "pasiva",
+    is_stance: false,
+    effects: [],
   },
 ];
 
@@ -156,6 +233,48 @@ export const weapons: WeaponDTO[] = [
     weight: "4 libras",
     damage_type: "Cor",
     special: null,
+  },
+  {
+    slug: "daga",
+    name: "Daga",
+    proficiency: "sencilla",
+    category: "Armas cuerpo a cuerpo ligeras",
+    cost: "2 po",
+    damage_small: "1d3",
+    damage_medium: "1d4",
+    critical: [{ threat_range: 19, multiplier: 2 }],
+    range_increment: "10 pies (3 m)",
+    weight: "1 libra",
+    damage_type: "Per o Cor",
+    special: null,
+  },
+  {
+    slug: "arco-largo",
+    name: "Arco largo",
+    proficiency: "marcial",
+    category: "Armas a distancia",
+    cost: "75 po",
+    damage_small: "1d6",
+    damage_medium: "1d8",
+    critical: [{ threat_range: 20, multiplier: 3 }],
+    range_increment: "100 pies (30 m)",
+    weight: "3 libras",
+    damage_type: "Per",
+    special: null,
+  },
+  {
+    slug: "lanza-larga",
+    name: "Lanza larga",
+    proficiency: "sencilla",
+    category: "Armas cuerpo a cuerpo a dos manos",
+    cost: "5 po",
+    damage_small: "1d6",
+    damage_medium: "1d8",
+    critical: [{ threat_range: 20, multiplier: 3 }],
+    range_increment: null,
+    weight: "9 libras",
+    damage_type: "Per",
+    special: "apuntalar, alcance",
   },
 ];
 

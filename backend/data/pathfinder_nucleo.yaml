@@ -603,6 +603,10 @@ razas:
 - nombre: Humano
   clave: humano
   pagina: 24
+  dotes_adicionales:
+  - nivel: 1
+    eleccion: libre
+    fuente: pág. 24
   tamano: Mediano
   velocidad_pies: 30
   modificadores:
@@ -647,6 +651,11 @@ razas:
 - nombre: Semielfo
   clave: semielfo
   pagina: 26
+  dotes_adicionales:
+  - nivel: 1
+    eleccion: fija
+    dote: Soltura con una habilidad
+    fuente: pág. 26
   tamano: Mediano
   velocidad_pies: 30
   modificadores:
@@ -1901,6 +1910,31 @@ clases:
     - Trato con animales
     - Trepar
     clave: explorador
+    dotes_adicionales:
+    - nivel: 2
+      eleccion: lista
+      lista: estilo_de_combate_explorador
+      fuente: pág. 55
+    - nivel: 6
+      eleccion: lista
+      lista: estilo_de_combate_explorador
+      fuente: pág. 55
+    - nivel: 10
+      eleccion: lista
+      lista: estilo_de_combate_explorador
+      fuente: pág. 55
+    - nivel: 14
+      eleccion: lista
+      lista: estilo_de_combate_explorador
+      fuente: pág. 55
+    - nivel: 18
+      eleccion: lista
+      lista: estilo_de_combate_explorador
+      fuente: pág. 55
+    - nivel: 3
+      eleccion: fija
+      dote: Aguante
+      fuente: pág. 56
     progresion:
     - nivel: 1
       bab: '+1'
@@ -2144,6 +2178,72 @@ clases:
     - Supervivencia
     - Trepar
     clave: guerrero
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 2
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 4
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
+        otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
+      fuente: pág. 58
+    - nivel: 6
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 8
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
+        otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
+      fuente: pág. 58
+    - nivel: 10
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 12
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
+        otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
+      fuente: pág. 58
+    - nivel: 14
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 16
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
+        otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
+      fuente: pág. 58
+    - nivel: 18
+      eleccion: tipos
+      tipos:
+      - Combate
+      fuente: pág. 58
+    - nivel: 20
+      eleccion: tipos
+      tipos:
+      - Combate
+      nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
+        otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
+      fuente: pág. 58
     progresion:
     - nivel: 1
       bab: '+1'
@@ -2292,6 +2392,23 @@ clases:
     - Usar objeto mágico
     - Volar
     clave: hechicero
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Abstención de materiales
+      fuente: pág. 61
+    - nivel: 7
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      fuente: pág. 61
+    - nivel: 13
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      fuente: pág. 61
+    - nivel: 19
+      eleccion: lista
+      lista: dotes_de_linaje_hechicero
+      fuente: pág. 61
     progresion:
     - nivel: 1
       bab: '+0'
@@ -2630,6 +2747,27 @@ clases:
     - Tasación
     - Volar
     clave: mago
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Inscribir pergamino
+      fuente: pág. 69
+    - nivel: 5
+      eleccion: lista
+      lista: dotes_adicionales_mago
+      fuente: pág. 69
+    - nivel: 10
+      eleccion: lista
+      lista: dotes_adicionales_mago
+      fuente: pág. 69
+    - nivel: 15
+      eleccion: lista
+      lista: dotes_adicionales_mago
+      fuente: pág. 69
+    - nivel: 20
+      eleccion: lista
+      lista: dotes_adicionales_mago
+      fuente: pág. 69
     progresion:
     - nivel: 1
       bab: '+0'
@@ -2986,6 +3124,41 @@ clases:
     - Sigilo
     - Trepar
     clave: monje
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Impacto sin arma mejorado
+      nota: se obtiene aunque no se cumplan sus prerrequisitos
+      fuente: pág. 74
+    - nivel: 1
+      eleccion: fija
+      dote: Puñetazo aturdidor
+      nota: se obtiene aunque no se cumplan sus prerrequisitos
+      fuente: pág. 75
+    - nivel: 1
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
+    - nivel: 2
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
+    - nivel: 6
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
+    - nivel: 10
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
+    - nivel: 14
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
+    - nivel: 18
+      eleccion: lista
+      lista: dotes_adicionales_monje
+      fuente: pág. 74
     progresion:
     - nivel: 1
       bab: '+0'
@@ -4425,7 +4598,283 @@ dotes:
     - Creación de objeto
     - Crítico
     prerrequisitos: deben cumplirse siempre para usar la dote
-    nota: beneficio_resumen es un resumen; el texto completo está en el manual (págs. 113-137)
+    campos:
+      beneficio_resumen: resumen en prosa del beneficio, sin truncar
+      activacion: cómo se activa la dote (ver esquema_efectos.activacion)
+      efectos: descomposición mecánica del beneficio; ver esquema_efectos
+      nota_datos: presente sólo si la entrada se corrigió o reconstruyó respecto a la extracción original
+        del PDF
+    sinonimos_del_manual:
+      descripcion: el capítulo de clases nombra algunas dotes de forma distinta a la Tabla 5-1 del capítulo
+        de dotes. dotes.lista sigue el capítulo de dotes; esta tabla registra la equivalencia para poder
+        auditar las listas de dotes_adicionales contra el capítulo de clases
+      fuente_canonica: pág. 114
+      equivalencias:
+      - en_clases: Rasgadura doble
+        canonico: Doble tajo
+        donde: explorador, estilo de combate con dos armas
+        fuente: pág. 56
+      - en_clases: Arremetida con el escudo mejorada
+        canonico: Golpear con el escudo mejorado
+        donde: explorador, estilo de combate con dos armas
+        fuente: pág. 56
+      - en_clases: Desenfundado rápido
+        canonico: Desenvainado rápido
+        donde: explorador, estilo de combate con dos armas
+        fuente: pág. 56
+      - en_clases: Desgarro con dos armas
+        canonico: Desgarrar con dos armas
+        donde: explorador, estilo de combate con dos armas
+        fuente: pág. 56
+      - en_clases: Puntería extrema
+        canonico: Puntería precisa
+        donde: explorador, estilo de tiro con arco
+        fuente: pág. 56
+      - en_clases: Desarmar mejorado
+        canonico: Desarme mejorado
+        donde: hechicero, linaje infernal
+        fuente: pág. 66
+      - en_clases: Conjuros penetrantes
+        canonico: Conjuros perforantes
+        donde: hechicero, linaje infernal
+        fuente: pág. 66
+  listas_restringidas:
+    estilo_de_combate_explorador:
+      descripcion: dotes concedidas por la aptitud Dote de estilo de combate del explorador. A 2º nivel
+        selecciona uno de los dos estilos (tiro con arco o combate con dos armas) y ya no puede cambiarlo;
+        cada concesión posterior se escoge del mismo estilo
+      nota: el explorador puede escoger estas dotes aunque carezca de sus prerrequisitos normales. Los
+        beneficios sólo se aplican con armadura ligera, intermedia o sin armadura, y se pierden por completo
+        con armadura pesada
+      acumulativa: true
+      nota_acumulacion: cada nivel indicado añade dotes a la lista, no la sustituye. Los niveles 14 y 18
+        escogen de la lista acumulada a 10º
+      opciones:
+        tiro_con_arco:
+          2:
+          - Disparo a larga distancia
+          - Disparo a bocajarro
+          - Disparo preciso
+          - Disparo rápido
+          6:
+          - Disparo preciso mejorado
+          - Disparos múltiples
+          10:
+          - Puntería precisa
+          - Disparo a la carrera
+        combate_con_dos_armas:
+          2:
+          - Doble tajo
+          - Golpear con el escudo mejorado
+          - Desenvainado rápido
+          - Combate con dos armas
+          6:
+          - Combate con dos armas mejorado
+          - Defensa con dos armas
+          10:
+          - Combate con dos armas mayor
+          - Desgarrar con dos armas
+      fuente: pág. 55
+    dotes_adicionales_monje:
+      descripcion: dotes adicionales del monje; el manual acota las opciones por tramos de nivel, no por
+        tipo de dote
+      nota: el monje no necesita cumplir los prerrequisitos normales de estas dotes
+      acumulativa: true
+      nota_acumulacion: cada nivel indicado añade dotes a la lista, no la sustituye. Los niveles 14 y 18
+        escogen de la lista acumulada a 10º
+      opciones:
+        1:
+        - Usar arma improvisada
+        - Reflejos de combate
+        - Desviar flechas
+        - Esquiva
+        - Presa mejorada
+        - Estilo del escorpión
+        - Lanzar cualquier cosa
+        6:
+        - Puño del gorgón
+        - Embestida mejorada
+        - Desarme mejorado
+        - Finta mejorada
+        - Derribo mejorado
+        - Movilidad
+        10:
+        - Crítico mejorado
+        - Ira de la medusa
+        - Atrapar flechas
+        - Ataque elástico
+      fuente: pág. 74
+    dotes_adicionales_mago:
+      descripcion: el mago escoge una dote metamágica, una dote de creación de objeto, o Maestría en
+        conjuros. No es expresable sólo con tipos porque incluye una dote concreta fuera de esas dos
+        categorías
+      nota: el mago debe cumplir todos los prerrequisitos de la dote escogida, incluido el nivel mínimo de
+        lanzador
+      tipos:
+      - Metamágica
+      - Creación de objeto
+      dotes:
+      - Maestría en conjuros
+      fuente: pág. 69
+    dotes_de_linaje_hechicero:
+      descripcion: dotes adicionales concedidas por la aptitud Dote de linaje a niveles 7, 13 y 19; la lista
+        depende del linaje escogido a 1er nivel
+      nota: el hechicero debe cumplir los prerrequisitos de estas dotes. Las concreciones indican la opción
+        que el manual fija entre paréntesis para una dote que exige elegir
+      acumulativa: false
+      nota_acumulacion: la lista del linaje es la misma en los tres niveles
+      opciones:
+        aberrante:
+          nombre: Aberrante
+          dotes:
+          - Conjurar en combate
+          - Desarme mejorado
+          - Presa mejorada
+          - Iniciativa mejorada
+          - Impacto sin arma mejorado
+          - Voluntad de hierro
+          - Conjurar en silencio
+          - Soltura con una habilidad
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (dungeons)
+          fuente: pág. 61
+        abisal:
+          nombre: Abisal
+          dotes:
+          - Aumentar convocación
+          - Hendedura
+          - Potenciar conjuro
+          - Gran fortaleza
+          - Embestida mejorada
+          - Romper arma mejorado
+          - Ataque poderoso
+          - Soltura con una habilidad
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (los Planos)
+          fuente: pág. 62
+        arcano:
+          nombre: Arcano
+          dotes:
+          - Conjurar en combate
+          - Contraconjuro mejorado
+          - Iniciativa mejorada
+          - Voluntad de hierro
+          - Inscribir pergamino
+          - Soltura con una habilidad
+          - Soltura con los conjuros
+          - Conjurar sin moverse
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (arcano)
+          fuente: pág. 63
+        celestial:
+          nombre: Celestial
+          dotes:
+          - Esquiva
+          - Prolongar conjuro
+          - Voluntad de hierro
+          - Movilidad
+          - Combatir desde una montura
+          - Ataque al galope
+          - Soltura con una habilidad
+          - Sutileza con las armas
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (religión)
+          fuente: pág. 63
+        destino:
+          nombre: Destino
+          dotes:
+          - Golpe arcano
+          - Duro de pelar
+          - Aguante
+          - Liderazgo
+          - Reflejos rápidos
+          - Maximizar conjuro
+          - Soltura con una habilidad
+          - Soltura con un arma
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (historia)
+          fuente: pág. 64
+        draconico:
+          nombre: Dracónico
+          dotes:
+          - Lucha a ciegas
+          - Gran fortaleza
+          - Iniciativa mejorada
+          - Ataque poderoso
+          - Apresurar conjuro
+          - Soltura con una habilidad
+          - Dureza
+          concreciones:
+            Soltura con una habilidad:
+            - Volar
+            - Saber (arcano)
+          fuente: pág. 64
+        elemental:
+          nombre: Elemental
+          dotes:
+          - Esquiva
+          - Potenciar conjuro
+          - Gran fortaleza
+          - Iniciativa mejorada
+          - Reflejos rápidos
+          - Ataque poderoso
+          - Soltura con una habilidad
+          - Sutileza con las armas
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (los Planos)
+          fuente: pág. 65
+        feerico:
+          nombre: Feérico
+          dotes:
+          - Esquiva
+          - Iniciativa mejorada
+          - Reflejos rápidos
+          - Movilidad
+          - Disparo a bocajarro
+          - Disparo preciso
+          - Apresurar conjuro
+          - Soltura con una habilidad
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (Naturaleza)
+          fuente: pág. 65
+        infernal:
+          nombre: Infernal
+          dotes:
+          - Lucha a ciegas
+          - Pericia en combate
+          - Engañoso
+          - Prolongar conjuro
+          - Desarme mejorado
+          - Voluntad de hierro
+          - Soltura con una habilidad
+          - Conjuros perforantes
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (los Planos)
+          fuente: pág. 66
+        muerto_viviente:
+          nombre: Muerto viviente
+          dotes:
+          - Conjurar en combate
+          - Duro de pelar
+          - Aguante
+          - Voluntad de hierro
+          - Soltura con una habilidad
+          - Soltura con los conjuros
+          - Conjurar sin moverse
+          - Dureza
+          concreciones:
+            Soltura con una habilidad:
+            - Saber (religión)
+          fuente: pág. 66
+      fuente: pág. 61
   lista:
   - nombre: Abstención de materiales
     tipos:
@@ -4433,374 +4882,1378 @@ dotes:
     prerrequisitos: null
     beneficio_resumen: puedes lanzar cualquier conjuro que tenga un componente material que cueste 1 po
       o menos, sin necesitar dicho componente.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes lanzar cualquier conjuro con componente material de coste 1 po o menos sin necesitar dicho
+        componente.
+      - No afecta a componentes materiales de coste superior a 1 po ni a focos que cuesten más de 1 po.
   - nombre: Acometer
     tipos:
     - Combate
     prerrequisitos: ataque base +6
-    beneficio_resumen: Puedes atacar con un arma de alcance a enemigos que normalmente estarían fuera
-      de tu alcance aceptando un penalizador -2 a la CA.
+    beneficio_resumen: puedes aumentar el alcance de tus ataques cuerpo a cuerpo en 5 pies (1,5 m) hasta
+      el final de tu turno aceptando un penalizador -2 a tu CA hasta el inicio de tu siguiente turno.
+      Debes decidirlo antes de tirar ningún ataque.
+    activacion: libre_declarada_antes_de_atacar
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: alcance_cuerpo_a_cuerpo
+        tipo: sin_tipo
+        valor: 5
+      - objetivo: ca
+        tipo: penalizador
+        valor: -2
+      reglas:
+      - El aumento de alcance dura hasta el final de tu turno; el penalizador a la CA dura hasta el inicio
+        de tu siguiente turno.
+      - Debes decidir usar esta dote antes de llevar a cabo ninguna tirada de ataque.
   - nombre: Acrobático
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de habilidad de Acrobacias y de
-      Volar.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Acrobacias y de Volar. Si tienes 10
+      o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Acrobacias
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Volar
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Acrobacias
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Volar
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Afinidad con los animales
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: Obtienes un bonificador +2 a las pruebas de Montar y de Trato con animales (+4
-      con 10 o más rangos).
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Montar y de Trato con animales. Si
+      tienes 10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Montar
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Trato con animales
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Montar
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Trato con animales
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Aguante
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: 'obtienes un bonificador +4 a las siguientes pruebas y salvaciones: pruebas de
-      nadar para resistir daño no letal debido al cansancio; pruebas de Constitución….'
+      Nadar para resistir daño no letal por cansancio; pruebas de Constitución para continuar corriendo;
+      pruebas de Constitución para evitar daño no letal por marcha forzada; pruebas de Constitución para
+      contener la respiración; pruebas de Constitución para evitar daño no letal por hambre o sed; salvaciones
+      de Fortaleza para evitar daño no letal por entorno caluroso o frío; y salvaciones de Fortaleza para
+      resistir el daño por asfixia. Además puedes dormir con armadura ligera o intermedia sin quedar fatigado.'
+    activacion: pasiva
+    efectos:
+    - condicion: pruebas y salvaciones por fatiga y privación
+      modificadores:
+      - objetivo: prueba_habilidad.Nadar
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_caracteristica.Constitucion
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: salvacion_fortaleza
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - 'El +4 se aplica a: pruebas de Nadar para resistir daño no letal por cansancio; pruebas de Constitución
+        para continuar corriendo; pruebas de Constitución para evitar daño no letal por marcha forzada;
+        pruebas de Constitución para contener la respiración; pruebas de Constitución para evitar daño
+        no letal por hambre o sed; salvaciones de Fortaleza para evitar daño no letal por entornos calurosos
+        o fríos; y salvaciones de Fortaleza para resistir el daño por asfixia.'
+      - 'No es un bonificador general a Nadar, Constitución ni Fortaleza: aplícalo sólo en los casos listados.'
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes dormir con armadura ligera o intermedia sin quedar fatigado.
   - nombre: Alerta
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +2 a las pruebas de Percepción y de Averiguar intenciones.
+      Si tienes 10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Percepción
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Averiguar intenciones
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Percepción
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Averiguar intenciones
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Ampliar conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: puedes alterar un conjuro con un alcance de cercano, medio, o largo para incrementar
       su alcance en un 100%.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 1
+      - objetivo: alcance_conjuro
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Sólo afecta a conjuros de alcance cercano, medio o largo.
+      - No afecta a conjuros de alcance personal, toque o alcance fijo.
+      - 'Alcance cercano ampliado: 50 pies + 5 pies/nivel (15 m + 1,5 m/nivel).'
+      - 'Alcance medio ampliado: 200 pies + 20 pies/nivel (60 m + 6 m/nivel).'
+      - 'Alcance largo ampliado: 800 pies + 80 pies/nivel (240 m + 24 m/nivel).'
   - nombre: Apresurar conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: lanzar un conjuro apresurado es una acción rápida.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - Lanzar el conjuro apresurado pasa a ser una acción rápida.
+      - Sólo puedes lanzar un conjuro rápido por asalto.
+      - No puedes apresurar un conjuro cuyo tiempo de lanzamiento sea superior a 1 asalto completo.
   - nombre: Aptitudes mágicas
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Conocimiento de conjuros y de
-      Usar objeto mágico.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Conocimiento de conjuros y de Usar
+      objeto mágico. Si tienes 10 o más rangos en una de esas habilidades, el bonificador aumenta a +4
+      para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Conocimiento de conjuros
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Usar objeto mágico
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Conocimiento de conjuros
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Usar objeto mágico
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Arrollar mayor
     tipos:
     - Combate
     prerrequisitos: Arrollar mejorado, Ataque poderoso, ataque base +6, Fue 13
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para arrollar a un enemigo,
-      que se apila con el concedido por Arrollar mejorado.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para arrollar a un enemigo, que se apila
+      con el concedido por Arrollar mejorado. Cuando arrollas a un oponente, éste provoca ataques de oportunidad
+      si queda tumbado por tu arrollamiento.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_arrollar
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Arrollar mejorado.
+      - 'Esta dote NO concede bonificador al DMC: sólo Arrollar mejorado lo concede.'
+      - Cuando arrollas a un oponente, éste provoca ataques de oportunidad si queda tumbado por tu arrollamiento.
+    nota_datos: 'VERIFICADO CONTRA EL PDF. Atención al mapeo de la traducción de Devir: «Arrollar» es
+      Overrun y «Embestida» es Bull rush, al contrario de lo que sugiere el parecido fonético.'
   - nombre: Arrollar mejorado
     tipos:
     - Combate
     prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
     beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
-      arrollar.
+      arrollar. Además obtienes un bonificador +2 a las pruebas de arrollar y +2 a tu Defensa contra maniobras
+      de combate cuando un oponente intenta arrollarte. Los objetivos de tus intentos de arrollar no pueden
+      evitarte.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_arrollar
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_arrollar
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de arrollar.
+      - Los objetivos de tus intentos de arrollar no pueden evitarte.
+    nota_datos: 'VERIFICADO CONTRA EL PDF. Atención al mapeo de la traducción de Devir: «Arrollar» es
+      Overrun y «Embestida» es Bull rush, al contrario de lo que sugiere el parecido fonético.'
   - nombre: Artesano maestro
     tipos:
     - General
     prerrequisitos: 5 rangos en cualquier variedad de Artesanía o Profesión
-    beneficio_resumen: escoge una variedad de Artesanía o de Profesión en la que tengas por lo menos 5
-      rangos.
+    beneficio_resumen: 'escoge una variedad de Artesanía o de Profesión en la que tengas al menos 5 rangos:
+      obtienes un bonificador +2 a sus pruebas y puedes usar sus rangos en lugar de un nivel de lanzador
+      para cumplir los prerrequisitos de Fabricar armas y armaduras mágicas y de Fabricar objeto maravilloso.'
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_habilidad.Artesania_o_Profesion_elegida
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Escoge una variedad de Artesanía o de Profesión en la que tengas al menos 5 rangos.
+      - Puedes usar rangos en esa habilidad en lugar de un nivel de lanzador para cumplir los prerrequisitos
+        de Fabricar armas y armaduras mágicas y de Fabricar objeto maravilloso.
+      - Puedes usar esa habilidad en lugar del conjuro requerido al fabricar un objeto mágico, aumentando
+        en +5 la CD de la prueba.
   - nombre: Ataque al galope
     tipos:
     - Combate
     prerrequisitos: Montar 1 rango, Combatir desde una montura
-    beneficio_resumen: cuando vas montado y utilizas la acción de cargar, te puedes mover y atacar como
-      si llevaras a cabo una carga estándar, y después moverte de nuevo (continuando….
+    beneficio_resumen: cuando vas montado y utilizas la acción de cargar, puedes moverte y atacar como
+      en una carga estándar y seguir moviéndote después del ataque. El movimiento total no puede superar
+      el doble de la velocidad de tu montura, y ni tú ni ella provocáis ataques de oportunidad del oponente
+      atacado.
+    activacion: accion_de_carga_montado
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Al cargar montado, puedes moverte y atacar como en una carga normal y continuar moviéndote después
+        del ataque.
+      - El movimiento total no puede superar el doble de la velocidad de la montura, y el ataque debe
+        producirse en algún punto del recorrido.
+      - Ni tú ni tu montura provocáis ataques de oportunidad del oponente atacado.
   - nombre: Ataque de torbellino
     tipos:
     - Combate
-    prerrequisitos: Des 13, Int 13, Pericia de combate, Esquiva, Movilidad, Ataque elástico, ataque base
+    prerrequisitos: Des 13, Int 13, Pericia en combate, Esquiva, Movilidad, Ataque elástico, ataque base
       +4
     beneficio_resumen: cuando utilizas la acción de ataque completo, puedes cambiar tus ataques normales
-      por un ataque cuerpo a cuerpo a tu ataque base mayor contra cada oponente a….
+      por un ataque cuerpo a cuerpo a tu ataque base más alto contra cada oponente a tu alcance. Debes
+      atacar a todos ellos y no obtienes ataques adicionales por ataque base, aptitudes ni conjuros.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - En lugar de la acción de ataque completo, llevas a cabo un ataque cuerpo a cuerpo a tu ataque
+        base más alto contra cada oponente a tu alcance.
+      - Debes atacar a todos los oponentes a tu alcance; no puedes escoger objetivos.
+      - No obtienes ataques adicionales por ataque base alto, aptitudes ni conjuros al usar esta dote.
   - nombre: Ataque elástico
     tipos:
     - Combate
     prerrequisitos: Des 13, Esquiva, Movilidad, ataque base +4
     beneficio_resumen: como acción de asalto completo, puedes moverte hasta tu velocidad y llevar a cabo
-      un solo ataque cuerpo a cuerpo sin provocar ataques de oportunidad por parte….
+      un solo ataque cuerpo a cuerpo en cualquier punto del movimiento, sin provocar ataques de oportunidad
+      por parte del oponente atacado. El resto de enemigos sí pueden atacarte por oportunidad con normalidad.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Como acción de asalto completo, te mueves hasta tu velocidad y llevas a cabo un solo ataque cuerpo
+        a cuerpo en cualquier punto del movimiento.
+      - El oponente atacado no obtiene ataques de oportunidad por tu movimiento.
+      - El movimiento provoca ataques de oportunidad del resto de enemigos con normalidad.
+      - Debes recorrer al menos 10 pies (3 m) antes del ataque.
+      - La distancia total recorrida no puede superar tu velocidad.
   - nombre: Ataque poderoso
     tipos:
     - Combate
     prerrequisitos: Fue 13, ataque base +1
-    beneficio_resumen: aceptas un penalizador -1 a todas las tiradas de ataque cuerpo a cuerpo y pruebas
-      de maniobras de combate, a cambio de un bonificador +2 a todas las tiradas de….
+    beneficio_resumen: puedes elegir aceptar un penalizador a todas las tiradas de ataque cuerpo a cuerpo
+      y pruebas de maniobra de combate a cambio de un bonificador al daño. El penalizador es -1 y el bonificador
+      +2 (+3 con armas a dos manos); por cada 4 puntos de ataque base, el penalizador aumenta en -1 y
+      el bonificador en +2 (+3 a dos manos). Debes decidir usarla antes de tirar el ataque, y los efectos
+      duran hasta tu siguiente turno.
+    activacion: opcional_declarada_antes_del_ataque
+    efectos:
+    - condicion: ataque base +1 a +3
+      cuando:
+        ataque_base:
+          min: 1
+          max: 3
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -1
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -1
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 3
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 1
+      reglas: []
+    - condicion: ataque base +4 a +7
+      cuando:
+        ataque_base:
+          min: 4
+          max: 7
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -2
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -2
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 6
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: ataque base +8 a +11
+      cuando:
+        ataque_base:
+          min: 8
+          max: 11
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -3
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -3
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 6
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 9
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 3
+      reglas: []
+    - condicion: ataque base +12 a +15
+      cuando:
+        ataque_base:
+          min: 12
+          max: 15
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -4
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -4
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 8
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 12
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 4
+      reglas: []
+    - condicion: ataque base +16 a +19
+      cuando:
+        ataque_base:
+          min: 16
+          max: 19
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -5
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -5
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 10
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 15
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 5
+      reglas: []
+    - condicion: ataque base +20 o superior
+      cuando:
+        ataque_base:
+          min: 20
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -6
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -6
+      - objetivo: dano_una_mano
+        tipo: sin_tipo
+        valor: 12
+      - objetivo: dano_dos_manos
+        tipo: sin_tipo
+        valor: 18
+      - objetivo: dano_mano_torpe
+        tipo: sin_tipo
+        valor: 6
+      reglas: []
+    - condicion: null
+      modificadores: []
+      reglas:
+      - 'Los tres objetivos de daño son excluyentes: aplica sólo el que corresponda al arma usada en el
+        ataque.'
+      - dano_dos_manos se aplica a un arma a dos manos, a un arma a una mano empuñada a dos manos y a
+        un arma natural primaria que sume vez y media el modificador por Fuerza al daño.
+      - dano_mano_torpe se aplica a armas de mano torpe y armas naturales secundarias (bonificador reducido
+        a la mitad).
+      - El bonificador al daño no se aplica a ataques de toque, armas a distancia ni efectos que no dependan
+        de la Fuerza.
+      - Debes decidir usar la dote antes de tirar el ataque; penalizador y bonificador duran hasta el
+        inicio de tu siguiente turno.
   - nombre: Atlético
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas de habilidad de Trepar y de Nadar.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Trepar y de Nadar. Si tienes 10 o más
+      rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Trepar
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Nadar
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Trepar
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Nadar
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Atrapar flechas
     tipos:
     - Combate
     prerrequisitos: Des 15, Desviar flechas, Impacto sin arma mejorado
-    beneficio_resumen: cuando utilizas la dote Desviar f lechas, puedes atrapar el proyectil en lugar
-      de simplemente desviarlo.
+    beneficio_resumen: cuando utilizas la dote Desviar flechas puedes atrapar el proyectil en lugar de
+      desviarlo. Las armas arrojadizas pueden devolverse de inmediato como un ataque contra el atacante,
+      aunque no sea tu turno, o guardarse para uso posterior. Debes tener una mano libre para usar esta
+      dote.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Cuando usas Desviar flechas puedes atrapar el proyectil en lugar de desviarlo.
+      - Las armas arrojadizas atrapadas pueden devolverse de inmediato como un ataque contra el atacante,
+        aunque no sea tu turno, o guardarse para uso posterior.
+      - Debes tener una mano libre, sin empuñar nada, para usar esta dote.
   - nombre: Aumentar convocación
     tipos:
     - General
     prerrequisitos: Soltura con los conjuros (conjuración)
-    beneficio_resumen: cada criatura que conjuras con cualquier conjuro de convocación obtiene un bonificador
-      + 4 por mejora a su Fuerza y Constitución a lo largo de la duración del….
+    beneficio_resumen: cada criatura que conjuras con un conjuro de convocación obtiene un bonificador
+      +4 por mejora a su Fuerza y a su Constitución durante la duración del conjuro.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: fuerza_criatura_convocada
+        tipo: mejora
+        valor: 4
+      - objetivo: constitucion_criatura_convocada
+        tipo: mejora
+        valor: 4
+      reglas:
+      - Se aplica a toda criatura convocada mediante un conjuro de convocación, durante la duración del
+        conjuro.
   - nombre: Autosuficiente
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Curar y de Supervivencia.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Curar y de Supervivencia. Si tienes
+      10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Curar
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Supervivencia
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Curar
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Supervivencia
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Canalización adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase canalizar energía
-    beneficio_resumen: null
+    beneficio_resumen: puedes canalizar energía 2 veces adicionales al día.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: usos_canalizar_dia
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
+      - 'Especial: un paladín con canalizar energía positiva que adquiera esta dote puede usar imposición
+        de manos 4 veces adicionales al día, pero sólo para canalizar energía positiva.'
+    nota_datos: El beneficio estaba vacío en la extracción original; recuperado del PDF (la entrada usa
+      «Beneficios:» en plural).
   - nombre: Canalización elemental
     tipos:
     - General
     prerrequisitos: rasgo de clase canalizar energía
     beneficio_resumen: en lugar de su efecto normal, puedes escoger que tu aptitud para canalizar energía
       cure o dañe a los ajenos del subtipo elemental escogido.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Escoge un subtipo elemental (aire, agua, fuego o tierra).
+      - En lugar de su efecto normal, tu canalización puede curar o dañar a ajenos de ese subtipo elemental.
+      - Puedes tomar esta dote varias veces, eligiendo un subtipo distinto cada vez.
   - nombre: Canalización mejorada
     tipos:
     - General
     prerrequisitos: rasgo de clase canalizar energía
     beneficio_resumen: suma 2 a la CD de las tiradas de salvación para resistir los efectos de tu aptitud
       de canalizar energía.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: cd_canalizar
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
   - nombre: Canalización selectiva
     tipos:
     - General
     prerrequisitos: Car 13, rasgo de clase canalizar energía
-    beneficio_resumen: cuando canalizas energía, puedes escoger un número de objetivos en el área hasta
-      tu modificador por Carisma, que no se ven afectados por la energía que….
+    beneficio_resumen: cuando canalizas energía puedes escoger, hasta un número igual a tu modificador
+      por Carisma, objetivos del área que no se ven afectados en absoluto por la energía canalizada. El
+      resto de criaturas se ven afectadas con normalidad.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Al canalizar energía puedes excluir del área un número de objetivos hasta tu modificador por Carisma.
+      - Los objetivos excluidos no se ven afectados en absoluto.
+      - El resto de criaturas del área se ven afectadas con normalidad.
   - nombre: Canalizar alineamiento
     tipos:
     - General
     prerrequisitos: aptitud para canalizar la energía
     beneficio_resumen: en lugar de su efecto normal, puedes escoger que tu aptitud para canalizar energía
       cure o dañe a los ajenos del subtipo de alineamiento elegido.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Escoge un subtipo de alineamiento (bien, mal, caos o ley).
+      - En lugar de su efecto normal, tu canalización puede curar o dañar a ajenos de ese subtipo de alineamiento.
+      - Puedes tomar esta dote varias veces, eligiendo un subtipo distinto cada vez.
   - nombre: Canalizar castigo
     tipos:
     - Combate
     prerrequisitos: rasgo de clase canalizar energía
     beneficio_resumen: antes de llevar a cabo una tirada de ataque cuerpo a cuerpo, puedes gastar un uso
       de tu aptitud de canalizar energía como acción rápida.
+    activacion: rapida
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Antes de una tirada de ataque cuerpo a cuerpo, gasta un uso de canalizar energía como acción rápida.
+      - Si canalizas energía positiva e impactas a un muerto viviente (o negativa y impactas a una criatura
+        viva), éste sufre daño adicional igual al de tu aptitud de canalizar energía.
+      - El objetivo puede llevar a cabo una salvación de Voluntad normal para reducir a la mitad ese daño
+        adicional.
+      - Si el ataque falla, el uso de canalización se gasta sin efecto.
   - nombre: Carga impetuosa
     tipos:
     - Combate
     prerrequisitos: Montar 1 rango, Combatir desde una montura, Ataque al galope
     beneficio_resumen: cuando montas y utilizas la acción de carga, inf liges doble daño con un arma cuerpo
       a cuerpo (o triple con una lanza de caballería).
+    activacion: accion_de_carga_montado
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dano_carga_montado
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - El daño se multiplica por 3 en lugar de por 2 si cargas empuñando una lanza de caballería.
+      - Se aplica sólo al daño de armas cuerpo a cuerpo en una carga montada.
   - nombre: Comandar muertos vivientes
     tipos:
     - General
     prerrequisitos: rasgo de clase canalizar energía negativa
-    beneficio_resumen: como acción estándar, puedes gastar uno de tus usos de canalizar energía negativa
-      para esclavizar muertos vivientes a 30 pies (9 m) o menos de ti, que tienen….
+    beneficio_resumen: como acción estándar, gasta un uso de canalizar energía negativa para esclavizar
+      a los muertos vivientes a 30 pies (9 m) o menos. Cada objetivo puede negar el efecto con una salvación
+      de Voluntad (CD 10 + la mitad de tu nivel de clérigo + tu modificador por Carisma); los que fallan
+      quedan bajo tu control como si estuvieran bajo los efectos de controlar muertos vivientes. Los inteligentes
+      repiten la salvación cada día. Puedes controlar cualquier número de muertos vivientes mientras la
+      suma de sus Dados de Golpe no exceda tu nivel de clérigo.
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Gasta un uso de canalizar energía negativa para esclavizar a los muertos vivientes a 30 pies (9
+        m) o menos.
+      - Cada objetivo puede negar el efecto con una salvación de Voluntad (CD 10 + la mitad de tu nivel
+        de clérigo + tu modificador por Carisma).
+      - Los que fallan quedan bajo tu control como si estuvieran bajo los efectos de controlar muertos
+        vivientes, sin duración limitada.
+      - Los muertos vivientes inteligentes obtienen una nueva salvación cada día para resistirse a tus
+        órdenes.
+      - Puedes controlar cualquier número de muertos vivientes mientras la suma de sus Dados de Golpe
+        no exceda tu nivel de clérigo.
+      - Si un muerto viviente ya está controlado por otra criatura, se resuelve con una prueba enfrentada
+        de Carisma cuando las órdenes entren en conflicto.
+      - Usada así, la canalización no tiene ningún otro efecto.
+    nota_datos: 'CORRECCIÓN: una versión previa limitaba el control a asaltos iguales al modificador por
+      Carisma y el total de DG al doble del nivel de clérigo. El manual (pág. 122) no impone duración
+      y limita los DG al nivel de clérigo, no al doble.'
   - nombre: Combate con dos armas
     tipos:
     - Combate
     prerrequisitos: Des 15
-    beneficio_resumen: tus penalizadores a las tiradas de ataque para luchar con dos armas se reducen.
+    beneficio_resumen: 'tus penalizadores por luchar con dos armas se reducen: el de la mano principal
+      en 2 y el de la mano torpe en 6. Los penalizadores finales son -4/-4, o -2/-2 si el arma de mano
+      torpe es ligera.'
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataque_mano_principal_dos_armas
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: ataque_mano_torpe_dos_armas
+        tipo: sin_tipo
+        valor: 6
+      reglas:
+      - Reduce el penalizador de la mano principal en 2 y el de la mano torpe en 6.
+      - 'Penalizadores resultantes: -2/-2 si el arma de mano torpe es ligera, -4/-4 en caso contrario.'
   - nombre: Combate con dos armas mayor
     tipos:
     - Combate
     prerrequisitos: Des 19, Combate con dos armas mejorado, Combate con dos armas, ataque base +11
     beneficio_resumen: obtienes un tercer ataque con la mano torpe, aunque con un penalizador -10.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataques_adicionales_mano_torpe
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Obtienes un tercer ataque con el arma de mano torpe, con un penalizador -10 respecto al primero.
   - nombre: Combate con dos armas mejorado
     tipos:
-    - General
+    - Combate
     prerrequisitos: Des 17, Combate con dos armas, ataque base +6
     beneficio_resumen: además del ataque adicional individual normal que obtienes con el arma de mano
       torpe, obtienes un segundo ataque con ella, aunque con un penalizador -5.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataques_adicionales_mano_torpe
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Obtienes un segundo ataque con el arma de mano torpe, con un penalizador -5 respecto al primero.
+    nota_datos: La extracción original lo clasificaba como General; es una dote de Combate.
   - nombre: Combatir desde una montura
     tipos:
     - Combate
     prerrequisitos: Montar 1 rango
     beneficio_resumen: una vez por asalto, si tu montura es impactada en combate, puedes hacer una prueba
-      de Montar (como acción inmediata) para negar el impacto, lo que consigues si….
+      de Montar como acción inmediata para negar el impacto. La CD de la prueba es igual al resultado
+      de la tirada de ataque del oponente.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Una vez por asalto, si tu montura es impactada, puedes llevar a cabo una prueba de Montar como
+        acción inmediata para negar el impacto.
+      - Niegas el impacto si el resultado de tu prueba de Montar es superior a la tirada de ataque del
+        oponente.
   - nombre: Competencia con arma exótica
     tipos:
     - Combate
     prerrequisitos: ataque base +1
     beneficio_resumen: puedes llevar a cabo tiradas de ataque con el arma de forma normal.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_no_competencia_arma
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - Elimina el penalizador -4 por falta de competencia con el arma exótica elegida.
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Competencia con arma marcial
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: llevas a cabo tiradas de ataque con el arma seleccionada de forma normal (sin el
       penalizador por no competencia).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_no_competencia_arma
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - Elimina el penalizador -4 por falta de competencia con el arma marcial elegida.
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Competencia con armadura intermedia
     tipos:
     - General
     prerrequisitos: Competencia con armadura ligera
     beneficio_resumen: ver Competencia con armadura ligera.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Igual que Competencia con armadura ligera, aplicado a la armadura intermedia.
   - nombre: Competencia con armadura ligera
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: cuando llevas un tipo de armadura con el que eres competente, el penalizador de
-      armadura para dicho tipo sólo se aplica a las pruebas de habilidad basadas en….
+    beneficio_resumen: cuando llevas armadura ligera, el penalizador por armadura se aplica sólo a las
+      pruebas de habilidad basadas en Fuerza y Destreza. Sin la competencia adecuada, dicho penalizador
+      se aplica también a las tiradas de ataque.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Con armadura ligera, el penalizador por armadura se aplica únicamente a las pruebas de habilidad
+        basadas en Fuerza y Destreza.
+      - Sin esta competencia, el penalizador por armadura se aplica además como penalizador a las tiradas
+        de ataque.
   - nombre: Competencia con armadura pesada
     tipos:
     - General
     prerrequisitos: Competencia con armadura ligera, Competencia con armadura intermedia
     beneficio_resumen: ver Competencia con armadura ligera.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Igual que Competencia con armadura ligera, aplicado a la armadura pesada.
   - nombre: Competencia con armas sencillas
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: puedes llevar a cabo ataques con armas sencillas sin penalizador.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_no_competencia_arma
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - Elimina el penalizador -4 por falta de competencia con todas las armas sencillas.
   - nombre: Competencia con escudo
     tipos:
     - Combate
     prerrequisitos: null
-    beneficio_resumen: cuando utilizas un escudo (excepto un escudo pavés), el penalizador por armadura
-      del escudo sólo se aplica a las habilidades basadas en la Fuerza y en la….
+    beneficio_resumen: cuando usas un escudo que no sea pavés, el penalizador por armadura del escudo
+      se aplica sólo a las habilidades basadas en Fuerza y Destreza. Sin la competencia adecuada, se aplica
+      también a las tiradas de ataque.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Con un escudo que no sea pavés, el penalizador por armadura del escudo se aplica sólo a las pruebas
+        de habilidad basadas en Fuerza y Destreza.
+      - Sin esta competencia, dicho penalizador se aplica también a las tiradas de ataque.
   - nombre: Competencia con escudo pavés
     tipos:
     - Combate
     prerrequisitos: Competencia con escudo
     beneficio_resumen: cuando usas un escudo pavés, el penalizador a las pruebas de armadura del escudo
       sólo se aplica a las habilidades basadas en la Fuerza y en la Destreza.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Igual que Competencia con escudo, aplicado al escudo pavés.
   - nombre: Conjurar en combate
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +4 a las pruebas de concentración llevadas a cabo para
-      lanzar un conjuro, o utilizar una aptitud sortílega lanzando a la defensiva, o….
+      lanzar un conjuro o usar una aptitud sortílega lanzando a la defensiva, o mientras estás apresado
+      o inmovilizado.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_concentracion
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - Se aplica sólo a las pruebas de concentración para lanzar a la defensiva o mientras estás apresado
+        o inmovilizado.
   - nombre: Conjurar en silencio
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: un conjuro en silencio puede lanzarse sin componentes verbales.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - El conjuro puede lanzarse sin componentes verbales.
+      - Los conjuros sin componente verbal no obtienen beneficio alguno.
   - nombre: Conjurar sin moverse
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: un conjuro sin movimiento se puede lanzar sin componentes somáticos.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - El conjuro puede lanzarse sin componentes somáticos.
+      - Los conjuros sin componente somático no obtienen beneficio alguno.
   - nombre: Conjuros naturales
     tipos:
     - General
     prerrequisitos: Sab 13, rasgo de clase forma salvaje
-    beneficio_resumen: puedes completar los componentes verbales y somáticos de los conjuros mientras
-      utilizas forma salvaje, sustituyendo los componentes normales verbales y….
+    beneficio_resumen: puedes completar los componentes verbales y somáticos de tus conjuros mientras
+      usas forma salvaje, sustituyendo los componentes normales por sonidos y movimientos que la forma
+      adoptada permita. Además puedes usar cualquier componente material o foco que lleves encima, aunque
+      esté absorbido por la forma animal.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes completar los componentes verbales y somáticos de tus conjuros mientras estás bajo los
+        efectos de forma salvaje.
+      - Sustituyes los componentes normales por sonidos y movimientos corporales que la forma adoptada
+        permita.
+      - Puedes usar cualquier componente material o foco que lleves encima aunque esté absorbido por la
+        forma animal.
+      - No te permite usar objetos mágicos en una forma que normalmente no podría usarlos, ni obtienes
+        la aptitud de hablar mientras estás en forma salvaje.
   - nombre: Conjuros perforantes
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +2 a las pruebas de nivel de lanzador (1d20 + nivel de
       lanzador), llevadas a cabo para vencer la resistencia a conjuros de una criatura.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_nivel_lanzador_rc
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
   - nombre: Conjuros perforantes mayor
     tipos:
     - General
     prerrequisitos: Conjuros perforantes
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas de nivel de lanzador (1d20 más nivel de
-      lanzador) llevadas a cabo para vencer la RC de una criatura, que se apila con….
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de nivel de lanzador llevadas a cabo para
+      vencer la resistencia a conjuros de una criatura, que se apila con el concedido por Conjuros perforantes
+      (total +4).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_nivel_lanzador_rc
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Se apila con el bonificador de Conjuros perforantes (total +4).
   - nombre: Contraatacar
     tipos:
     - Combate
     prerrequisitos: ataque base +11
     beneficio_resumen: puedes preparar una acción para llevar a cabo un ataque cuerpo a cuerpo contra
-      cualquier enemigo que te ataque en cuerpo a cuerpo, incluso si está fuera de tu….
+      cualquier enemigo que te ataque en cuerpo a cuerpo, incluso si está fuera de tu alcance.
+    activacion: preparada
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes preparar una acción para llevar a cabo un ataque cuerpo a cuerpo contra cualquier enemigo
+        que te ataque en cuerpo a cuerpo, aunque esté fuera de tu alcance.
   - nombre: Contraconjuro mejorado
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: cuando contraconjuras, puedes utilizar un conjuro de la misma escuela, uno o más
       niveles de conjuro superior al objetivo.
+    activacion: preparada
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Al contraconjurar puedes usar un conjuro de la misma escuela y de nivel igual o superior al del
+        conjuro objetivo.
+      - Sin esta dote sólo puedes contraconjurar con el mismo conjuro o con disipar magia.
   - nombre: Correr
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: cuando corres, te mueves 5 veces tu velocidad normal (si llevas armadura intermedia,
-      ligera, o ninguna armadura, y transportas no más de media carga), o 4….
+    beneficio_resumen: cuando corres te mueves 5 veces tu velocidad normal (4 veces con armadura pesada),
+      conservas tu bonificador por Destreza a la CA mientras corres y obtienes un bonificador +4 a las
+      pruebas de Acrobacias para saltar con carrerilla.
+    activacion: pasiva
+    efectos:
+    - condicion: armadura intermedia, ligera o ninguna, y carga máxima media
+      modificadores:
+      - objetivo: velocidad_carrera
+        tipo: multiplicador
+        valor: x5
+      reglas: []
+    - condicion: armadura pesada o carga pesada
+      modificadores:
+      - objetivo: velocidad_carrera
+        tipo: multiplicador
+        valor: x4
+      reglas: []
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_habilidad.Acrobacias
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El +4 se aplica sólo a las pruebas de Acrobacias para saltar con carrerilla.
+      - Conservas tu bonificador por Destreza a la CA mientras corres.
   - nombre: Crítico agotador
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, Crítico fatigante, ataque base +15
-    beneficio_resumen: cuando consigues un impacto crítico contra un enemigo, el objetivo queda inmediatamente
-      exhausto.
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda exhausto.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda exhausto.
+      - Este efecto no admite tirada de salvación.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico asombroso
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +13
-    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda grogui 1d4 +1 asaltos.
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda grogui durante 1d4+1 asaltos.
+      Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) lo reduce a grogui 1 asalto.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda grogui durante 1d4+1 asaltos.
+      - Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) reduce el efecto a grogui 1 asalto.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico aturdidor
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, Crítico asombroso, ataque base +17
     beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda aturdido durante 1d4 asaltos.
+      Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) lo reduce a grogui durante 1d4 asaltos.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda aturdido durante 1d4 asaltos.
+      - Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) reduce el efecto a grogui durante
+        1d4 asaltos.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico cegador
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +15
-    beneficio_resumen: cada vez que consigues un crítico, tu oponente queda cegado de forma permanente.
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda cegado de forma permanente.
+      Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) lo reduce a deslumbrado durante 1d4
+      asaltos.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda cegado de forma permanente.
+      - Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) reduce el efecto a deslumbrado durante
+        1d4 asaltos.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico ensordecedor
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +13
-    beneficio_resumen: cuando consigues un crítico contra un oponente, la víctima queda permanentemente
-      ensordecida.
+    beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda ensordecido de forma permanente.
+      Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) lo reduce a ensordecido 1 asalto.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda ensordecido de forma permanente.
+      - Una salvación de Fortaleza con éxito (CD 10 + tu ataque base) reduce el efecto a ensordecido 1
+        asalto.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico fatigante
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +13
     beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda fatigado.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda fatigado.
+      - Este efecto no admite tirada de salvación.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico mejorado
     tipos:
     - Combate
     prerrequisitos: competencia con el arma elegida, ataque base +8
     beneficio_resumen: tu rango de amenaza se dobla al usar el arma elegida.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: rango_amenaza_critico
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Se aplica sólo al arma elegida.
+      - No se apila con ningún otro efecto que amplíe el rango de amenaza (cualidad afilada, conjuro filo
+        mágico y similares).
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Crítico nauseabundo
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +11
     beneficio_resumen: cuando consigues un impacto crítico, tu oponente queda indispuesto durante 1 minuto.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Al confirmar un impacto crítico, el objetivo queda indispuesto durante 1 minuto.
+      - Este efecto no admite tirada de salvación.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Crítico sangrante
     tipos:
     - Combate
     - Crítico
     prerrequisitos: Soltura con los críticos, ataque base +11
     beneficio_resumen: cada vez que consigues un impacto crítico con un arma cortante o perforante, tu
-      oponente sufre 2d6 puntos de daño por sangrado (consulta el Apéndice 2) cada….
+      oponente sufre 2d6 puntos de daño por sangrado al inicio de cada uno de sus turnos. El sangrado
+      se detiene con una prueba de Curar de CD 15 o con cualquier curación mágica.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+        tipo_arma:
+        - cortante
+        - perforante
+      modificadores:
+      - objetivo: dano_sangrado_por_asalto
+        tipo: sin_tipo
+        valor: 2d6
+      reglas:
+      - El sangrado se produce al inicio del turno del objetivo.
+      - Se detiene con una prueba de Curar de CD 15 o con cualquier efecto de curación mágica.
+      - Sólo puedes aplicar una dote de crítico por impacto crítico, salvo que poseas Maestría con los
+        críticos.
   - nombre: Defensa con dos armas
     tipos:
     - Combate
     prerrequisitos: Des 15, Combate con dos armas
-    beneficio_resumen: al empuñar un arma doble o dos armas (no armas naturales o impactos sin arma),
-      obtienes un bonificador +1 por escudo a tu CA.
+    beneficio_resumen: al empuñar un arma doble o dos armas obtienes un bonificador +1 por escudo a tu
+      CA. Mientras luchas defensivamente o usas la acción de defensa total, este bonificador aumenta a
+      +2.
+    activacion: pasiva
+    efectos:
+    - condicion: empuñando un arma doble o dos armas
+      modificadores:
+      - objetivo: ca
+        tipo: escudo
+        valor: 1
+      reglas: []
+    - condicion: además, luchando defensivamente o en defensa total
+      cuando:
+        luchando_defensivamente: true
+      modificadores:
+      - objetivo: ca
+        tipo: escudo
+        valor: 2
+      reglas:
+      - Sustituye al bonificador +1; no se apila con él.
   - nombre: Derribo mayor
     tipos:
     - Combate
     prerrequisitos: Pericia en combate, Derribo mejorado, ataque base +6, Int 13
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para derribar a un enemigo,
-      bonificador que se apila con el concedido por Derribo mejorado.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para derribar a un enemigo, que se apila
+      con el concedido por Derribo mejorado. Cada vez que derribas con éxito a un oponente, éste provoca
+      ataques de oportunidad.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_derribo
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Derribo mejorado.
+      - 'Esta dote NO concede bonificador al DMC: sólo Derribo mejorado lo concede.'
+      - Cada vez que derribas con éxito a un oponente, éste provoca ataques de oportunidad.
   - nombre: Derribo mejorado
     tipos:
     - Combate
     prerrequisitos: Int 13, Pericia en combate
-    beneficio_resumen: cuando llevas a cabo una maniobra de combate de derribo no provocas ataques de
-      oportunidad, obteniendo un bonificador +2 a las pruebas llevadas a cabo para….
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      derribo. Además obtienes un bonificador +2 a las pruebas de maniobra de derribo y un bonificador
+      +2 a tu DMC cuando un oponente intente derribo contra ti.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_derribo
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_derribo
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de derribo.
   - nombre: Desarme mayor
     tipos:
     - Combate
     prerrequisitos: Pericia en combate, Desarme mejorado, ataque base +6, Int 13
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas que llevas a cabo para desarmar a un enemigo,
-      bonificador que se apila con el que concede Desarme mejorado.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para desarmar a un enemigo, que se apila
+      con el concedido por Desarme mejorado. Cuando desarmas con éxito, el arma aterriza a 15 pies (4,5
+      m) de quien la empuñaba, en dirección aleatoria.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_desarme
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Desarme mejorado.
+      - 'Esta dote NO concede bonificador al DMC: sólo Desarme mejorado lo concede.'
+      - Cuando desarmas con éxito, el arma aterriza a 15 pies (4,5 m) de quien la empuñaba, en una dirección
+        aleatoria.
   - nombre: Desarme mejorado
     tipos:
     - Combate
     prerrequisitos: Int 13, Pericia en combate
-    beneficio_resumen: cuando llevas a cabo una maniobra de combate de desarme, no provocas ataques de
-      oportunidad.
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      desarme. Además obtienes un bonificador +2 a las pruebas de maniobra de desarme y un bonificador
+      +2 a tu DMC cuando un oponente intente desarme contra ti.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_desarme
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_desarme
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de desarme.
   - nombre: Desenvainado rápido
     tipos:
     - Combate
     prerrequisitos: ataque base +1
     beneficio_resumen: puedes desenvainar un arma como acción gratuita en lugar de como acción de movimiento,
-      y un arma oculta (consulta la habilidad Juego de manos) como una acción….
+      y un arma oculta como acción de movimiento. Además puedes lanzar armas arrojadizas a tu ritmo completo
+      de ataques. No permite desenvainar objetos que no sean armas como acción gratuita.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes desenvainar un arma como acción gratuita en lugar de como acción de movimiento.
+      - Puedes desenvainar un arma oculta como acción de movimiento.
+      - Puedes lanzar armas arrojadizas a tu ritmo completo de ataques.
+      - No permite desenvainar objetos que no sean armas como acción gratuita.
   - nombre: Desgarrar con dos armas
     tipos:
     - Combate
@@ -4808,353 +6261,1246 @@ dotes:
       base +11
     beneficio_resumen: si aciertas a un oponente con tu arma principal y tu arma de mano torpe, inf liges
       1d10 puntos de golpe adicionales, más vez y media tu modificador por Fuerza.
+    activacion: pasiva
+    efectos:
+    - condicion: aciertas con arma principal y de mano torpe en el mismo asalto
+      modificadores:
+      - objetivo: dano_adicional
+        tipo: sin_tipo
+        valor: 1d10
+      reglas:
+      - Suma además vez y media tu modificador por Fuerza al daño adicional.
+      - Sólo se aplica una vez por asalto.
   - nombre: Desmontar jinete
     tipos:
     - Combate
     prerrequisitos: Fue 13, Montar 1 rango, Combatir desde una montura, Ataque poderoso, Embestida mejorada,
       ataque base +1
     beneficio_resumen: cuando cargas desde una montura contra un oponente empuñando una lanza de caballería,
-      resuelves el ataque de la forma normal.
+      resuelves el ataque de forma normal. Si impactas, puedes llevar a cabo de inmediato un intento gratuito
+      de embestida además del daño normal; si tienes éxito, el objetivo queda desmontado y tumbado en
+      un espacio adyacente a su montura, directamente opuesto a ti.
+    activacion: accion_de_carga_montado
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Al cargar montado empuñando una lanza de caballería, resuelves el ataque de forma normal.
+      - Si impactas, puedes llevar a cabo de inmediato un intento gratuito de embestida además del daño
+        normal.
+      - Si tienes éxito, el objetivo queda desmontado y tumbado en un espacio adyacente a su montura,
+        directamente opuesto a ti.
   - nombre: Destrozar defensas
     tipos:
     - Combate
     prerrequisitos: Soltura con un arma, Exhibición deslumbrante, ataque base +6, competencia con un arma
-    beneficio_resumen: cualquier oponente estremecido, asustado, o despavorido a quien aciertas este asalto
-      queda desprevenido ante tus ataques hasta el final de tu siguiente turno,….
+    beneficio_resumen: cualquier oponente estremecido, asustado o despavorido al que aciertes este asalto
+      queda desprevenido ante tus ataques hasta el final de tu siguiente turno. Debes empuñar el arma
+      con la que tienes Soltura con un arma.
+    activacion: pasiva
+    efectos:
+    - condicion: oponente estremecido, asustado o despavorido al que impactas este asalto
+      modificadores: []
+      reglas:
+      - El oponente queda desprevenido ante tus ataques hasta el final de tu siguiente turno.
+      - Debes empuñar el arma con la que tienes Soltura con un arma.
+      - Incluye cualquier ataque adicional que lleves a cabo ese mismo asalto.
   - nombre: Desviar flechas
     tipos:
     - Combate
     prerrequisitos: Des 13, Impacto sin arma mejorado
-    beneficio_resumen: debes tener por lo menos una mano libre (es decir que no empuñas nada con ellas)
-      para utilizar esta dote.
+    beneficio_resumen: una vez por asalto, cuando serías impactado por un ataque a distancia, puedes desviarlo
+      y no sufrir daño alguno. Debes tener al menos una mano libre, ser consciente del ataque y no estar
+      desprevenido.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Una vez por asalto, cuando serías impactado por un ataque a distancia, puedes desviarlo y no sufrir
+        daño.
+      - Debes tener al menos una mano libre y ser consciente del ataque.
+      - No funciona si estás desprevenido.
+      - No puede desviar proyectiles excepcionalmente grandes ni efectos de conjuro.
+      - Intentar el desvío no cuenta como una acción.
   - nombre: Detener
     tipos:
     - Combate
     prerrequisitos: Reflejos de combate
-    beneficio_resumen: cuando un enemigo provoca un ataque de oportunidad debido a moverse a través de
-      tus casillas adyacentes, puedes llevar a cabo una prueba de maniobras de….
+    beneficio_resumen: cuando un enemigo provoca un ataque de oportunidad al moverse por casillas adyacentes
+      a ti, puedes llevar a cabo una prueba de maniobra de combate como ataque de oportunidad. Si tienes
+      éxito, el enemigo no puede moverse durante el resto de su turno, aunque sí puede completar el resto
+      de su acción.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Cuando un enemigo provoca un ataque de oportunidad al moverse por casillas adyacentes a ti, puedes
+        llevar a cabo una prueba de maniobra de combate como ataque de oportunidad.
+      - Si tienes éxito, el enemigo no puede moverse durante el resto de su turno, aunque sí puede completar
+        el resto de su acción.
+      - También se aplica a cualquier criatura que intente moverse desde una casilla adyacente a ti, si
+        ese movimiento provoca un ataque de oportunidad.
+    nota_datos: 'CORRECCIÓN: una versión previa añadía una salvación de Reflejos para evitar el efecto;
+      no aparece en el manual (pág. 136).'
   - nombre: Disparar desde una montura
     tipos:
     - Combate
     prerrequisitos: Montar 1 rango, Combatir desde una montura
-    beneficio_resumen: 'el penalizador que sufres cuando utilizas un arma a distancia montado se reduce
-      a la mitad: -2 en lugar de -4 si tu montura utiliza un movimiento doble, y -4….'
+    beneficio_resumen: 'el penalizador que sufres al usar un arma a distancia montado se reduce a la mitad:
+      -2 en lugar de -4 si tu montura usa un movimiento doble, y -4 en lugar de -8 si tu montura corre.'
+    activacion: pasiva
+    efectos:
+    - condicion: la montura usa un movimiento doble
+      modificadores:
+      - objetivo: ataque_a_distancia_montado
+        tipo: penalizador
+        valor: -2
+      reglas:
+      - Sustituye al penalizador -4 normal.
+    - condicion: la montura corre
+      modificadores:
+      - objetivo: ataque_a_distancia_montado
+        tipo: penalizador
+        valor: -4
+      reglas:
+      - Sustituye al penalizador -8 normal.
   - nombre: Disparo a bocajarro
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +1 a las tiradas de ataque y de daño con armas a distancia
       a alcances de hasta 30 pies (9 m).
+    activacion: pasiva
+    efectos:
+    - condicion: objetivo a 30 pies (9 m) o menos
+      cuando:
+        distancia_pies:
+          max: 30
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: sin_tipo
+        valor: 1
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 1
+      reglas: []
   - nombre: Disparo a la carrera
     tipos:
     - Combate
     prerrequisitos: Des 13, Esquiva, Movilidad, Disparo a bocajarro, ataque base +4
     beneficio_resumen: como acción de asalto completo, puedes moverte hasta tu velocidad y llevar a cabo
       un sólo ataque a distancia en cualquier momento durante tu movimiento.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Como acción de asalto completo, te mueves hasta tu velocidad y llevas a cabo un solo ataque a
+        distancia en cualquier punto del movimiento.
+      - El movimiento provoca ataques de oportunidad con normalidad.
   - nombre: Disparo a larga distancia
     tipos:
     - Combate
     prerrequisitos: Disparo a bocajarro
     beneficio_resumen: sólo sufres un penalizador -1 por cada incremento completo de rango entre tu objetivo
       y tú cuando usas un arma a distancia.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_por_incremento_alcance
+        tipo: sin_tipo
+        valor: -1
+      reglas:
+      - Sustituye al penalizador -2 por incremento de alcance normal.
   - nombre: Disparo preciso
     tipos:
     - Combate
     prerrequisitos: Disparo a bocajarro
     beneficio_resumen: puedes disparar o lanzar armas a distancia contra un oponente que esté en combate
       cuerpo a cuerpo sin la penalización -4 estándar a tu tirada de ataque.
+    activacion: pasiva
+    efectos:
+    - condicion: objetivo trabado en combate cuerpo a cuerpo
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: 0
+      reglas:
+      - Elimina el penalizador -4 por disparar contra un oponente trabado en combate cuerpo a cuerpo.
   - nombre: Disparo preciso mejorado
     tipos:
     - Combate
     prerrequisitos: Des 19, Disparo a bocajarro, Disparo preciso, ataque base +11
-    beneficio_resumen: tus ataques a distancia ignoran el bonificador a la CA concedido a los objetivos
-      por cualquier causa menor que la cobertura total, y la probabilidad de fallo….
+    beneficio_resumen: tus ataques a distancia ignoran el bonificador a la CA concedido por cualquier
+      cobertura inferior a la total, y la probabilidad de fallo por cualquier ocultación inferior a la
+      total. No puedes atacar objetivos con cobertura u ocultación totales.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Tus ataques a distancia ignoran el bonificador a la CA concedido por cualquier grado de cobertura
+        inferior a la cobertura total.
+      - Tus ataques a distancia ignoran la probabilidad de fallo por cualquier grado de ocultación inferior
+        a la ocultación total.
+      - No permite atacar a un objetivo con cobertura total u ocultación total.
+  - nombre: Disparo rápido
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Disparo a bocajarro
+    beneficio_resumen: cuando llevas a cabo una acción de ataque completo con un arma a distancia, obtienes
+      un ataque adicional a tu ataque base más alto. Todos tus ataques a distancia de ese asalto sufren
+      un penalizador -2.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -2
+      - objetivo: ataques_adicionales_a_distancia
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - El ataque adicional se lleva a cabo a tu ataque base más alto.
+      - El penalizador -2 se aplica a todos tus ataques a distancia del asalto.
+      - Sólo puedes usarla como parte de una acción de ataque completo.
+    nota_datos: Dote ausente en la extracción original; se referenciaba como prerrequisito de Disparos
+      múltiples. Reconstruida (Rapid Shot).
   - nombre: Disparos múltiples
     tipos:
     - Combate
     prerrequisitos: Des 17, Disparo a bocajarro, Disparo rápido, ataque base +6
     beneficio_resumen: cuando llevas a cabo una acción de ataque completo con un arco, tu primer ataque
       dispara 2 f lechas y, si tiene éxito, ambas f lechas impactan.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - En una acción de ataque completo con un arco, tu primer ataque dispara 2 flechas; si impacta,
+        ambas flechas alcanzan al objetivo.
+      - Tira el daño de cada flecha por separado; los bonificadores al daño se aplican a ambas.
+      - El daño de precisión (como ataque furtivo) y el daño de crítico se aplican sólo a la primera flecha.
+      - Los bonificadores al daño (arco compuesto por Fuerza, enemigo predilecto, etc.) se aplican a cada
+        flecha.
+      - La reducción de daño y las resistencias se aplican por separado a cada flecha.
   - nombre: Doble tajo
     tipos:
     - Combate
     prerrequisitos: Des 15, Combate con dos armas
     beneficio_resumen: sumas tu bonificador por Fuerza a las tiradas de daño de los ataques que lleves
       a cabo con tu arma de mano torpe.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dano_mano_torpe_por_fuerza
+        tipo: multiplicador
+        valor: x1
+      reglas:
+      - Sumas tu modificador por Fuerza completo al daño de la mano torpe, en lugar de la mitad.
   - nombre: Dureza
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes +3 puntos de golpe.
+    beneficio_resumen: obtienes +3 puntos de golpe. Por cada Dado de Golpe que poseas por encima de 3,
+      obtienes 1 punto de golpe adicional (es decir, el total es igual a tus Dados de Golpe, con un mínimo
+      de 3).
+    activacion: pasiva
+    efectos:
+    - condicion: 3 Dados de Golpe o menos
+      cuando:
+        dados_de_golpe:
+          max: 3
+      modificadores:
+      - objetivo: puntos_de_golpe
+        tipo: sin_tipo
+        valor: 3
+      reglas: []
+    - condicion: 4 o más Dados de Golpe
+      cuando:
+        dados_de_golpe:
+          min: 4
+      modificadores:
+      - objetivo: puntos_de_golpe
+        tipo: formula
+        valor: 1_por_dado_de_golpe
+      reglas:
+      - Obtienes 1 punto de golpe por Dado de Golpe que poseas.
   - nombre: Duro de pelar
     tipos:
     - General
     prerrequisitos: Aguante
-    beneficio_resumen: cuando tu total de puntos de golpe se encuentra por debajo de 0, pero no estás
-      muerto, te estabilizas automáticamente, y no necesitas llevar a cabo una prueba….
+    beneficio_resumen: cuando tus puntos de golpe están por debajo de 0 pero no estás muerto, te estabilizas
+      automáticamente y permaneces consciente y capaz de actuar en estado incapacitado. Cada acción estándar
+      o de asalto completo te inflige 1 punto de daño adicional.
+    activacion: pasiva
+    efectos:
+    - condicion: puntos de golpe por debajo de 0 pero no muerto
+      cuando:
+        puntos_de_golpe_actuales:
+          max: -1
+      modificadores: []
+      reglas:
+      - Te estabilizas automáticamente, sin necesidad de prueba de Constitución.
+      - Permaneces consciente y puedes actuar, aunque en estado incapacitado (grogui).
+      - Cada acción estándar o de asalto completo que lleves a cabo te inflige 1 punto de daño adicional.
+      - Mueres igualmente si tus puntos de golpe llegan a un negativo igual a tu puntuación de Constitución.
+      - Debes decidir actuar como incapacitado en cuanto quedes reducido a puntos de golpe negativos,
+        incluso si no es tu turno; si no lo haces, quedas inconsciente de inmediato.
+      - Puedes llevar a cabo una acción de movimiento sin causarte más heridas.
   - nombre: Elaborar poción
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 3º
-    beneficio_resumen: puedes crear una poción de cualquier conjuro de 3er nivel o menor que conozcas,
-      y que tenga como objetivo a una o más criaturas u objetos.
+    beneficio_resumen: puedes crear una poción de cualquier conjuro de 3er nivel o inferior que conozcas
+      y que tenga como objetivo a una o más criaturas u objetos. El coste en materias primas es la mitad
+      del precio base y requiere 1 día por cada 1.000 po de dicho precio.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear una poción de cualquier conjuro de 3er nivel o inferior que conozcas, cuyo objetivo
+        sean una o más criaturas u objetos.
+      - 'Coste en materias primas: la mitad del precio base de la poción.'
+      - Requiere 1 día por cada 1.000 po del precio base (mínimo 1 día).
+      - Elaborar una poción cuesta 2 horas si su precio base es de 250 po o menos.
+      - Al elaborarla fijas el nivel de lanzador, que no puede superar el tuyo.
   - nombre: Embestida mayor
     tipos:
     - Combate
     prerrequisitos: Embestida mejorada, Ataque poderoso, ataque base +6, Fue 13
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas para embestir a un enemigo, que
-      se apila con el que concede Embestida mejorada.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para embestir a un enemigo, que se apila
+      con el concedido por Embestida mejorada. Cuando embistes a un oponente, su movimiento provoca ataques
+      de oportunidad de todos sus aliados (pero no tuyos).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_embestida
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Embestida mejorada.
+      - 'Esta dote NO concede bonificador al DMC: sólo Embestida mejorada lo concede.'
+      - Cuando embistes a un oponente, su movimiento provoca ataques de oportunidad de todos sus aliados
+        (pero no tuyos).
+    nota_datos: 'VERIFICADO CONTRA EL PDF. Atención al mapeo de la traducción de Devir: «Arrollar» es
+      Overrun y «Embestida» es Bull rush, al contrario de lo que sugiere el parecido fonético.'
   - nombre: Embestida mejorada
     tipos:
     - Combate
     prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
     beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
-      embestida.
+      embestida. Además obtienes un bonificador +2 a las pruebas de maniobra de embestida y un bonificador
+      +2 a tu DMC cuando un oponente intente embestida contra ti.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_embestida
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_embestida
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de embestida.
   - nombre: Engañoso
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de Engañar y de Disfrazarse.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Engañar y de Disfrazarse. Si tienes
+      10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Engañar
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Disfrazarse
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Engañar
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Disfrazarse
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Entrenamiento arcano con armadura
     tipos:
     - General
     prerrequisitos: Competencia con armadura ligera, nivel de lanzador 3º
-    beneficio_resumen: como acción rápida, reduces la probabilidad de fallo de conjuro arcano debido a
-      la armadura que llevas puesta en un 10% para cualquier conjuro que lances este….
+    beneficio_resumen: como acción rápida, reduces en un 10% la probabilidad de fallo de conjuro arcano
+      debida a la armadura que llevas puesta, para cualquier conjuro que lances ese asalto.
+    activacion: rapida
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: fallo_conjuro_arcano
+        tipo: sin_tipo
+        valor: -10
+      reglas:
+      - La reducción del 10% se aplica a todos los conjuros que lances ese asalto.
   - nombre: Entrenamiento en combate defensivo
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: tratas el total de tus Dados de golpe como tu ataque base cuando calculas tu Defensa
       contra las maniobras de combate (consulta el Capítulo 8).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      sustituciones:
+      - en: dmc
+        usar: dados_de_golpe_totales
+        en_lugar_de: ataque_base
+      reglas:
+      - Tratas el total de tus Dados de Golpe como si fuera tu ataque base al calcular tu Defensa contra
+        maniobras de combate.
+      - No afecta a tu BMC ni a tus tiradas de ataque.
   - nombre: Especialización con un arma
     tipos:
     - Combate
     prerrequisitos: competencia con el arma seleccionada, Soltura con un arma con el arma seleccionada,
       guerrero de 4º nivel
     beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de daño con el arma seleccionada.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dano_arma_seleccionada
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Especialización mayor con un arma
     tipos:
-    - General
+    - Combate
     prerrequisitos: competencia con el arma elegida, Soltura mayor con un arma con el arma elegida, Soltura
       con un arma con el arma elegida, Especialización con un arma con el arma elegida, guerrero de 12º
       nivel
     beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de daño con el arma seleccionada,
-      que se apila con otros bonificadores a la tirada de daño, incluyendo los que….
+      que se apila con el de Especialización con un arma (total +4).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dano_arma_seleccionada
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Se apila con Especialización con un arma (total +4).
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
+    nota_datos: La extracción original lo clasificaba como General; es una dote de Combate.
   - nombre: Esquiva
     tipos:
     - Combate
     prerrequisitos: Des 13
     beneficio_resumen: obtienes un bonificador +1 por esquiva a tu CA.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ca
+        tipo: esquiva
+        valor: 1
+      reglas:
+      - Pierdes este bonificador en cualquier situación en la que pierdas tu bonificador por Destreza
+        a la CA.
+      - Los bonificadores por esquiva se apilan entre sí.
   - nombre: Estilo del escorpión
     tipos:
     - Combate
     prerrequisitos: Impacto sin arma mejorado
-    beneficio_resumen: para utilizar esta dote, debes llevar a cabo un sólo ataque sin armas como acción
-      estándar.
+    beneficio_resumen: como acción estándar, llevas a cabo un solo ataque sin armas; si impactas, la velocidad
+      del objetivo se reduce a 5 pies (1,5 m) durante un número de asaltos igual a tu modificador por
+      Sabiduría, salvo que supere una salvación de Fortaleza (CD 10 + 1/2 tu nivel de personaje + tu modificador
+      por Sabiduría).
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Como acción estándar, llevas a cabo un solo ataque sin armas.
+      - Si impactas, la velocidad del objetivo se reduce a 5 pies (1,5 m) durante un número de asaltos
+        igual a tu modificador por Sabiduría.
+      - Una salvación de Fortaleza con éxito (CD 10 + 1/2 tu nivel de personaje + tu modificador por Sabiduría)
+        niega el efecto.
   - nombre: Exhibición deslumbrante
     tipos:
     - Combate
     prerrequisitos: Soltura con un arma, competencia con el arma seleccionada
     beneficio_resumen: mientras empuñas el arma con la que tienes Soltura con un arma, puedes llevar a
-      cabo una apabullante demostración de pericia como acción de asalto completo.
+      cabo como acción de asalto completo una prueba de Intimidar para desmoralizar a todos los oponentes
+      a 30 pies (9 m) o menos que puedan verte.
+    activacion: asalto_completo
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Empuñando el arma con la que tienes Soltura con un arma, llevas a cabo una prueba de Intimidar
+        para desmoralizar a todos los oponentes a 30 pies (9 m) o menos que puedan verte.
+      - Se resuelve una prueba de Intimidar independiente contra cada oponente.
   - nombre: Expulsar muertos vivientes
     tipos:
     - General
     prerrequisitos: rasgo de clase canalizar energía positiva
-    beneficio_resumen: puedes, como acción estándar, utilizar uno de tus usos de canalizar energía positiva
-      para que todos los muertos vivientes a 30 pies (4,5 m) o menos de ti huyan….
+    beneficio_resumen: como acción estándar, gasta un uso de canalizar energía positiva para que todos
+      los muertos vivientes a 30 pies (9 m) o menos huyan durante 1 minuto. Una salvación de Voluntad
+      con éxito (CD 10 + 1/2 tu nivel de clase + tu modificador por Carisma) niega el efecto. Los muertos
+      vivientes que no puedan huir quedan acobardados.
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Gasta un uso de canalizar energía positiva para hacer huir a los muertos vivientes a 30 pies (9
+        m) o menos.
+      - Cada objetivo puede llevar a cabo una salvación de Voluntad (CD 10 + 1/2 tu nivel de clase + tu
+        modificador por Carisma) para negar el efecto.
+      - Los que fallan huyen durante 1 minuto; si no pueden huir, quedan acobardados.
+      - Los muertos vivientes inteligentes tienen derecho a una nueva salvación cada asalto para acabar
+        el efecto.
+      - 'Usada así, la canalización no tiene ningún otro efecto: no cura ni daña a las criaturas cercanas.'
+      - El manual imprime «30 pies (4,5 m)»; la conversión correcta de 30 pies es 9 m.
   - nombre: Extender conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: puedes alterar un conjuro de explosión, emanación, o expansión, para que incremente
       su área de efecto.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 3
+      - objetivo: area_conjuro
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Sólo afecta a conjuros de explosión, emanación, línea o expansión.
+      - Duplica la dimensión característica del área (radio, longitud de la línea, etc.).
   - nombre: Fabricar armas y armaduras mágicas
     tipos:
-    - General
+    - Creación de objeto
     prerrequisitos: nivel de lanzador 5º
-    beneficio_resumen: puedes crear armas, armaduras, o escudos mágicos.
+    beneficio_resumen: puedes crear armas, armaduras y escudos mágicos. El coste en materias primas es
+      la mitad del precio base del objeto y su fabricación requiere 1 día por cada 1.000 po de dicho precio
+      base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear armas, armaduras y escudos mágicos.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - La creación de un arma, armadura o escudo mágico requiere 1 día por cada 1.000 po de su precio
+        base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
+    nota_datos: La extracción original lo clasificaba como General; es una dote de Creación de objeto.
   - nombre: Fabricar bastón
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 11º
-    beneficio_resumen: puedes crear cualquier bastón cuyos prerrequisitos cumplas.
+    beneficio_resumen: puedes crear cualquier bastón cuyos prerrequisitos cumplas. El coste en materias
+      primas es la mitad del precio base y su fabricación requiere 1 día por cada 1.000 po de dicho precio
+      base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear bastones mágicos.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - El bastón debe cumplir todos los prerrequisitos de conjuro; su creación requiere 1 día por cada
+        1.000 po de su precio base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
   - nombre: Fabricar cetro
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 9º
-    beneficio_resumen: puedes crear cetros mágicos.
+    beneficio_resumen: puedes crear cetros mágicos. El coste en materias primas es la mitad del precio
+      base y su fabricación requiere 1 día por cada 1.000 po de dicho precio base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear cetros mágicos.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - La creación de un cetro requiere 1 día por cada 1.000 po de su precio base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
+  - nombre: Fabricar objeto maravilloso
+    tipos:
+    - Creación de objeto
+    prerrequisitos: nivel de lanzador 3º
+    beneficio_resumen: puedes crear objetos maravillosos. El coste en materias primas es la mitad del
+      precio base del objeto y su fabricación requiere 1 día por cada 1.000 po de dicho precio base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear objetos maravillosos.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - La creación de un objeto maravilloso requiere 1 día por cada 1.000 po de su precio base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
+    nota_datos: Dote ausente en la extracción original. Reconstruida (Craft Wondrous Item).
   - nombre: Fabricar varita
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 5º
     beneficio_resumen: puedes crear una varita de cualquier conjuro de 4º nivel o inferior que conozcas.
+      La varita tiene 50 cargas, cuesta en materias primas la mitad de su precio base y requiere 1 día
+      por cada 1.000 po de dicho precio.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear varitas de cualquier conjuro de 4º nivel o inferior que conozcas.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - Una varita recién creada tiene 50 cargas; su creación requiere 1 día por cada 1.000 po de su precio
+        base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
   - nombre: Familiar mejorado
     tipos:
     - General
     prerrequisitos: aptitud para adquirir un familiar, alineamiento compatible, nivel suficientemente
       alto (ver más abajo)
-    beneficio_resumen: al escoger un familiar, las criaturas relacionadas a continuación también están
-      disponibles para ti (consulta el Bestiario para las estadísticas de dichas….
+    beneficio_resumen: 'al escoger familiar puedes elegir también entre una lista ampliada de criaturas,
+      con un nivel de lanzador mínimo por criatura, y con un alineamiento alejado hasta un paso del tuyo
+      en cada eje. Se aplican las reglas de familiar normal con dos excepciones: si el tipo de criatura
+      no es animal, su tipo no cambia; y el familiar no obtiene la aptitud de hablar con otras criaturas
+      de su especie.'
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Al escoger familiar puedes elegir también entre una lista ampliada de criaturas, con un nivel
+        de lanzador mínimo por criatura (3º, 5º o 7º).
+      - El familiar puede tener un alineamiento alejado hasta un paso del tuyo en cada eje (legal-caótico
+        y bueno-maligno).
+      - 'Se aplican las reglas de familiar normal con dos excepciones: si el tipo de criatura no es animal,
+        su tipo no cambia; y no obtiene la aptitud de hablar con otras criaturas de su especie.'
+      - Consulta el Bestiario para las estadísticas de las criaturas disponibles.
+    nota_datos: 'CORRECCIÓN: una versión previa afirmaba que el familiar mejorado no obtiene las aptitudes
+      especiales de un familiar normal; el manual sólo recoge dos excepciones concretas (pág. 129).'
   - nombre: Finta mayor
     tipos:
     - Combate
     prerrequisitos: Pericia en combate, Finta mejorada, ataque base +6, Int 13
     beneficio_resumen: Cuando fintas con éxito, el oponente pierde su bonificador por Destreza hasta el
       inicio de tu siguiente turno.
+    activacion: pasiva
+    efectos:
+    - condicion: finta con éxito
+      modificadores: []
+      reglas:
+      - El oponente pierde su bonificador por Destreza a la CA hasta el inicio de tu siguiente turno,
+        en lugar de sólo contra tu siguiente ataque.
   - nombre: Finta mejorada
     tipos:
     - Combate
     prerrequisitos: Int 13, Pericia en combate
     beneficio_resumen: puedes llevar a cabo una prueba de Engañar para fintar en combate, como acción
       de movimiento.
+    activacion: movimiento
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes llevar a cabo una prueba de Engañar para fintar en combate como acción de movimiento en
+        lugar de como acción estándar.
   - nombre: Forjar anillo
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 7º
-    beneficio_resumen: puedes crear anillos mágicos.
+    beneficio_resumen: puedes crear anillos mágicos. El coste en materias primas es la mitad del precio
+      base y su fabricación requiere 1 día por cada 1.000 po de dicho precio base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear anillos mágicos.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - La creación de un anillo requiere 1 día por cada 1.000 po de su precio base.
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
   - nombre: Furia adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase furia
     beneficio_resumen: puedes entrar en furia 6 asaltos adicionales/ día.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: asaltos_furia_dia
+        tipo: sin_tipo
+        valor: 6
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
   - nombre: Golpe arcano
     tipos:
     - Combate
     prerrequisitos: aptitud para lanzar conjuros arcanos
-    beneficio_resumen: como acción rápida, puedes imbuir tus armas con una fracción de tu poder.
+    beneficio_resumen: 'como acción rápida, imbuyes tus armas con una fracción de tu poder: durante 1
+      asalto obtienes un bonificador +1 a las tiradas de daño y tus armas se consideran mágicas para superar
+      la reducción de daño. El bonificador aumenta en +1 por cada 5 niveles de lanzador, hasta un máximo
+      de +5 a nivel 20.'
+    activacion: rapida
+    efectos:
+    - condicion: nivel de lanzador 1º a 4º
+      cuando:
+        nivel_lanzador:
+          min: 1
+          max: 4
+      modificadores:
+      - objetivo: dano_arma
+        tipo: sin_tipo
+        valor: 1
+      reglas: []
+    - condicion: nivel de lanzador 5º a 9º
+      cuando:
+        nivel_lanzador:
+          min: 5
+          max: 9
+      modificadores:
+      - objetivo: dano_arma
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: nivel de lanzador 10º a 14º
+      cuando:
+        nivel_lanzador:
+          min: 10
+          max: 14
+      modificadores:
+      - objetivo: dano_arma
+        tipo: sin_tipo
+        valor: 3
+      reglas: []
+    - condicion: nivel de lanzador 15º a 19º
+      cuando:
+        nivel_lanzador:
+          min: 15
+          max: 19
+      modificadores:
+      - objetivo: dano_arma
+        tipo: sin_tipo
+        valor: 4
+      reglas: []
+    - condicion: nivel de lanzador 20º o superior
+      cuando:
+        nivel_lanzador:
+          min: 20
+      modificadores:
+      - objetivo: dano_arma
+        tipo: sin_tipo
+        valor: 5
+      reglas: []
+    - condicion: null
+      modificadores: []
+      reglas:
+      - El efecto dura 1 asalto y se activa como acción rápida.
+      - Mientras dura, tus armas se consideran mágicas a efectos de superar la reducción de daño.
   - nombre: Golpe mortal
     tipos:
     - Combate
     prerrequisitos: Exhibición deslumbrante, Soltura mayor con un arma, Destrozar defensas, Soltura con
       un arma, competencia con el armas seleccionada, ataque base +11
-    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque con el arma en la que
-      tienes Soltura mayor con un arma, contra un enemigo aturdido o desprevenido.
+    beneficio_resumen: 'como acción estándar, llevas a cabo un solo ataque con el arma en la que tienes
+      Soltura mayor con un arma contra un enemigo aturdido o desprevenido: inflige el doble de daño y
+      1 punto de daño por sangrado a la Constitución.'
+    activacion: estandar
+    efectos:
+    - condicion: oponente aturdido o desprevenido
+      modificadores:
+      - objetivo: dano_arma
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Como acción estándar, llevas a cabo un solo ataque con el arma en la que tienes Soltura mayor
+        con un arma.
+      - El objetivo sufre además 1 punto de daño por sangrado a la Constitución.
+      - El daño doble no se multiplica de nuevo en caso de crítico.
+      - El daño adicional y el sangrado no se multiplican con un impacto crítico.
   - nombre: Golpe perforante
     tipos:
     - Combate
     prerrequisitos: Soltura con un arma, guerrero de nivel 12º, competencia con un arma
     beneficio_resumen: tus ataques con las armas seleccionadas con Soltura con un arma ignoran hasta 5
       puntos de RD.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: reduccion_dano_ignorada
+        tipo: sin_tipo
+        valor: 5
+      reglas:
+      - Se aplica sólo a las armas elegidas con Soltura con un arma.
+      - No se aplica a la reducción de daño sin tipo (RD x/—).
   - nombre: Golpe perforante mayor
     tipos:
     - Combate
     prerrequisitos: Golpe perforante, Soltura con un arma, guerrero de nivel 16º
-    beneficio_resumen: tus ataques con las armas seleccionadas con Soltura con un arma ignoran hasta 10
-      puntos de RD, cantidad que se reduce a 5 para la RD que no tiene tipo alguno….
+    beneficio_resumen: tus ataques con las armas elegidas con Soltura con un arma ignoran hasta 10 puntos
+      de reducción de daño, cantidad que se reduce a 5 frente a la reducción de daño sin tipo (RD x/—).
+    activacion: pasiva
+    efectos:
+    - condicion: reducción de daño con tipo
+      modificadores:
+      - objetivo: reduccion_dano_ignorada
+        tipo: sin_tipo
+        valor: 10
+      reglas: []
+    - condicion: reducción de daño sin tipo (RD x/—)
+      modificadores:
+      - objetivo: reduccion_dano_ignorada
+        tipo: sin_tipo
+        valor: 5
+      reglas: []
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Sustituye a Golpe perforante; no se apila con él.
   - nombre: Golpe vital
     tipos:
     - Combate
     prerrequisitos: ataque base +6
     beneficio_resumen: cuando utilizas la acción de ataque, puedes llevar a cabo un ataque a tu ataque
       base más alto, que inf lige daño adicional.
+    activacion: accion_de_ataque
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dados_dano_arma
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Sólo puedes usarla con la acción de atacar, no con un ataque completo.
+      - Se multiplican únicamente los dados de daño del arma; no se multiplican bonificadores por Fuerza,
+        mejora, aptitudes ni daño de precisión.
+      - En caso de crítico, este daño adicional no se multiplica de nuevo.
+      - Los puntos de daño adicional no se multiplican con un impacto crítico, pero se suman al total.
   - nombre: Golpe vital mayor
     tipos:
     - Combate
     prerrequisitos: Golpe vital mejorado, Golpe vital, ataque base +16
-    beneficio_resumen: cuando utilizas la acción de atacar, tira 4 veces el dado de daño para el ataque,
-      y suma los resultados antes de añadir los bonificadores por Fuerza, aptitudes….
+    beneficio_resumen: cuando utilizas la acción de atacar, tira 4 veces los dados de daño del arma y
+      suma los resultados antes de añadir bonificadores por Fuerza, aptitudes, mejora o daño de precisión,
+      que no se multiplican.
+    activacion: accion_de_ataque
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dados_dano_arma
+        tipo: multiplicador
+        valor: x4
+      reglas:
+      - Sustituye al efecto de Golpe vital y Golpe vital mejorado; no se apila con ellos.
+      - Se multiplican únicamente los dados de daño del arma.
   - nombre: Golpe vital mejorado
     tipos:
     - Combate
     prerrequisitos: Golpe vital, ataque base +11
-    beneficio_resumen: cuando utilizas la acción de ataque, tira 3 veces el dado de daño para el ataque,
-      y suma los resultados antes de añadir los bonificadores por Fuerza, aptitudes….
+    beneficio_resumen: cuando utilizas la acción de atacar, tira 3 veces los dados de daño del arma y
+      suma los resultados antes de añadir bonificadores por Fuerza, aptitudes, mejora o daño de precisión,
+      que no se multiplican.
+    activacion: accion_de_ataque
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: dados_dano_arma
+        tipo: multiplicador
+        valor: x3
+      reglas:
+      - Sustituye al efecto de Golpe vital; no se apila con él.
+      - Se multiplican únicamente los dados de daño del arma.
   - nombre: Golpear con el escudo mejorado
     tipos:
     - Combate
     prerrequisitos: Competencia con escudo
     beneficio_resumen: cuando atacas con un golpetazo de escudo, puedes seguir aplicando el bonificador
       por escudo del escudo a tu CA.
+    activacion: pasiva
+    efectos:
+    - condicion: atacando con un golpetazo de escudo
+      modificadores: []
+      reglas:
+      - Conservas el bonificador por escudo a tu CA durante el asalto en que atacas con el escudo.
   - nombre: Golpetazo con el escudo
     tipos:
     - Combate
     prerrequisitos: Golpear con el escudo mejorado, Competencia con escudo, Combate con dos armas, ataque
       base +6
-    beneficio_resumen: cualquier oponente impactado por tu golpetazo con el escudo sufre también el impacto
-      de un ataque gratuito de embestida, que sustituye a tu tirada de ataque….
+    beneficio_resumen: cualquier oponente impactado por tu golpetazo con el escudo sufre además un intento
+      gratuito de arrollar, que usa tu tirada de ataque en lugar de una prueba de maniobra de combate
+      y no provoca ataques de oportunidad. Puedes elegir no moverte tras un arrollamiento con éxito.
+    activacion: pasiva
+    efectos:
+    - condicion: impactas con un golpetazo de escudo
+      modificadores: []
+      reglas:
+      - El oponente sufre además un intento gratuito de arrollar, que usa tu tirada de ataque en lugar
+        de una prueba de maniobra de combate.
+      - Este arrollamiento no provoca ataques de oportunidad.
+      - Puedes elegir no moverte tras el arrollamiento con éxito.
+      - Los oponentes que no puedan retirarse por un muro u otra superficie quedan tumbados tras moverse
+        la máxima distancia posible.
   - nombre: Gran fortaleza
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Fortaleza.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: salvacion_fortaleza
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
   - nombre: Gran fortaleza mejorada
     tipos:
     - General
     prerrequisitos: Gran fortaleza
-    beneficio_resumen: una vez al día, puedes tirar de nuevo una salvación de Fortaleza.
+    beneficio_resumen: una vez al día puedes repetir una tirada de salvación de Fortaleza. Debes decidirlo
+      antes de conocer el resultado y quedarte con la segunda tirada, aunque sea peor.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Una vez al día puedes repetir una salvación de Fortaleza fallida.
+      - Debes decidir usarla después de tirar pero antes de conocer el resultado.
+      - Debes quedarte con el segundo resultado, aunque sea peor.
   - nombre: Gran hendedura
     tipos:
     - Combate
     prerrequisitos: Fue 13, Hendedura, Ataque poderoso, ataque base +4
-    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque a tu ataque base completo
-      contra un enemigo a tu alcance.
+    beneficio_resumen: como acción estándar, atacas a tu ataque base completo a un enemigo a tu alcance;
+      cada vez que impactas puedes atacar al mismo bonificador a otro enemigo adyacente al anterior, encadenando
+      ataques mientras sigas impactando. No puedes atacar dos veces al mismo enemigo y sufres un penalizador
+      -2 a tu CA hasta el inicio de tu siguiente turno.
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ca
+        tipo: penalizador
+        valor: -2
+      reglas:
+      - Como acción estándar, atacas a tu ataque base completo a un enemigo a tu alcance.
+      - Cada vez que impactas, puedes llevar a cabo un ataque adicional al mismo bonificador contra otro
+        enemigo adyacente al anterior, y así sucesivamente mientras sigas impactando.
+      - No puedes atacar dos veces al mismo enemigo en el mismo asalto con esta dote.
+      - El penalizador -2 a la CA dura hasta el inicio de tu siguiente turno.
   - nombre: Hendedura
     tipos:
     - Combate
     prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
-    beneficio_resumen: como acción estándar, puedes llevar a cabo un sólo ataque a tu ataque base completo
-      contra un enemigo a tu alcance.
+    beneficio_resumen: como acción estándar, atacas a tu ataque base completo a un enemigo a tu alcance;
+      si impactas, llevas a cabo un ataque adicional al mismo bonificador contra un enemigo adyacente
+      al primero. Sólo obtienes un ataque adicional por asalto y sufres un penalizador -2 a tu CA hasta
+      el inicio de tu siguiente turno.
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ca
+        tipo: penalizador
+        valor: -2
+      reglas:
+      - Como acción estándar, atacas a tu ataque base completo a un enemigo a tu alcance.
+      - Si impactas, llevas a cabo un ataque adicional al mismo bonificador contra un enemigo adyacente
+        al primero.
+      - Sólo puedes obtener un ataque adicional por asalto con esta dote.
+      - El penalizador -2 a la CA dura hasta el inicio de tu siguiente turno.
   - nombre: Impacto sin arma mejorado
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: se te considera armado incluso cuando no lo estás, es decir, que no provocas ataques
       de oportunidad cuando atacas desarmado a tus enemigos.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - 'Se te considera armado incluso desarmado: no provocas ataques de oportunidad al atacar sin armas.'
+      - Tus impactos sin arma pueden infligir daño letal o no letal, a tu elección, sin penalizador.
   - nombre: Imposición de manos adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase imposición de manos
     beneficio_resumen: puedes utilizar tu aptitud de imposición de manos 2 veces adicionales al día.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: usos_imposicion_manos_dia
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
   - nombre: Iniciativa mejorada
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +4 a las pruebas de iniciativa.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: iniciativa
+        tipo: sin_tipo
+        valor: 4
+      reglas: []
   - nombre: Inscribir pergamino
     tipos:
     - Creación de objeto
     prerrequisitos: nivel de lanzador 1º
-    beneficio_resumen: puedes crear un pergamino con cualquier conjuro que conozcas.
+    beneficio_resumen: puedes crear un pergamino con cualquier conjuro que conozcas. El coste en materias
+      primas es la mitad del precio base y su fabricación requiere 1 día por cada 1.000 po de dicho precio
+      base.
+    activacion: creacion_de_objeto
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Puedes crear pergaminos de cualquier conjuro que conozcas.
+      - 'Coste en materias primas: la mitad del precio base del objeto.'
+      - La creación de un pergamino requiere 1 día por cada 1.000 po de su precio base (la mayoría de
+        pergaminos se completan en 1 día).
+      - Si no cumples algún prerrequisito de conjuro, puedes intentarlo igualmente con un +5 a la CD de
+        la prueba de Conocimiento de conjuros.
+      - Inscribir un pergamino requiere 2 horas si su precio base es de 250 po o menos.
   - nombre: Intensificar conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: un conjuro intensificado tiene un nivel de conjuro mayor de lo normal (hasta un
       máximo de 9º nivel).
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: variable
+        valor: hasta_9
+      reglas:
+      - Escoges el nuevo nivel efectivo del conjuro, hasta un máximo de 9º.
+      - El conjuro se trata como del nuevo nivel a todos los efectos, incluida la CD de salvación.
+      - El aumento de nivel de espacio de conjuro es igual a la diferencia entre el nivel original y el
+        nuevo.
   - nombre: Interpretación adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase interpretación de bardo
     beneficio_resumen: puedes utilizar interpretación de bardo 6 asaltos adicionales al día.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: asaltos_interpretacion_dia
+        tipo: sin_tipo
+        valor: 6
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
   - nombre: Ira de la medusa
     tipos:
     - Combate
     prerrequisitos: Impacto sin arma mejorado, Puño del gorgón, Estilo del escorpión, ataque base +11
-    beneficio_resumen: cuando usas la acción de ataque completo y llevas a cabo por lo menos 1 ataque
-      sin armas, puedes llevar a cabo 2 ataques sin arma adicionales a tu ataque base….
+    beneficio_resumen: cuando usas la acción de ataque completo y llevas a cabo al menos un ataque sin
+      armas, puedes efectuar 2 ataques sin arma adicionales a tu ataque base más alto, siempre contra
+      un oponente aturdido, atontado, desprevenido, grogui, inconsciente o paralizado.
+    activacion: asalto_completo
+    efectos:
+    - condicion: oponente aturdido, atontado, desprevenido, grogui, inconsciente o paralizado
+      modificadores:
+      - objetivo: ataques_adicionales_sin_armas
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Debes usar la acción de ataque completo y llevar a cabo al menos un ataque sin armas.
+      - Los 2 ataques adicionales se llevan a cabo a tu ataque base más alto.
   - nombre: Ki adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase reserva de ki
     beneficio_resumen: tu reserva de ki aumenta en 2 puntos.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: puntos_ki
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
   - nombre: Lanzar cualquier cosa
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: no sufres penalizador alguno por utilizar un arma a distancia improvisada.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_arma_improvisada_a_distancia
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - Eliminas el penalizador -4 por usar un arma a distancia improvisada.
+    - condicion: armas de salpicadura arrojadizas
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: circunstancia
+        valor: 1
+      reglas: []
   - nombre: Liderazgo
     tipos:
     - General
-    prerrequisitos: null
-    beneficio_resumen: null
+    prerrequisitos: nivel de personaje 7º
+    beneficio_resumen: atraes a un allegado leal y a un número de subordinados devotos que te ayudan.
+      El allegado suele ser un PNJ con niveles de clase y los seguidores, PNJs de nivel inferior. Tu puntuación
+      de Liderazgo base es tu nivel de personaje más tu modificador por Carisma, modificada por tu reputación
+      y otros factores; consulta la tabla 5-2 para el nivel del allegado y el número de seguidores.
+    activacion: narrativa
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Atraes a un secuaz leal y a un número de seguidores, determinados por tu puntuación de Liderazgo.
+      - Puntuación de Liderazgo = tu nivel de personaje + tu modificador por Carisma, ajustada por reputación,
+        fortaleza, trato a los seguidores y otros factores.
+      - El secuaz tiene un nivel máximo igual a tu nivel de personaje -2.
+      - Requiere nivel de personaje 7º o superior.
+    nota_datos: El beneficio y el prerrequisito estaban ausentes en la extracción original; recuperados
+      del PDF (pág. 131).
   - nombre: Lucha a ciegas
     tipos:
     - Combate
     prerrequisitos: null
-    beneficio_resumen: en combate cuerpo a cuerpo, cada vez que fallas debido a la ocultación (consulta
-      el Capítulo 8), puedes repetir una vez tu probabilidad porcentual de fallo….
+    beneficio_resumen: en combate cuerpo a cuerpo puedes repetir una vez la tirada porcentual de fallo
+      por ocultación. Los atacantes invisibles no obtienen bonificadores al atacarte en cuerpo a cuerpo
+      y no pierdes tu bonificador por Destreza a la CA frente a ellos. Además, la mala visibilidad sólo
+      reduce tu velocidad a la mitad.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - En combate cuerpo a cuerpo, cuando fallas por ocultación puedes repetir una vez la tirada porcentual
+        de fallo.
+      - 'Un atacante invisible no obtiene ventaja al atacarte en cuerpo a cuerpo: no pierdes tu bonificador
+        por Destreza a la CA y él no obtiene el bonificador +2 habitual por atacante invisible.'
+      - La visibilidad reducida sólo reduce tu velocidad a la mitad en lugar de a un cuarto.
+  - nombre: Maestría arcana con armadura
+    tipos:
+    - General
+    prerrequisitos: Entrenamiento arcano con armadura, Competencia con armadura intermedia, nivel de lanzador
+      7º
+    beneficio_resumen: como acción rápida, reduces en un 20% la probabilidad de fallo de conjuro arcano
+      debida a la armadura que llevas puesta, para cualquier conjuro que lances ese asalto. Sustituye
+      a la reducción de Entrenamiento arcano con armadura y no se apila con ella.
+    activacion: rapida
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: fallo_conjuro_arcano
+        tipo: sin_tipo
+        valor: -20
+      reglas:
+      - Sustituye a la reducción de Entrenamiento arcano con armadura; no se apila con ella.
+      - La reducción se aplica a todos los conjuros que lances ese asalto.
+  - nombre: Maestría con armas improvisadas
+    tipos:
+    - Combate
+    prerrequisitos: Usar arma improvisada o Lanzar cualquier cosa, ataque base +8
+    beneficio_resumen: no sufres penalizador alguno por usar un arma improvisada. El daño del arma aumenta
+      un paso (1d4 pasa a 1d6) hasta un máximo de 1d8, o 2d6 si el arma improvisada es a dos manos, y
+      obtiene un rango de amenaza de 19-20 con multiplicador x2.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_arma_improvisada
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - No sufres penalizador alguno por usar un arma improvisada.
+      - El daño del arma improvisada aumenta un paso (1d4 pasa a 1d6), hasta un máximo de 1d8, o 2d6 si
+        el arma improvisada es a dos manos.
+      - El arma improvisada obtiene un rango de amenaza de 19-20 con multiplicador x2.
+    nota_datos: La extracción original lo clasificaba como General; el PDF lo marca como Combate. El escalado
+      de daño es por pasos con tope 1d8 / 2d6, no por categoría de tamaño.
+  - nombre: Maestría con los críticos
+    tipos:
+    - Combate
+    prerrequisitos: Soltura con los críticos, 2 dotes de crítico cualesquiera, guerrero de 14º nivel
+    beneficio_resumen: cuando consigues un impacto crítico, puedes aplicar los efectos de 2 dotes críticas,
+      además del daño inf ligido.
+    activacion: al_confirmar_critico
+    efectos:
+    - condicion: null
+      cuando:
+        al_confirmar_critico: true
+      modificadores: []
+      reglas:
+      - Puedes aplicar los efectos de 2 dotes de crítico al mismo impacto crítico, además del daño.
+      - Cada dote de crítico aplicada resuelve su salvación de forma independiente.
+      - 'Normal: sin esta dote sólo puedes aplicar los efectos de 1 dote de crítico a un impacto crítico
+        determinado.'
+    nota_datos: El prerrequisito estaba ausente en la extracción original (la entrada usa «Requisitos:»
+      en lugar de «Prerrequisitos:»). Recuperado del PDF.
+  - nombre: Maestría en conjuros
+    tipos:
+    - General
+    prerrequisitos: mago de 1er nivel
+    beneficio_resumen: 'escoge un número de conjuros que conozcas igual a tu modificador por Inteligencia:
+      puedes prepararlos sin consultar tu libro de conjuros.'
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Escoge un número de conjuros que conozcas igual a tu modificador por Inteligencia.
+      - Puedes preparar esos conjuros sin consultar tu libro de conjuros.
+      - Puedes tomar esta dote varias veces, escogiendo conjuros nuevos cada vez.
   - nombre: Maestro del escudo
     tipos:
     - Combate
@@ -5162,282 +7508,1152 @@ dotes:
       con dos armas, ataque base +11
     beneficio_resumen: no sufres penalizador alguno a las tiradas de ataques llevados a cabo con un escudo
       mientras empuñas otra arma.
-  - nombre: Maestría arcana con armadura
-    tipos:
-    - General
-    prerrequisitos: Entrenamiento arcano con armadura, Competencia con armadura intermedia, nivel de lanzador
-      7º
-    beneficio_resumen: como acción rápida, reduces la probabilidad de fallo de conjuros arcanos por la
-      armadura que llevas puesta en un 20% para cualquier conjuro que lances ese….
-  - nombre: Maestría con armas improvisadas
-    tipos:
-    - General
-    prerrequisitos: Usar arma improvisada o Lanzar cualquier cosa, ataque base +8
-    beneficio_resumen: no sufres penalizador alguno por usar un arma improvisada.
-  - nombre: Maestría con los críticos
-    tipos:
-    - Combate
-    prerrequisitos: null
-    beneficio_resumen: cuando consigues un impacto crítico, puedes aplicar los efectos de 2 dotes críticas,
-      además del daño inf ligido.
-  - nombre: Maestría en conjuros
-    tipos:
-    - General
-    prerrequisitos: mago de 1er nivel
-    beneficio_resumen: cada vez que adquieres esta dote escoge un número de conjuros que conozcas igual
-      a tu modificador por Inteligencia.
+    activacion: pasiva
+    efectos:
+    - condicion: empuñando un escudo y otra arma
+      modificadores:
+      - objetivo: ataque_escudo
+        tipo: penalizador
+        valor: 0
+      - objetivo: ataque_escudo
+        tipo: mejora
+        valor: bonificador_mejora_escudo
+      - objetivo: dano_escudo
+        tipo: mejora
+        valor: bonificador_mejora_escudo
+      reglas:
+      - No sufres penalizador alguno a las tiradas de ataque llevadas a cabo con el escudo mientras empuñas
+        otra arma.
+      - Sumas el bonificador por mejora del escudo a las tiradas de ataque y de daño del golpetazo, además
+        del bonificador que ya concede a la CA.
   - nombre: Maniobras ágiles
     tipos:
     - Combate
     prerrequisitos: null
-    beneficio_resumen: añades tu bonificador por Destreza a tus ataque base y bonificador por tamaño para
-      determinar tu BMC (consulta el Capítulo 8) en lugar de tu bonificador por….
+    beneficio_resumen: usas tu bonificador por Destreza en lugar del de Fuerza, junto a tu ataque base
+      y tu bonificador por tamaño, para determinar tu Bonificador de maniobras de combate (BMC).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores: []
+      sustituciones:
+      - en: bmc
+        usar: modificador_destreza
+        en_lugar_de: modificador_fuerza
+      reglas:
+      - Usas tu modificador por Destreza en lugar del de Fuerza al calcular tu BMC.
+      - El bonificador por tamaño y el ataque base se aplican con normalidad.
+      - No afecta a tu DMC.
   - nombre: Manos hábiles
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Inutilizar mecanismo y Juego de manos.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Inutilizar mecanismo y de Juego de
+      manos. Si tienes 10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha
+      habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Inutilizar mecanismo
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Juego de manos
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Inutilizar mecanismo
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Juego de manos
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Maximizar conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: todos los efectos variables y numéricos de un conjuro modificado por esta dote
       quedan maximizados.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 3
+      reglas:
+      - Todos los efectos variables y numéricos del conjuro se maximizan.
+      - No afecta a las tiradas de salvación ni a los efectos aleatorios que no sean numéricos.
+      - 'No se apila con Potenciar conjuro sobre la misma variable: primero se maximiza y luego se aplica
+        el 50% adicional sobre la tirada normal.'
   - nombre: Merced adicional
     tipos:
     - General
     prerrequisitos: rasgo de clase imposición de manos, rasgo de clase merced
-    beneficio_resumen: selecciona una merced adicional para la que estés cualificado.
+    beneficio_resumen: selecciona una merced adicional para la que estés cualificado. Puedes tomar esta
+      dote varias veces; sus efectos se apilan.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: mercedes_conocidas
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Debes cumplir los requisitos de nivel de la merced escogida.
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
   - nombre: Movilidad
     tipos:
     - Combate
     prerrequisitos: Des 13, Esquiva
     beneficio_resumen: obtienes un bonificador por esquiva +4 a la Clase de armadura contra ataques de
       oportunidad causados cuando sales de un área de amenaza o te mueves por la misma.
+    activacion: pasiva
+    efectos:
+    - condicion: ataques de oportunidad provocados al salir de un área amenazada o moverte por ella
+      modificadores:
+      - objetivo: ca
+        tipo: esquiva
+        valor: 4
+      reglas:
+      - Pierdes este bonificador en cualquier situación en la que pierdas tu bonificador por Destreza
+        a la CA.
+      - Se apila con Esquiva y con otros bonificadores por esquiva.
   - nombre: Movimientos ágiles
     tipos:
     - General
     prerrequisitos: Des 13
     beneficio_resumen: cuando te mueves, puedes hacerlo a través de 5 pies (1,5 m) de terreno difícil
       cada asalto como si fuera terreno normal.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: terreno_dificil_ignorado_pies
+        tipo: sin_tipo
+        valor: 5
+      reglas:
+      - Cada asalto puedes atravesar 5 pies (1,5 m) de terreno difícil como si fuera terreno normal.
+      - No permite ignorar los efectos mágicos de terreno difícil.
+      - Esta dote te permite dar un paso de 5 pies (1,5 m) en terreno difícil.
   - nombre: Paso adelante
     tipos:
     - Combate
     prerrequisitos: ataque base +1
     beneficio_resumen: cuando un enemigo adyacente intenta dar un paso de 5 pies (1,5 m) alejándose de
-      ti, puedes hacer lo mismo como acción inmediata mientras acabes adyacente al….
+      ti, puedes dar tú también un paso de 5 pies como acción inmediata, siempre que acabes adyacente
+      a él. Este paso no cuenta como parte de tu movimiento, pero no puedes dar otro paso de 5 pies antes
+      del final de tu siguiente turno.
+    activacion: inmediata
+    efectos:
+    - condicion: un enemigo adyacente da un paso de 5 pies alejándose de ti
+      modificadores: []
+      reglas:
+      - Puedes dar un paso de 5 pies (1,5 m) como acción inmediata, siempre que acabes adyacente a ese
+        enemigo.
+      - Este paso no cuenta como parte de tu movimiento del asalto, pero no puedes dar otro paso de 5
+        pies antes del final de tu siguiente turno.
+      - Si durante tu siguiente turno llevas a cabo una acción de movimiento, resta 5 pies (1,5 m) de
+        tu movimiento total.
   - nombre: Pasos acrobáticos
     tipos:
     - General
     prerrequisitos: Des 15, Movimientos ágiles
     beneficio_resumen: cuando te mueves, puedes hacerlo a través de hasta 15 pies (4,5 m) de terreno difícil
       por asalto como si fuera terreno normal.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: terreno_dificil_ignorado_pies
+        tipo: sin_tipo
+        valor: 15
+      reglas:
+      - Se apila con Movimientos ágiles.
+      - No permite ignorar los efectos mágicos de terreno difícil.
+      - Sumado a Movimientos ágiles, el total es de 20 pies (6 m) de terreno difícil por asalto.
+    nota_datos: 'VERIFICADO: el valor de 15 pies es correcto en la edición de Devir; el total al apilarse
+      con Movimientos ágiles es de 20 pies.'
   - nombre: Pericia en combate
     tipos:
     - Combate
     prerrequisitos: Int 13
-    beneficio_resumen: puedes escoger imponerte un penalizador -1 a las tiradas de ataque cuerpo a cuerpo
-      y a las pruebas de maniobras de combate a cambio de un bonificador +1 por….
+    beneficio_resumen: puedes elegir aceptar un penalizador a las tiradas de ataque cuerpo a cuerpo y
+      pruebas de maniobra de combate a cambio de un bonificador por esquiva a tu CA. El penalizador es
+      -1 y el bonificador +1; por cada 4 puntos de ataque base, ambos aumentan en 1. Debes decidir usarla
+      antes de tirar el ataque, y los efectos duran hasta tu siguiente turno.
+    activacion: opcional_declarada_antes_del_ataque
+    efectos:
+    - condicion: ataque base +0 a +3
+      cuando:
+        ataque_base:
+          min: 0
+          max: 3
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -1
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -1
+      - objetivo: ca
+        tipo: esquiva
+        valor: 1
+      reglas: []
+    - condicion: ataque base +4 a +7
+      cuando:
+        ataque_base:
+          min: 4
+          max: 7
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -2
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -2
+      - objetivo: ca
+        tipo: esquiva
+        valor: 2
+      reglas: []
+    - condicion: ataque base +8 a +11
+      cuando:
+        ataque_base:
+          min: 8
+          max: 11
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -3
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -3
+      - objetivo: ca
+        tipo: esquiva
+        valor: 3
+      reglas: []
+    - condicion: ataque base +12 a +15
+      cuando:
+        ataque_base:
+          min: 12
+          max: 15
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -4
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -4
+      - objetivo: ca
+        tipo: esquiva
+        valor: 4
+      reglas: []
+    - condicion: ataque base +16 a +19
+      cuando:
+        ataque_base:
+          min: 16
+          max: 19
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -5
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -5
+      - objetivo: ca
+        tipo: esquiva
+        valor: 5
+      reglas: []
+    - condicion: ataque base +20 o superior
+      cuando:
+        ataque_base:
+          min: 20
+      modificadores:
+      - objetivo: ataque_cuerpo_a_cuerpo
+        tipo: penalizador
+        valor: -6
+      - objetivo: bmc
+        tipo: penalizador
+        valor: -6
+      - objetivo: ca
+        tipo: esquiva
+        valor: 6
+      reglas: []
   - nombre: Persuasivo
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas de habilidad de Diplomacia y de Intimidar.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Diplomacia y de Intimidar. Si tienes
+      10 o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Diplomacia
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Intimidar
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Diplomacia
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Intimidar
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Perturbador
     tipos:
     - Combate
     prerrequisitos: guerrero de 6º nivel
     beneficio_resumen: la CD para lanzar conjuros defensivamente se incrementa en +4 para todos los enemigos
       que se encuentran en tu área de amenaza.
+    activacion: pasiva
+    efectos:
+    - condicion: enemigos dentro de tu área de amenaza
+      modificadores:
+      - objetivo: cd_lanzar_a_la_defensiva_enemigo
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - Afecta a todos los enemigos situados en tu área de amenaza.
+      - No se aplica si estás desprevenido o incapacitado.
+      - El incremento sólo se aplica si eres consciente de la posición del enemigo y puedes llevar a cabo
+        un ataque de oportunidad.
+      - Si sólo puedes llevar a cabo un ataque de oportunidad por asalto y ya lo has usado, el incremento
+        no se aplica.
   - nombre: Pies ligeros
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: cuando llevas armadura ligera o no llevas armadura, tu velocidad base se incrementa
       en 5 pies (1,5 m).
+    activacion: pasiva
+    efectos:
+    - condicion: armadura ligera o sin armadura
+      modificadores:
+      - objetivo: velocidad_base
+        tipo: sin_tipo
+        valor: 5
+      reglas:
+      - Puedes tomar esta dote varias veces; sus efectos se apilan.
+      - No obtienes el bonificador con armadura intermedia o pesada.
   - nombre: Pisotear
     tipos:
     - Combate
     prerrequisitos: Montar 1 rango, Combatir desde una montura
     beneficio_resumen: si intentas arrollar a un oponente estando montado, éste no puede evitarte.
+    activacion: pasiva
+    efectos:
+    - condicion: arrollando montado
+      modificadores: []
+      reglas:
+      - El oponente arrollado no puede escoger evitarte.
+      - Tu montura puede llevar a cabo un ataque de pezuña contra cualquier objetivo al que dejes tumbado,
+        con el bonificador +4 normal por atacar a un objetivo tumbado.
   - nombre: Poderío intimidante
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: suma tu modificador por Fuerza a las pruebas de habilidad de Intimidar además de
       tu modificador por Carisma.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: prueba_habilidad.Intimidar
+        tipo: sin_tipo
+        valor: modificador_fuerza
+      reglas:
+      - Sumas tu modificador por Fuerza a las pruebas de Intimidar además del modificador por Carisma.
   - nombre: Posición del relámpago
     tipos:
     - Combate
     prerrequisitos: Des 17, Esquiva, Posición del viento, ataque base +11
     beneficio_resumen: si llevas a cabo dos acciones para moverte o una retirada en un turno, obtienes
       un 50% de ocultación durante 1 asalto.
+    activacion: pasiva
+    efectos:
+    - condicion: dos acciones de movimiento o una retirada en el mismo turno
+      modificadores:
+      - objetivo: ocultacion
+        tipo: sin_tipo
+        valor: 50
+      reglas:
+      - La ocultación del 50% dura 1 asalto y se aplica frente a todo tipo de ataques.
   - nombre: Posición del viento
     tipos:
     - Combate
     prerrequisitos: Des 15, Esquiva, ataque base +6
     beneficio_resumen: si te mueves más de 5 pies (1,5 m) este turno, obtienes un 20% de ocultación durante
       1 asalto contra los ataques a distancia.
+    activacion: pasiva
+    efectos:
+    - condicion: te has movido más de 5 pies este turno
+      modificadores:
+      - objetivo: ocultacion_vs_distancia
+        tipo: sin_tipo
+        valor: 20
+      reglas:
+      - La ocultación del 20% dura 1 asalto y sólo se aplica frente a ataques a distancia.
   - nombre: Potenciar conjuro
     tipos:
-    - General
-    prerrequisitos: ataque base +6
-    beneficio_resumen: puedes aumentar el alcance de tus ataques cuerpo a cuerpo en 5 pies (1,5 m) hasta
-      el final de tu turno aceptando un penalizador -2 a tu CA hasta tu siguiente….
+    - Metamágica
+    prerrequisitos: null
+    beneficio_resumen: todos los efectos variables y numéricos de un conjuro modificado por esta dote
+      aumentan en la mitad (+50%). Un conjuro potenciado ocupa un espacio 2 niveles superior al normal.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: efectos_variables_conjuro
+        tipo: multiplicador
+        valor: x1.5
+      reglas:
+      - Todos los efectos variables y numéricos del conjuro aumentan en la mitad (+50%).
+      - No afecta a las tiradas de salvación ni a los efectos que no sean variables y numéricos.
+    nota_datos: 'CORRECCIÓN: la extracción original asignaba a esta dote el tipo (General), el prerrequisito
+      (ataque base +6) y el texto de Acometer, por contaminación de columna en el PDF. Restaurados los
+      datos de Potenciar conjuro (Empower Spell): Metamágica, sin prerrequisitos.'
   - nombre: Presa mayor
     tipos:
     - Combate
     prerrequisitos: Presa mejorada, Impacto sin arma mejorado, ataque base +6, Des 13
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para apresar a un enemigo,
-      que se apila con el concedido por Presa mejorada.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para apresar a un enemigo, que se apila
+      con el concedido por Presa mejorada. Mantener la presa pasa a ser una acción de movimiento, lo que
+      te permite hasta 2 pruebas de apresar por asalto.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_presa
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Presa mejorada.
+      - 'Esta dote NO concede bonificador al DMC: sólo Presa mejorada lo concede.'
+      - Mantener la presa pasa a ser una acción de movimiento, lo que permite hasta 2 pruebas de apresar
+        por asalto (mover, dañar o inmovilizar).
+      - Basta con tener éxito en una de esas pruebas para mantener la presa.
   - nombre: Presa mejorada
     tipos:
     - Combate
     prerrequisitos: Des 13, Impacto sin arma mejorado
-    beneficio_resumen: cuando llevas a cabo una maniobra de combate de presa, no provocas ataques de oportunidad.
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      presa. Además obtienes un bonificador +2 a las pruebas de maniobra de presa y un bonificador +2
+      a tu DMC cuando un oponente intente presa contra ti.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_presa
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_presa
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de presa.
   - nombre: Prolongar conjuro
     tipos:
     - Metamágica
     prerrequisitos: null
     beneficio_resumen: un conjuro prolongado dura el doble de lo normal.
+    activacion: metamagica
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: nivel_conjuro
+        tipo: sin_tipo
+        valor: 1
+      - objetivo: duracion_conjuro
+        tipo: multiplicador
+        valor: x2
+      reglas:
+      - Sólo afecta a conjuros con una duración fija distinta de instantánea, permanente o concentración.
+  - nombre: Puñetazo aturdidor
+    tipos:
+    - Combate
+    prerrequisitos: Des 13, Sab 13, Impacto sin arma mejorado, ataque base +8
+    beneficio_resumen: debes declarar que usas esta dote antes de la tirada de ataque, por lo que un ataque
+      fallido arruina el intento. Si impactas, el objetivo queda aturdido 1 asalto salvo que supere una
+      salvación de Fortaleza (CD 10 + 1/2 tu nivel de personaje + tu modificador por Sabiduría). Puedes
+      usarla una vez por asalto, y al día 1 vez por cada 4 niveles de personaje (los monjes, 1 vez por
+      nivel de monje).
+    activacion: declarada_antes_del_ataque
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Debes declarar su uso antes de la tirada de ataque; un ataque fallido desperdicia el intento.
+      - Si impactas, el objetivo debe superar una salvación de Fortaleza (CD 10 + 1/2 tu nivel de personaje
+        + tu modificador por Sabiduría) o quedar aturdido durante 1 asalto.
+      - Puedes usarla una vez por asalto y un número de veces al día igual a 1 por cada 4 niveles de personaje
+        (los monjes pueden usarla 1 vez por nivel de monje).
+      - Un personaje aturdido deja caer lo que tenga en las manos, no puede actuar, pierde su bonificador
+        por Destreza a la CA y sufre un penalizador -2 a la CA.
+      - Constructos, cienos, plantas, muertos vivientes, criaturas incorpóreas y criaturas inmunes a los
+        impactos críticos no pueden quedar aturdidos.
+      - 'Especial: un monje obtiene esta dote a 1er nivel aunque no cumpla los prerrequisitos, y puede
+        usarla tantas veces al día como su nivel de monje, más 1 vez/día por cada 4 niveles en otras clases.'
+  - nombre: Puño del gorgón
+    tipos:
+    - Combate
+    prerrequisitos: Impacto sin arma mejorado, Estilo del escorpión, ataque base +6
+    beneficio_resumen: como acción estándar, haz un solo ataque cuerpo a cuerpo sin armas contra un enemigo
+      cuya velocidad haya quedado reducida (por ejemplo por Estilo del escorpión). Si impactas, infliges
+      daño normal y el objetivo queda grogui hasta el final de tu siguiente turno, salvo que supere una
+      salvación de Fortaleza (CD 10 + la mitad de tu nivel de personaje + tu modificador por Sabiduría).
+      No afecta a objetivos que ya están grogui.
+    activacion: estandar
+    efectos:
+    - condicion: oponente cuya velocidad ha quedado reducida
+      modificadores: []
+      reglas:
+      - Como acción estándar, llevas a cabo un solo ataque cuerpo a cuerpo sin armas.
+      - Si impactas, infliges daño normal y el objetivo queda grogui hasta el final de tu siguiente turno,
+        salvo que supere una salvación de Fortaleza (CD 10 + la mitad de tu nivel de personaje + tu modificador
+        por Sabiduría).
+      - No tiene efecto sobre objetivos que ya están grogui.
+    nota_datos: 'CORRECCIÓN: la duración es «hasta el final de tu siguiente turno», no 1 asalto (pág.
+      134).'
   - nombre: Puntería mortal
     tipos:
     - Combate
     prerrequisitos: Des 13, ataque base +1
-    beneficio_resumen: puedes cambiar un penalizador -1 a las tiradas de ataque a distancia por un +2
-      a las tiradas de daño a distancia.
+    beneficio_resumen: puedes elegir aceptar un penalizador -1 a las tiradas de ataque a distancia a cambio
+      de un bonificador +2 a las tiradas de daño a distancia. Por cada 4 puntos de ataque base, el penalizador
+      aumenta en -1 y el bonificador en +2. No se aplica a ataques de toque ni a efectos sin dado de daño
+      de arma.
+    activacion: opcional_declarada_antes_del_ataque
+    efectos:
+    - condicion: ataque base +1 a +3
+      cuando:
+        ataque_base:
+          min: 1
+          max: 3
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -1
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: ataque base +4 a +7
+      cuando:
+        ataque_base:
+          min: 4
+          max: 7
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -2
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 4
+      reglas: []
+    - condicion: ataque base +8 a +11
+      cuando:
+        ataque_base:
+          min: 8
+          max: 11
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -3
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 6
+      reglas: []
+    - condicion: ataque base +12 a +15
+      cuando:
+        ataque_base:
+          min: 12
+          max: 15
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -4
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 8
+      reglas: []
+    - condicion: ataque base +16 a +19
+      cuando:
+        ataque_base:
+          min: 16
+          max: 19
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -5
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 10
+      reglas: []
+    - condicion: ataque base +20 o superior
+      cuando:
+        ataque_base:
+          min: 20
+      modificadores:
+      - objetivo: ataque_a_distancia
+        tipo: penalizador
+        valor: -6
+      - objetivo: dano_a_distancia
+        tipo: sin_tipo
+        valor: 12
+      reglas: []
   - nombre: Puntería precisa
     tipos:
     - Combate
     prerrequisitos: Des 19, Disparo preciso mejorado, Disparo a bocajarro, Disparo preciso, ataque base
       +16
-    beneficio_resumen: como acción estándar, llevas a cabo un sólo ataque a distancia.
-  - nombre: Puñetazo aturdidor
-    tipos:
-    - Combate
-    prerrequisitos: Des 13, Sab 13, Impacto sin arma mejorado, ataque base +8
-    beneficio_resumen: has de declarar que utilizas esta dote antes de llevar a cabo la tirada de ataque
-      (y por lo tanto, una tirada de ataque fallida arruina el intento).
-  - nombre: Puño del gorgón
-    tipos:
-    - Combate
-    prerrequisitos: Impacto sin arma mejorado, Estilo del escorpión, ataque base +6
-    beneficio_resumen: como acción estándar, haz un sólo ataque cuerpo a cuerpo sin armas contra un enemigo
-      cuya velocidad ha quedado reducida (como por ejemplo tras el Estilo del….
+    beneficio_resumen: 'como acción estándar, llevas a cabo un solo ataque a distancia: el objetivo no
+      puede aplicar a su Clase de armadura ningún bonificador por armadura, armadura natural o escudo.
+      No obtienes el beneficio de esta dote si te mueves durante el asalto.'
+    activacion: estandar
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Como acción estándar, llevas a cabo un solo ataque a distancia.
+      - El objetivo no puede aplicar a su CA bonificadores por armadura, por armadura natural ni por escudo.
+      - No obtienes el beneficio de esta dote si te mueves durante el asalto.
+    nota_datos: 'CORRECCIÓN: una versión previa exigía estar en el primer incremento de alcance e incluía
+      los bonificadores por mejora; ninguna de las dos cosas aparece en el manual (pág. 134).'
   - nombre: Recarga rápida
     tipos:
     - Combate
     prerrequisitos: competencia en armas (tipo de ballesta escogido)
-    beneficio_resumen: el tiempo requerido para recargar el tipo de ballesta escogido se reduce a una
-      acción gratuita (para una ballesta de mano o ligera), o a una acción de….
+    beneficio_resumen: el tiempo necesario para recargar el tipo de ballesta escogido se reduce a una
+      acción gratuita (ballesta de mano o ligera) o a una acción de movimiento (ballesta pesada). Recargar
+      una ballesta sigue provocando ataques de oportunidad. Con una ballesta de mano o ligera puedes disparar
+      tantas veces en una acción de ataque completo como si usaras un arco.
+    activacion: pasiva
+    efectos:
+    - condicion: ballesta de mano o ballesta ligera
+      modificadores:
+      - objetivo: tiempo_recarga
+        tipo: sin_tipo
+        valor: accion_gratuita
+      reglas: []
+    - condicion: ballesta pesada
+      modificadores:
+      - objetivo: tiempo_recarga
+        tipo: sin_tipo
+        valor: accion_de_movimiento
+      reglas: []
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Recargar una ballesta SIGUE provocando ataques de oportunidad.
+      - Si escogiste ballesta de mano o ligera, puedes dispararla tantas veces en una acción de ataque
+        completo como si usaras un arco.
+      - Puedes tomar esta dote varias veces, eligiendo un tipo de ballesta distinto.
+    nota_datos: 'CORRECCIÓN: una versión previa afirmaba que recargar no provoca ataques de oportunidad;
+      el manual dice lo contrario (pág. 135).'
   - nombre: Reflejos de combate
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: puedes llevar a cabo tantos ataques de oportunidad adicionales por asalto como
       tu bonificador por Destreza.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataques_de_oportunidad_adicionales
+        tipo: sin_tipo
+        valor: modificador_destreza
+      reglas:
+      - Puedes llevar a cabo tantos ataques de oportunidad adicionales por asalto como tu modificador
+        por Destreza.
+      - Puedes llevar a cabo ataques de oportunidad aunque estés desprevenido.
+      - Sigues sin poder llevar a cabo más de un ataque de oportunidad por oponente y ocasión.
   - nombre: Reflejos rápidos
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Ref lejos.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: salvacion_reflejos
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
   - nombre: Reflejos rápidos mejorados
     tipos:
     - General
     prerrequisitos: Reflejos rápidos
-    beneficio_resumen: una vez al día puedes tirar de nuevo una salvación de Ref lejos.
+    beneficio_resumen: una vez al día puedes repetir una tirada de salvación de Reflejos. Debes decidirlo
+      antes de conocer el resultado y quedarte con la segunda tirada, aunque sea peor.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Una vez al día puedes repetir una salvación de Reflejos fallida.
+      - Debes decidir usarla después de tirar pero antes de conocer el resultado.
+      - Debes quedarte con el segundo resultado, aunque sea peor.
   - nombre: Rompeconjuros
     tipos:
     - Combate
     prerrequisitos: Perturbador, guerrero de 10º nivel
     beneficio_resumen: los enemigos en tu área de amenaza que fallan sus pruebas para lanzar conjuros
       defensivamente provocan ataques de oportunidad por tu parte.
+    activacion: pasiva
+    efectos:
+    - condicion: enemigo en tu área de amenaza que falla su prueba de lanzar a la defensiva
+      modificadores: []
+      reglas:
+      - Dicho enemigo provoca un ataque de oportunidad por tu parte.
   - nombre: Romper arma mayor
     tipos:
     - Combate
     prerrequisitos: Romper arma mejorado, Ataque poderoso, ataque base +6, Fue 13
-    beneficio_resumen: obtienes un bonificador +2 a las pruebas llevadas a cabo para romper un objeto,
-      que se apila con el concedido por Romper arma mejorado.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas para romper un objeto, que se apila con
+      el concedido por Romper arma mejorado. Al romper un arma, escudo o armadura, todo daño adicional
+      se aplica a su portador; si decides dejar el objeto con 1 punto de golpe, no se transfiere daño
+      alguno.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_romper
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - El bonificador +2 a la prueba se apila con el de Romper arma mejorado.
+      - 'Esta dote NO concede bonificador al DMC: sólo Romper arma mejorado lo concede.'
+      - Al romper un arma, escudo o armadura, todo daño que exceda los puntos de golpe del objeto se aplica
+        a su portador.
+      - Si decides dejar el objeto con 1 punto de golpe, no se transfiere daño alguno.
   - nombre: Romper arma mejorado
     tipos:
     - Combate
     prerrequisitos: Fue 13, Ataque poderoso, ataque base +1
-    beneficio_resumen: cuando llevas a cabo una maniobra de combate de romper arma, no provocas ataques
-      de oportunidad.
+    beneficio_resumen: no provocas ataques de oportunidad al llevar a cabo una maniobra de combate de
+      romper arma. Además obtienes un bonificador +2 a las pruebas de maniobra de romper arma y un bonificador
+      +2 a tu DMC cuando un oponente intente romper arma contra ti.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: bmc_romper
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: dmc_vs_romper
+        tipo: sin_tipo
+        valor: 2
+      reglas:
+      - No provocas ataques de oportunidad al llevar a cabo una maniobra de combate de romper arma.
   - nombre: Sigiloso
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +2 a todas las pruebas de habilidad de Escapismo y Sigilo.
+    beneficio_resumen: obtienes un bonificador +2 a las pruebas de Escapismo y de Sigilo. Si tienes 10
+      o más rangos en una de esas habilidades, el bonificador aumenta a +4 para dicha habilidad.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad.Escapismo
+        tipo: sin_tipo
+        valor: 2
+      - objetivo: prueba_habilidad.Sigilo
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad.Escapismo
+        tipo: sin_tipo
+        valor: 4
+      - objetivo: prueba_habilidad.Sigilo
+        tipo: sin_tipo
+        valor: 4
+      reglas:
+      - El aumento a +4 se aplica de forma independiente a cada habilidad, sólo en aquella en la que tengas
+        10 o más rangos.
+      - Sustituye al bonificador +2; no se apila con él.
   - nombre: Soltura con el escudo
     tipos:
     - Combate
     prerrequisitos: Competencia con escudo, ataque base +1
     beneficio_resumen: incrementa en +1 el bonificador a la CA concedido por cualquier escudo que estés
       usando.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ca
+        tipo: escudo
+        valor: 1
+      reglas:
+      - Aumenta en +1 el bonificador por escudo a la CA de cualquier escudo que uses.
   - nombre: Soltura con los conjuros
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: añade +1 a la Clase de dificultad de todas las tiradas de salvación contra conjuros
       de la escuela de magia que seleccionas.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: cd_conjuros_escuela_elegida
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Puedes tomar esta dote varias veces, eligiendo una escuela distinta cada vez.
   - nombre: Soltura con los críticos
     tipos:
     - Combate
     prerrequisitos: ataque base +9
     beneficio_resumen: obtienes un bonificador +4 por circunstancia a las tiradas de ataque llevadas a
       cabo para confirmar impactos críticos.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataque_confirmacion_critico
+        tipo: circunstancia
+        valor: 4
+      reglas: []
   - nombre: Soltura con un arma
     tipos:
     - Combate
     prerrequisitos: competencia con el arma seleccionada, ataque base +1
     beneficio_resumen: obtienes un bonificador +1 a todas las tiradas de ataque que llevas a cabo utilizando
       el arma seleccionada.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataque_arma_seleccionada
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Soltura con una habilidad
     tipos:
     - General
     prerrequisitos: null
-    beneficio_resumen: obtienes un bonificador +3 a todas las pruebas que implican la habilidad escogida.
+    beneficio_resumen: obtienes un bonificador +3 a todas las pruebas de la habilidad escogida. Si tienes
+      10 o más rangos en ella, el bonificador aumenta a +6.
+    activacion: pasiva
+    efectos:
+    - condicion: menos de 10 rangos en la habilidad elegida
+      cuando:
+        rangos_habilidad:
+          max: 9
+      modificadores:
+      - objetivo: prueba_habilidad_elegida
+        tipo: sin_tipo
+        valor: 3
+      reglas: []
+    - condicion: 10 o más rangos en la habilidad elegida
+      cuando:
+        rangos_habilidad:
+          min: 10
+      modificadores:
+      - objetivo: prueba_habilidad_elegida
+        tipo: sin_tipo
+        valor: 6
+      reglas:
+      - Sustituye al bonificador +3; no se apila con él.
   - nombre: Soltura mayor con los conjuros
     tipos:
     - General
     prerrequisitos: Soltura con los conjuros
-    beneficio_resumen: añade +1 a la Clase de dificultad para todas las tiradas de salvación contra conjuros
-      de la escuela de magia seleccionada, bonificador que se apila con el….
+    beneficio_resumen: añade +1 a la CD de todas las tiradas de salvación contra conjuros de la escuela
+      de magia seleccionada, que se apila con el de Soltura con los conjuros (total +2).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: cd_conjuros_escuela_elegida
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Se apila con Soltura con los conjuros (total +2) para la misma escuela.
   - nombre: Soltura mayor con los escudos
     tipos:
     - Combate
     prerrequisitos: Soltura con el escudo, Competencia con escudo, guerrero de 8º nivel
-    beneficio_resumen: incrementa el bonificador a la CD concedido por cualquier escudo que estés utilizando
-      en +1, bonificador que se apila con el concedido por Soltura con el….
+    beneficio_resumen: incrementa en +1 el bonificador a la CA concedido por cualquier escudo que estés
+      utilizando; se apila con el de Soltura con el escudo.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ca
+        tipo: escudo
+        valor: 1
+      reglas:
+      - Se apila con Soltura con el escudo (total +2).
+    nota_datos: La extracción original decía 'bonificador a la CD'; es un bonificador a la CA.
   - nombre: Soltura mayor con un arma
     tipos:
     - Combate
     prerrequisitos: competencia con el arma elegida, Soltura con un arma con el arma elegida, guerrero
       de 8º nivel
-    beneficio_resumen: obtienes un bonificador +1 a las tiradas de ataque que llevas a cabo utilizando
-      el arma seleccionada, bonificador que se apila con otros bonificadores a las….
+    beneficio_resumen: obtienes un bonificador +1 a las tiradas de ataque con el arma seleccionada, que
+      se apila con el de Soltura con un arma (total +2).
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: ataque_arma_seleccionada
+        tipo: sin_tipo
+        valor: 1
+      reglas:
+      - Se apila con Soltura con un arma (total +2).
+      - Puedes tomar esta dote varias veces, eligiendo un arma distinta cada vez.
   - nombre: Sutileza con las armas
     tipos:
     - Combate
     prerrequisitos: null
-    beneficio_resumen: con un arma ligera, una espada ropera, un látigo, una espada curva élfica, o una
-      cadena armada diseñadas para una criatura de tu categoría de tamaño, puedes….
+    beneficio_resumen: con un arma ligera, una espada ropera, un látigo, una espada curva élfica o una
+      cadena armada diseñadas para una criatura de tu categoría de tamaño, puedes usar tu modificador
+      por Destreza en lugar del de Fuerza en las tiradas de ataque. Si llevas escudo, su penalizador por
+      armadura se aplica a dichas tiradas.
+    activacion: pasiva
+    efectos:
+    - condicion: arma ligera, espada ropera, látigo, espada curva élfica o cadena armada de tu categoría
+        de tamaño
+      modificadores: []
+      sustituciones:
+      - en: ataque_cuerpo_a_cuerpo
+        usar: modificador_destreza
+        en_lugar_de: modificador_fuerza
+      reglas:
+      - Usas tu modificador por Destreza en lugar del de Fuerza en las tiradas de ataque con dichas armas.
+      - No afecta a las tiradas de daño, que siguen usando Fuerza.
+      - Si llevas escudo, su penalizador por armadura se aplica a tus tiradas de ataque.
+      - Las armas naturales se consideran armas ligeras a estos efectos.
   - nombre: Usar arma improvisada
     tipos:
     - Combate
     prerrequisitos: null
     beneficio_resumen: no sufres penalización alguna por usar un arma cuerpo a cuerpo improvisada.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: penalizador_arma_improvisada
+        tipo: sin_tipo
+        valor: 0
+      reglas:
+      - No sufres penalización alguna por usar un arma cuerpo a cuerpo improvisada.
+      - Los oponentes desarmados quedan desprevenidos frente a los ataques que lleves a cabo con un arma
+        improvisada.
   - nombre: Voluntad de hierro
     tipos:
     - General
     prerrequisitos: null
     beneficio_resumen: obtienes un bonificador +2 a todas las tiradas de salvación de Voluntad.
+    activacion: pasiva
+    efectos:
+    - condicion: null
+      modificadores:
+      - objetivo: salvacion_voluntad
+        tipo: sin_tipo
+        valor: 2
+      reglas: []
   - nombre: Voluntad de hierro mejorada
     tipos:
     - General
     prerrequisitos: Voluntad de hierro
-    beneficio_resumen: una vez al día, puedes repetir una salvación de Voluntad.
+    beneficio_resumen: una vez al día puedes repetir una tirada de salvación de Voluntad. Debes decidirlo
+      antes de conocer el resultado y quedarte con la segunda tirada, aunque sea peor.
+    activacion: inmediata
+    efectos:
+    - condicion: null
+      modificadores: []
+      reglas:
+      - Una vez al día puedes repetir una salvación de Voluntad fallida.
+      - Debes decidir usarla después de tirar pero antes de conocer el resultado.
+      - Debes quedarte con el segundo resultado, aunque sea peor.
+  esquema_efectos:
+    descripcion: Contrato de datos de `efectos`. Cada dote expone una lista de efectos; cada efecto tiene
+      una condición (texto), un bloque `cuando` (predicado legible por máquina, opcional), una lista de
+      `modificadores` numéricos, una lista de `sustituciones` (opcional) y una lista de `reglas` en texto
+      para lo que no es un modificador.
+    modificador:
+      objetivo: valor derivado afectado; ver `objetivos`
+      tipo: tipo de bonificador de Pathfinder; ver `tipos_bonificador`
+      valor: entero con signo, o cadena para valores no escalares (multiplicadores, fórmulas, dados)
+    tipos_bonificador:
+      apilan_siempre:
+      - sin_tipo
+      - esquiva
+      - penalizador
+      no_apilan_consigo_mismos:
+      - alquimico
+      - circunstancia
+      - competencia
+      - deflexion
+      - escudo
+      - mejora
+      - moral
+      - natural
+      - perspicacia
+      - profano
+      - resistencia
+      - sagrado
+      - suerte
+      - tamano
+      nota: Los bonificadores por circunstancia de fuentes distintas sí se apilan; los del mismo origen,
+        no. Los penalizadores se apilan siempre.
+    objetivos:
+      ataque:
+      - ataque
+      - ataque_cuerpo_a_cuerpo
+      - ataque_a_distancia
+      - ataque_arma_seleccionada
+      - ataque_sin_armas
+      - ataque_escudo
+      - ataque_confirmacion_critico
+      - ataque_mano_principal_dos_armas
+      - ataque_mano_torpe_dos_armas
+      - ataque_a_distancia_montado
+      dano:
+      - dano_arma
+      - dano_cuerpo_a_cuerpo
+      - dano_a_distancia
+      - dano_arma_seleccionada
+      - dano_una_mano
+      - dano_dos_manos
+      - dano_mano_torpe
+      - dano_escudo
+      - dano_adicional
+      - dano_sangrado_por_asalto
+      - dados_dano_arma
+      - dano_carga_montado
+      defensa:
+      - ca
+      - ocultacion
+      - ocultacion_vs_distancia
+      - puntos_de_golpe
+      - dmc
+      - dmc_vs_arrollar
+      - dmc_vs_derribo
+      - dmc_vs_desarme
+      - dmc_vs_embestida
+      - dmc_vs_presa
+      - dmc_vs_romper
+      salvaciones:
+      - salvacion_fortaleza
+      - salvacion_reflejos
+      - salvacion_voluntad
+      maniobras:
+      - bmc
+      - bmc_arrollar
+      - bmc_derribo
+      - bmc_desarme
+      - bmc_embestida
+      - bmc_presa
+      - bmc_romper
+      habilidades:
+      - prueba_habilidad.<Habilidad>
+      - prueba_habilidad_elegida
+      - prueba_caracteristica.<Caracteristica>
+      magia:
+      - nivel_conjuro
+      - alcance_conjuro
+      - area_conjuro
+      - duracion_conjuro
+      - efectos_variables_conjuro
+      - prueba_concentracion
+      - prueba_nivel_lanzador_rc
+      - cd_conjuros_escuela_elegida
+      - cd_canalizar
+      - cd_lanzar_a_la_defensiva_enemigo
+      - fallo_conjuro_arcano
+      acciones_y_recursos:
+      - iniciativa
+      - velocidad_base
+      - velocidad_carrera
+      - alcance_cuerpo_a_cuerpo
+      - terreno_dificil_ignorado_pies
+      - ataques_de_oportunidad_adicionales
+      - ataques_adicionales_a_distancia
+      - ataques_adicionales_mano_torpe
+      - ataques_adicionales_sin_armas
+      - tiempo_recarga
+      - usos_canalizar_dia
+      - asaltos_furia_dia
+      - usos_imposicion_manos_dia
+      - asaltos_interpretacion_dia
+      - puntos_ki
+      - mercedes_conocidas
+      otros:
+      - rango_amenaza_critico
+      - reduccion_dano_ignorada
+      - penalizador_no_competencia_arma
+      - penalizador_arma_improvisada
+      - penalizador_arma_improvisada_a_distancia
+      - dado_dano_arma_improvisada
+      - penalizador_por_incremento_alcance
+      - dano_mano_torpe_por_fuerza
+      - fuerza_criatura_convocada
+      - constitucion_criatura_convocada
+    activacion:
+    - pasiva
+    - opcional_declarada_antes_del_ataque
+    - declarada_antes_del_ataque
+    - libre_declarada_antes_de_atacar
+    - rapida
+    - inmediata
+    - movimiento
+    - estandar
+    - asalto_completo
+    - accion_de_ataque
+    - accion_de_carga_montado
+    - preparada
+    - al_confirmar_critico
+    - metamagica
+    - creacion_de_objeto
+    - narrativa
+    advertencia: 'Los valores no enteros de `valor` (multiplicadores tipo ''x2'', fórmulas como ''1_por_dado_de_golpe'',
+      dados como ''2d6'') NO pueden sumarse directamente: el motor debe despacharlos por `objetivo`.'
 equipo:
   monedas:
     unidad_base: po (pieza de oro)

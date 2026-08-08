@@ -16,6 +16,80 @@ from pf_tracker.rules.slug import slugify
 VALID_ARMOR_CATEGORIES = {"ligera", "intermedia", "pesada", "escudo"}
 
 
+def test_every_feat_carries_the_documented_fields(nucleo_raw: dict[str, Any]) -> None:
+    """The 2026-08-06 corpus adds `activacion` and structured `efectos` to every
+    feat. Pin their presence so a partial regeneration is caught."""
+    for feat in nucleo_raw["dotes"]["lista"]:
+        assert feat.get("activacion"), f"{feat['nombre']} has no activation"
+        assert isinstance(feat.get("efectos"), list), f"{feat['nombre']} has no effects list"
+
+
+def test_every_feat_activation_is_declared(nucleo_raw: dict[str, Any]) -> None:
+    declared = set(nucleo_raw["dotes"]["esquema_efectos"]["activacion"])
+    used = {feat["activacion"] for feat in nucleo_raw["dotes"]["lista"]}
+    assert used <= declared, f"undeclared activations: {sorted(used - declared)}"
+
+
+def test_every_modifier_target_is_declared(nucleo_raw: dict[str, Any]) -> None:
+    """`objetivos` is the contract the derivation engine will dispatch on, so a
+    target outside it would silently do nothing."""
+    groups = nucleo_raw["dotes"]["esquema_efectos"]["objetivos"].values()
+    declared = {target for group in groups if isinstance(group, list) for target in group}
+    # Two entries are templates (`prueba_habilidad.<Habilidad>`); match their prefix.
+    prefixes = tuple(t.split(".", 1)[0] + "." for t in declared if t.endswith(">"))
+
+    for feat in nucleo_raw["dotes"]["lista"]:
+        for effect in feat["efectos"]:
+            for modifier in effect.get("modificadores") or []:
+                target = modifier["objetivo"]
+                ok = target in declared or target.startswith(prefixes)
+                assert ok, f"{feat['nombre']} uses undeclared target {target!r}"
+
+
+# `Disparo preciso` and `Maestro del escudo` encode "this feat removes the standard
+# penalty" as `valor: 0`, with the real mechanic only in the prose `reglas`. Adding
+# zero is a no-op, so those two cannot be applied by an additive engine alone.
+CANCELS_A_STANDARD_PENALTY = {"Disparo preciso", "Maestro del escudo"}
+
+
+def test_feat_penalties_are_never_positive(nucleo_raw: dict[str, Any]) -> None:
+    """The stacking engine reads penalties from the sign, not from the type name, so
+    a positive `penalizador` would be applied as a bonus."""
+    zeroed: set[str] = set()
+    for feat in nucleo_raw["dotes"]["lista"]:
+        for effect in feat["efectos"]:
+            for modifier in effect.get("modificadores") or []:
+                value = modifier["valor"]
+                if modifier["tipo"] != "penalizador" or not isinstance(value, int):
+                    continue
+                assert value <= 0, f"{feat['nombre']} has a positive penalty {value}"
+                if value == 0:
+                    zeroed.add(feat["nombre"])
+
+    assert zeroed == CANCELS_A_STANDARD_PENALTY, (
+        f"set of penalty-cancelling feats changed: {sorted(zeroed)}"
+    )
+
+
+def test_every_feat_type_is_declared_in_the_rules_block(nucleo_raw: dict[str, Any]) -> None:
+    """The feat picker groups by ``dotes.reglas.tipos``; a feat carrying a type
+    outside that list would be unreachable through the type filter."""
+    declared = set(nucleo_raw["dotes"]["reglas"]["tipos"])
+    used = {t for feat in nucleo_raw["dotes"]["lista"] for t in feat["tipos"]}
+    assert used <= declared, (
+        f"feat types missing from dotes.reglas.tipos: {sorted(used - declared)}"
+    )
+
+
+def test_every_alignment_value_has_a_display_name(nucleo_raw: dict[str, Any]) -> None:
+    """The picker renders ``nombres[code]`` for each ``valores`` entry, so a code
+    without a name would surface as a blank option."""
+    block = nucleo_raw["alineamiento"]
+    missing = [code for code in block["valores"] if code not in block["nombres"]]
+    assert not missing, f"alignment codes without a display name: {missing}"
+    assert len(block["valores"]) == 9
+
+
 def test_every_base_class_has_20_progression_rows(nucleo_raw: dict[str, Any]) -> None:
     for key, data in nucleo_raw["clases"].items():
         rows = data["progresion"]

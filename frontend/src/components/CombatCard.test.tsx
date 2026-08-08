@@ -37,4 +37,10 @@ describe("CombatCard", () => {
     const alert = screen.getByRole("alert");
     expect(within(alert).getByText("Carga por encima del máximo pesado")).toBeInTheDocument();
   });
+
+  it("shows what a critical feat does to the target on the weapon line", () => {
+    renderWithProviders(<CombatCard name="Aldous" sheet={fighterSheet} />);
+    // The feat changes no number of yours, so the line carries the prose instead.
+    expect(screen.getByText(/queda exhausto/)).toBeInTheDocument();
+  });
 });

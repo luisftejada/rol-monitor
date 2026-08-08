@@ -74,8 +74,10 @@ export function CharacterEditor({
   const intModifier = sheet?.abilities.Int?.modifier ?? 0;
   const bab = sheet?.bab.total ?? 0;
   const abilityScores: Record<string, number> = {};
+  const abilityModifiers: Record<string, number> = {};
   for (const [abbr, ability] of Object.entries(sheet?.abilities ?? {})) {
     abilityScores[abbr] = ability.score;
+    abilityModifiers[abbr] = ability.modifier;
   }
 
   return (
@@ -106,10 +108,16 @@ export function CharacterEditor({
           }}
         >
           <IdentitySection draft={draft} patch={patch} />
-          <AbilitiesSection draft={draft} patch={patch} />
+          <AbilitiesSection draft={draft} patch={patch} modifiers={abilityModifiers} />
           <ClassesSection draft={draft} patch={patch} />
           <SkillsSection draft={draft} patch={patch} intModifier={intModifier} />
-          <FeatsSection draft={draft} patch={patch} bab={bab} abilities={abilityScores} />
+          <FeatsSection
+            draft={draft}
+            patch={patch}
+            bab={bab}
+            abilities={abilityScores}
+            budget={sheet?.feats}
+          />
           <EquipmentSection draft={draft} patch={patch} />
         </form>
 

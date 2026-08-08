@@ -1,5 +1,6 @@
 import { apiGet } from "./client";
 import type {
+  AlignmentDTO,
   ArmorDTO,
   ClassSummaryDTO,
   ConditionDTO,
@@ -12,6 +13,10 @@ import type {
 
 export function getMeta(): Promise<MetaDTO> {
   return apiGet<MetaDTO>("/rules/meta");
+}
+
+export function getAlignments(): Promise<AlignmentDTO[]> {
+  return apiGet<AlignmentDTO[]>("/rules/alignments");
 }
 
 export function getRaces(): Promise<RaceDTO[]> {

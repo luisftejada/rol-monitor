@@ -9,6 +9,11 @@ silent failure. An NPC variant can reuse this unchanged (see the ``kind`` field)
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+from dataclasses import replace
+from itertools import combinations
+
+from pf_tracker.domain.derivation import base_bab
 from pf_tracker.domain.enums import (
     Ability,
     BabProgression,
@@ -31,7 +36,26 @@ from pf_tracker.domain.models import (
     Character as DomainCharacter,
 )
 from pf_tracker.domain.modifiers import Modifier
+from pf_tracker.rules.catalog import FeatDTO
+from pf_tracker.rules.feat_effects import apply_feats, effect_holds
+from pf_tracker.rules.feat_slots import ClassLevelRef, FeatBudget, build_budget
+from pf_tracker.rules.feat_targets import parse_feat_target
+from pf_tracker.rules.feat_vocabulary import is_scalar_feat_bonus, parse_feat_bonus_type
 from pf_tracker.rules.repository import RuleNotFoundError, RulesRepository
+from pf_tracker.rules.weapon_feats import (
+    FEAT_WEAPONS,
+    WeaponFeatContext,
+    WeaponProfile,
+    critical_notes,
+    drop_superseded,
+    is_feat_stance,
+    is_global_feat_target,
+    is_optional,
+    is_single_attack,
+    is_weapon_scoped,
+    resolve_for_weapon,
+    widen_threat_range,
+)
 from pf_tracker.schemas.character import (
     CharacterRead,
     EquippedArmorIn,
@@ -45,14 +69,22 @@ _SAVE_BY_ROW = {SaveKind.FORTITUDE: "fort", SaveKind.REFLEX: "ref", SaveKind.WIL
 _SMALL_OR_LESS = {Size.FINE, Size.DIMINUTIVE, Size.TINY, Size.SMALL}
 _LIGHT_MELEE_CATEGORY = "Armas cuerpo a cuerpo ligeras"
 _RANGED_CATEGORY = "Armas a distancia"
+_UNARMED_CATEGORY = "Ataques sin armas"
 
 
 class AssembledCharacter:
     """A domain character plus the warnings raised while assembling it."""
 
-    def __init__(self, character: DomainCharacter, warnings: list[str]) -> None:
+    def __init__(
+        self,
+        character: DomainCharacter,
+        warnings: list[str],
+        feats: FeatBudget | None = None,
+    ) -> None:
         self.character = character
         self.warnings = warnings
+        #: What the character may pick and what was handed to them.
+        self.feats = feats or FeatBudget()
 
 
 def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharacter:
@@ -75,14 +107,27 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
 
     armor = _armor_slot(character.armor, repo, is_shield=False, warnings=warnings)
     shield = _armor_slot(character.shield, repo, is_shield=True, warnings=warnings)
+    feat_context = _feat_context(character, class_levels)
+    # Feats a class hands over are the character's whether or not anyone typed them
+    # in: a monk *has* Improved Unarmed Strike, and without it took -4 with their
+    # own fists.
+    budget = _feat_budget(character, class_levels, repo, warnings)
+    owned_names = list(dict.fromkeys([*character.feats, *budget.granted]))
+    owned_feats = _owned_feats(owned_names, repo)
     weapons = tuple(
-        weapon
-        for raw in character.weapons
-        if (weapon := _weapon(raw, character, repo, size, warnings)) is not None
+        [
+            line
+            for raw in character.weapons
+            if (weapon := _weapon(raw, character, owned_names, repo, size, warnings)) is not None
+            for line in _weapon_lines(weapon, owned_feats, feat_context)
+        ]
+        + _feat_weapons(character, owned_feats, repo, size, feat_context, warnings)
     )
 
     conditions = _conditions(character, repo)
-    modifiers = _modifiers(character)
+    modifiers = _modifiers(character) + _feat_modifiers(
+        owned_feats, feat_context, character.stances.feat_stances, warnings
+    )
     skills = _skills(character, repo, class_levels, warnings)
     load = _load(character, base_scores, racial, increments, ability_damage, repo)
 
@@ -106,14 +151,14 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
         temporary_hp=character.temporary_hp,
         nonlethal_damage=character.nonlethal_damage,
         skills=skills,
-        feats=tuple(character.feats),
+        feats=tuple(owned_names),
         conditions=conditions,
         stances=_stances(character.stances),
         two_weapon_fighting=_twf(character, repo),
         modifiers=modifiers,
         load=load,
     )
-    return AssembledCharacter(domain, warnings)
+    return AssembledCharacter(domain, warnings, budget)
 
 
 def _resolve_size(character: CharacterRead, race: object, warnings: list[str]) -> Size:
@@ -213,6 +258,7 @@ def _armor_slot(
 def _weapon(
     raw: EquippedWeaponIn,
     character: CharacterRead,
+    feat_names: Sequence[str],
     repo: RulesRepository,
     size: Size,
     warnings: list[str],
@@ -224,7 +270,8 @@ def _weapon(
 
     crit = item.critical[0] if item.critical else None
     is_ranged = item.category == _RANGED_CATEGORY
-    proficient = _is_proficient(item, character, repo)
+    is_unarmed = item.category == _UNARMED_CATEGORY
+    proficient = _is_proficient(item, character, feat_names, repo)
 
     attack_modifiers: list[Modifier] = []
     if raw.is_masterwork and raw.enhancement_bonus == 0:
@@ -243,6 +290,7 @@ def _weapon(
         "name": item.name,
         "wield": Wield(raw.wielding),
         "is_ranged": is_ranged,
+        "is_unarmed": is_unarmed,
         "threat_range": crit.threat_range if crit else 20,
         "crit_multiplier": crit.multiplier if crit else 2,
         "is_thrown": bool((raw.custom_overrides or {}).get("is_thrown", False)),
@@ -264,14 +312,21 @@ def _damage_dice(item: object, size: Size) -> str | None:
     return small if size in _SMALL_OR_LESS else medium
 
 
-def _is_proficient(item: object, character: CharacterRead, repo: RulesRepository) -> bool:
+def _is_proficient(
+    item: object, character: CharacterRead, feat_names: Sequence[str], repo: RulesRepository
+) -> bool:
+    """Whether the character can use this weapon without the -4.
+
+    ``feat_names`` is the *effective* list, including feats a class hands over: a
+    monk never types Improved Unarmed Strike, but they have it.
+    """
     proficiency = _norm(getattr(item, "proficiency", ""))
     text = " ".join(
         _norm(summary.proficiencies or "")
         for entry in character.class_levels
         if (summary := repo.class_summary(entry.class_slug)) is not None
     )
-    feats = " ".join(_norm(f) for f in character.feats)
+    feats = " ".join(_norm(f) for f in feat_names)
 
     if proficiency == "sencilla" and (
         "sencilla" in text or "competencia con armas sencillas" in feats
@@ -282,6 +337,11 @@ def _is_proficient(item: object, character: CharacterRead, repo: RulesRepository
     ):
         return True
     if proficiency == "exotica" and "competencia con arma exotica" in feats:
+        return True
+    # Improved Unarmed Strike is what makes an unarmed strike a real weapon, and the
+    # monk's proficiency line reads "armas de monje seleccionadas" — it never says
+    # "sencilla", so without this a monk took -4 with their own fists.
+    if getattr(item, "category", "") == _UNARMED_CATEGORY and "impacto sin arma mejorado" in feats:
         return True
     # A weapon named in a proficiency/feat (e.g. racial familiarity) counts.
     weapon_name = _norm(getattr(item, "name", ""))
@@ -296,6 +356,277 @@ def _conditions(character: CharacterRead, repo: RulesRepository) -> tuple[str, .
     if (character.is_flat_footed or character.dexterity_denied) and "Desprevenido" not in names:
         names.append("Desprevenido")
     return tuple(names)
+
+
+#: Safety valve on the variant explosion. In practice only two optional feats ever
+#: apply to one weapon (melee: Power Attack + Combat Expertise; ranged: Deadly Aim +
+#: Rapid Shot), so this is never reached; it exists so a future corpus cannot turn
+#: one weapon into dozens of lines.
+_MAX_OPTIONAL_FEATS_PER_WEAPON = 3
+
+
+def _owned_feats(names: Sequence[str], repo: RulesRepository) -> tuple[FeatDTO, ...]:
+    """The catalog entries for the feats this character has."""
+    owned = {_norm(name) for name in names}
+    if not owned:
+        return ()
+    return tuple(feat for feat in repo.feats() if _norm(feat.name) in owned)
+
+
+def _feat_budget(
+    character: CharacterRead,
+    class_levels: tuple[ClassLevel, ...],
+    repo: RulesRepository,
+    warnings: list[str],
+) -> FeatBudget:
+    """Slots from level, class and race, with an over-budget warning that does not
+    block: house rules are real, so the sheet reports rather than refuses."""
+    race = repo.race(character.race)
+    budget = build_budget(
+        feat_levels=repo.meta.feat_levels,
+        class_levels=[ClassLevelRef(cl.class_name, cl.level) for cl in class_levels],
+        class_slots={
+            cl.class_name: summary.bonus_feats
+            for cl in class_levels
+            if (summary := repo.class_summary(cl.class_slug)) is not None
+        },
+        race_name=race.name if race else None,
+        race_slots=race.bonus_feats if race else [],
+        chosen=character.feats,
+    )
+    # Resolve every restricted list the character's slots point at, once each.
+    keys = {s.slot.list_key for s in budget.slots if s.slot.list_key}
+    if keys:
+        levels = {key: max(s.level for s in budget.slots if s.slot.list_key == key) for key in keys}
+        budget = replace(
+            budget,
+            lists={k: tuple(repo.restricted_feat_list(k, levels[k])) for k in keys},
+            list_notes={
+                k: note for k in keys if (note := repo.restricted_list_note(k)) is not None
+            },
+        )
+
+    if budget.is_over_budget:
+        warnings.append(f"Dotes: has elegido {budget.spent} y te corresponden {budget.available}")
+    return budget
+
+
+def _feat_context(
+    character: CharacterRead, class_levels: tuple[ClassLevel, ...]
+) -> WeaponFeatContext:
+    return WeaponFeatContext(
+        base_attack_bonus=sum(base_bab(cl.bab_type, cl.level) for cl in class_levels),
+        hit_dice=sum(cl.level for cl in class_levels),
+        skill_ranks=dict(character.skill_ranks),
+        feat_options=dict(character.feat_options),
+    )
+
+
+def _feat_modifiers(
+    feats: tuple[FeatDTO, ...],
+    context: WeaponFeatContext,
+    active: Sequence[str],
+    warnings: list[str],
+) -> tuple[Modifier, ...]:
+    """Modifiers contributed passively by feats that apply to the whole character.
+
+    Weapon-scoped feats are excluded: they are resolved per weapon instead, where
+    the grip and the chosen weapon are known.
+
+    Effects the producer cannot turn into a number — declared feats, situational
+    conditions, multipliers — come back as notes and are surfaced as warnings, so
+    the GM sees what the sheet is *not* accounting for rather than assuming it is.
+    """
+    global_feats = [
+        feat for feat in feats if not is_weapon_scoped(feat) and not is_feat_stance(feat)
+    ]
+    applied = apply_feats(global_feats, context)
+    warnings.extend(applied.notes)
+    return applied.modifiers + _active_feat_stances(feats, active, context)
+
+
+def _active_feat_stances(
+    feats: tuple[FeatDTO, ...], active: Sequence[str], context: WeaponFeatContext
+) -> tuple[Modifier, ...]:
+    """Modifiers from the declared feats the GM has switched on this round.
+
+    They are skipped by the passive producer precisely because they are declared, so
+    toggling one here is what makes it apply. The numbers come from the corpus, so
+    ``Acometer`` costs the 2 AC the data says and nothing is recomputed.
+    """
+    switched_on = {_norm(name) for name in active}
+    chosen = [f for f in feats if is_feat_stance(f) and _norm(f.name) in switched_on]
+    if not chosen:
+        return ()
+
+    modifiers: list[Modifier] = []
+    for feat in chosen:
+        for effect in feat.effects:
+            # Combat Expertise states one block per BAB band; without this the stance
+            # summed all six at once, giving +21 AC at level 8.
+            if not effect_holds(effect, context):
+                continue
+            for raw in effect.modifiers:
+                # The weapon half of a feat like `Pericia en combate` is already on
+                # its attack line; emitting it here as well would apply it twice.
+                if not is_global_feat_target(raw.target):
+                    continue
+                target = parse_feat_target(raw.target)
+                if target is None or not isinstance(raw.value, int):
+                    continue
+                if not is_scalar_feat_bonus(raw.bonus_type):
+                    continue
+                modifiers.append(
+                    Modifier(
+                        target=target,
+                        value=raw.value,
+                        bonus_type=parse_feat_bonus_type(raw.bonus_type),
+                        source=feat.name,
+                        source_kind=SourceKind.STANCE,
+                    )
+                )
+    return tuple(modifiers)
+
+
+def _weapon_lines(
+    weapon: EquippedWeapon, feats: tuple[FeatDTO, ...], context: WeaponFeatContext
+) -> list[EquippedWeapon]:
+    """The weapon's own attack line, plus one per combination of optional feats.
+
+    A feat the GM declares before attacking does not change the weapon; it describes
+    a different way of using it. Modelling each as its own weapon means the sheet
+    shows "Mandoble" and "Mandoble (Ataque poderoso)" side by side, and the GM picks
+    at the table instead of toggling and re-reading.
+    """
+    profile = _profile_of(weapon)
+
+    # A superseded feat has no effect at all, so it is dropped before anything else:
+    # it must not fold into the base line nor spawn a variant of its own.
+    effective = drop_superseded(feats)
+
+    always = [f for f in effective if not is_optional(f) and is_weapon_scoped(f)]
+    # Critical feats fire with whatever you are holding, so they annotate the base
+    # line and every variant inherits them.
+    annotated = replace(weapon, notes=weapon.notes + critical_notes(effective))
+    base = _with_feats(annotated, always, profile, context, suffix=None)
+
+    optional = [f for f in effective if is_optional(f) and _affects(f, profile, context)]
+    lines = [base]
+    for combination in _combinations(optional[:_MAX_OPTIONAL_FEATS_PER_WEAPON]):
+        label = " + ".join(feat.name for feat in combination)
+        lines.append(_with_feats(base, list(combination), profile, context, suffix=label))
+    return lines
+
+
+def _feat_weapons(
+    character: CharacterRead,
+    feats: tuple[FeatDTO, ...],
+    repo: RulesRepository,
+    size: Size,
+    context: WeaponFeatContext,
+    warnings: list[str],
+) -> list[EquippedWeapon]:
+    """Lines for feats that are a way of attacking rather than a weapon modifier.
+
+    ``Ira de la medusa`` is a full attack of unarmed strikes with two extra attacks:
+    it is built from the weapon it is based on and stands on its own, because a full
+    attack cannot mix armed and unarmed strikes. It therefore never combines with the
+    variants of a carried weapon.
+    """
+    lines: list[EquippedWeapon] = []
+    for feat in feats:
+        base_name = FEAT_WEAPONS.get(feat.name)
+        if base_name is None:
+            continue
+        base = _weapon(
+            EquippedWeaponIn(catalog_name=base_name, wielding=Wield.ONE_HANDED.value),
+            character,
+            [f.name for f in feats],
+            repo,
+            size,
+            warnings,
+        )
+        if base is None:
+            continue
+        lines.append(_with_feats(base, [feat], _profile_of(base), context, suffix=feat.name))
+    return lines
+
+
+def _profile_of(weapon: EquippedWeapon) -> WeaponProfile:
+    return WeaponProfile(
+        name=weapon.name,
+        wield=weapon.wield,
+        is_ranged=weapon.is_ranged,
+        is_unarmed=weapon.is_unarmed,
+    )
+
+
+def _affects(feat: FeatDTO, profile: WeaponProfile, context: WeaponFeatContext) -> bool:
+    """Whether a feat changes any number for this weapon; if not, it is no variant."""
+    resolved = resolve_for_weapon(feat, profile, context)
+    return bool(
+        resolved.attack
+        or resolved.damage
+        or resolved.threat_range_factor > 1
+        or resolved.damage_dice_multiplier > 1
+    )
+
+
+def _combinations(feats: list[FeatDTO]) -> list[tuple[FeatDTO, ...]]:
+    """Every non-empty combination, shortest first, so single feats read first."""
+    result: list[tuple[FeatDTO, ...]] = []
+    for size in range(1, len(feats) + 1):
+        result.extend(combinations(feats, size))
+    return result
+
+
+def _with_feats(
+    weapon: EquippedWeapon,
+    feats: list[FeatDTO],
+    profile: WeaponProfile,
+    context: WeaponFeatContext,
+    *,
+    suffix: str | None,
+) -> EquippedWeapon:
+    """Fold a set of feats into a copy of ``weapon``."""
+    attack = list(weapon.attack_modifiers)
+    damage = list(weapon.damage_modifiers)
+    threat_range = weapon.threat_range
+    dice_multiplier = weapon.damage_dice_multiplier
+    first_only = weapon.dice_multiplier_first_attack_only
+    single = weapon.single_attack or any(is_single_attack(feat) for feat in feats)
+    extra_attacks = weapon.extra_attacks_at_full_bab
+    conditions: list[str] = []
+
+    for feat in feats:
+        resolved = resolve_for_weapon(feat, profile, context)
+        attack.extend(resolved.attack)
+        damage.extend(resolved.damage)
+        threat_range = widen_threat_range(threat_range, resolved.threat_range_factor)
+        extra_attacks += resolved.extra_attacks_at_full_bab
+        if resolved.condition:
+            conditions.append(resolved.condition)
+        if resolved.damage_dice_multiplier > 1:
+            dice_multiplier *= resolved.damage_dice_multiplier
+            first_only = first_only or resolved.dice_multiplier_first_attack_only
+
+    # The situation a line only applies in is part of its name, so the GM reads the
+    # numbers and the caveat together instead of applying it unaware.
+    label = suffix
+    if label is not None and conditions:
+        label = f"{label} — sólo {'; '.join(conditions)}"
+
+    return replace(
+        weapon,
+        name=weapon.name if label is None else f"{weapon.name} ({label})",
+        threat_range=threat_range,
+        attack_modifiers=tuple(attack),
+        damage_modifiers=tuple(damage),
+        damage_dice_multiplier=dice_multiplier,
+        dice_multiplier_first_attack_only=first_only,
+        extra_attacks_at_full_bab=extra_attacks,
+        single_attack=single,
+    )
 
 
 def _modifiers(character: CharacterRead) -> tuple[Modifier, ...]:
@@ -363,10 +694,9 @@ def _stances(raw: StancesIn) -> Stances:
         charge=raw.charge,
         fighting_defensively=raw.fighting_defensively,
         total_defense=raw.total_defense,
-        power_attack=raw.power_attack,
-        combat_expertise=raw.combat_expertise,
         flanking=raw.flanking,
         higher_ground=raw.higher_ground,
+        feat_stances=tuple(raw.feat_stances),
     )
 
 

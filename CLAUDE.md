@@ -3,6 +3,25 @@
 This file is the working contract for anyone (human or agent) touching this repo.
 Read it before writing code.
 
+> **Fresh clone, or picking the work up again?** Read
+> [docs/HANDOFF.md](docs/HANDOFF.md) first: it has the one-command bootstrap
+> (`./setup.sh`), where the work stands, what is open, and the traps that already
+> cost time here. Then [docs/assumptions.md](docs/assumptions.md) before touching
+> derivation — it records why each rules decision was made, not just what.
+
+## Never start the app
+
+**The owner starts and stops the app manually, always.** Do not run `./start.sh`,
+`make dev`, `uvicorn`, or `npm run dev` — not to verify a change, not to take a
+screenshot, not "just this once". If a change needs checking in a running app, say
+so and let the owner start it.
+
+Why: a stale server left running silently serves old code, and a second copy
+fights for ports 8000/5173. The owner keeps a single instance under their own
+control.
+
+Tests, linters, type-checkers and builds are unaffected — run those freely.
+
 ## The two hard rules
 
 1. **Spanish data, English code.** The rules corpus (`backend/data/*.yaml`) is

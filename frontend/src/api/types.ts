@@ -25,10 +25,12 @@ export type BabDTO = Schemas["BabDTO"];
 
 // Rules catalog
 export type MetaDTO = Schemas["MetaDTO"];
+export type AlignmentDTO = Schemas["AlignmentDTO"];
 export type RaceDTO = Schemas["RaceDTO"];
 export type ClassSummaryDTO = Schemas["ClassSummaryDTO"];
 export type SkillDTO = Schemas["SkillDTO"];
 export type FeatDTO = Schemas["FeatDTO"];
+export type FeatBudgetDTO = Schemas["FeatBudgetDTO"];
 export type WeaponDTO = Schemas["WeaponDTO"];
 export type ArmorDTO = Schemas["ArmorDTO"];
 

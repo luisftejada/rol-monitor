@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import type { CharacterSummary } from "@/api/types";
+import { CopyIcon, PencilIcon, TrashIcon } from "@/components/icons";
 import { t } from "@/i18n";
 import { signed } from "@/lib/format";
 
@@ -50,20 +51,39 @@ export function CharacterTable({
               {signed(character.fortitude)} / {signed(character.reflex)} / {signed(character.will)}
             </td>
             <td>
-              <button
-                type="button"
-                onClick={() => onDuplicate(character.id)}
-                disabled={busyId === character.id}
-              >
-                {t("list.action.duplicate")}
-              </button>
-              <button
-                type="button"
-                onClick={() => onDelete(character)}
-                disabled={busyId === character.id}
-              >
-                {t("list.action.delete")}
-              </button>
+              {/* Icon-only actions: `title` gives the hover tooltip, `aria-label`
+                  gives the same words to a screen reader, so the icon never has to
+                  be guessed at. */}
+              <div className="row-actions">
+                <Link
+                  className="icon-button"
+                  to={`/characters/${character.id}/edit`}
+                  title={t("list.action.edit")}
+                  aria-label={t("list.action.edit")}
+                >
+                  <PencilIcon />
+                </Link>
+                <button
+                  type="button"
+                  className="icon-button"
+                  title={t("list.action.duplicate")}
+                  aria-label={t("list.action.duplicate")}
+                  onClick={() => onDuplicate(character.id)}
+                  disabled={busyId === character.id}
+                >
+                  <CopyIcon />
+                </button>
+                <button
+                  type="button"
+                  className="icon-button icon-button--danger"
+                  title={t("list.action.delete")}
+                  aria-label={t("list.action.delete")}
+                  onClick={() => onDelete(character)}
+                  disabled={busyId === character.id}
+                >
+                  <TrashIcon />
+                </button>
+              </div>
             </td>
           </tr>
         ))}

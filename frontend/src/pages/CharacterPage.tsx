@@ -15,7 +15,11 @@ export function CharacterPage(): React.JSX.Element {
     <section>
       <p className="page-actions">
         <Link to="/">← {t("common.back")}</Link>
-        {character.data && <Link to={`/characters/${id}/edit`}>{t("editor.edit")}</Link>}
+        {character.data && (
+          <Link className="button" to={`/characters/${id}/edit`}>
+            {t("editor.edit")}
+          </Link>
+        )}
         {character.data && <ExportButton id={id} name={character.data.name} />}
       </p>
 

@@ -4,20 +4,34 @@ import type { CharacterCreate } from "@/api/types";
 import { ABILITY_ORDER, POINT_BUY_BUDGET, STANDARD_ARRAY } from "@/features/editor/draft";
 import { useMeta, useRaces } from "@/hooks/useRules";
 import { t } from "@/i18n";
+import { signed } from "@/lib/format";
 
 interface SectionProps {
   draft: CharacterCreate;
   patch: (partial: Partial<CharacterCreate>) => void;
+  /**
+   * Ability modifiers keyed by abbreviation, as derived by the backend. The
+   * modifier is a Pathfinder formula, so it is never recomputed here — the
+   * column renders what ``/derive`` returned, and stays blank until it has.
+   */
+  modifiers?: Record<string, number>;
 }
 
 type Method = "point-buy" | "manual" | "standard";
 
 const FLEXIBLE_KEY = "cualquiera";
 
-export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Element {
+export function AbilitiesSection({
+  draft,
+  patch,
+  modifiers = {},
+}: SectionProps): React.JSX.Element {
   const meta = useMeta();
   const races = useRaces();
   const [method, setMethod] = useState<Method>("point-buy");
+  // The budget is a table convention, not character data, so it lives in the
+  // editor rather than on the character. It only drives the over-budget warning.
+  const [budget, setBudget] = useState(POINT_BUY_BUDGET);
 
   const costs = meta.data?.point_buy_costs ?? {};
   const baseScores = draft.base_scores ?? {};
@@ -54,20 +68,51 @@ export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Elem
     <section aria-labelledby="section-abilities" className="editor__section">
       <h2 id="section-abilities">{t("editor.section.abilities")}</h2>
 
-      <fieldset className="ability-method">
-        <legend>{t("abilities.method")}</legend>
-        {(["point-buy", "manual", "standard"] as const).map((option) => (
-          <label key={option}>
-            <input
-              type="radio"
-              name="ability-method"
-              checked={method === option}
-              onChange={() => chooseMethod(option)}
-            />
-            {t(`abilities.method.${option === "point-buy" ? "pointBuy" : option}` as const)}
-          </label>
-        ))}
-      </fieldset>
+      <div className="ability-method-row">
+        <fieldset className="ability-method">
+          <legend>{t("abilities.method")}</legend>
+          {(["point-buy", "manual", "standard"] as const).map((option) => (
+            <label key={option}>
+              <input
+                type="radio"
+                name="ability-method"
+                checked={method === option}
+                onChange={() => chooseMethod(option)}
+              />
+              {t(`abilities.method.${option === "point-buy" ? "pointBuy" : option}` as const)}
+            </label>
+          ))}
+        </fieldset>
+
+        {method === "point-buy" && (
+          <div className="point-budget">
+            <label htmlFor="point-budget">{t("abilities.budget")}</label>
+            <span className="stepper">
+              <button
+                type="button"
+                aria-label={t("abilities.budget.decrement")}
+                onClick={() => setBudget(Math.max(0, budget - 1))}
+              >
+                −
+              </button>
+              <input
+                id="point-budget"
+                type="number"
+                min={0}
+                value={budget}
+                onChange={(event) => setBudget(Math.max(0, Number(event.target.value)))}
+              />
+              <button
+                type="button"
+                aria-label={t("abilities.budget.increment")}
+                onClick={() => setBudget(budget + 1)}
+              >
+                +
+              </button>
+            </span>
+          </div>
+        )}
+      </div>
 
       {flexibleAmount !== undefined && (
         <label className="field">
@@ -93,9 +138,9 @@ export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Elem
       )}
 
       {method === "point-buy" && (
-        <p className={pointsSpent > POINT_BUY_BUDGET ? "points points--over" : "points"}>
-          {t("abilities.points", { spent: pointsSpent, budget: POINT_BUY_BUDGET })}
-          {pointsSpent > POINT_BUY_BUDGET && <span role="alert"> {t("abilities.pointsOver")}</span>}
+        <p className={pointsSpent > budget ? "points points--over" : "points"}>
+          {t("abilities.points", { spent: pointsSpent, budget })}
+          {pointsSpent > budget && <span role="alert"> {t("abilities.pointsOver")}</span>}
         </p>
       )}
 
@@ -106,12 +151,14 @@ export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Elem
             <th scope="col">{t("abilities.col.base")}</th>
             <th scope="col">{t("abilities.col.racial")}</th>
             <th scope="col">{t("abilities.col.final")}</th>
+            <th scope="col">{t("abilities.col.modifier")}</th>
           </tr>
         </thead>
         <tbody>
           {ABILITY_ORDER.map((abbr) => {
             const base = baseScores[abbr] ?? 10;
             const racial = racialFor(abbr);
+            const modifier = modifiers[abbr];
             return (
               <tr key={abbr}>
                 <th scope="row">{abbr}</th>
@@ -131,6 +178,9 @@ export function AbilitiesSection({ draft, patch }: SectionProps): React.JSX.Elem
                 </td>
                 <td>{racial >= 0 ? `+${racial}` : racial}</td>
                 <td>{base + racial}</td>
+                <td className="abilities__modifier">
+                  {modifier === undefined ? "—" : signed(modifier)}
+                </td>
               </tr>
             );
           })}

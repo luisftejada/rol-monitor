@@ -107,6 +107,16 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
                 breakdown={attack.attack.breakdown}
                 suppressed={attack.attack.suppressed}
               />
+              {/* Manyshot rolls the first arrow's dice twice, so the first attack
+                  is shown separately: "2d8 then 1d8" is not one number. */}
+              {attack.first_attack_damage_expression && (
+                <StatBreakdown
+                  label={t("sheet.attack.firstDamage")}
+                  value={attack.first_attack_damage_expression}
+                  breakdown={attack.damage.breakdown}
+                  suppressed={attack.damage.suppressed}
+                />
+              )}
               {attack.damage_expression && (
                 <StatBreakdown
                   label={t("sheet.attack.damage")}
@@ -118,6 +128,15 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
               <p className="attack__crit">
                 {t("sheet.attack.crit")}: {attack.threat_range}-20/×{attack.crit_multiplier}
               </p>
+              {/* What a feat does to the *target* — a critical feat has no number of
+                  yours to change, so it is shown where the GM confirms the crit. */}
+              {attack.notes.length > 0 && (
+                <ul className="attack__notes">
+                  {attack.notes.map((note, noteIndex) => (
+                    <li key={noteIndex}>{note}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           ))}
         </section>

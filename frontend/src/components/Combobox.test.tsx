@@ -41,6 +41,39 @@ describe("Combobox", () => {
     expect(onChange).toHaveBeenCalledWith("espada-larga");
   });
 
+  it("reopens on click after a selection, when the field still has focus", async () => {
+    const onChange = vi.fn();
+    const user = userEvent.setup();
+    renderWithProviders(
+      <Combobox label="Arma" options={options} value="espada-larga" onChange={onChange} />,
+    );
+    const input = screen.getByRole("combobox", { name: "Arma" });
+
+    await user.click(input);
+    await user.click(screen.getByRole("option", { name: "Espada corta" }));
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    expect(input).toHaveFocus();
+
+    // A second click emits no focus event, so opening must not depend on focus.
+    await user.click(input);
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+  });
+
+  it("reopens on click after dismissing the list with Escape", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(
+      <Combobox label="Arma" options={options} value={null} onChange={vi.fn()} />,
+    );
+    const input = screen.getByRole("combobox", { name: "Arma" });
+
+    await user.click(input);
+    await user.keyboard("{Escape}");
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+
+    await user.click(input);
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+  });
+
   it("is keyboard operable (ArrowDown + Enter)", async () => {
     const onChange = vi.fn();
     const user = userEvent.setup();

@@ -77,10 +77,10 @@ class StancesIn(BaseModel):
     charge: bool = False
     fighting_defensively: bool = False
     total_defense: bool = False
-    power_attack: bool = False
-    combat_expertise: bool = False
     flanking: bool = False
     higher_ground: bool = False
+    #: Declared feats active this round, by canonical name.
+    feat_stances: list[str] = Field(default_factory=list)
 
 
 def _standard_array() -> dict[str, int]:

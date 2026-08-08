@@ -16,6 +16,7 @@ from typing import Any
 from pf_tracker.rules.catalog import (
     AbilityDTO,
     ActionTypeDTO,
+    AlignmentDTO,
     ArmorDTO,
     BonusTypesDTO,
     ClassProgressionRowDTO,
@@ -23,6 +24,9 @@ from pf_tracker.rules.catalog import (
     ConditionDTO,
     CriticalDTO,
     FeatDTO,
+    FeatEffectDTO,
+    FeatModifierDTO,
+    FeatSlotDTO,
     MetaDTO,
     RaceDTO,
     SizeDTO,
@@ -30,6 +34,7 @@ from pf_tracker.rules.catalog import (
     SpellDTO,
     WeaponDTO,
 )
+from pf_tracker.rules.feat_targets import choice_kind_for
 from pf_tracker.rules.parsing import parse_bab, parse_critical
 from pf_tracker.rules.slug import slugify
 from pf_tracker.rules.vendor.pathfinder_reglas import (
@@ -38,6 +43,7 @@ from pf_tracker.rules.vendor.pathfinder_reglas import (
     Reglas,
     _norm,
 )
+from pf_tracker.rules.weapon_feats import is_feat_stance
 
 
 class RuleNotFoundError(LookupError):
@@ -100,7 +106,17 @@ class RulesRepository:
                 int(score): cost
                 for score, cost in self._nucleo["caracteristicas"]["coste_compra_puntos"].items()
             },
+            feat_levels=list(self._nucleo["avance"]["niveles_con_dote"]),
+            feat_types=list(self._nucleo["dotes"]["reglas"]["tipos"]),
         )
+
+    # ------------------------------------------------------------- alignments
+    @cached_property
+    def alignments(self) -> list[AlignmentDTO]:
+        """The nine alignments, in corpus order (``valores`` drives the ordering)."""
+        block = self._nucleo["alineamiento"]
+        names = block["nombres"]
+        return [AlignmentDTO(code=code, name=names[code]) for code in block["valores"]]
 
     # ------------------------------------------------------------------ races
     @cached_property
@@ -117,6 +133,7 @@ class RulesRepository:
                 vision=r.get("vision"),
                 traits=list(r.get("rasgos") or []),
                 languages={k: list(v) for k, v in (r.get("idiomas") or {}).items()},
+                bonus_feats=_feat_slots(r),
             )
             for r in self._nucleo["razas"]
         ]
@@ -137,6 +154,7 @@ class RulesRepository:
             is_spellcaster=bool(data.get("lanzador")),
             is_prestige=is_prestige,
             max_level=max((row["nivel"] for row in data["progresion"]), default=0),
+            bonus_feats=_feat_slots(data),
         )
 
     @cached_property
@@ -225,9 +243,58 @@ class RulesRepository:
                     prerequisites=d.get("prerrequisitos"),
                     benefit=d.get("beneficio_resumen"),
                     is_eligible=_norm(d["nombre"]) in eligible_names,
+                    activation=d.get("activacion"),
+                    is_stance=False,  # filled below, once the DTO exists
+                    choice_kind=choice_kind_for(
+                        m["objetivo"]
+                        for e in d.get("efectos") or []
+                        for m in e.get("modificadores") or []
+                    ),
+                    effects=[_feat_effect(e) for e in d.get("efectos") or []],
                 )
             )
-        return feats
+        # `is_stance` is decided from the assembled DTO, since it depends on how the
+        # rest of the fields classify the feat.
+        return [f.model_copy(update={"is_stance": is_feat_stance(f)}) for f in feats]
+
+    # ------------------------------------------------- restricted feat lists
+    @cached_property
+    def _restricted_feat_lists(self) -> dict[str, Any]:
+        return dict(self._nucleo["dotes"].get("listas_restringidas") or {})
+
+    def restricted_feat_list(self, key: str, level: int) -> list[str]:
+        """Feat names that may fill a slot restricted to ``key`` at ``level``.
+
+        The corpus states these four lists in four different shapes: a type filter
+        plus extras (wizard), levels to feats (monk), style to levels to feats
+        (ranger), and bloodline to feats (sorcerer). They are resolved here so the
+        frontend never has to walk that structure — it would be rules logic in the
+        wrong layer, and the shapes would leak into TypeScript.
+
+        Where the list depends on a choice the sheet does not model yet — the
+        ranger's combat style, the sorcerer's bloodline — the union across choices
+        is returned. It is wider than the truth, and the caller says so.
+        """
+        spec = self._restricted_feat_lists.get(key)
+        if spec is None:
+            return []
+        names: set[str] = set()
+
+        wanted_types = {_norm(t) for t in spec.get("tipos") or []}
+        if wanted_types:
+            names |= {
+                d["nombre"]
+                for d in self._r.dotes
+                if any(_norm(t) in wanted_types for t in d["tipos"])
+            }
+        names |= set(spec.get("dotes") or [])
+        names |= _collect_feat_names(spec.get("opciones"), level)
+        return sorted(names)
+
+    def restricted_list_note(self, key: str) -> str | None:
+        """The corpus' own caveat for a list, if it has one."""
+        spec = self._restricted_feat_lists.get(key)
+        return spec.get("nota") if spec else None
 
     # ---------------------------------------------------------------- weapons
     @cached_property
@@ -381,6 +448,57 @@ class RulesRepository:
             needle = _norm(search)
             result = [s for s in result if needle in _norm(s.name)]
         return result
+
+
+def _collect_feat_names(node: Any, level: int) -> set[str]:
+    """Walk an ``opciones`` block, honouring level keys.
+
+    Numeric keys are levels and accumulate: a slot taken at 14 chooses from
+    everything unlocked up to it. Anything else is a named choice (a style, a
+    bloodline) whose branches are unioned.
+    """
+    names: set[str] = set()
+    if isinstance(node, list):
+        names |= {x for x in node if isinstance(x, str)}
+    elif isinstance(node, dict):
+        for key, value in node.items():
+            if key == "concreciones":
+                continue  # parameters for a feat, not feats themselves
+            # YAML parses `2:` as an int, not a string, so both forms appear.
+            is_level = isinstance(key, int) or (isinstance(key, str) and key.isdigit())
+            if is_level and int(key) > level:
+                continue
+            names |= _collect_feat_names(value, level)
+    return names
+
+
+def _feat_slots(raw: dict[str, Any]) -> list[FeatSlotDTO]:
+    """Map ``dotes_adicionales`` entries, keeping the corpus vocabulary."""
+    return [
+        FeatSlotDTO(
+            level=s["nivel"],
+            choice=s["eleccion"],
+            types=list(s.get("tipos") or []),
+            list_key=s.get("lista"),
+            feat=s.get("dote"),
+            note=s.get("nota"),
+            page=s.get("fuente"),
+        )
+        for s in raw.get("dotes_adicionales") or []
+    ]
+
+
+def _feat_effect(raw: dict[str, Any]) -> FeatEffectDTO:
+    """Map one ``dotes.lista[].efectos[]`` entry, keeping the corpus vocabulary."""
+    return FeatEffectDTO(
+        condition=raw.get("condicion"),
+        when=dict(raw.get("cuando") or {}),
+        modifiers=[
+            FeatModifierDTO(target=m["objetivo"], bonus_type=m["tipo"], value=m["valor"])
+            for m in raw.get("modificadores") or []
+        ],
+        rules=list(raw.get("reglas") or []),
+    )
 
 
 def _hash_corpus(directory: Path) -> str:

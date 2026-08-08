@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, Query
 
 from pf_tracker.api.deps import get_rules_repository, rules_cache
 from pf_tracker.rules.catalog import (
+    AlignmentDTO,
     ArmorDTO,
     ClassProgressionRowDTO,
     ClassSummaryDTO,
@@ -45,6 +46,11 @@ def _parse_abilities(items: list[str]) -> dict[str, int]:
 @router.get("/meta", response_model=MetaDTO)
 def get_meta(repo: RepoDep) -> MetaDTO:
     return repo.meta
+
+
+@router.get("/alignments", response_model=list[AlignmentDTO])
+def get_alignments(repo: RepoDep) -> list[AlignmentDTO]:
+    return repo.alignments
 
 
 @router.get("/races", response_model=list[RaceDTO])

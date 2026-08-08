@@ -4,14 +4,28 @@
 
 /* Phase 4 baseline styling. The accessibility/design polish pass is phase 7. */
 :root {
-  --bg: #f8fafc;
+  /* A soft blue page, so the white cards read as raised surfaces. The previous
+     ivory sat at 1.05:1 against a white card — the same colour, effectively. */
+  --bg: #d2e0f2;
   --surface: #ffffff;
+  --title-bg: #c5d8ee;
+  --shadow: 0 1px 2px rgb(15 23 42 / 8%), 0 2px 6px rgb(15 23 42 / 8%);
   --border: #e2e8f0;
+  /* Interactive controls need a boundary that is actually visible against a
+     white surface. WCAG 2.1 AA (1.4.11) asks for 3:1 on control boundaries;
+     --border is a structural divider and only reaches ~1.3:1, so buttons and
+     fields use --border-strong (~4.8:1) instead. */
+  --border-strong: #64748b;
+  --control-bg: #e2e8f0;
+  --field-bg: #ffffff;
+  --hover: #cbd5e1;
   --text: #0f172a;
   --muted: #64748b;
   --accent: #7c3aed;
   --warn-bg: #fef3c7;
   --warn-text: #92400e;
+  --danger: #b91c1c;
+  --danger-bg: #fee2e2;
   color-scheme: light;
 }
 
@@ -59,10 +73,49 @@ body {
   max-width: 20rem;
   margin: 0.5rem 0 1rem;
 }
+/* Every data-entry control, wherever it lives. Declared globally rather than
+   per-section so a new form cannot silently ship with an invisible field. */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.375rem;
+  background: var(--field-bg);
+  color: var(--text);
+  font: inherit;
+}
+input:not([type="checkbox"]):not([type="radio"]):hover,
+select:hover,
+textarea:hover {
+  border-color: var(--text);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+}
+/* Checkboxes are easy to lose at their native size; the stance toggles are
+   clicked constantly during a fight. */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--accent);
+}
+/* A checkbox or radio needs space before its text, and sibling choices need
+   space between them, or a group renders as one run-on string. */
+label > input[type="checkbox"],
+label > input[type="radio"] {
+  margin-right: 0.4rem;
+}
+fieldset label {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
 .search input {
   padding: 0.4rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 0.375rem;
 }
 
 .roster {
@@ -71,6 +124,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
+  box-shadow: var(--shadow);
   overflow: hidden;
 }
 .roster th,
@@ -92,6 +146,7 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
+  box-shadow: var(--shadow);
   padding: 1.25rem;
   display: grid;
   gap: 1rem;
@@ -146,9 +201,12 @@ body {
   border-radius: 0.5rem;
   min-width: 8rem;
 }
+/* The "why?" disclosure fills its stat tile, so it opts out of the standard
+   button chrome rather than drawing a second border inside the tile. */
 .stat__toggle {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.5rem;
   width: 100%;
   padding: 0.4rem 0.6rem;
@@ -190,6 +248,13 @@ body {
   border-top: 1px solid var(--border);
   padding-top: 0.5rem;
 }
+.attack__notes {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
 .attack__warn,
 .attack__crit {
   color: var(--muted);
@@ -212,23 +277,125 @@ body {
 }
 
 /* --- editor --- */
-.list__header,
-.page-actions {
+/* Tailwind's preflight strips heading size and weight, so a page title rendered as
+   plain body text. Styled once here rather than per page. */
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* --- icon buttons ----------------------------------------------------------
+   The label lives in `title` (hover) and `aria-label` (screen readers), so the
+   glyph never has to be guessed at and the button keeps a real accessible name. */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.375rem;
+  background: var(--control-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+.icon-button:hover:not(:disabled) {
+  background: var(--hover);
+  border-color: var(--text);
+}
+/* Destructive actions read as destructive on hover, but never by colour alone —
+   the tooltip and the bin glyph both say what it does. */
+.icon-button--danger:hover:not(:disabled) {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+.row-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.list__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
 }
-.button,
-a.button {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  background: var(--accent);
-  color: #fff;
+/* "Volver" is section navigation and stays a link; the actions beside it are
+   buttons, so they group together instead of being spread across the row. */
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+/* --- actions ---------------------------------------------------------------
+   Every action reads as a button. Tailwind's preflight strips the native button
+   appearance, so bare <button> elements rendered as plain text and were
+   indistinguishable from the links beside them. Links are reserved for
+   navigating to a section (the editor's section anchors, "volver", the brand). */
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border-strong);
   border-radius: 0.375rem;
+  background: var(--control-bg);
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.4;
   text-decoration: none;
-  border: none;
   cursor: pointer;
+}
+button:hover:not(:disabled) {
+  background: var(--hover);
+  border-color: var(--text);
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Primary actions carry the accent fill. */
+.button,
+a.button,
+label.button {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.button:hover {
+  opacity: 0.9;
+}
+
+/* Dismiss controls inside pills stay compact so the pill keeps its shape. */
+.chip button,
+.owned-feats li button,
+.weapons li button {
+  padding: 0 0.3rem;
+  border: none;
+  background: none;
+  color: inherit;
+  border-radius: 999px;
+  font-weight: 700;
+  line-height: 1;
+}
+.chip button:hover:not(:disabled),
+.owned-feats li button:hover:not(:disabled),
+.weapons li button:hover:not(:disabled) {
+  background: rgb(0 0 0 / 12%);
+  border-color: transparent;
+}
+
+/* Steppers stay square next to their numeric input. */
+.stepper button {
+  padding: 0.15rem 0.5rem;
 }
 
 .editor__toolbar {
@@ -277,21 +444,30 @@ a.button {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
+  box-shadow: var(--shadow);
   scroll-margin-top: 1rem;
+}
+
+/* The section heading is the card's title, so it gets a full-bleed band across
+   the top instead of looking like one more field label in the form. Tailwind's
+   preflight strips heading size and weight, which is why it read as body text. */
+.editor__section > h2 {
+  margin: -1rem -1rem 0;
+  padding: 0.55rem 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--title-bg);
+  border-bottom: 1px solid var(--border-strong);
+  /* Slightly tighter than the card radius, to sit inside its 1px border. */
+  border-radius: 0.4rem 0.4rem 0 0;
 }
 .field {
   display: grid;
   gap: 0.25rem;
   max-width: 24rem;
-}
-.field input,
-.combobox input,
-select,
-.abilities input,
-.skills input {
-  padding: 0.35rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 0.375rem;
 }
 .combobox {
   position: relative;
@@ -338,6 +514,33 @@ select,
 .stepper input {
   width: 3.5rem;
 }
+/* The point-buy value is plain text, so its width followed the digit count and
+   pushed the "+" button left on single-digit scores. A fixed, centred box with
+   tabular figures keeps every stepper aligned down the column. */
+.stepper > span {
+  min-width: 2ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* The method choice and its point budget sit on one row: the budget only makes
+   sense in the context of the method it belongs to. */
+.ability-method-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem 2rem;
+}
+/* Let the radio group shrink (its labels wrap internally) so the budget keeps
+   its place on the same row instead of being pushed onto the next one. */
+.ability-method {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+.point-budget {
+  display: grid;
+  gap: 0.25rem;
+}
+
 .abilities,
 .skills {
   border-collapse: collapse;
@@ -353,6 +556,115 @@ select,
   color: var(--warn-text);
   font-weight: 600;
 }
+/* --- catalog picker (feats, weapons) --- */
+.feats__budget {
+  display: grid;
+  gap: 0.25rem;
+}
+.feats__slots {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.feats__granted {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.picker-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem 1.5rem;
+}
+.feats__eligible {
+  display: inline-flex;
+  align-items: center;
+  padding-bottom: 0.35rem;
+}
+/* The list can run to 174 entries, so it scrolls inside the card rather than
+   pushing every section below it off the page. */
+.picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  display: grid;
+  gap: 0.25rem;
+  max-height: 18rem;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+}
+.picker-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.picker-list__name {
+  flex: 1;
+  justify-content: flex-start;
+  text-align: left;
+  background: none;
+  border-color: transparent;
+}
+.picker-list li.is-ineligible .picker-list__name {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.75rem;
+}
+.details-grid dt {
+  font-weight: 700;
+  color: var(--muted);
+}
+.details-grid dd {
+  margin: 0;
+}
+.details-grid__warn {
+  color: var(--warn-text);
+  font-weight: 600;
+}
+
+.modal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(15 23 42 / 55%);
+}
+.modal {
+  width: min(34rem, 100%);
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+}
+.modal__head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.modal__head h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
 .owned-feats,
 .weapons {
   list-style: none;
@@ -361,6 +673,23 @@ select,
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+/* The chip is already the affordance, so its name opts out of the button chrome
+   instead of drawing a box inside the pill. Specific enough to outrank the
+   dismiss-button rule above, which would otherwise make the name bold. */
+.owned-feats li .chip__name,
+.weapons li .chip__name {
+  padding: 0 0.15rem;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  border-radius: 0.2rem;
+}
+.owned-feats li .chip__name:hover,
+.weapons li .chip__name:hover {
+  background: rgb(0 0 0 / 12%);
+}
+
 .owned-feats li,
 .weapons li {
   display: inline-flex;
@@ -403,6 +732,7 @@ select,
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
+  box-shadow: var(--shadow);
 }
 .tracker__block h3 {
   margin: 0;
@@ -439,6 +769,16 @@ select,
   background: #fee2e2;
   color: #991b1b;
   border-radius: 999px;
+}
+.stances__effect {
+  margin: 0 0 0.25rem 1.4rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.stances__note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 .stances {
   list-style: none;
@@ -493,14 +833,22 @@ select,
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f172a;
+    --bg: #0b1220;
     --surface: #1e293b;
+    --title-bg: #334155;
+    --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 2px 6px rgb(0 0 0 / 30%);
     --border: #334155;
+    --border-strong: #94a3b8;
+    --control-bg: #334155;
+    --field-bg: #0f172a;
+    --hover: #475569;
     --text: #e2e8f0;
     --muted: #94a3b8;
     --accent: #a78bfa;
     --warn-bg: #78350f;
     --warn-text: #fde68a;
+    --danger: #fca5a5;
+    --danger-bg: #7f1d1d;
     color-scheme: dark;
   }
   .roster th {

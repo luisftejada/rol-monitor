@@ -1,0 +1,608 @@
+# Prompt log
+
+### 2026-08-08 — The feat picker filters by the slot being spent
+**Prompt:** Yes, let's build it.
+**Files affected:** `backend/src/pf_tracker/rules/{repository,feat_slots}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/tests/unit/rules/test_repository.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`,
+`frontend/src/features/editor/sections/FeatsSection.tsx` and its tests,
+`frontend/src/i18n/es.ts`, `frontend/src/test/{catalog,fixtures}.ts`,
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** The type filter now leads with what the character's own slots accept:
+"Combate — Guerrero" filters by category, "Lista de Monje" by the resolved list. The
+four restricted lists are resolved to feat names in the repository — the corpus
+states them in four different shapes, and walking those in TypeScript would be rules
+logic in the wrong layer — keyed by level so a later slot sees more. Where the list
+depends on a choice the sheet does not model, the union is returned and the corpus'
+caveat is shown with it. A bug worth remembering: YAML parses `2:` as an int, so the
+first level filter never fired and every list came back at full size.
+
+---
+
+### 2026-08-08 — Feat budget per level, class and race
+**Prompt:** Implement the feat limits per level now that the corpus carries them.
+**Files affected:** `backend/src/pf_tracker/rules/{catalog,repository,feat_slots}.py`
+(new module), `backend/src/pf_tracker/services/{assembler,character_service}.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/{schema,types}.ts`,
+`frontend/src/features/editor/sections/FeatsSection.tsx` and its tests,
+`frontend/src/features/editor/CharacterEditor.tsx`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`, `frontend/src/test/{catalog,fixtures}.ts`,
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** The sheet now derives a feat budget — base levels, class slots gated on
+the level in that class, and racial slots — exposed with its breakdown so the editor
+renders "Dotes: 1 / 2" and where each slot came from without counting anything
+itself. Fixed slots are granted rather than charged, and the granted names join the
+character's effective feats: that alone fixed a monk taking -4 with their own fists,
+since proficiency was reading the typed list. Over budget warns and never blocks.
+
+---
+
+### 2026-08-07 — Corpus feat progression landed; provenance docs filed
+**Prompt:** Here is what Claude returned (inventory, schema design, patched corpus).
+The documents were uploaded to the data folder; place them where appropriate.
+**Files affected:** `docs/corpus/` (new: README, inventory, design, schema fragment,
+sweep script — all moved out of `backend/data/`), `PROMPT_LOG.md`
+**Summary:** The corpus now carries `clases.<slug>.dotes_adicionales`,
+`razas[].dotes_adicionales` and `dotes.listas_restringidas`, with page citations.
+Validated against the five criteria from the brief: every fixed feat name, every
+`tipos` value and every `lista` key resolves, and each slot cites a page — zero real
+errors. Moved the working documents and the extraction script out of `backend/data/`,
+which CLAUDE.md defines as the vendored read-only corpus, into `docs/corpus/` with a
+README saying what each is and that the schema fragment is a proposal, not a patch.
+354 backend and 95 frontend tests still pass against the new corpus.
+
+---
+
+### 2026-08-07 — Page title, and icon actions on the roster
+**Prompt:** "Personajes" should be styled as a title. Replace the row buttons with
+icon buttons that show the action on hover — copy for duplicate, a bin for delete —
+and add a pencil to edit.
+**Files affected:** `frontend/src/components/icons.tsx` (new),
+`frontend/src/components/CharacterTable.tsx`,
+`frontend/src/pages/CharacterListPage.test.tsx`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** `h1` is styled once globally — Tailwind's preflight had left every page
+title rendering as body text. Row actions became icon buttons: a pencil linking to
+the editor, a copy glyph, and a bin. Each carries the word in `title` for the hover
+tooltip and in `aria-label` for the accessible name, so the glyph never has to be
+guessed at and the existing tests still find them by name. The icons are inline SVG
+rather than a package: three glyphs do not justify a dependency, and `currentColor`
+makes them follow the button in either theme. The bin turns red only on hover, and
+never signals by colour alone.
+
+---
+
+### 2026-08-07 — start.sh restarts instead of refusing
+**Prompt:** On startup, check whether an instance is already running; if so, kill it
+and bring the service back up.
+**Files affected:** `start.sh`, `PROMPT_LOG.md`
+**Summary:** The port preflight now stops a previous instance and carries on, since
+restarting is the common case. Candidates are the processes *listening on* 8000 and
+5173, confirmed as ours by a working directory under this checkout — an early
+attempt matched command lines instead and put an innocent shell on the kill list
+merely for mentioning "node_modules/.bin/vite" inside the project. Anything still
+holding a port afterwards is reported, never killed. Verified with decoy listeners
+on an isolated port and root: ours is stopped and the port freed, a listener outside
+the project survives, and a running instance launched by the previous version of the
+script is still recognised.
+
+---
+
+### 2026-08-07 — Mounted feats deferred
+**Prompt:** Leave these three aside for now; in principle as stances.
+**Files affected:** `backend/tests/unit/rules/test_weapon_feats.py`,
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** No behaviour change. The three mounted-charge feats are pinned as a
+known-deferred set with a test asserting they contribute nothing today, following
+the same pattern as the incomplete prestige progressions: when someone makes them
+stances the test fails and the assumption entry has to be updated with what was
+decided. This closes the feat review — every one of the 176 is now applied,
+rendered as a weapon line or stance, surfaced as a note, or explicitly deferred.
+
+---
+
+### 2026-08-07 — Bleeding Critical as a combat stance
+**Prompt:** Bleeding Critical can be handled as a stance — an effect to apply in
+combat.
+**Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/features/tracker/StanceToggles.tsx`,
+`frontend/src/features/tracker/CombatTracker.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** A feat that leaves an effect running on the target each round now
+qualifies as a stance even though it changes none of the character's numbers — the
+toggle is the reminder, and a test pins that switching it on leaves the sheet
+untouched. Today that is only `Crítico sangrante`; the other critical feats resolve
+on the hit and stay notes on the weapon line. While a stance is active the tracker
+shows what it does on screen rather than in a tooltip, since a number the GM must
+apply every round is useless behind a hover.
+
+---
+
+### 2026-08-07 — Critical feats as notes on the weapon line
+**Prompt:** For now, a note on the weapon line. We will come back to it when we
+model combat.
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/services/assembler.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/components/CombatCard.tsx`,
+`frontend/src/components/CombatCard.test.tsx`, `frontend/src/index.css`,
+`frontend/src/test/fixtures.ts`, `docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** A weapon line can carry prose annotations, shown under its critical
+range — where the GM looks when confirming a crit. Critical feats produce one note
+each from their own corpus summary, plus the corpus' "one per critical hit" rule
+verbatim, shown only when the character holds more than one and lacks the mastery
+that lifts it. They change no number, so nothing else on the sheet moves; applying
+the condition to the target stays manual until there is an NPC to apply it to.
+
+---
+
+### 2026-08-07 — Combat Expertise as stance and variant
+**Prompt:** Stance and variant, with a clarifying note.
+**Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/services/assembler.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/features/tracker/StanceToggles.tsx`,
+`frontend/src/features/tracker/CombatTracker.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** A feat can now be a stance *and* an attack variant, each half rendered
+where it can apply: `is_global_feat_target` splits the character's values (AC, CMB)
+from the weapon's (attack, damage), so neither is applied twice. The tracker
+explains the split, since otherwise half of Combat Expertise looks missing.
+Verifying it caught the stance summing all six BAB bands at once — +21 AC at level
+8 — because it was not checking each effect's condition; it now respects them, so
+BAB 8 gives -3 attack, +3 AC, -3 CMB.
+
+---
+
+### 2026-08-07 — Lunge as a feat-gated stance
+**Prompt:** Acometer fits as a stance that requires the feat.
+**Files affected:** `backend/src/pf_tracker/domain/models.py`,
+`backend/src/pf_tracker/schemas/character.py`,
+`backend/src/pf_tracker/rules/{catalog,repository,weapon_feats}.py`,
+`backend/src/pf_tracker/services/assembler.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/features/tracker/StanceToggles.tsx`,
+`frontend/src/features/tracker/CombatTracker.test.tsx`,
+`frontend/src/features/editor/sections/FeatsSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/test/catalog.ts`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** Stances can now come from feats: `Stances.feat_stances` holds the
+declared feats switched on this round, and their modifiers are read from the corpus
+rather than recomputed. `FeatDTO.is_stance` classifies them in the backend, so the
+tracker renders a toggle only for feats the character holds and never decides on
+rules grounds. The classification excludes anything already rendered as an attack
+variant, so the same feat can never be applied twice — a test pins that for Power
+Attack, Combat Expertise, Deadly Aim and Rapid Shot.
+
+---
+
+### 2026-08-07 — Medusa's Wrath as a weapon of its own
+**Prompt:** The best way to implement this is to define a new weapon, "Ira de la
+medusa", based on the unarmed strike, adding two attacks at the highest bonus. It
+removes the possibility of combining armed and unarmed attacks.
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_weapon_feats.py`,
+`backend/tests/unit/services/test_assembler.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** A weapon line can now carry extra attacks made at the highest bonus,
+and a feat can *be* a weapon: `FEAT_WEAPONS` builds the Medusa's Wrath line from
+`Impacto sin armas`, standing alone rather than combining with a carried weapon's
+variants. The count comes from the corpus modifier, not a literal. Situational
+effects on a weapon line are now generated and labelled with their condition
+instead of dropped, since the GM can judge the situation the sheet cannot. The same
+mechanism fixed `Disparo rápido`, which showed its -2 without its extra shot, and
+surfaced that a monk took -4 with their own fists: `Impacto sin arma mejorado` now
+grants unarmed proficiency, since the monk's proficiency text never says "sencilla".
+
+---
+
+### 2026-08-07 — Vital Strike: single attack and supersession
+**Prompt:** Vital Strike changes the attack modifier — with several attacks only the
+highest bonus remains — and it stacks with the weapon like Deadly Aim. New rule:
+taking the higher feat leaves the lower one with no effect.
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_weapon_feats.py`,
+`backend/tests/unit/services/test_assembler.py`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** A weapon line can now be a single attack: feats activated as
+`accion_de_ataque` or `estandar` keep only the highest attack bonus, since Vital
+Strike trades the iteratives for extra dice on one blow. Added feat supersession —
+a feat replaced by a higher one is dropped entirely, before it can fold into the
+base line or spawn a variant. Without it, prerequisites forced a level-16 fighter
+to hold all three Vital Strikes and the sheet derived x24 dice over eight lines.
+The table is explicit but a contract test checks each entry against the corpus prose
+that states it, and against `Combate con dos armas mejorado`, which shares the
+prerequisite shape without superseding.
+
+---
+
+### 2026-08-07 — Drop the two stance toggles; Manyshot doubles the first arrow
+**Prompt:** Do points 1 and 2, and do not ask for confirmation until they are done.
+**Files affected:** `backend/src/pf_tracker/domain/{models,stances,derivation}.py`,
+`backend/src/pf_tracker/schemas/{character,combat_sheet}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/rules/weapon_feats.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/features/tracker/StanceToggles.tsx`,
+`frontend/src/features/tracker/CombatTracker.test.tsx`,
+`frontend/src/components/CombatCard.tsx`, `frontend/src/features/editor/draft.ts`,
+`frontend/src/i18n/es.ts`, `frontend/src/test/fixtures.ts`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** Removed Power Attack and Combat Expertise from the stances across all
+four layers, taking `scale_step` and `power_attack_damage_bonus` with them — the
+corpus states that scaling, so recomputing it was a second source of truth. Added a
+damage-dice multiplier to the weapon line: `Golpe vital` reads it from
+`dados_dano_arma`, while `Disparos múltiples` is keyed by name since the corpus
+states it only in prose, and applies to the first attack alone. Only the dice
+multiply; flat damage is added once. The sheet exposes the first attack's
+expression separately and the card renders it above the normal one.
+
+---
+
+### 2026-08-07 — Weapon choice for weapon-scoped feats
+**Prompt:** Build the feat options in the editor.
+**Files affected:** `backend/src/pf_tracker/rules/{feat_targets,catalog,repository}.py`,
+`backend/tests/unit/rules/test_feat_targets.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`,
+`frontend/src/features/editor/sections/FeatsSection.tsx`,
+`frontend/src/features/editor/sections/FeatsSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/test/catalog.ts`, `PROMPT_LOG.md`
+**Summary:** `FeatDTO` now reports `choice_kind` (`weapon` / `skill` / `school`),
+derived from the corpus targets rather than a hand-kept list, so the editor never
+decides on rules grounds what a feat asks for. Feats needing a weapon show a picker
+on their chip, over the whole catalog since a feat can be taken for a weapon not yet
+carried; clearing it removes the entry, and removing the feat drops the option so a
+stale choice cannot reappear. Only the weapon picker is rendered — the engine acts
+on nothing else yet, and a control that does nothing is worse than none.
+
+---
+
+### 2026-08-07 — Weapon variants: a feat becomes a second weapon line
+**Prompt:** Do point 1 — generate the attack variants. Leave the doubtful feats for
+the end.
+**Files affected:** `backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/services/test_assembler.py`, `PROMPT_LOG.md`
+**Summary:** The assembler now emits one `EquippedWeapon` per combination of the
+optional feats that apply to it, so "Mandoble" and "Mandoble (Ataque poderoso)"
+are literally two weapons and the whole derivation works unchanged. Passive
+weapon-scoped feats fold into the base line instead, reading `feat_options` for
+the weapon they were taken for, and Improved Critical widens the threat range.
+Only four optional feats ever produce numbers per weapon, split melee/ranged, so a
+weapon reaches at most four lines; a documented cap guards against a future corpus.
+Verified end to end: a level-5 fighter with a greatsword and four feats derives
++10/2d6+8 and +8/2d6+14, crit 17-20.
+
+---
+
+### 2026-08-07 — Weapon-scoped feats: the resolver
+**Prompt:** Power Attack is not a global toggle — a fighter with a greatsword has
+two weapons: the greatsword, and the greatsword with Power Attack. Build feat
+options, Improved Critical (19-20 becomes 17-20), drop the two stance toggles, and
+treat Manyshot as doubling the first attack's damage dice.
+**Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py` (new),
+`backend/src/pf_tracker/rules/feat_effects.py`,
+`backend/tests/unit/rules/test_weapon_feats.py` (new), `PROMPT_LOG.md`
+**Summary:** First slice: a resolver that applies a feat *against one weapon*, which
+makes the grip-specific targets tractable — a greatsword picks up `dano_dos_manos`,
+a longsword `dano_una_mano`. Chosen-weapon feats (Weapon Focus, Specialization) read
+`feat_options` and apply to nothing when no weapon was picked, rather than guessing.
+Improved Critical doubles the threat-range *width*. Prose-only feats surface their
+rules text. A test caught grip matching alone handing an archer Power Attack's +6,
+since a longbow is also two-handed: grip damage is now melee-only.
+
+---
+
+### 2026-08-07 — Feats finally contribute their modifiers
+**Prompt:** Continue: build the producer that turns feat effects into modifiers and
+wire it into the assembler.
+**Files affected:** `backend/src/pf_tracker/rules/feat_effects.py` (new),
+`backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_feat_effects.py` (new),
+`backend/tests/unit/services/test_assembler.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `frontend/src/test/catalog.ts`,
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** Closes the gap flagged on day one: `Esquiva` now adds its +1 dodge to
+AC and `Iniciativa mejorada` its +4, with the source and bonus type in the
+breakdown. `FeatDTO` exposes `activation` and structured `effects`; a producer
+translates them through the two vocabulary mappings and the assembler folds them
+into the modifier pool. Only `pasiva` feats apply automatically, so the Power
+Attack stance is not double-counted, and conditional effects apply only when their
+predicate is decidable and holds. Everything not turned into a number — declared
+feats, situational conditions, multipliers, unmodelled targets — comes back as a
+warning rather than disappearing.
+
+---
+
+### 2026-08-07 — Map the feat target vocabulary onto the domain
+**Prompt:** Continue with the modifier-target mapping (98 feat targets vs the
+domain's 17).
+**Files affected:** `backend/src/pf_tracker/rules/feat_targets.py` (new),
+`backend/tests/unit/rules/test_feat_targets.py` (new), `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** Classified all 83 declared targets: 15 map onto `ModifierTarget`,
+per-skill checks become `SKILL:<slug>` via the catalog's own slugify, and the
+remaining 68 are listed verbatim as deliberately unmodelled (spells, mounted
+combat, per-manoeuvre CMB, per-grip damage, class resources). Unmodelled targets
+return `None` rather than raising, since the effect is still shown as a note.
+Contract tests prove every declared and every used target is classified, and that
+each named skill exists in the catalog. Combined with the bonus-type mapping, 110
+of 227 feat modifiers (48%, across 34 feats) are now machine-applicable.
+
+---
+
+### 2026-08-06 — Reconcile the two bonus-type vocabularies
+**Prompt:** Back to feats: first solve the "two different bonus-type vocabularies"
+problem.
+**Files affected:** `backend/src/pf_tracker/rules/feat_vocabulary.py` (new),
+`backend/tests/unit/rules/test_feat_vocabulary.py` (new),
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** Added an adapter-layer translation from the feats dialect (ASCII
+slugs, different words for five types) into `BonusType`, so the stacking engine
+keeps one vocabulary. `sin_tipo` and `penalizador` map to untyped since penalties
+are read from the sign. `multiplicador`/`formula`/`variable` describe the shape of
+`valor`, not a stacking type, so they raise rather than resolve to untyped.
+Contract tests check the mapping against both the corpus' declaration and actual
+usage, and assert the corpus' stacking classification agrees with the engine's.
+
+---
+
+### 2026-08-06 — Two-level weapon picker with details
+**Prompt:** Do for weapons what was done for feats: two levels (weapon type, then
+the weapon), a hover summary, and a details modal on click.
+**Files affected:**
+`frontend/src/features/editor/sections/EquipmentSection.tsx`,
+`frontend/src/features/editor/sections/FeatsSection.tsx`,
+`frontend/src/features/editor/sections/sections.test.tsx`,
+`frontend/src/components/Modal.tsx`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`, `frontend/src/test/catalog.ts`, `PROMPT_LOG.md`
+**Summary:** No backend change was needed — `WeaponDTO` already carries the full
+stat block. Replaced the weapon combobox with the same browsable list used for
+feats, filtered by the corpus' five `categoria` values plus an accent-insensitive
+search, with a hover stat line, a details dialog, and a separate equip button.
+Generalised the picker CSS and the chip-name class so both sections share one
+implementation, and moved the dialog's close label to a `modal.*` key.
+
+---
+
+### 2026-08-06 — Review the feat parsing after the corpus rewrite
+**Prompt:** `pathfinder_nucleo.yaml` was updated and the whole feats section
+changed; review the code that parses it.
+**Files affected:** `backend/tests/integration/test_rules_api.py`,
+`backend/tests/unit/rules/test_data_contract.py`, `PROMPT_LOG.md`
+**Summary:** Parsing survives the rewrite — only two hardcoded feat counts broke
+(174 → 176), now pinned in one named constant. `beneficio_resumen` is no longer
+truncated anywhere (was 45/172). Feats gained `activacion` and machine-readable
+`efectos` that the adapter does not yet expose; added data-contract tests pinning
+those fields and checking activations, modifier targets and penalty signs against
+the corpus' own `esquema_efectos`. Those tests surfaced two feats encoding
+"removes the standard penalty" as `valor: 0`, a no-op for an additive engine.
+
+---
+
+### 2026-08-06 — Selected feats get the tooltip and the details dialog too
+**Prompt:** Hovering an already-selected feat should show the same message as the
+unselected ones, and clicking it should open the dialog as well.
+**Files affected:**
+`frontend/src/features/editor/sections/FeatsSection.tsx`,
+`frontend/src/features/editor/sections/FeatsSection.test.tsx`,
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** Selected feats are persisted as names, so the chip now looks its
+entry up in the catalog and renders the name as a control carrying the same
+`title` summary and opening the same dialog. A feat with no catalog entry (an
+imported or house-ruled one) stays plain text but remains removable. The chip name
+opts out of the button chrome so the pill keeps its shape.
+
+---
+
+### 2026-08-06 — Cache validator ignored response-shape changes
+**Prompt:** The "Tipo de dote" selector only offers "Todas (alfabéticamente)"; the
+corpus feat types are missing.
+**Files affected:** `backend/src/pf_tracker/rules/catalog.py`,
+`backend/src/pf_tracker/api/deps.py`,
+`backend/tests/integration/test_rules_api.py`, `PROMPT_LOG.md`
+**Summary:** `/rules/*` ETags were derived from the corpus bytes alone, so adding
+`feat_types` to `MetaDTO` changed no validator, and clients kept serving the
+cached, field-less `meta` for up to the hour allowed by `max-age=3600` — the
+selector then rendered an empty type list. The ETag now also covers a fingerprint
+of the catalog DTO schemas, and the freshness window drops to 60s with
+`must-revalidate` since a 304 costs almost nothing. Regression test verified
+failing without the fix.
+
+---
+
+### 2026-08-06 — The owner starts the app, never the agent
+**Prompt:** Stop the service. I will always start it manually myself — record that
+in the instructions.
+**Files affected:** `CLAUDE.md`, `PROMPT_LOG.md`
+**Summary:** Stopped both servers and recorded the rule as the opening section of
+`CLAUDE.md`: never run `./start.sh`, `make dev`, `uvicorn` or `npm run dev`, for
+any reason. Tests, linters, type-checkers and builds are explicitly unaffected.
+When a change needs checking in a running app, say so and let the owner start it.
+
+---
+
+### 2026-08-06 — Two-level feat picker with details
+**Prompt:** Feat selection should work in two levels: pick the feat type first,
+then the feat. Add an "all alphabetically" option that skips the type filter, and
+a "with requirements" option that shows only feats whose prerequisites are met.
+When browsing feats, show a short explanation on hover and/or a modal with that
+information on click — both if possible.
+**Files affected:** `backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/tests/unit/rules/{test_repository,test_data_contract}.py`,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/components/Modal.tsx` (new),
+`frontend/src/features/editor/sections/FeatsSection.tsx`,
+`frontend/src/features/editor/sections/FeatsSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`,
+`frontend/src/test/catalog.ts`, `PROMPT_LOG.md`
+**Summary:** Exposed the corpus' canonical feat categories (`dotes.reglas.tipos`)
+through `MetaDTO` rather than inferring them from the feats, with a data-contract
+test that fails if a feat ever carries an undeclared type. Replaced the feat
+combobox with a browsable list filtered by type, by met prerequisites, and by
+accent-insensitive search. Each row carries the benefit as a `title` tooltip and
+opens a details dialog on click; a separate add button keeps bulk entry off the
+modal path, since the brief requires the flow never to block on one.
+
+---
+
+### 2026-08-05 — "Bonif" column in the abilities table
+**Prompt:** Add a "Bonif" column to the abilities table showing the modifier that
+applies to each score (e.g. -2 for 7, +1 for 12).
+**Files affected:**
+`frontend/src/features/editor/sections/AbilitiesSection.tsx`,
+`frontend/src/features/editor/CharacterEditor.tsx`, `frontend/src/i18n/es.ts`,
+`frontend/src/features/editor/sections/AbilitiesSection.test.tsx`,
+`frontend/src/features/editor/CharacterEditor.test.tsx`, `PROMPT_LOG.md`
+**Summary:** The ability modifier is a Pathfinder formula, so it is not computed
+in TypeScript: `/derive` already returns `modifier` per ability, and the editor
+now threads those values into the section the same way it does for the skills and
+feats sections. The column renders an em dash until the first derivation lands.
+Tests cover rendering from supplied values and the wiring from `/derive`
+(verified failing when the prop is not passed) without asserting the formula.
+
+---
+
+### 2026-08-05 — Configurable point-buy budget, defaulting to 20
+**Prompt:** Next to the ability-assignment method, add a value with (+) and (−)
+buttons to set the number of points, defaulting to 20.
+**Files affected:** `frontend/src/features/editor/draft.ts`,
+`frontend/src/features/editor/sections/AbilitiesSection.tsx`,
+`frontend/src/features/editor/sections/AbilitiesSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** Raised the default budget from 15 to 20 and added a labelled
+stepper (buttons plus direct entry) on the method row, shown only for the
+point-buy method. The counter and the over-budget warning now track the chosen
+budget. The budget is editor state, not character data — it drives only the
+non-blocking warning and is not persisted.
+
+---
+
+### 2026-08-05 — Align the steppers in the Base column
+**Prompt:** The buttons in the "Base" column of the abilities table need aligning.
+**Files affected:** `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** The point-buy value renders as a bare `<span>`, so its width tracked
+the digit count and pulled the "+" button left on single-digit scores (9, 8).
+Gave the value a fixed `min-width` with centred, tabular figures so every stepper
+lines up down the column. Verified in the browser with mixed one- and two-digit
+scores.
+
+---
+
+### 2026-08-05 — Card titles and a page background that contrasts
+**Prompt:** "Identidad" is the card title but does not read as one — give it a
+centred, distinctive title style. The card also does not stand out from the very
+soft ivory background; use a soft blue or another better-contrasting colour.
+**Files affected:** `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** The ivory page sat at 1.05:1 against a white card, so cards had no
+edge; the page is now a soft blue (1.34:1 plus a hue shift) and cards carry a
+shadow. Section headings became full-bleed centred title bands — Tailwind's
+preflight strips heading size and weight, which is why they read as body text.
+Also fixed inline radio/checkbox groups running together as one string, visible
+once the abilities section was legible.
+
+---
+
+### 2026-08-05 — Combobox reopens on click
+**Prompt:** Fix the combobox in the component itself: after committing a
+selection, clicking the field again did not reopen the option list.
+**Files affected:** `frontend/src/components/Combobox.tsx`,
+`frontend/src/components/Combobox.test.tsx`,
+`frontend/src/features/editor/sections/sections.test.tsx`, `PROMPT_LOG.md`
+**Summary:** The list opened only from `onFocus`, but committing an option keeps
+focus on the input (options call `preventDefault` on mousedown), so a later click
+emitted no focus event and the list stayed shut — same after dismissing with
+Escape. Added an `onClick` opener, covered both paths with regression tests
+(verified failing without the fix), and simplified the alignment test that had
+worked around the bug with a keyboard gesture.
+
+---
+
+### 2026-08-05 — Alignment becomes a catalog dropdown
+**Prompt:** In the character editor, alignment should be a dropdown just like race.
+**Files affected:** `backend/src/pf_tracker/rules/catalog.py`,
+`backend/src/pf_tracker/rules/repository.py`,
+`backend/src/pf_tracker/api/v1/rules.py`,
+`backend/tests/unit/rules/test_repository.py`,
+`backend/tests/unit/rules/test_data_contract.py`,
+`backend/tests/integration/test_rules_api.py`, `backend/openapi.json`,
+`frontend/src/api/{schema,types,rules}.ts`, `frontend/src/hooks/useRules.ts`,
+`frontend/src/features/editor/sections/IdentitySection.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/test/{catalog,handlers}.ts`,
+`frontend/src/features/editor/sections/sections.test.tsx`, `start.sh`,
+`PROMPT_LOG.md`
+**Summary:** The corpus already carries `alineamiento` (codes plus Spanish
+names), so the nine alignments are served from a new `GET /rules/alignments`
+catalog endpoint rather than being hardcoded in TypeScript. The editor now uses
+the same accent-insensitive `Combobox` as race, persisting the corpus code and
+displaying the Spanish name, with a leading entry that clears the optional field.
+Also added a port-in-use preflight to `start.sh` after a stale server silently
+shadowed the new endpoint.
+
+---
+
+### 2026-08-05 — Raise contrast on buttons and form fields
+**Prompt:** Colour contrast is too soft: the Duplicar/Eliminar buttons and the
+data-entry fields are almost white and cannot be distinguished. Make them more
+evident, with stronger colour contrast.
+**Files affected:** `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** Secondary buttons and fields were drawn with `--border` (1.23:1
+against a white surface, below the 3:1 WCAG 1.4.11 floor) on a white fill.
+Added `--border-strong` (4.76:1 light, 5.71:1 dark), `--control-bg` and
+`--field-bg`, gave secondary buttons a filled grey face, and moved field styling
+to a global `input/select/textarea` rule so no form can ship an invisible field.
+
+---
+
+### 2026-08-05 — Actions must look like buttons, links only for sections
+**Prompt:** The "Duplicar" action renders as a link. Every action must render as a
+button; only sections may appear as tabs or links.
+**Files affected:** `frontend/src/index.css`,
+`frontend/src/pages/CharacterPage.tsx`,
+`frontend/src/pages/CharacterListPage.test.tsx`, `PROMPT_LOG.md`
+**Summary:** Tailwind's preflight had stripped the native button appearance and no
+rule replaced it, so every bare `<button>` (Duplicar, Eliminar, Exportar, the
+steppers) rendered as plain text and read as a link. Added a base button style
+plus primary/compact variants, promoted the "Editar" action to button styling,
+and pinned the convention with a regression test.
+
+---
+
+### 2026-08-05 — One-command launcher for non-technical use
+**Prompt:** Make the app startable without knowing the toolchain details, and
+explain to a non-technical user how to run and use it.
+**Files affected:** `start.sh` (new), `PROMPT_LOG.md`
+**Summary:** Added `start.sh`, which checks that dependencies are installed,
+switches to a Node 20 runtime via nvm when the current Node is too old, and runs
+the API and the Vite dev server together, stopping both cleanly on Ctrl+C
+(job control + per-child process-group kill, since `npm run` does not forward
+signals to Vite). Verified startup and shutdown leave no orphan processes.
+
+---
+
+### 2026-08-05 — Build and verify the existing pf-tracker checkout
+**Prompt:** Understand this application and build it: install the toolchain and
+dependencies for both stacks, run every quality gate, apply migrations, and boot
+the app end to end to confirm it actually works.
+**Files affected:** `backend/poetry.toml` (new, `virtualenvs.in-project = true`),
+`backend/.env` (new, copied from `.env.example`), `PROMPT_LOG.md` (new).
+No source files were modified.
+**Summary:** Installed Python 3.14.6 via pyenv and Node 20.11.1 via nvm, installed
+both dependency trees, ran the full CI gate green (241 backend tests, 58 frontend
+tests, ruff, mypy --strict, eslint, prettier, tsc, coverage 97% backend / 98%
+frontend), migrated SQLite, and verified the running stack via the REST API and the
+Vite dev server. Found one spec gap: numeric feat modifiers are never emitted.
+
+---
