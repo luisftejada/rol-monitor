@@ -70,6 +70,36 @@ def test_a_melee_feat_does_nothing_to_a_bow(catalog) -> None:  # type: ignore[no
     assert resolved.attack == () and resolved.damage == ()
 
 
+# ----------------------------------------------------------- manoeuvres on the line
+def test_power_attack_charges_its_penalty_to_combat_manoeuvres(catalog) -> None:  # type: ignore[no-untyped-def]
+    """The corpus penalises attacks *and* manoeuvres; only the first half was applied.
+
+    Power Attack is weapon-scoped, so it is never offered as a stance and nothing else
+    could have carried the CMB half.
+    """
+    resolved = resolve_for_weapon(
+        catalog["Ataque poderoso"], GREATSWORD, WeaponFeatContext(base_attack_bonus=5)
+    )
+    assert [(m.target, m.value) for m in resolved.cmb] == [("CMB", -2)]
+    assert all(m.source == "Ataque poderoso" for m in resolved.cmb)
+
+
+def test_the_manoeuvre_penalty_scales_with_base_attack(catalog) -> None:  # type: ignore[no-untyped-def]
+    context = WeaponFeatContext(base_attack_bonus=12)
+    resolved = resolve_for_weapon(catalog["Ataque poderoso"], GREATSWORD, context)
+    assert [m.value for m in resolved.cmb] == [-4]
+
+
+def test_combat_expertise_leaves_its_manoeuvre_penalty_to_the_stance(catalog) -> None:  # type: ignore[no-untyped-def]
+    """It is offered as a stance, which already charges the CMB — charging it here
+    as well would take it twice from a GM who uses both halves of the feat."""
+    feat = catalog["Pericia en combate"]
+    assert is_feat_stance(feat)
+    resolved = resolve_for_weapon(feat, GREATSWORD, WeaponFeatContext(base_attack_bonus=5))
+    assert resolved.cmb == ()
+    assert [m.value for m in resolved.attack] == [-2]
+
+
 def test_deadly_aim_applies_to_a_bow_only(catalog) -> None:  # type: ignore[no-untyped-def]
     context = WeaponFeatContext(base_attack_bonus=5)
     bow = resolve_for_weapon(catalog["Puntería mortal"], LONGBOW, context)

@@ -38,6 +38,36 @@ describe("CombatCard", () => {
     expect(within(alert).getByText("Carga por encima del máximo pesado")).toBeInTheDocument();
   });
 
+  it("shows a line's own CMB only when that line changes it", async () => {
+    const user = userEvent.setup();
+    const base = fighterSheet.attacks[0]!;
+    const sheet = {
+      ...fighterSheet,
+      attacks: [
+        base,
+        {
+          ...base,
+          weapon: "Espada larga (Ataque poderoso)",
+          cmb: {
+            total: 2,
+            breakdown: [{ label: "Ataque poderoso", value: -2, type: null, source: "feat" }],
+            suppressed: [],
+          },
+        },
+      ],
+    };
+    renderWithProviders(<CombatCard name="Aldous" sheet={sheet} />);
+
+    const toggles = screen.getAllByRole("button", { name: /BMC con esta línea/ });
+    expect(toggles).toHaveLength(1);
+    expect(toggles[0]!).toHaveTextContent("+2");
+
+    await user.click(toggles[0]!);
+    expect(screen.getByRole("region", { name: /BMC con esta línea/ })).toHaveTextContent(
+      "Ataque poderoso",
+    );
+  });
+
   it("shows what a critical feat does to the target on the weapon line", () => {
     renderWithProviders(<CombatCard name="Aldous" sheet={fighterSheet} />);
     // The feat changes no number of yours, so the line carries the prose instead.

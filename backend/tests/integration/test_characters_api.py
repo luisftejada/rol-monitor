@@ -168,6 +168,26 @@ async def test_combat_sheet_suppression_is_surfaced(client: AsyncClient) -> None
     assert "Escudo de fe" in suppressed
 
 
+async def test_a_power_attack_line_reports_the_cmb_it_costs(client: AsyncClient) -> None:
+    """The attack penalty applies to combat manoeuvres too, so the line says what its
+    CMB is; the character's own CMB is untouched until the line is used."""
+    body = {
+        **_fighter_body(),
+        "class_levels": [{"class_slug": "guerrero", "level": 5}],
+        "feats": ["Ataque poderoso"],
+        "weapons": [{"catalog_name": "Mandoble", "wielding": "two_handed"}],
+        "shield": None,
+    }
+    sheet = (await client.post("/api/v1/derive", json=body)).json()
+
+    lines = {attack["weapon"]: attack for attack in sheet["attacks"]}
+    assert lines["Mandoble"]["cmb"] is None
+    variant = lines["Mandoble (Ataque poderoso)"]["cmb"]
+    # BAB 5 falls in the +4..+7 band, so the line costs 2 points of CMB.
+    assert variant["total"] == sheet["cmb"]["total"] - 2
+    assert ("Ataque poderoso", -2) in [(e["label"], e["value"]) for e in variant["breakdown"]]
+
+
 async def test_derive_is_stateless(client: AsyncClient) -> None:
     response = await client.post("/api/v1/derive", json=_fighter_body())
     assert response.status_code == 200

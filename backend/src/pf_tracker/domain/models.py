@@ -68,6 +68,10 @@ class EquippedWeapon:
     #: Extra per-weapon modifiers (weapon-specific feats/stances), applied on top.
     attack_modifiers: tuple[Modifier, ...] = ()
     damage_modifiers: tuple[Modifier, ...] = ()
+    #: Modifiers this line puts on the character's CMB. Power Attack buys damage
+    #: with a penalty to attacks *and* to combat manoeuvres, and the second half is
+    #: only paid when this line is the one being used.
+    cmb_modifiers: tuple[Modifier, ...] = ()
     #: How many times the weapon's damage dice are rolled (Vital Strike, Manyshot).
     #: Only the dice multiply; flat damage bonuses are added once.
     damage_dice_multiplier: int = 1

@@ -78,6 +78,9 @@ class AttackDTO(BaseModel):
     is_proficient: bool
     #: What this weapon does that is not one of your numbers (critical feats).
     notes: list[str] = []
+    #: Present only when the line changes your CMB (Power Attack penalises combat
+    #: manoeuvres too), in which case this is the CMB to use while it is in play.
+    cmb: ValueBreakdown | None = None
 
 
 class SkillLineDTO(BaseModel):
@@ -204,6 +207,7 @@ def _attack(routine: AttackRoutine) -> AttackDTO:
         range_increment=routine.range_increment,
         is_proficient=routine.is_proficient,
         notes=list(routine.notes),
+        cmb=_value(routine.cmb) if routine.cmb is not None else None,
     )
 
 

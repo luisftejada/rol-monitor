@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 
 from pf_tracker.domain.enums import ModifierTarget, SourceKind, Wield
 from pf_tracker.domain.modifiers import Modifier
-from pf_tracker.rules.catalog import FeatDTO
+from pf_tracker.rules.catalog import FeatDTO, FeatModifierDTO
 from pf_tracker.rules.feat_effects import PASSIVE, FeatContext, effect_holds
 from pf_tracker.rules.feat_targets import parse_feat_target
 from pf_tracker.rules.feat_vocabulary import is_scalar_feat_bonus, parse_feat_bonus_type
@@ -41,6 +41,11 @@ _CHOSEN_WEAPON_DAMAGE = "dano_arma_seleccionada"
 
 #: Threat range is multiplied, not summed; ``Crítico mejorado`` doubles its width.
 THREAT_RANGE_TARGET = "rango_amenaza_critico"
+
+#: The character's combat manoeuvre bonus. It is not a weapon number, yet two feats
+#: penalise it as the price of the attack they describe, so a line that charges the
+#: attack penalty must charge this one too.
+CMB_TARGET = "bmc"
 
 #: Rolls the weapon's damage dice more than once (``Golpe vital`` x2/x3/x4). Only the
 #: dice repeat — the flat damage from Strength and the like is added once.
@@ -237,6 +242,10 @@ class WeaponFeatEffects:
 
     attack: tuple[Modifier, ...] = ()
     damage: tuple[Modifier, ...] = ()
+    #: Penalty this line's feats put on the character's CMB (``Ataque poderoso``).
+    #: It belongs to the character, not to the weapon, but it is only paid when this
+    #: line is the one being used — so the line carries it.
+    cmb: tuple[Modifier, ...] = ()
     #: Multiplier applied to the weapon's threat-range *width* (1 = unchanged).
     threat_range_factor: int = 1
     #: How many times the damage dice are rolled (1 = unchanged).
@@ -290,10 +299,17 @@ def resolve_for_weapon(
 
     attack: list[Modifier] = []
     damage: list[Modifier] = []
+    cmb: list[Modifier] = []
     factor = 1
     extra_attacks = 0
     condition: str | None = None
     dice_factor, first_only = _PROSE_DICE_MULTIPLIERS.get(feat.name, (1, False))
+
+    # A feat the GM can also switch on as a stance already charges its CMB penalty
+    # there (``Pericia en combate``), so taking it here as well would charge it
+    # twice. Only the feats the stance path never sees — the weapon-scoped ones,
+    # ``Ataque poderoso`` above all — put their CMB penalty on the line.
+    carries_cmb = not is_feat_stance(feat)
 
     for effect in feat.effects:
         # A situational effect is still shown for a weapon line: the GM can see the
@@ -318,29 +334,48 @@ def resolve_for_weapon(
                 continue
             if situational:
                 continue
+            if raw.target == CMB_TARGET:
+                if carries_cmb:
+                    modifier = _modifier_for(feat, ModifierTarget.CMB.value, raw)
+                    if modifier is not None:
+                        cmb.append(modifier)
+                continue
             slot = _slot_for(raw.target, weapon)
-            if slot is None or not isinstance(raw.value, int):
+            if slot is None:
                 continue
-            if not is_scalar_feat_bonus(raw.bonus_type):
+            modifier = _modifier_for(feat, slot, raw)
+            if modifier is None:
                 continue
-            modifier = Modifier(
-                target=slot,
-                value=raw.value,
-                bonus_type=parse_feat_bonus_type(raw.bonus_type),
-                source=feat.name,
-                source_kind=SourceKind.FEAT,
-            )
             (attack if slot.startswith("ATTACK") else damage).append(modifier)
 
     return WeaponFeatEffects(
         attack=tuple(attack),
         damage=tuple(damage),
+        cmb=tuple(cmb),
         threat_range_factor=factor,
         damage_dice_multiplier=dice_factor,
         dice_multiplier_first_attack_only=first_only,
         extra_attacks_at_full_bab=extra_attacks,
         condition=condition,
         notes=_prose_notes(feat),
+    )
+
+
+def _modifier_for(feat: FeatDTO, target: str, raw: FeatModifierDTO) -> Modifier | None:
+    """Turn one corpus modifier into a domain one, or ``None`` if it is not a scalar.
+
+    The corpus states some bonuses as prose or as a multiplier; those are handled by
+    their own targets, so anything left that is not a plain integer is skipped rather
+    than guessed at.
+    """
+    if not isinstance(raw.value, int) or not is_scalar_feat_bonus(raw.bonus_type):
+        return None
+    return Modifier(
+        target=target,
+        value=raw.value,
+        bonus_type=parse_feat_bonus_type(raw.bonus_type),
+        source=feat.name,
+        source_kind=SourceKind.FEAT,
     )
 
 

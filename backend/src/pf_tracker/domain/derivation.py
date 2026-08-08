@@ -9,6 +9,7 @@ untyped modifiers so they appear in the breakdown and always stack.
 from __future__ import annotations
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from fractions import Fraction
 
@@ -110,6 +111,10 @@ class AttackRoutine:
     is_proficient: bool
     #: Prose annotations carried by the weapon (see :attr:`EquippedWeapon.notes`).
     notes: tuple[str, ...] = ()
+    #: The CMB you have *while using this line*, set only when the line changes it.
+    #: Power Attack's penalty applies to combat manoeuvres as well as to attacks, so
+    #: a sheet showing only the character's CMB would overstate it by up to 6.
+    cmb: ResolvedValue | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -361,7 +366,13 @@ def derive_cmb(
     abilities: dict[Ability, AbilityScoreResult],
     bab: int,
     general_pool: list[Modifier],
+    extra: Sequence[Modifier] = (),
 ) -> ResolvedValue:
+    """The character's CMB, optionally with the modifiers one attack line adds.
+
+    ``extra`` is how a line that costs CMB (Power Attack) states its price without
+    the character having to carry a penalty it is not currently paying.
+    """
     size = SIZE_CMB_CMD_MOD[character.size]
     mods = [
         _struct(ModifierTarget.CMB.value, bab, "Ataque base", SourceKind.BASE),
@@ -373,7 +384,7 @@ def derive_cmb(
         mods.append(
             Modifier(ModifierTarget.CMB.value, size, BonusType.SIZE, "Tamaño", SourceKind.SIZE)
         )
-    return resolve(ModifierTarget.CMB.value, [*general_pool, *mods])
+    return resolve(ModifierTarget.CMB.value, [*general_pool, *mods, *extra])
 
 
 def derive_cmd(
@@ -550,6 +561,15 @@ def _attack_routine(
         else:
             damage_expression = multiplied
 
+    # A line that costs CMB states what it costs: the character's CMB is unchanged
+    # until this is the line being used, so it is resolved here rather than folded
+    # into the sheet's own number.
+    line_cmb = (
+        derive_cmb(character, abilities, bab.total, general_pool, weapon.cmb_modifiers)
+        if weapon.cmb_modifiers
+        else None
+    )
+
     return AttackRoutine(
         weapon_name=weapon.name,
         is_ranged=is_ranged,
@@ -565,6 +585,7 @@ def _attack_routine(
         range_increment=weapon.range_increment,
         is_proficient=weapon.is_proficient,
         notes=weapon.notes,
+        cmb=line_cmb,
     )
 
 

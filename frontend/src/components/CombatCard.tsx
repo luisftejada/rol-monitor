@@ -128,6 +128,16 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
               <p className="attack__crit">
                 {t("sheet.attack.crit")}: {attack.threat_range}-20/×{attack.crit_multiplier}
               </p>
+              {/* Power Attack's penalty applies to combat manoeuvres too, so a line
+                  that costs CMB shows the one to use while it is in play. */}
+              {attack.cmb && (
+                <StatBreakdown
+                  label={t("sheet.attack.cmb")}
+                  value={signed(attack.cmb.total)}
+                  breakdown={attack.cmb.breakdown}
+                  suppressed={attack.cmb.suppressed}
+                />
+              )}
               {/* What a feat does to the *target* — a critical feat has no number of
                   yours to change, so it is shown where the GM confirms the crit. */}
               {attack.notes.length > 0 && (

@@ -265,7 +265,10 @@ def test_a_declared_feat_becomes_a_weapon_variant_not_a_global_modifier(
     # BAB 5 lands in the +4..+7 band: -2 to hit, +6 damage two-handed.
     assert [m.value for m in variant.attack_modifiers] == [-2]
     assert [m.value for m in variant.damage_modifiers] == [6]
+    # The same -2 applies to combat manoeuvres, and only while this line is in use.
+    assert [(m.target, m.value) for m in variant.cmb_modifiers] == [("CMB", -2)]
     assert lines["Mandoble"].attack_modifiers == ()
+    assert lines["Mandoble"].cmb_modifiers == ()
 
 
 def test_weapon_variants_cover_every_combination(rules_repository: RulesRepository) -> None:
@@ -456,6 +459,9 @@ def test_combat_expertise_splits_across_the_stance_and_the_weapon_line(
     assert total(on, "ATTACK_MELEE") == 0
     variant = next(w for w in on.weapons if "Pericia en combate" in w.name)
     assert [m.value for m in variant.attack_modifiers] == [-3]
+    # ...and the CMB penalty stays on the stance, or ticking the box and reading the
+    # line would take it twice.
+    assert variant.cmb_modifiers == ()
 
 
 def test_a_feat_stance_needs_the_feat(rules_repository: RulesRepository) -> None:

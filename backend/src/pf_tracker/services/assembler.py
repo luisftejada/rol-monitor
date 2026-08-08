@@ -591,6 +591,7 @@ def _with_feats(
     """Fold a set of feats into a copy of ``weapon``."""
     attack = list(weapon.attack_modifiers)
     damage = list(weapon.damage_modifiers)
+    cmb = list(weapon.cmb_modifiers)
     threat_range = weapon.threat_range
     dice_multiplier = weapon.damage_dice_multiplier
     first_only = weapon.dice_multiplier_first_attack_only
@@ -602,6 +603,7 @@ def _with_feats(
         resolved = resolve_for_weapon(feat, profile, context)
         attack.extend(resolved.attack)
         damage.extend(resolved.damage)
+        cmb.extend(resolved.cmb)
         threat_range = widen_threat_range(threat_range, resolved.threat_range_factor)
         extra_attacks += resolved.extra_attacks_at_full_bab
         if resolved.condition:
@@ -622,6 +624,7 @@ def _with_feats(
         threat_range=threat_range,
         attack_modifiers=tuple(attack),
         damage_modifiers=tuple(damage),
+        cmb_modifiers=tuple(cmb),
         damage_dice_multiplier=dice_multiplier,
         dice_multiplier_first_attack_only=first_only,
         extra_attacks_at_full_bab=extra_attacks,

@@ -22,7 +22,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **364 backend tests, 100 frontend tests**, coverage 96%+
+Everything should be green: **370 backend tests, 101 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -59,6 +59,10 @@ Feat budgets are derived too: base levels + class slots (gated on the level *in 
 class*) + racial slots, with fixed feats granted rather than charged. The picker
 filters by what each slot accepts.
 
+An attack line carries a CMB of its own when the way of attacking costs one —
+`Ataque poderoso` penalises combat manoeuvres as well as attacks — so the sheet's
+CMB stays what you have when that line is not in use.
+
 **Every non-obvious rules decision is in `docs/assumptions.md`** — read it before
 changing derivation. It records not just what was decided but why, including the bugs
 that motivated each choice.
@@ -67,20 +71,16 @@ that motivated each choice.
 
 Roughly in order of value:
 
-1. **`Ataque poderoso` still loses its CMB penalty.** It is weapon-scoped, so it is
-   never offered as a stance, and the weapon line carries only attack and damage. The
-   clean fix is for the variant to emit the CMB penalty too. See the last row of the
-   Combat Expertise entry in `docs/assumptions.md`.
-2. **Corpus errands**, sized in `docs/corpus/INVENTARIO_dotes_fuera_de_progresion.md`:
+1. **Corpus errands**, sized in `docs/corpus/INVENTARIO_dotes_fuera_de_progresion.md`:
    prestige-class feats (3, container already exists and is empty), then automatic
    proficiencies (5, they unlock chained prerequisite validation). A schema for
    domains, arcane schools and rogue talents is proposed but **not applied** in
    `docs/corpus/DISENO_dominios_talentos.md`.
-3. **A known corpus error**, harmless today, listed in `docs/corpus/README.md`:
+2. **A known corpus error**, harmless today, listed in `docs/corpus/README.md`:
    the ranger's armour proficiency says light where the manual says light and medium.
-4. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
+3. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
    the weapon picker is built, because the engine acts on nothing else yet.
-5. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
+4. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
    the *union* of all branches, which is wider than the truth, because the sheet does
    not model the choice. The corpus caveat is shown alongside.
 

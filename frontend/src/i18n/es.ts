@@ -52,6 +52,7 @@ export const es = {
   "sheet.attack.damage": "Daño",
   "sheet.attack.firstDamage": "Daño (1.er ataque)",
   "sheet.attack.crit": "Crítico",
+  "sheet.attack.cmb": "BMC con esta línea",
   "sheet.attack.notProficient": "No competente",
   "sheet.skills": "Habilidades",
   "sheet.speed": "Velocidad",

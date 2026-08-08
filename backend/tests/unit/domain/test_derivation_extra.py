@@ -11,7 +11,15 @@ from pf_tracker.domain.derivation import (
     multiply_damage_dice,
     reduced_speed,
 )
-from pf_tracker.domain.enums import Ability, BabProgression, SaveKind, Size, Wield
+from pf_tracker.domain.enums import (
+    Ability,
+    BabProgression,
+    ModifierTarget,
+    SaveKind,
+    Size,
+    SourceKind,
+    Wield,
+)
 from pf_tracker.domain.models import (
     CarryingLoad,
     Character,
@@ -20,6 +28,7 @@ from pf_tracker.domain.models import (
     Stances,
     TwoWeaponFighting,
 )
+from pf_tracker.domain.modifiers import Modifier
 
 _SAVES = {SaveKind.FORTITUDE: 0, SaveKind.REFLEX: 0, SaveKind.WILL: 0}
 
@@ -91,6 +100,43 @@ def test_thrown_weapon_uses_dex_to_hit_and_strength_to_damage() -> None:
     routine = sheet.attacks[0]
     assert routine.attack_line == "+9/+4"  # Dex to hit
     assert routine.damage_expression == "1d6+2"  # Str to damage
+
+
+def test_a_line_that_costs_cmb_reports_its_own_cmb() -> None:
+    """Power Attack penalises manoeuvres as well as attacks. The character's own CMB
+    is untouched — the penalty is only paid while that line is the one in use."""
+    penalty = Modifier(ModifierTarget.CMB.value, -2, None, "Ataque poderoso", SourceKind.FEAT)
+    greatsword = EquippedWeapon(
+        "Mandoble (Ataque poderoso)",
+        Wield.TWO_HANDED,
+        is_ranged=False,
+        threat_range=19,
+        crit_multiplier=2,
+        damage_dice="2d6",
+        cmb_modifiers=(penalty,),
+    )
+    sheet = derive_combat_sheet(_character(weapons=(greatsword,)))
+    line_cmb = sheet.attacks[0].cmb
+    assert line_cmb is not None
+    # BAB 6 + Str 2 = +8 on the sheet, one worse per point of Power Attack.
+    assert sheet.cmb.total == 8
+    assert line_cmb.total == 6
+    assert ("Ataque poderoso", -2) in [(m.source, m.value) for m in line_cmb.applied]
+
+
+def test_a_line_that_does_not_touch_cmb_reports_none() -> None:
+    """Absent rather than repeated: a line that changes nothing must not look like a
+    second CMB the GM has to reconcile with the sheet's own."""
+    weapon = EquippedWeapon(
+        "Espada larga",
+        Wield.ONE_HANDED,
+        is_ranged=False,
+        threat_range=19,
+        crit_multiplier=2,
+        damage_dice="1d8",
+    )
+    sheet = derive_combat_sheet(_character(weapons=(weapon,)))
+    assert sheet.attacks[0].cmb is None
 
 
 def test_offhand_iteratives_scale_with_improved_and_greater_twf() -> None:

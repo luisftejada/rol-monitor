@@ -1,5 +1,29 @@
 # Prompt log
 
+### 2026-08-08 — An attack line that costs CMB says so
+**Prompt:** seguimos
+**Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/tests/unit/rules/test_weapon_feats.py`,
+`backend/tests/unit/domain/test_derivation_extra.py`,
+`backend/tests/unit/services/test_assembler.py`,
+`backend/tests/integration/test_characters_api.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `frontend/src/components/CombatCard.tsx` and its
+tests, `frontend/src/i18n/es.ts`, `docs/{assumptions,HANDOFF}.md`, `PROMPT_LOG.md`
+**Summary:** Closed the last open residue of the feats work. The corpus has
+`Ataque poderoso` penalise attacks *and* `bmc` in the same breath, but only the
+attack half reached the sheet: the feat is weapon-scoped, so it is never offered as
+a stance, and a weapon line had nowhere to put a character-level number. A line now
+carries its own CMB, resolved through the same `derive_cmb` so it arrives with a
+full breakdown, and it is present only when the line changes it — the character's
+CMB is what you have when that line is not in use. `Pericia en combate`, the only
+other feat touching `bmc`, still leaves its penalty to its stance: charging it in
+both places would take it twice from a GM who uses both halves.
+
+---
+
 ### 2026-08-08 — The feat picker filters by the slot being spent
 **Prompt:** Yes, let's build it.
 **Files affected:** `backend/src/pf_tracker/rules/{repository,feat_slots}.py`,
