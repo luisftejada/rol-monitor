@@ -677,28 +677,36 @@ def _skills(
     class_levels: tuple[ClassLevel, ...],
     warnings: list[str],
 ) -> tuple[SkillState, ...]:
+    """Every skill in the catalog, whether or not the character has touched it.
+
+    A sheet lists all of them because a GM rolls Percepción at 0 ranks constantly,
+    and because the editor shows a line per skill: deriving the ability modifier for
+    the untouched ones in the frontend would put game arithmetic in TypeScript.
+    Skills the character *has* state for are flagged, since only those can be wrong.
+    """
     class_slugs = {cl.class_slug for cl in class_levels}
-    slugs = set(character.skill_ranks) | set(character.skill_misc_modifiers)
-    slugs |= {
+    tracked = set(character.skill_ranks) | set(character.skill_misc_modifiers)
+    tracked |= {
         m.target.split(":", 1)[1] for m in character.modifiers if m.target.startswith("SKILL:")
     }
 
+    known = {dto.slug for dto in repo.skills}
+    for slug in sorted(tracked - known):
+        warnings.append(f"Habilidad desconocida: {slug}")
+
     states: list[SkillState] = []
-    for slug in sorted(slugs):
-        dto = repo.skill(slug)
-        if dto is None:
-            warnings.append(f"Habilidad desconocida: {slug}")
-            continue
+    for dto in sorted(repo.skills, key=lambda s: s.slug):
         states.append(
             SkillState(
                 slug=dto.slug,
                 name=dto.name,
                 ability=Ability(dto.ability),
-                ranks=character.skill_ranks.get(slug, 0),
+                ranks=character.skill_ranks.get(dto.slug, 0),
                 is_class_skill=any(cslug in dto.class_for for cslug in class_slugs),
                 uses_armor_check_penalty=dto.armor_check_penalty,
                 untrained=dto.untrained,
-                misc_modifier=character.skill_misc_modifiers.get(slug, 0),
+                misc_modifier=character.skill_misc_modifiers.get(dto.slug, 0),
+                is_tracked=dto.slug in tracked,
             )
         )
     return tuple(states)

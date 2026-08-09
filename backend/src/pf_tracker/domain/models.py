@@ -93,7 +93,7 @@ class EquippedWeapon:
 
 @dataclass(frozen=True, slots=True)
 class SkillState:
-    """A skill the character has state for (ranks and/or misc modifiers)."""
+    """One skill on the sheet, whether or not the character has invested in it."""
 
     slug: str
     name: str
@@ -103,6 +103,11 @@ class SkillState:
     uses_armor_check_penalty: bool = False
     untrained: bool = True
     misc_modifier: int = 0
+    #: Whether the character has state of their own here — ranks, a misc modifier, or
+    #: a feat naming it — as opposed to being present because every skill is. Only a
+    #: tracked skill can be *wrongly* untrained: a barbarian who never took Descifrar
+    #: escritura has not made a mistake, they simply cannot roll it.
+    is_tracked: bool = True
 
 
 @dataclass(frozen=True, slots=True)

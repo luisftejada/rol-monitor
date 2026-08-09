@@ -88,6 +88,12 @@ class SkillLineDTO(BaseModel):
     name: str
     ability: str
     total: int
+    #: ``total`` split the way a player reads a skill line. The three always sum to
+    #: it, so a UI can show the columns without adding anything up itself;
+    #: ``breakdown`` still itemises what went into ``other_modifiers``.
+    ranks: int
+    ability_modifier: int
+    other_modifiers: int
     is_class_skill: bool
     untrained_violation: bool
     breakdown: list[BreakdownEntry]
@@ -220,6 +226,9 @@ def _skill(skill: SkillResult) -> SkillLineDTO:
         name=skill.name,
         ability=skill.ability.value,
         total=skill.resolved.total,
+        ranks=skill.ranks,
+        ability_modifier=skill.ability_modifier,
+        other_modifiers=skill.other_modifiers,
         is_class_skill=skill.is_class_skill,
         untrained_violation=skill.untrained_violation,
         breakdown=[_entry(m) for m in skill.resolved.applied],

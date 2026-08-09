@@ -74,6 +74,17 @@ def test_skills(golden: tuple[dict[str, Any], CombatSheet]) -> None:
         assert by_slug[slug].resolved.total == total, f"skill {slug}"
 
 
+def test_skill_columns_always_sum_to_the_total(
+    golden: tuple[dict[str, Any], CombatSheet],
+) -> None:
+    """The sheet shows ranks, ability and "others" as three columns. If they do not
+    add up to the total the GM is reading, the split is worse than not having it."""
+    _, sheet = golden
+    for skill in sheet.skills:
+        parts = skill.ranks + skill.ability_modifier + skill.other_modifiers
+        assert parts == skill.resolved.total, f"{skill.name}: {parts} != {skill.resolved.total}"
+
+
 def test_derived_secondary_values(golden: tuple[dict[str, Any], CombatSheet]) -> None:
     expected, sheet = golden
     assert sheet.armor_check_penalty == expected["armor_check_penalty"]

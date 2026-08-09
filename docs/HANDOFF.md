@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **384 backend tests, 101 frontend tests**, coverage 96%+
+Everything should be green: **395 backend tests, 104 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -61,6 +61,11 @@ Feat budgets are derived too: base levels + class slots (gated on the level *in 
 class*) + racial slots, with fixed feats granted rather than charged. The picker
 filters by what each slot accepts. The five armour and shield proficiencies are among
 what a class grants, which is what makes the ten feats gated on them reachable.
+
+Skills are derived for all 35, not only the ones with ranks, and each line carries its
+total split into ranks, ability and everything else. The editor shows the four columns
+and explains the last one on hover; the split is guaranteed by the backend to sum, so
+the frontend adds up nothing.
 
 An attack line carries a CMB of its own when the way of attacking costs one —
 `Ataque poderoso` penalises combat manoeuvres as well as attacks — so the sheet's

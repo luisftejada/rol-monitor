@@ -1665,6 +1665,12 @@ export interface components {
       ability: string;
       /** Total */
       total: number;
+      /** Ranks */
+      ranks: number;
+      /** Ability Modifier */
+      ability_modifier: number;
+      /** Other Modifiers */
+      other_modifiers: number;
       /** Is Class Skill */
       is_class_skill: boolean;
       /** Untrained Violation */

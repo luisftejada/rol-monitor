@@ -1,17 +1,23 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 
-import type { CharacterCreate } from "@/api/types";
+import type { CharacterCreate, SkillLineDTO } from "@/api/types";
 import { SkillsSection } from "@/features/editor/sections/SkillsSection";
 import { defaultDraft } from "@/features/editor/draft";
+import { fighterSheet } from "@/test/fixtures";
 import { renderWithProviders } from "@/test/render";
 
-function Host(): React.JSX.Element {
+function Host({ derived }: { derived?: SkillLineDTO[] } = {}): React.JSX.Element {
   const [draft, setDraft] = useState<CharacterCreate>(defaultDraft());
   return (
-    <SkillsSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} intModifier={1} />
+    <SkillsSection
+      draft={draft}
+      patch={(p) => setDraft((c) => ({ ...c, ...p }))}
+      intModifier={1}
+      derived={derived}
+    />
   );
 }
 
@@ -40,5 +46,41 @@ describe("SkillsSection", () => {
     await user.click(within(row).getByRole("button", { name: "Bajar rango de Intimidar" }));
     expect(screen.getByRole("status")).toHaveTextContent("Rangos: 0 / 4");
     expect(within(row).getByLabelText("Intimidar")).toHaveValue(0);
+  });
+
+  it("shows the ability, others and total columns from /derive", async () => {
+    renderWithProviders(<Host derived={fighterSheet.skills} />);
+    const row = await screen.findByRole("row", { name: /Intimidar/ });
+    // 1 rank − 1 Charisma + 3 class skill = +3, as the fixture states it.
+    expect(row).toHaveTextContent("-1");
+    expect(row).toHaveTextContent("+3");
+  });
+
+  it("explains the others figure on hover and on keyboard focus", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<Host derived={fighterSheet.skills} />);
+    const row = await screen.findByRole("row", { name: /Intimidar/ });
+    const others = within(row).getByRole("button", { name: "Ver los bonificadores de Intimidar" });
+
+    expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+
+    await user.hover(others);
+    const tip = await screen.findByRole("tooltip");
+    expect(tip).toHaveTextContent("Habilidad de clase");
+    expect(tip).toHaveTextContent("Carisma");
+
+    await user.unhover(others);
+    expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
+
+    // Hover alone would leave this unreachable by keyboard and dead on touch.
+    fireEvent.focus(others);
+    expect(await screen.findByRole("tooltip")).toBeInTheDocument();
+  });
+
+  it("renders a placeholder until the first derivation arrives", async () => {
+    renderWithProviders(<Host />);
+    const row = await screen.findByRole("row", { name: /Intimidar/ });
+    expect(row).toHaveTextContent("—");
+    expect(within(row).queryByRole("button", { name: /Ver los bonificadores/ })).toBeNull();
   });
 });

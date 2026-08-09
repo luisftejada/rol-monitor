@@ -464,6 +464,37 @@ def test_combat_expertise_splits_across_the_stance_and_the_weapon_line(
     assert variant.cmb_modifiers == ()
 
 
+def test_every_catalog_skill_reaches_the_sheet(rules_repository: RulesRepository) -> None:
+    """A sheet lists all 35: the GM rolls Percepción at 0 ranks constantly, and the
+    editor needs an ability modifier per row that TypeScript is not allowed to
+    compute. Only the ones the character touched are flagged as their own."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 3}],
+        skill_ranks={"intimidar": 3},
+    )
+    skills = result.character.skills
+    assert len(skills) == len(rules_repository.skills)
+
+    by_slug = {s.slug: s for s in skills}
+    assert by_slug["intimidar"].is_tracked
+    assert by_slug["intimidar"].ranks == 3
+    assert not by_slug["percepcion"].is_tracked
+    assert by_slug["percepcion"].ranks == 0
+
+
+def test_an_unknown_skill_still_warns(rules_repository: RulesRepository) -> None:
+    """Listing every catalog skill must not swallow a slug that matches none."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        skill_ranks={"volar-alto": 1},
+    )
+    assert any("Habilidad desconocida: volar-alto" in w for w in result.warnings)
+
+
 def test_class_armour_proficiencies_close_the_prerequisite_chain(
     rules_repository: RulesRepository,
 ) -> None:

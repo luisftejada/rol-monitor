@@ -125,6 +125,13 @@ class SkillResult:
     resolved: ResolvedValue
     is_class_skill: bool
     untrained_violation: bool
+    #: The total split the way a player reads a skill line: ranks, the ability
+    #: modifier, and everything else lumped together. The three always sum to
+    #: ``resolved.total``, and ``resolved`` still carries the itemised breakdown —
+    #: this partition exists so the UI never has to add anything up itself.
+    ranks: int = 0
+    ability_modifier: int = 0
+    other_modifiers: int = 0
 
 
 @dataclass(frozen=True, slots=True)
@@ -335,7 +342,7 @@ def derive_saves(
         ability_mod = abilities[ability].modifier
         mods = [
             _struct(target, base, "Base (clases)", SourceKind.CLASS),
-            _struct(target, ability_mod, ability.name.capitalize(), SourceKind.ABILITY),
+            _struct(target, ability_mod, ability.label, SourceKind.ABILITY),
         ]
         results[kind] = SaveResult(kind=kind, resolved=resolve(target, [*general_pool, *mods]))
     return results
@@ -488,7 +495,7 @@ def _attack_routine(
         _struct(
             atk_target,
             abilities[hit_ability].modifier,
-            hit_ability.name.capitalize(),
+            hit_ability.label,
             SourceKind.ABILITY,
         ),
     ]
@@ -624,15 +631,17 @@ def derive_skills(
     total_level = character.total_level
     for skill in character.skills:
         target = skill_target(skill.slug)
-        mods: list[Modifier] = [
-            _struct(target, skill.ranks, "Rangos", SourceKind.CLASS),
-            _struct(
-                target,
-                abilities[skill.ability].modifier,
-                skill.ability.name.capitalize(),
-                SourceKind.ABILITY,
-            ),
-        ]
+        # Held by name so the split below can pick them out of the applied list by
+        # identity. Matching on the label instead would break the moment the corpus
+        # or the UI language changed a word.
+        ranks_mod = _struct(target, skill.ranks, "Rangos", SourceKind.CLASS)
+        ability_mod = _struct(
+            target,
+            abilities[skill.ability].modifier,
+            skill.ability.label,
+            SourceKind.ABILITY,
+        )
+        mods: list[Modifier] = [ranks_mod, ability_mod]
         if skill.is_class_skill and skill.ranks >= 1:
             mods.append(_struct(target, 3, "Habilidad de clase", SourceKind.CLASS))
         if skill.uses_armor_check_penalty and acp:
@@ -651,8 +660,18 @@ def derive_skills(
             )
 
         resolved = resolve(target, [*general_pool, *mods])
+
+        # Ranks and the ability modifier are untyped, so the engine never suppresses
+        # them — but reading them back out of `applied` rather than assuming that
+        # keeps the three columns summing to the total whatever the engine decides.
+        ranks_applied = sum(m.value for m in resolved.applied if m is ranks_mod)
+        ability_applied = sum(m.value for m in resolved.applied if m is ability_mod)
+
         untrained_violation = skill.ranks == 0 and not skill.untrained
-        if untrained_violation:
+        # Every skill is on the sheet, so this is only a mistake for a skill the
+        # character actually put something into; otherwise it fires two dozen times
+        # for a character who has simply not trained everything.
+        if untrained_violation and skill.is_tracked:
             warnings.append(f"{skill.name}: no puede usarse sin entrenamiento (0 rangos)")
         if skill.ranks > total_level:
             warnings.append(f"{skill.name}: {skill.ranks} rangos superan el máximo ({total_level})")
@@ -664,6 +683,9 @@ def derive_skills(
                 resolved=resolved,
                 is_class_skill=skill.is_class_skill,
                 untrained_violation=untrained_violation,
+                ranks=ranks_applied,
+                ability_modifier=ability_applied,
+                other_modifiers=resolved.total - ranks_applied - ability_applied,
             )
         )
     return results, warnings

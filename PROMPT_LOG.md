@@ -1,5 +1,36 @@
 # Prompt log
 
+### 2026-08-09 — Skills show ability, others and total, with the bonuses behind them
+**Prompt:** en habilidades, además de ver la columna de rangos, quiero ver cuál es el
+bonificador final que aplica, y otra columna con bonificador por característica,
+además, otra columna que indique "otros"… al hacer hover se tienen que mostrar
+desglosados todos los bonos que aplican
+**Files affected:** `backend/src/pf_tracker/domain/{enums,models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/features/editor/sections/{SkillsSection,SkillModifiers}.tsx` and tests,
+`frontend/src/features/editor/CharacterEditor.tsx`, `frontend/src/test/fixtures.ts`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** Four columns per skill, every number from `/derive` — the frontend adds
+up nothing. The split (`ranks`, `ability_modifier`, `other_modifiers`) is computed in
+the domain, where "others" is the residue of the total rather than a filter over the
+breakdown, and the two named parts are picked out of the applied list by object
+identity rather than by label. A golden test asserts the three sum to the total for
+every fixture. `/derive` now returns all 35 skills rather than only the invested
+ones, since the editor needs an ability modifier for every row; the untrained warning
+moved behind a new `is_tracked` flag so it does not fire two dozen times per
+character. Agreed with the owner that the combat card lists them all too, which is
+what a paper sheet does. The tooltip lists the *whole* breakdown, not the "others"
+part: it is what was asked for, and picking entries apart by label would be rules
+knowledge in the frontend. It opens on hover **and** focus, and pins on click — hover
+alone is unreachable by keyboard and dead on touch. Found and fixed on the way: three
+call sites labelled ability modifiers with the enum's English member name, so
+breakdowns read "Dex" and "Cha" next to "Habilidad de clase".
+
+---
+
 ### 2026-08-09 — The bootstrap works on a machine that has the tools
 **Prompt:** como lo instalo?
 **Files affected:** `setup.sh`, `start.sh`, `docs/HANDOFF.md`, `PROMPT_LOG.md`

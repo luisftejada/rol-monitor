@@ -110,7 +110,12 @@ export function CharacterEditor({
           <IdentitySection draft={draft} patch={patch} />
           <AbilitiesSection draft={draft} patch={patch} modifiers={abilityModifiers} />
           <ClassesSection draft={draft} patch={patch} />
-          <SkillsSection draft={draft} patch={patch} intModifier={intModifier} />
+          <SkillsSection
+            draft={draft}
+            patch={patch}
+            intModifier={intModifier}
+            derived={sheet?.skills}
+          />
           <FeatsSection
             draft={draft}
             patch={patch}

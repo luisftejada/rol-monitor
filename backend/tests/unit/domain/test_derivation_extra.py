@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pytest
 
 from pf_tracker.domain.derivation import (
@@ -19,12 +21,14 @@ from pf_tracker.domain.enums import (
     Size,
     SourceKind,
     Wield,
+    skill_target,
 )
 from pf_tracker.domain.models import (
     CarryingLoad,
     Character,
     ClassLevel,
     EquippedWeapon,
+    SkillState,
     Stances,
     TwoWeaponFighting,
 )
@@ -137,6 +141,61 @@ def test_a_line_that_does_not_touch_cmb_reports_none() -> None:
     )
     sheet = derive_combat_sheet(_character(weapons=(weapon,)))
     assert sheet.attacks[0].cmb is None
+
+
+def test_a_skill_splits_into_ranks_ability_and_everything_else() -> None:
+    """The three columns the sheet shows. "Others" is a residue by construction —
+    total minus the two named parts — so nothing can fall between the columns."""
+    bonus = Modifier(skill_target("intimidar"), 2, None, "Persuasivo", SourceKind.FEAT)
+    skill = SkillState(
+        slug="intimidar",
+        name="Intimidar",
+        ability=Ability.CHA,
+        ranks=3,
+        is_class_skill=True,
+    )
+    # Cha 8 -> -1; class skill with ranks -> +3; the feat -> +2.
+    character = _character(
+        skills=(skill,),
+        base_ability_scores={Ability.STR: 14, Ability.DEX: 16, Ability.CON: 12, Ability.CHA: 8},
+        modifiers=(bonus,),
+    )
+    line = derive_combat_sheet(character).skills[0]
+
+    assert line.ranks == 3
+    assert line.ability_modifier == -1
+    assert line.other_modifiers == 5  # class skill 3 + Persuasivo 2
+    assert line.resolved.total == 7
+    # And the itemised breakdown is still there for the tooltip behind "others".
+    assert ("Persuasivo", 2) in [(m.source, m.value) for m in line.resolved.applied]
+
+
+def test_an_ability_names_itself_in_spanish_in_a_breakdown() -> None:
+    """Breakdown labels are shown to the GM beside corpus strings like "Cota de
+    escamas", so an English enum name reads as a bug."""
+    skill = SkillState(slug="trepar", name="Trepar", ability=Ability.STR)
+    line = derive_combat_sheet(_character(skills=(skill,))).skills[0]
+    assert "Fuerza" in [m.source for m in line.resolved.applied]
+
+
+def test_an_untrained_skill_only_warns_when_the_character_invested_in_it() -> None:
+    """Every skill is on the sheet now, so warning on bare absence would fire two
+    dozen times for a character who has simply not trained everything."""
+    untouched = SkillState(
+        slug="descifrar-escritura",
+        name="Descifrar escritura",
+        ability=Ability.INT,
+        untrained=False,
+        is_tracked=False,
+    )
+    invested = replace(untouched, misc_modifier=2, is_tracked=True)
+
+    quiet = derive_combat_sheet(_character(skills=(untouched,)))
+    assert quiet.warnings == []
+    assert quiet.skills[0].untrained_violation is True  # still flagged on the line
+
+    loud = derive_combat_sheet(_character(skills=(invested,)))
+    assert any("sin entrenamiento" in w for w in loud.warnings)
 
 
 def test_offhand_iteratives_scale_with_improved_and_greater_twf() -> None:

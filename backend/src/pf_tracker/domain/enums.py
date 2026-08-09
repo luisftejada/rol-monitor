@@ -20,6 +20,29 @@ class Ability(str, Enum):
     WIS = "Sab"
     CHA = "Car"
 
+    @property
+    def label(self) -> str:
+        """How this ability names itself in a breakdown the GM reads.
+
+        The member *name* is an English identifier, so labelling with it put "Dex"
+        and "Cha" in breakdowns that otherwise read "Fuerza", "Habilidad de clase"
+        and "Cota de escamas". Breakdown labels are data in the corpus' language,
+        like every other source name.
+        """
+        return _ABILITY_LABELS[self]
+
+
+#: Full names as ``caracteristicas`` spells them, keyed after the class body so the
+#: enum members exist.
+_ABILITY_LABELS: dict[Ability, str] = {
+    Ability.STR: "Fuerza",
+    Ability.DEX: "Destreza",
+    Ability.CON: "Constitución",
+    Ability.INT: "Inteligencia",
+    Ability.WIS: "Sabiduría",
+    Ability.CHA: "Carisma",
+}
+
 
 class SaveKind(str, Enum):
     """The three saving throws."""
