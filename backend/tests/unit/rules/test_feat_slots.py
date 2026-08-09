@@ -123,4 +123,13 @@ def test_real_corpus_human_fighter_5(rules_repository: RulesRepository) -> None:
     # Base at 1, 3, 5; fighter at 1, 2, 4; human at 1.
     assert result.available == 7
     assert result.spent == 1
-    assert result.granted == ()
+    # A fighter is handed all five armour and shield proficiencies. They are `fija`,
+    # so they cost none of those seven choices — which is the whole point of granting
+    # them rather than charging for them.
+    assert result.granted == (
+        "Competencia con armadura ligera",
+        "Competencia con armadura intermedia",
+        "Competencia con armadura pesada",
+        "Competencia con escudo",
+        "Competencia con escudo pavés",
+    )

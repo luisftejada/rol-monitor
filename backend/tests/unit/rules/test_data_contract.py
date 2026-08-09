@@ -157,6 +157,99 @@ def test_every_bonus_feat_slot_is_well_formed(nucleo_raw: dict[str, Any]) -> Non
                 assert option in branches, f"{where}: {slot['lista']} has no branch {option!r}"
 
 
+#: Who gets each armour/shield proficiency automatically, from the feats' own
+#: "Especial" lines (p. 121-122), cross-checked against every class' "Competencia con
+#: armas y armaduras" paragraph. The manual grants these *as bonus feats*; the two
+#: weapon proficiencies say only "son competentes con", so they are deliberately not
+#: here — see docs/assumptions.md.
+AUTOMATIC_PROFICIENCIES: dict[str, set[str]] = {
+    "Competencia con armadura ligera": {
+        # "todos los personajes excepto los monjes, los hechiceros, y los magos"
+        "barbaro",
+        "bardo",
+        "clerigo",
+        "druida",
+        "explorador",
+        "guerrero",
+        "paladin",
+        "picaro",
+    },
+    "Competencia con armadura intermedia": {
+        "barbaro",
+        "clerigo",
+        "druida",
+        "explorador",
+        "guerrero",
+        "paladin",
+    },
+    "Competencia con armadura pesada": {"guerrero", "paladin"},
+    "Competencia con escudo": {
+        "barbaro",
+        "bardo",
+        "clerigo",
+        "druida",
+        "explorador",
+        "guerrero",
+        "paladin",
+    },
+    "Competencia con escudo pavés": {"guerrero"},
+}
+
+
+def test_classes_grant_the_armour_proficiencies_the_manual_gives_them(
+    nucleo_raw: dict[str, Any],
+) -> None:
+    """Exact, both ways: a missing grant breaks the prerequisite chain silently, and
+    a spurious one hands a wizard plate."""
+    granted: dict[str, set[str]] = {feat: set() for feat in AUTOMATIC_PROFICIENCIES}
+    for slug, data in nucleo_raw["clases"].items():
+        for slot in data.get("dotes_adicionales") or []:
+            feat = slot.get("dote")
+            if feat in granted:
+                assert slot["eleccion"] == "fija", f"{slug}: {feat} must not cost a choice"
+                granted[feat].add(slug)
+
+    assert granted == AUTOMATIC_PROFICIENCIES
+
+
+def test_classes_without_an_armour_grant_say_so_in_their_prose(
+    nucleo_raw: dict[str, Any],
+) -> None:
+    """`competencias` stays the source of truth for *weapons* only, but it still
+    describes armour, so the two must not contradict each other."""
+    armour_feats = set(AUTOMATIC_PROFICIENCIES)
+    for slug, data in nucleo_raw["clases"].items():
+        grants = {slot.get("dote") for slot in data.get("dotes_adicionales") or []} & armour_feats
+        says_none = "ninguna armadura" in data["competencias"]
+        assert says_none is not bool(grants), f"{slug}: prose and grants disagree on armour"
+
+
+def test_the_two_corrected_proficiency_lines_stay_corrected(nucleo_raw: dict[str, Any]) -> None:
+    """Both said the wrong thing and were fixed against the manual on 2026-08-09; the
+    ranger's had been reported twice before anyone acted on it."""
+    ranger = nucleo_raw["clases"]["explorador"]["competencias"]
+    assert "ligeras e intermedias" in ranger, "ranger armour (manual p. 55 and p. 121)"
+
+    cleric = nucleo_raw["clases"]["clerigo"]["competencias"]
+    assert "todas las armaduras" not in cleric, "cleric gets no heavy armour (manual p. 40)"
+    assert "ligeras e intermedias" in cleric
+
+
+def test_weapon_proficiencies_are_not_granted_as_feats(nucleo_raw: dict[str, Any]) -> None:
+    """The manual grants armour "como dote adicional" but says only that a class "es
+    competente con" simple and martial weapons. Granting those as feats would let a
+    fighter count Martial Weapon Proficiency towards a prerequisite they do not have —
+    it applies to one chosen weapon type, not to all of them."""
+    weapon_feats = {
+        "Competencia con armas sencillas",
+        "Competencia con arma marcial",
+        "Competencia con arma exótica",
+    }
+    for slug, data in nucleo_raw["clases"].items():
+        for slot in data.get("dotes_adicionales") or []:
+            assert slot.get("dote") not in weapon_feats, f"{slug} grants {slot['dote']!r} as a feat"
+
+
 def test_prestige_classes_that_grant_feats_declare_them(nucleo_raw: dict[str, Any]) -> None:
     """Pins the three the manual sweep found (docs/corpus/INVENTARIO…), so a corpus
     regeneration that drops them fails here instead of quietly shrinking a budget.

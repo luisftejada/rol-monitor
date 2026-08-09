@@ -722,6 +722,22 @@ clases:
     - Trato con animales
     - Trepar
     clave: barbaro
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+1'
@@ -881,6 +897,17 @@ clases:
     - Trepar
     - Usar objeto mágico
     clave: bardo
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+0'
@@ -1150,8 +1177,8 @@ clases:
     salvaciones_buenas:
     - Fortaleza
     - Voluntad
-    competencias: armas sencillas (más el arma predilecta de su dios); todas las armaduras y escudos (no
-      pavés)
+    competencias: armas sencillas (más el arma predilecta de su dios); armaduras ligeras e intermedias
+      y escudos (no pavés)
     lanzador:
       tipo: divino
       espontaneo: false
@@ -1175,6 +1202,22 @@ clases:
     - Saber (religión)
     - Tasación
     clave: clerigo
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+0'
@@ -1539,6 +1582,22 @@ clases:
     - Trepar
     - Volar
     clave: druida
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+0'
@@ -1885,7 +1944,7 @@ clases:
     salvaciones_buenas:
     - Fortaleza
     - Reflejos
-    competencias: armas sencillas y marciales; armaduras ligeras y escudos (no pavés)
+    competencias: armas sencillas y marciales; armaduras ligeras e intermedias y escudos (no pavés)
     lanzador:
       tipo: divino
       espontaneo: false
@@ -1935,6 +1994,21 @@ clases:
       eleccion: fija
       dote: Aguante
       fuente: pág. 56
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+1'
@@ -2244,6 +2318,31 @@ clases:
       nota: a 4º nivel y cada 4 niveles subsiguientes el guerrero puede cambiar una dote que ya conoce por
         otra dote adicional, siempre que la antigua no sea prerrequisito de ninguna otra aptitud
       fuente: pág. 58
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura pesada
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo pavés
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+1'
@@ -3390,6 +3489,27 @@ clases:
     - Saber (religión)
     - Trato con animales
     clave: paladin
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura intermedia
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura pesada
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con escudo
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 122
     progresion:
     - nivel: 1
       bab: '+1'
@@ -3645,6 +3765,12 @@ clases:
     - Trepar
     - Usar objeto mágico
     clave: picaro
+    dotes_adicionales:
+    - nivel: 1
+      eleccion: fija
+      dote: Competencia con armadura ligera
+      nota: se obtiene automáticamente por la clase; no consume una elección
+      fuente: pág. 121
     progresion:
     - nivel: 1
       bab: '+0'

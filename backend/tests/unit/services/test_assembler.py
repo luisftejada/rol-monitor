@@ -464,6 +464,55 @@ def test_combat_expertise_splits_across_the_stance_and_the_weapon_line(
     assert variant.cmb_modifiers == ()
 
 
+def test_class_armour_proficiencies_close_the_prerequisite_chain(
+    rules_repository: RulesRepository,
+) -> None:
+    """The reason these became feats at all. A fighter is proficient with shields by
+    class, but the eligibility filter matches prerequisites against *feat names*, so
+    until the class handed the feat over every shield feat read as out of reach."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 6}],
+        base_scores={"Fue": 16, "Des": 14, "Con": 14, "Int": 10, "Sab": 10, "Car": 8},
+    )
+    granted = set(result.feats.granted)
+    assert "Competencia con escudo" in granted
+    assert "Competencia con escudo pavés" in granted
+
+    feats = rules_repository.feats(bab=6, abilities={"Fue": 16}, owned=list(granted))
+    by_name = {f.name: f for f in feats}
+    assert by_name["Golpear con el escudo mejorado"].is_eligible
+    assert by_name["Soltura con el escudo"].is_eligible
+
+
+def test_granted_proficiencies_cost_no_choice(rules_repository: RulesRepository) -> None:
+    """A fighter is handed five feats and still picks the same number they always did;
+    charging for them would have halved a level-6 fighter's budget."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 6}],
+    )
+    budget = result.feats
+    assert len(budget.granted) == 5
+    # Base at 1/3/5, fighter at 1/2/4/6, human at 1.
+    assert budget.available == 8
+    assert budget.spent == 0
+    assert not budget.is_over_budget
+
+
+def test_a_wizard_is_granted_no_armour_proficiency(rules_repository: RulesRepository) -> None:
+    """The exclusions are the half of the rule that is easy to lose: the manual grants
+    light armour to everyone *except* monks, sorcerers and wizards."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "mago", "level": 6}],
+    )
+    assert not [f for f in result.feats.granted if f.startswith("Competencia con armadura")]
+
+
 def test_a_prestige_class_contributes_its_bonus_feat_slots(
     rules_repository: RulesRepository,
 ) -> None:

@@ -22,7 +22,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **377 backend tests, 101 frontend tests**, coverage 96%+
+Everything should be green: **384 backend tests, 101 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -57,7 +57,8 @@ accounted for, each in exactly one place:
 
 Feat budgets are derived too: base levels + class slots (gated on the level *in that
 class*) + racial slots, with fixed feats granted rather than charged. The picker
-filters by what each slot accepts.
+filters by what each slot accepts. The five armour and shield proficiencies are among
+what a class grants, which is what makes the ten feats gated on them reachable.
 
 An attack line carries a CMB of its own when the way of attacking costs one —
 `Ataque poderoso` penalises combat manoeuvres as well as attacks — so the sheet's
@@ -71,23 +72,18 @@ that motivated each choice.
 
 Roughly in order of value:
 
-1. **Automatic proficiencies** (5 feats), sized in §4 of
-   `docs/corpus/INVENTARIO_dotes_fuera_de_progresion.md`. They live in
-   `clases.<slug>.competencias` as free prose today; making them real feats unlocks
-   chained prerequisite validation — Competencia con escudo gates Golpear con el
-   escudo mejorado, which is in the ranger's two-weapon style list. Decide which of
-   the two is the source of truth before writing. Fold the known ranger-armour error
-   below into the same errand.
-2. **Choice-gated feat sources**: cleric domains, arcane schools, rogue talents and
+1. **Choice-gated feat sources**: cleric domains, arcane schools, rogue talents and
    the lore master's secrets. All four hang off a choice rather than a level, so
    they wait on their own subsystems; a schema is proposed but **not applied** in
    `docs/corpus/DISENO_dominios_talentos.md`. The `opcion` key added for the dragon
    disciple is the mechanism for pointing at one branch of an existing list.
-3. **A known corpus error**, harmless today, listed in `docs/corpus/README.md`:
-   the ranger's armour proficiency says light where the manual says light and medium.
-4. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
+2. **Armour proficiency is granted but never checked.** The five feats now exist on
+   the character, and `_is_proficient` only ever asks about weapons — wearing plate
+   as a wizard costs nothing. Deriving the penalty (armour check to attacks, and to
+   every skill involving movement) is the next thing those feats unlock.
+3. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
    the weapon picker is built, because the engine acts on nothing else yet.
-5. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
+4. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
    the *union* of all branches, which is wider than the truth, because the sheet does
    not model the choice. The corpus caveat is shown alongside. `opcion` is how a slot
    pins one branch once the sheet can say which it is.
@@ -108,6 +104,12 @@ Roughly in order of value:
 - **The frontend must contain no Pathfinder arithmetic.** When a number is needed in
   the UI, derive it in the backend and send it. A TS test asserting a game formula
   means the logic landed in the wrong layer.
+- **A frontend test that fails only under `make check`** is almost certainly the
+  1-second default on Testing Library's `findBy*`, not a real regression. `make check`
+  runs vitest across every core right after the backend suite, and a view rendering
+  from an API round trip misses that window. `asyncUtilTimeout` is raised in
+  `src/test/setup.ts`. Raising vitest's own `testTimeout` does nothing here — it is a
+  different timer, and the file-level one was never the one being hit.
 - **Generated types are generated.** After changing a DTO run `make gen-api`; do not
   hand-edit `frontend/src/api/schema.ts`. Typed test fixtures will fail to compile
   until they carry the new field, which is the mechanism working as intended.

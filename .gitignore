@@ -14,6 +14,11 @@ coverage.xml
 # Generated OpenAPI dump (source of truth is the app; TS types are committed)
 backend/openapi.json
 
+# The manual itself: a ~90 MB commercial PDF (© Devir Iberia). Keep a copy in
+# backend/data/ to check the corpus against a page — see docs/corpus/README.md — but
+# never commit it. The YAML corpus derived from it is what this repo vendors.
+backend/data/*.pdf
+
 # Node / frontend
 node_modules/
 dist/

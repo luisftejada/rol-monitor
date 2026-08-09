@@ -1,5 +1,33 @@
 # Prompt log
 
+### 2026-08-09 — Armour proficiency becomes a feat; weapons stay prose
+**Prompt:** explicame que hay que decidir → ok a tu recomendacion C
+**Files affected:** `backend/data/pathfinder_nucleo.yaml`, `.gitignore`,
+`backend/tests/unit/rules/{test_data_contract,test_feat_slots}.py`,
+`backend/tests/unit/services/test_assembler.py`, `frontend/src/test/setup.ts`,
+`docs/{assumptions,HANDOFF}.md`, `docs/corpus/README.md`, `PROMPT_LOG.md`
+**Summary:** The same fact — "this class is proficient with shields" — lived in two
+incompatible forms: free prose in `competencias`, and feats other feats name as
+prerequisites. Eligibility matches names, so prose was invisible to it and a level-6
+fighter was told they could not take any of the ten feats gated on `Competencia con
+escudo`. With the manual now to hand, the split turned out not to be a judgement
+call: armour reads *"disponen automáticamente de X como dote adicional"*, weapons
+read *"son competentes con"* — proficiency without the feat. So the five armour and
+shield feats are granted by the eight classes that get them (24 `fija` slots, and
+they cost no choice), and prose keeps weapons, where all the irregular detail lives.
+Cross-checking every class' proficiency paragraph against the five feats' "Especial"
+lines — they agree on all 11 classes — turned up a second corpus error beside the
+known ranger one: the cleric was getting heavy armour. Both fixed and pinned. The
+manual itself is gitignored; it is a 90 MB commercial book.
+
+Also fixed a flaky gate found on the way: two frontend tests failed only under
+`make check`, never alone. Not a regression and not vitest's `testTimeout` (raising
+that changed nothing) — it is Testing Library's 1-second `findBy*` default, which a
+view rendering from an API round trip misses when vitest runs across every core right
+after the backend suite. `asyncUtilTimeout` raised in `src/test/setup.ts`.
+
+---
+
 ### 2026-08-08 — Prestige classes grant their bonus feats
 **Prompt:** sigue
 **Files affected:** `backend/data/pathfinder_nucleo.yaml`,
