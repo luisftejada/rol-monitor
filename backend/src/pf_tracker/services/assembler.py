@@ -321,12 +321,25 @@ def _is_proficient(
     monk never types Improved Unarmed Strike, but they have it.
     """
     proficiency = _norm(getattr(item, "proficiency", ""))
+    weapon_name = _norm(getattr(item, "name", ""))
     text = " ".join(
         _norm(summary.proficiencies or "")
         for entry in character.class_levels
         if (summary := repo.class_summary(entry.class_slug)) is not None
     )
     feats = " ".join(_norm(f) for f in feat_names)
+
+    # Racial weapon familiarity, which no class proficiency line mentions. Two halves:
+    # a short list the race simply *has* — an elf wizard can use a rapier — and a word
+    # that makes any weapon carrying it martial. The second is not proficiency: the
+    # elven curve blade stops being exotic for an elf, and it still takes a class with
+    # martial weapons to wield it without the -4.
+    race = repo.race(character.race)
+    if race is not None:
+        if weapon_name in {_norm(name) for name in race.weapon_proficiencies}:
+            return True
+        if any(_norm(word) in weapon_name for word in race.weapon_words):
+            proficiency = "marcial"
 
     if proficiency == "sencilla" and (
         "sencilla" in text or "competencia con armas sencillas" in feats
@@ -343,8 +356,8 @@ def _is_proficient(
     # "sencilla", so without this a monk took -4 with their own fists.
     if getattr(item, "category", "") == _UNARMED_CATEGORY and "impacto sin arma mejorado" in feats:
         return True
-    # A weapon named in a proficiency/feat (e.g. racial familiarity) counts.
-    weapon_name = _norm(getattr(item, "name", ""))
+    # A weapon named outright in a class proficiency line or a feat (the wizard's
+    # five, a cleric's favoured weapon) counts.
     return weapon_name in text or weapon_name in feats
 
 

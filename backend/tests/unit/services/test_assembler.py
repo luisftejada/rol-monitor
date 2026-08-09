@@ -464,6 +464,66 @@ def test_combat_expertise_splits_across_the_stance_and_the_weapon_line(
     assert variant.cmb_modifiers == ()
 
 
+def _wields(repo: RulesRepository, *, race: str, class_slug: str, weapon: str) -> bool:
+    """Whether the character is proficient with ``weapon``."""
+    result = _assemble(
+        repo,
+        race=race,
+        class_levels=[{"class_slug": class_slug, "level": 3}],
+        weapons=[EquippedWeaponIn(catalog_name=weapon, wielding="two_handed")],
+    )
+    return result.character.weapons[0].is_proficient
+
+
+def test_a_racial_weapon_word_makes_an_exotic_weapon_martial(
+    rules_repository: RulesRepository,
+) -> None:
+    """The reported bug: an elf was told they could not use an elven curve blade.
+    Nothing consulted the race at all — proficiency was read off class lines only."""
+    assert _wields(
+        rules_repository, race="elfo", class_slug="guerrero", weapon="Espada curva élfica"
+    )
+
+
+def test_martial_is_not_the_same_as_proficient(rules_repository: RulesRepository) -> None:
+    """ "Cuentan como marciales" stops the blade being exotic; it does not hand it
+    over. A wizard has no martial weapons to begin with, elf or not."""
+    assert not _wields(
+        rules_repository, race="elfo", class_slug="mago", weapon="Espada curva élfica"
+    )
+
+
+def test_a_race_names_weapons_its_class_never_grants(rules_repository: RulesRepository) -> None:
+    """The other half of familiarity: these are proficiencies outright, which is what
+    lets an elf wizard hold a rapier."""
+    for weapon in ("Espada ropera", "Espada larga", "Arco largo compuesto"):
+        assert _wields(rules_repository, race="elfo", class_slug="mago", weapon=weapon), weapon
+
+
+def test_the_word_belongs_to_one_race_only(rules_repository: RulesRepository) -> None:
+    """A dwarf gets nothing from an elven weapon, and a human gets nothing from any."""
+    assert not _wields(
+        rules_repository, race="enano", class_slug="guerrero", weapon="Espada curva élfica"
+    )
+    assert not _wields(
+        rules_repository, race="humano", class_slug="guerrero", weapon="Espada curva élfica"
+    )
+
+
+def test_a_dwarf_is_not_simply_given_their_exotic_weapons(
+    rules_repository: RulesRepository,
+) -> None:
+    """The corpus used to list the dwarven waraxe and urgrosh as outright racial
+    proficiencies. The manual only makes them martial, so a dwarf wizard cannot
+    swing one — see docs/corpus/README.md."""
+    assert not _wields(
+        rules_repository, race="enano", class_slug="mago", weapon="Hacha de guerra enana"
+    )
+    assert _wields(
+        rules_repository, race="enano", class_slug="guerrero", weapon="Hacha de guerra enana"
+    )
+
+
 def test_every_catalog_skill_reaches_the_sheet(rules_repository: RulesRepository) -> None:
     """A sheet lists all 35: the GM rolls Percepción at 0 ranks constantly, and the
     editor needs an ability modifier per row that TypeScript is not allowed to

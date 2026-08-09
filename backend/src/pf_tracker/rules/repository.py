@@ -134,6 +134,8 @@ class RulesRepository:
                 traits=list(r.get("rasgos") or []),
                 languages={k: list(v) for k, v in (r.get("idiomas") or {}).items()},
                 bonus_feats=_feat_slots(r),
+                weapon_proficiencies=list((r.get("competencias_armas") or {}).get("armas") or []),
+                weapon_words=list((r.get("competencias_armas") or {}).get("palabras") or []),
             )
             for r in self._nucleo["razas"]
         ]

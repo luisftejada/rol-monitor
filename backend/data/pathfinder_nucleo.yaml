@@ -525,6 +525,18 @@ razas:
   - 'Sentidos agudos: +2 racial a Percepción'
   - 'Familiaridad con las armas: competente con arco largo, arco corto (y compuestos), espada larga y
     espada ropera; armas ''élficas'' cuentan como marciales'
+  competencias_armas:
+    armas:
+    - Arco largo
+    - Arco largo compuesto
+    - Arco corto
+    - Arco corto compuesto
+    - Espada larga
+    - Espada ropera
+    palabras:
+    - élfico
+    - élfica
+    fuente: pág. 21
   idiomas:
     inicio:
     - común
@@ -557,8 +569,17 @@ razas:
   - 'Estabilidad: +4 al DMC contra derribo y arrollamiento estando en el suelo'
   - 'Sentido de la piedra: +2 a Percepción con piedra; prueba gratuita al pasar a 10 pies de trabajos
     de albañilería inusuales'
-  - 'Familiaridad con las armas: competente con hacha de batalla, hacha de guerra enana y urgrosh enano;
-    armas ''enanas'' cuentan como marciales'
+  - 'Familiaridad con las armas: competente con hacha de batalla, pico pesado y martillo de
+    guerra; armas ''enanas'' cuentan como marciales'
+  competencias_armas:
+    armas:
+    - Hacha de batalla
+    - Pico pesado
+    - Martillo de guerra
+    palabras:
+    - enano
+    - enana
+    fuente: pág. 22
   idiomas:
     inicio:
     - común
@@ -589,6 +610,11 @@ razas:
   - 'Trucos: detectar magia, luces danzantes, prestidigitación y ruido fantasmal 1/día (Car 11+)'
   - 'Odio a las bestias: +2 a Percepción; +2 a Artesanía o Profesión a elección'
   - 'Familiaridad con las armas: armas ''gnomas'' cuentan como marciales'
+  competencias_armas:
+    palabras:
+    - gnomo
+    - gnoma
+    fuente: pág. 23
   idiomas:
     inicio:
     - común
@@ -638,6 +664,13 @@ razas:
   - 'Hábil: +2 racial a Escapismo y Percepción'
   - 'Certero: +1 racial a las tiradas de ataque con armas arrojadizas y de proyectiles'
   - 'Familiaridad con las armas: honda; armas ''medianas'' cuentan como marciales'
+  competencias_armas:
+    armas:
+    - Honda
+    palabras:
+    - mediano
+    - mediana
+    fuente: pág. 25
   idiomas:
     inicio:
     - común
@@ -687,7 +720,16 @@ razas:
   - 'Sangre orca: cuenta como orco y como humano para efectos relativos a la raza'
   - 'Intimidante: +2 racial a Intimidar'
   - 'Ferocidad orca: 1 vez/día, al ser reducido a menos de 0 pg sigue consciente y actuando 1 asalto más'
-  - 'Familiaridad con las armas: hacha de guerra y espadón; armas ''orcas'' cuentan como marciales'
+  - 'Familiaridad con las armas: competente con gran hacha y alfanje; armas ''orcas'' cuentan
+    como marciales'
+  competencias_armas:
+    armas:
+    - Gran hacha
+    - Alfanje
+    palabras:
+    - orco
+    - orca
+    fuente: pág. 27
   idiomas:
     inicio:
     - común

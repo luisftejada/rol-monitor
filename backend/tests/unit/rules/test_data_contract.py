@@ -13,6 +13,10 @@ import pytest
 from pf_tracker.rules.parsing import parse_bab, parse_critical
 from pf_tracker.rules.slug import slugify
 
+# The same normaliser the assembler matches with, so this asserts what production
+# actually does rather than an approximation of it.
+from pf_tracker.rules.vendor.pathfinder_reglas import _norm
+
 VALID_ARMOR_CATEGORIES = {"ligera", "intermedia", "pesada", "escudo"}
 
 
@@ -248,6 +252,58 @@ def test_weapon_proficiencies_are_not_granted_as_feats(nucleo_raw: dict[str, Any
     for slug, data in nucleo_raw["clases"].items():
         for slot in data.get("dotes_adicionales") or []:
             assert slot.get("dote") not in weapon_feats, f"{slug} grants {slot['dote']!r} as a feat"
+
+
+# ------------------------------------------------------- racial weapon familiarity
+#: The exotic weapons a race's word turns martial, and whose word it is. Six weapons
+#: in the catalog carry a gentilic; each belongs to exactly one race, and a word that
+#: matched two would silently arm both.
+GENTILIC_WEAPONS: dict[str, str] = {
+    "Espada curva élfica": "Elfo",
+    "Hacha de guerra enana": "Enano",
+    "Urgrosh enano": "Enano",
+    "Martillo ganchudo gnomo": "Gnomo",
+    "Bastón honda mediano": "Mediano",
+    "Hacha doble orca": "Semiorco",
+}
+
+
+def test_each_gentilic_weapon_belongs_to_exactly_one_race(nucleo_raw: dict[str, Any]) -> None:
+    weapons = {w["nombre"]: w for w in nucleo_raw["equipo"]["armas"]}
+    for weapon, owner in GENTILIC_WEAPONS.items():
+        assert weapon in weapons, f"{weapon} is no longer in the catalog"
+        assert weapons[weapon]["competencia"] == "exótica", (
+            f"{weapon} is no longer exotic; the familiarity rule has nothing to soften"
+        )
+        matched = [
+            race["nombre"]
+            for race in nucleo_raw["razas"]
+            for word in (race.get("competencias_armas") or {}).get("palabras") or []
+            if _norm(word) in _norm(weapon)
+        ]
+        assert matched == [owner], f"{weapon} matched {matched}, expected [{owner}]"
+
+
+def test_racial_weapon_proficiencies_name_real_weapons(nucleo_raw: dict[str, Any]) -> None:
+    """A misspelling here is silent: the name simply never matches and the race
+    quietly loses a proficiency the manual gives it."""
+    weapons = {w["nombre"] for w in nucleo_raw["equipo"]["armas"]}
+    for race in nucleo_raw["razas"]:
+        for name in (race.get("competencias_armas") or {}).get("armas") or []:
+            assert name in weapons, f"{race['nombre']}: unknown weapon {name!r}"
+
+
+def test_the_two_corrected_familiarity_traits_stay_corrected(nucleo_raw: dict[str, Any]) -> None:
+    """Both listed the wrong weapons and were fixed against the manual on 2026-08-09.
+    The dwarf one mattered: it granted two *exotic* weapons the manual only makes
+    martial, so a dwarf wizard could swing a waraxe."""
+    by_name = {race["nombre"]: race for race in nucleo_raw["razas"]}
+
+    dwarf = by_name["Enano"]["competencias_armas"]["armas"]
+    assert dwarf == ["Hacha de batalla", "Pico pesado", "Martillo de guerra"]
+
+    half_orc = by_name["Semiorco"]["competencias_armas"]["armas"]
+    assert half_orc == ["Gran hacha", "Alfanje"]
 
 
 def test_prestige_classes_that_grant_feats_declare_them(nucleo_raw: dict[str, Any]) -> None:

@@ -27,6 +27,7 @@ range and grep for the sentence rather than trusting line adjacency. Cropping wi
 
 | Date | What | Where |
 | ---- | ---- | ----- |
+| 2026-08-09 | Racial weapon familiarity for the five races that have it: the weapons each is simply proficient with, and the word that makes a weapon martial for them. Prose only, until now, in `rasgos`. | `razas[].competencias_armas` |
 | 2026-08-09 | Automatic proficiencies (§4): the five armour/shield feats granted as `fija` slots by the eight classes that get them, 24 entries. The two weapon proficiencies stay prose — the manual grants armour "como dote adicional" but says only that a class "es competente con" simple and martial weapons. | `clases.<slug>.dotes_adicionales` |
 | 2026-08-08 | Prestige-class bonus feats: `caballero_arcano` (1/5/9, p. 380) and `discipulo_del_dragon` (2/5/8, p. 387). The disciple points at the existing draconic bloodline list through a new `opcion` key rather than duplicating it. `maestro_del_saber` was left out on purpose — its feats hang off a *secret*, which is a choice, not a level. | `clases_de_prestigio.{caballero_arcano,discipulo_del_dragon}.dotes_adicionales` |
 
@@ -41,6 +42,8 @@ is not in the core feat list at all.
 | ---- | ----- | ---- | ----------- |
 | 2026-08-09 | `clases.explorador.competencias` | "armaduras ligeras y escudos (no pavés)" | light **and medium** (p. 55, confirmed by the feat's Especial on p. 121) |
 | 2026-08-09 | `clases.clerigo.competencias` | "todas las armaduras y escudos (no pavés)" | light and medium only (p. 40; heavy armour's Especial on p. 121 lists only fighters and paladins) |
+| 2026-08-09 | `razas` Enano, familiarity trait | "hacha de batalla, hacha de guerra enana y urgrosh enano" | battleaxe, **heavy pick** and **warhammer** (p. 22). The two exotic ones are only made *martial* by the word rule, never granted — the corpus was arming dwarf wizards. |
+| 2026-08-09 | `razas` Semiorco, familiarity trait | "hacha de guerra y espadón" | **greataxe** and **falchion** (p. 27) |
 
 Both were found by cross-checking every class' "Competencia con armas y armaduras"
 paragraph against the five feats' "Especial" lines — the two agree on all 11 classes,

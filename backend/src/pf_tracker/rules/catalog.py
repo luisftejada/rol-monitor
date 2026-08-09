@@ -113,6 +113,13 @@ class RaceDTO(_CatalogModel):
     languages: dict[str, list[str]]
     #: Feats this race grants (the human's free one, the half-elf's fixed one).
     bonus_feats: list[FeatSlotDTO] = []
+    #: Weapons this race is simply proficient with, whatever its class allows. An
+    #: elf wizard can use a rapier; wizards as a class cannot.
+    weapon_proficiencies: list[str] = []
+    #: Words that make a weapon *martial* for this race — "cualquier arma con la
+    #: palabra 'élfico' en su nombre". Martial is not the same as proficient: it
+    #: still takes a class that grants martial weapons to pick one up safely.
+    weapon_words: list[str] = []
 
 
 # ------------------------------------------------------------------------- classes

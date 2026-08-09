@@ -1,5 +1,32 @@
 # Prompt log
 
+### 2026-08-09 — Racial weapon familiarity
+**Prompt:** tengo un personaje élfico, con dote sutileza con las armas. al elegir
+espada curva élfica, indica que no es competente con esta espada… sin embargo es
+élfica
+**Files affected:** `backend/data/pathfinder_nucleo.yaml`,
+`backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_data_contract.py`,
+`backend/tests/unit/services/test_assembler.py`, `docs/{assumptions,HANDOFF}.md`,
+`docs/corpus/README.md`, `PROMPT_LOG.md`
+**Summary:** A real bug, and wider than reported: `_is_proficient` built its haystack
+from class proficiency lines only, so the **race was never consulted at all** — five
+races have weapon familiarity and none of it reached the sheet. It is two mechanics
+and conflating them is the trap: named weapons are proficiencies outright (an elf
+wizard *can* hold a rapier), while the race's word makes a weapon count as *martial*
+— the elven curve blade stops being exotic, and it still takes a class with martial
+weapons to swing it. So the elf fighter is now proficient and the elf wizard,
+correctly, is not. Cross-checking each race's paragraph against the manual turned up
+two more corpus errors: the dwarf's trait listed the waraxe and urgrosh as outright
+proficiencies when the manual only makes them martial (it was arming dwarf wizards),
+and the half-orc's named the wrong two weapons. **Not fixed, and now the top open
+item:** `Sutileza con las armas` does nothing at all — melee attacks always use
+Strength, so the reporter's Dex-built elf is still a point light. The corpus already
+carries the mechanic as a structured `sustituciones` block that no code reads.
+
+---
+
 ### 2026-08-09 — The combat card says where the ranks went
 **Prompt:** quiero ver en qué habilidades hay asignado al menos 1 rango
 **Files affected:** `frontend/src/components/{StatBreakdown,CombatCard}.tsx` and
