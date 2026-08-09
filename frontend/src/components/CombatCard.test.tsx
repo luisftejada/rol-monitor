@@ -68,6 +68,31 @@ describe("CombatCard", () => {
     );
   });
 
+  it("says which skills have ranks in them", async () => {
+    const trained = fighterSheet.skills[0]!;
+    const sheet = {
+      ...fighterSheet,
+      skills: [
+        trained,
+        { ...trained, slug: "acrobacias", name: "Acrobacias", ranks: 0, total: 1 },
+        { ...trained, slug: "montar", name: "Montar", ranks: 1, total: 4 },
+      ],
+    };
+    renderWithProviders(<CombatCard name="Aldous" sheet={sheet} />);
+
+    // The count is part of the row's accessible name, not a colour or a weight.
+    expect(screen.getByRole("button", { name: /Intimidar.*1 rango\b/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Montar.*1 rango\b/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Acrobacias/ })).not.toHaveTextContent("rango");
+  });
+
+  it("pluralises the rank count", () => {
+    const base = fighterSheet.skills[0]!;
+    const sheet = { ...fighterSheet, skills: [{ ...base, ranks: 3 }] };
+    renderWithProviders(<CombatCard name="Aldous" sheet={sheet} />);
+    expect(screen.getByRole("button", { name: /3 rangos/ })).toBeInTheDocument();
+  });
+
   it("shows what a critical feat does to the target on the weapon line", () => {
     renderWithProviders(<CombatCard name="Aldous" sheet={fighterSheet} />);
     // The feat changes no number of yours, so the line carries the prose instead.

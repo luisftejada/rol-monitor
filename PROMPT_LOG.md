@@ -1,5 +1,24 @@
 # Prompt log
 
+### 2026-08-09 — The combat card says where the ranks went
+**Prompt:** quiero ver en qué habilidades hay asignado al menos 1 rango
+**Files affected:** `frontend/src/components/{StatBreakdown,CombatCard}.tsx` and
+tests, `frontend/src/i18n/{index,es}.ts`, `frontend/src/i18n/i18n.test.ts` (new),
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** Fallout from listing all 35 skills: with three dozen rows a bonus alone
+no longer tells you where the ranks went. `ranks` was already on the DTO from the
+previous change, so this is presentation only — `StatBreakdown` grew an optional
+`note` shown beside the label, and a trained row reads "Montar ★ 3 rangos +8". The
+count is *text*, and part of the row's accessible name; the heavier label and the
+rule down the side only help the eye, and the row still reads correctly with both
+stripped. "1 rangos" forced the issue on plurals, so `translate` now understands a
+`singular|plural` template selected by `params.count` — better there than a
+`n === 1 ? … : …` in every component that happens to render a count. `translate` had
+no test of its own despite being shared by everything; it has one now, and the i18n
+module went from 66% branches to 100%.
+
+---
+
 ### 2026-08-09 — Skills show ability, others and total, with the bonuses behind them
 **Prompt:** en habilidades, además de ver la columna de rangos, quiero ver cuál es el
 bonificador final que aplica, y otra columna con bonificador por característica,

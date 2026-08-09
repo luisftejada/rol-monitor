@@ -9,6 +9,12 @@ interface StatBreakdownProps {
   value: string;
   breakdown: BreakdownEntry[];
   suppressed?: SuppressedEntry[];
+  /**
+   * A short qualifier shown beside the label and read as part of it — what makes
+   * this row different from its neighbours. Text rather than styling, so it survives
+   * a screen reader and a monochrome print.
+   */
+  note?: string;
 }
 
 /**
@@ -21,12 +27,13 @@ export function StatBreakdown({
   value,
   breakdown,
   suppressed = [],
+  note,
 }: StatBreakdownProps): React.JSX.Element {
   const [open, setOpen] = useState(false);
   const regionId = useId();
 
   return (
-    <div className="stat">
+    <div className={note ? "stat stat--noted" : "stat"}>
       <button
         type="button"
         className="stat__toggle"
@@ -35,6 +42,7 @@ export function StatBreakdown({
         onClick={() => setOpen((prev) => !prev)}
       >
         <span className="stat__label">{label}</span>
+        {note && <span className="stat__note">{note}</span>}
         <span className="stat__value">{value}</span>
         <span aria-hidden="true">{open ? "▾" : "▸"}</span>
       </button>

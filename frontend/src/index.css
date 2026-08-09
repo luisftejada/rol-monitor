@@ -223,6 +223,21 @@ fieldset label {
   margin-left: auto;
   font-weight: 700;
 }
+/* A row the character actually invested in. The note itself is the signal — the
+   weight and the rule only help the eye find it among three dozen neighbours, and
+   the row still reads correctly with both stripped. */
+.stat__note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.stat--noted .stat__label {
+  color: inherit;
+  font-weight: 600;
+}
+.stat--noted {
+  border-inline-start: 2px solid var(--accent, currentColor);
+}
 .stat__breakdown,
 .stat__suppressed {
   list-style: none;

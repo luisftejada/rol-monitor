@@ -55,6 +55,7 @@ export const es = {
   "sheet.attack.cmb": "BMC con esta línea",
   "sheet.attack.notProficient": "No competente",
   "sheet.skills": "Habilidades",
+  "sheet.skill.ranks": "{count} rango|{count} rangos",
   "sheet.speed": "Velocidad",
   "sheet.speed.feet": "{value} pies",
   "sheet.hp": "Puntos de golpe",

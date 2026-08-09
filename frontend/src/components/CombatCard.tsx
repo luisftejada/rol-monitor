@@ -155,10 +155,13 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
       {sheet.skills.length > 0 && (
         <section className="card__skills">
           <h3>{t("sheet.skills")}</h3>
+          {/* Every skill is listed, so the ones actually trained have to say so:
+              among 35 rows, a bonus alone does not tell you where the ranks went. */}
           {sheet.skills.map((skill) => (
             <StatBreakdown
               key={skill.slug}
               label={`${skill.name}${skill.is_class_skill ? " ★" : ""}`}
+              note={skill.ranks > 0 ? t("sheet.skill.ranks", { count: skill.ranks }) : undefined}
               value={signed(skill.total)}
               breakdown={skill.breakdown}
               suppressed={skill.suppressed}
