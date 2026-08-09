@@ -9,11 +9,13 @@ work stands, and which mistakes already cost time here so they need not cost it 
 ./setup.sh
 ```
 
-Idempotent. It installs Python 3.14 (via pyenv, compiling if needed — a few minutes),
-creates `backend/.venv`, runs `poetry install`, switches to Node 20 via nvm, runs
-`npm ci`, copies `backend/.env` from the example, and applies the migrations.
+Idempotent, and it needs no PATH set up first. It finds or installs Python 3.14 —
+any 3.14.x pyenv already has, else compiling the pinned patch, a few minutes — creates
+`backend/.venv`, runs `poetry install`, finds Node wherever it lives (or fetches it
+with nvm), runs `npm ci`, copies `backend/.env` from the example, and migrates.
 
-It stops with a clear message if Poetry, pyenv or nvm are missing, since installing
+It stops with a clear message if Poetry is missing, or if there is neither a Python
+3.14 nor a pyenv to build one, or neither a Node nor an nvm to fetch one: installing
 those is a decision about the machine, not about this project.
 
 ## 2. Verify
@@ -103,8 +105,11 @@ Roughly in order of value:
   the pinned patch, which otherwise triggers a pointless from-source build.
 - **Node installed outside PATH fails in a way that does not look like PATH.** npm's
   shebang is `env node`, so it reports `node: No such file or directory` even when
-  called by absolute path. `export PATH="$HOME/.local/node/bin:$PATH"` before
-  `setup.sh` if `node --version` comes up empty.
+  called by absolute path. `scripts/node-bin.sh` now finds it — on PATH, under
+  `~/.local/node`, `/usr/local/node`, `/opt/node`, or nvm — and `setup.sh`,
+  `start.sh` and the Makefile all put its answer on PATH themselves. Nothing needs
+  exporting by hand. If a fourth entry point ever shells out to npm, give it the
+  same two lines rather than a note in the README.
 - **Poetry 2.x refuses `poetry env use`** when the interpreter running Poetry is older
   than the project requires. `setup.sh` creates the venv directly instead.
 - **YAML parses `2:` as an int, not a string.** A level filter keyed on

@@ -87,11 +87,17 @@ for port in "${PORTS[@]}"; do
   fi
 done
 
-# The system Node is too old for Vite; use nvm's copy if the current one fails.
-if ! node --version 2>/dev/null | grep -qE '^v(1[89]|[2-9][0-9])'; then
+# Vite needs Node >=18, and the shell that launches this may not have any Node on
+# PATH at all — see scripts/node-bin.sh. nvm is the last resort, not the first.
+if NODE_BIN=$("$ROOT/scripts/node-bin.sh"); then
+  PATH="$NODE_BIN:$PATH"
+elif [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]]; then
   # shellcheck disable=SC1090
   source "${NVM_DIR:-$HOME/.nvm}/nvm.sh"
   nvm use "$NODE_VERSION" >/dev/null
+else
+  echo "No Node >=18 found. Run: ./setup.sh" >&2
+  exit 1
 fi
 
 # --- stop both servers on Ctrl+C --------------------------------------------

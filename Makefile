@@ -4,6 +4,16 @@
 BACKEND  := backend
 FRONTEND := frontend
 
+# Every frontend target shells out to npm, and npm is routinely installed outside
+# the PATH a non-login shell inherits — so find it once and export it to every
+# recipe, rather than making `make check` fail on a machine that has Node.
+# Empty when nothing was found: appending unconditionally would put a bare ""
+# on PATH, which means the current directory.
+NODE_BIN := $(shell ./scripts/node-bin.sh 2>/dev/null)
+ifneq ($(NODE_BIN),)
+export PATH := $(NODE_BIN):$(PATH)
+endif
+
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'

@@ -68,21 +68,25 @@ cd "$ROOT/backend"
 VIRTUAL_ENV="$ROOT/backend/.venv" PATH="$ROOT/backend/.venv/bin:$PATH" poetry install
 
 # --- Node --------------------------------------------------------------------
+# An installed-but-not-on-PATH Node is the common case, and it fails in a way that
+# does not look like a PATH problem: npm's shebang is `env node`, so npm reports
+# "node: No such file or directory" even when invoked by absolute path. So look for
+# one rather than making the reader export PATH before a script whose whole job is
+# to set the machine up.
 say "Node $NODE_VERSION or newer"
-if ! node --version 2>/dev/null | grep -qE '^v(1[89]|[2-9][0-9])'; then
-  # A Node installed outside PATH is the common case here, and it fails in a way
-  # that does not look like a PATH problem: npm's shebang is `env node`, so npm
-  # reports "node: No such file or directory" even when invoked by absolute path.
-  [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]] || fail "Node >=18 is not on PATH and nvm is not installed.
-    If Node is already installed somewhere (say ~/.local/node), put it on PATH and re-run:
-      export PATH=\"\$HOME/.local/node/bin:\$PATH\"
-    Otherwise install Node 20+ and re-run."
+if NODE_BIN=$("$ROOT/scripts/node-bin.sh"); then
+  PATH="$NODE_BIN:$PATH"
+else
+  [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]] \
+    || fail "No Node >=18 found, and nvm is not installed to fetch one.
+    Looked on PATH, in ~/.local/node, /usr/local/node, /opt/node and under nvm.
+    Install Node 20+ (or nvm) and re-run."
   # shellcheck disable=SC1090
   source "${NVM_DIR:-$HOME/.nvm}/nvm.sh"
   nvm install "$NODE_VERSION"
   nvm use "$NODE_VERSION"
 fi
-echo "    using $(node --version)"
+echo "    using $(node --version) from $(dirname "$(command -v node)")"
 
 say "Frontend dependencies"
 cd "$ROOT/frontend"

@@ -17,6 +17,14 @@ for nothing. (3) The Node failure message did not mention PATH, which is the usu
 cause — npm's `env node` shebang makes it report a missing `node` even when called by
 absolute path.
 
+**Follow-up ("¿y no puedes modificar el script para que lo incluya?"):** yes — telling
+the reader to `export PATH` before a script whose job is to set the machine up is not
+a bootstrap. `scripts/node-bin.sh` finds a Node >=18 on PATH, under `~/.local/node`,
+`/usr/local/node`, `/opt/node` or nvm, and prints its directory; `setup.sh`,
+`start.sh` and the **Makefile** each put that on PATH themselves. The Makefile was the
+worst of the three — every `make check` needed a manual export. `make check` now
+passes from a shell with no Node on PATH at all.
+
 ---
 
 ### 2026-08-09 — Armour proficiency becomes a feat; weapons stay prose
