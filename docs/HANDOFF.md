@@ -90,6 +90,21 @@ Roughly in order of value:
 
 ## Traps that already cost time here
 
+- **`make install` is not the bootstrap; `./setup.sh` is.** `make install` runs
+  `poetry install`, which puts the venv wherever Poetry likes — its cache, normally —
+  and leaves `backend/.venv` missing, which is the one thing `start.sh` checks. The
+  symptom is a loop: `start.sh` says dependencies are missing, `poetry install` says
+  there is nothing to install. `start.sh` now names `./setup.sh` in that message.
+- **A `python3.14` on PATH may be a pyenv shim that does not run.** pyenv installs the
+  shim on every machine that has pyenv at all, and it refuses unless 3.14 is the
+  selected version — which it usually is not. `command -v` plus a `-x` test both pass
+  and the interpreter still fails at the first call, so `setup.sh` probes by *running*
+  the candidate. It also accepts any 3.14.x pyenv already has rather than insisting on
+  the pinned patch, which otherwise triggers a pointless from-source build.
+- **Node installed outside PATH fails in a way that does not look like PATH.** npm's
+  shebang is `env node`, so it reports `node: No such file or directory` even when
+  called by absolute path. `export PATH="$HOME/.local/node/bin:$PATH"` before
+  `setup.sh` if `node --version` comes up empty.
 - **Poetry 2.x refuses `poetry env use`** when the interpreter running Poetry is older
   than the project requires. `setup.sh` creates the venv directly instead.
 - **YAML parses `2:` as an int, not a string.** A level filter keyed on

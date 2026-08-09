@@ -1,5 +1,24 @@
 # Prompt log
 
+### 2026-08-09 — The bootstrap works on a machine that has the tools
+**Prompt:** como lo instalo?
+**Files affected:** `setup.sh`, `start.sh`, `docs/HANDOFF.md`, `PROMPT_LOG.md`
+**Summary:** Three bugs on the fresh-clone path, found by watching it fail. (1)
+`start.sh` said "Run: make install", which cannot fix it: `make install` runs
+`poetry install`, whose venv goes to Poetry's cache, leaving `backend/.venv` — the
+thing `start.sh` checks — missing. The result is a loop where the app says
+dependencies are missing and Poetry says there is nothing to install. It now names
+`./setup.sh`, and also checks `backend/.env`, whose absence used to surface later and
+less clearly. (2) `setup.sh` picked `python3.14` off PATH after an existence check,
+but on any machine with pyenv that is a shim which refuses to run unless 3.14 is the
+selected version. It now probes by *running* the candidate, and takes any 3.14.x
+pyenv already has instead of insisting on the pinned patch and building from source
+for nothing. (3) The Node failure message did not mention PATH, which is the usual
+cause — npm's `env node` shebang makes it report a missing `node` even when called by
+absolute path.
+
+---
+
 ### 2026-08-09 — Armour proficiency becomes a feat; weapons stay prose
 **Prompt:** explicame que hay que decidir → ok a tu recomendacion C
 **Files affected:** `backend/data/pathfinder_nucleo.yaml`, `.gitignore`,

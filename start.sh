@@ -7,12 +7,19 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NODE_VERSION=20.11.1
 
 # --- checks -----------------------------------------------------------------
+# `make install` is deliberately not what these suggest: it runs `poetry install`,
+# which puts the venv wherever Poetry likes (its cache, normally) and leaves
+# backend/.venv — the one thing checked here — missing. Only setup.sh creates it.
 if [[ ! -x "$ROOT/backend/.venv/bin/uvicorn" ]]; then
-  echo "Backend dependencies are missing. Run: make install" >&2
+  echo "Backend dependencies are missing (no backend/.venv). Run: ./setup.sh" >&2
   exit 1
 fi
 if [[ ! -d "$ROOT/frontend/node_modules" ]]; then
-  echo "Frontend dependencies are missing. Run: make install" >&2
+  echo "Frontend dependencies are missing. Run: ./setup.sh" >&2
+  exit 1
+fi
+if [[ ! -f "$ROOT/backend/.env" ]]; then
+  echo "backend/.env is missing. Run: ./setup.sh" >&2
   exit 1
 fi
 

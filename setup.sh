@@ -4,6 +4,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+#: Any patch of this series satisfies the project; the pin below is only the one
+#: built from source when the machine has none of them.
+PYTHON_SERIES=3.14
 PYTHON_VERSION=3.14.6
 NODE_VERSION=20.11.1
 
@@ -11,26 +14,47 @@ say()  { printf '\n\033[1m==> %s\033[0m\n' "$1"; }
 fail() { printf '\n\033[31m!!  %s\033[0m\n' "$1" >&2; exit 1; }
 
 # --- Python ------------------------------------------------------------------
-# The project pins >=3.14,<3.15. Distributions rarely ship it yet, so pyenv is the
-# assumed route; anything else is fine as long as `python3.14` is on PATH.
-say "Python $PYTHON_VERSION"
+# The project pins >=3.14,<3.15, so any 3.14.x will do; the pinned patch is only
+# what gets built when the machine has none. Distributions rarely ship 3.14 yet, so
+# pyenv is the assumed route.
+
+# Whether a candidate interpreter exists *and runs* as 3.14. Checking for an
+# executable file is not enough: pyenv installs a `python3.14` shim that is present
+# and executable on every machine that has pyenv at all, and refuses to run unless
+# 3.14 is the selected version — which it usually is not, since nobody makes a
+# barely-released Python their system default.
+usable_python() {
+  [[ -n "${1:-}" ]] && "$1" -c 'import sys; sys.exit(sys.version_info[:2] != (3, 14))' 2>/dev/null
+}
+
+say "Python $PYTHON_SERIES"
 if [[ -x "$ROOT/backend/.venv/bin/python" ]]; then
   echo "    venv already present: $("$ROOT/backend/.venv/bin/python" --version)"
 else
   PY=""
-  if command -v python3.14 >/dev/null 2>&1; then
-    PY=$(command -v python3.14)
+  if usable_python "$(command -v python3.14 || true)"; then
+    PY="$(command -v python3.14)"
   elif command -v pyenv >/dev/null 2>&1; then
-    if [[ ! -x "$(pyenv root)/versions/$PYTHON_VERSION/bin/python" ]]; then
+    # Whatever 3.14.x pyenv already has, newest first, before building another.
+    while read -r version; do
+      candidate="$(pyenv root)/versions/$version/bin/python"
+      if usable_python "$candidate"; then
+        PY="$candidate"
+        break
+      fi
+    done < <(pyenv versions --bare 2>/dev/null | grep -E '^3\.14\.[0-9]+$' | sort -Vr)
+
+    if [[ -z "$PY" ]]; then
       echo "    building $PYTHON_VERSION with pyenv (this takes a few minutes)…"
       # Older pyenv checkouts do not know about 3.14 yet.
       pyenv install --list 2>/dev/null | grep -qE "^\s*$PYTHON_VERSION$" \
         || (cd "$(pyenv root)" && git pull --quiet 2>/dev/null || true)
       pyenv install -s "$PYTHON_VERSION"
+      PY="$(pyenv root)/versions/$PYTHON_VERSION/bin/python"
     fi
-    PY="$(pyenv root)/versions/$PYTHON_VERSION/bin/python"
   fi
-  [[ -x "$PY" ]] || fail "No Python $PYTHON_VERSION found. Install it (pyenv install $PYTHON_VERSION) and re-run."
+  usable_python "$PY" \
+    || fail "No usable Python $PYTHON_SERIES found. Install it (pyenv install $PYTHON_VERSION) and re-run."
 
   echo "    creating backend/.venv with $("$PY" --version)"
   # Poetry 2.x refuses `env use` when the interpreter it is running on is too old,
@@ -46,7 +70,13 @@ VIRTUAL_ENV="$ROOT/backend/.venv" PATH="$ROOT/backend/.venv/bin:$PATH" poetry in
 # --- Node --------------------------------------------------------------------
 say "Node $NODE_VERSION or newer"
 if ! node --version 2>/dev/null | grep -qE '^v(1[89]|[2-9][0-9])'; then
-  [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]] || fail "Node >=18 not found and nvm is not installed. Install Node 20+ and re-run."
+  # A Node installed outside PATH is the common case here, and it fails in a way
+  # that does not look like a PATH problem: npm's shebang is `env node`, so npm
+  # reports "node: No such file or directory" even when invoked by absolute path.
+  [[ -s "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ]] || fail "Node >=18 is not on PATH and nvm is not installed.
+    If Node is already installed somewhere (say ~/.local/node), put it on PATH and re-run:
+      export PATH=\"\$HOME/.local/node/bin:\$PATH\"
+    Otherwise install Node 20+ and re-run."
   # shellcheck disable=SC1090
   source "${NVM_DIR:-$HOME/.nvm}/nvm.sh"
   nvm install "$NODE_VERSION"
