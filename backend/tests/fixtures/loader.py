@@ -80,6 +80,7 @@ def _weapon(raw: dict[str, Any]) -> EquippedWeapon:
         range_increment=raw.get("range_increment"),
         enhancement_bonus=raw.get("enhancement_bonus", 0),
         is_proficient=raw.get("is_proficient", True),
+        allows_finesse=raw.get("allows_finesse", False),
         attack_modifiers=tuple(_modifier(m) for m in raw.get("attack_modifiers", [])),
         damage_modifiers=tuple(_modifier(m) for m in raw.get("damage_modifiers", [])),
     )
@@ -137,6 +138,9 @@ def build_character(data: dict[str, Any]) -> Character:
         conditions=tuple(data.get("conditions", [])),
         stances=Stances(**data.get("stances", {})),
         two_weapon_fighting=TwoWeaponFighting(**data.get("two_weapon_fighting", {})),
+        cmb_uses_dexterity=data.get("cmb_uses_dexterity", False),
+        cmd_uses_hit_dice=data.get("cmd_uses_hit_dice", False),
+        has_weapon_finesse=data.get("has_weapon_finesse", False),
         modifiers=tuple(_modifier(m) for m in data.get("modifiers", [])),
         load=CarryingLoad(**load_raw) if load_raw else None,
     )

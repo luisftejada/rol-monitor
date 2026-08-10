@@ -214,6 +214,21 @@ class FeatModifierDTO(_CatalogModel):
     value: int | str
 
 
+class FeatSubstitutionDTO(_CatalogModel):
+    """One term a feat swaps for another in a derived value.
+
+    Not a bonus: `Sutileza con las armas` does not *add* Dexterity to an attack, it
+    puts Dexterity where Strength would have gone. The stacking engine has no way to
+    say that, so these are read separately (see ``rules/feat_substitutions.py``).
+    """
+
+    #: The derived value being changed (``ataque_cuerpo_a_cuerpo``, ``bmc``, ``dmc``).
+    target: str
+    #: The term that takes over, and the one it displaces.
+    use: str
+    instead_of: str
+
+
 class FeatEffectDTO(_CatalogModel):
     """A feat's mechanical decomposition, gated by an optional condition."""
 
@@ -221,6 +236,8 @@ class FeatEffectDTO(_CatalogModel):
     #: Machine-readable predicate (``ataque_base``, ``rangos_habilidad``, …).
     when: dict[str, object] = {}
     modifiers: list[FeatModifierDTO] = []
+    #: Terms this effect replaces rather than adds to.
+    substitutions: list[FeatSubstitutionDTO] = []
     #: Prose for what is not expressible as a modifier.
     rules: list[str] = []
 

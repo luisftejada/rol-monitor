@@ -62,6 +62,8 @@ export const races: RaceDTO[] = [
     traits: [],
     languages: { inicio: ["común"], adicionales: [] },
     bonus_feats: [{ level: 1, choice: "libre", types: [] }],
+    weapon_proficiencies: [],
+    weapon_words: [],
   },
   {
     slug: "mediano",
@@ -75,6 +77,8 @@ export const races: RaceDTO[] = [
     traits: [],
     languages: { inicio: ["común"], adicionales: [] },
     bonus_feats: [],
+    weapon_proficiencies: ["Honda"],
+    weapon_words: ["mediano", "mediana"],
   },
 ];
 
@@ -151,6 +155,7 @@ export const stanceFeat: FeatDTO = {
       condition: null,
       when: {},
       modifiers: [{ target: "ca", bonus_type: "penalizador", value: -2 }],
+      substitutions: [],
       rules: [],
     },
   ],
@@ -172,6 +177,7 @@ export const feats: FeatDTO[] = [
         condition: null,
         when: {},
         modifiers: [{ target: "ca", bonus_type: "esquiva", value: 1 }],
+        substitutions: [],
         rules: ["Pierdes este bonificador cuando pierdes tu bonificador por Destreza a la CA."],
       },
     ],
@@ -202,6 +208,7 @@ export const feats: FeatDTO[] = [
         condition: null,
         when: {},
         modifiers: [{ target: "ataque_arma_seleccionada", bonus_type: "sin_tipo", value: 1 }],
+        substitutions: [],
         rules: [],
       },
     ],

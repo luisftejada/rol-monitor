@@ -39,6 +39,7 @@ from pf_tracker.domain.modifiers import Modifier
 from pf_tracker.rules.catalog import FeatDTO, list_ref
 from pf_tracker.rules.feat_effects import apply_feats, effect_holds
 from pf_tracker.rules.feat_slots import ClassLevelRef, FeatBudget, build_budget
+from pf_tracker.rules.feat_substitutions import allows_finesse, resolve_substitutions
 from pf_tracker.rules.feat_targets import parse_feat_target
 from pf_tracker.rules.feat_vocabulary import is_scalar_feat_bonus, parse_feat_bonus_type
 from pf_tracker.rules.repository import RuleNotFoundError, RulesRepository
@@ -130,6 +131,9 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
     )
     skills = _skills(character, repo, class_levels, warnings)
     load = _load(character, base_scores, racial, increments, ability_damage, repo)
+    # Feats that replace a term rather than add to one. They cannot travel as
+    # modifiers, so they reach the derivation as flags on the character.
+    swaps = resolve_substitutions(owned_feats)
 
     domain = DomainCharacter(
         name=character.name,
@@ -155,6 +159,9 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
         conditions=conditions,
         stances=_stances(character.stances),
         two_weapon_fighting=_twf(character, repo),
+        cmb_uses_dexterity=swaps.cmb_uses_dexterity,
+        cmd_uses_hit_dice=swaps.cmd_uses_hit_dice,
+        has_weapon_finesse=swaps.melee_attack_uses_dexterity,
         modifiers=modifiers,
         load=load,
     )
@@ -299,6 +306,7 @@ def _weapon(
         "range_increment": item.range_increment,
         "enhancement_bonus": raw.enhancement_bonus,
         "is_proficient": proficient,
+        "allows_finesse": allows_finesse(category=item.category, name=item.name),
         "attack_modifiers": tuple(attack_modifiers),
     }
     if raw.custom_overrides:

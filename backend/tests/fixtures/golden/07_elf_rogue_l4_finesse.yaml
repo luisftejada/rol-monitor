@@ -1,0 +1,56 @@
+name: "Pícaro elfo nivel 4 con sutileza con las armas, maniobras ágiles y escudo ligero"
+# The corner this covers: a feat that *replaces* a term instead of adding to one.
+# Weapon Finesse puts Dexterity where Strength would go on the attack (but not on
+# damage), and the light shield charges its check penalty for the privilege — the
+# clause that makes the choice worth deriving rather than assuming.
+input:
+  size: Mediano
+  base_speed_ft: 30
+  class_levels:
+    - {class_slug: picaro, class_name: Pícaro, level: 4, bab_type: 3/4, hit_die: 8,
+       base_saves: {Fortaleza: 1, Reflejos: 4, Voluntad: 1}}
+  base_ability_scores: {Fue: 12, Des: 18, Con: 12, Int: 14, Sab: 10, Car: 10}
+  racial_ability_modifiers: {Des: 2, Int: 2, Con: -2}   # elf
+  has_weapon_finesse: true
+  cmb_uses_dexterity: true                              # Maniobras ágiles
+  armor: {name: "Cuero", is_shield: false, ac_bonus: 2, max_dex: 6,
+          armor_check_penalty: 0, arcane_spell_failure: 10, category: ligera}
+  shield: {name: "Escudo ligero de acero", is_shield: true, ac_bonus: 1, max_dex: null,
+           armor_check_penalty: -1, arcane_spell_failure: 5, category: escudo}
+  weapons:
+    # Covered by the feat although it is not a light weapon: the feat names it.
+    - {name: "Espada ropera", wield: one_handed, is_ranged: false, threat_range: 18,
+       crit_multiplier: 2, damage_dice: "1d6", damage_type: Per, allows_finesse: true}
+    # Not covered, so it stays on Strength even though the character has the feat.
+    - {name: "Mandoble", wield: two_handed, is_ranged: false, threat_range: 19,
+       crit_multiplier: 2, damage_dice: "2d6", damage_type: Cor}
+  max_hp: 26
+  current_hp: 26
+  skills:
+    - {slug: acrobacias, name: Acrobacias, ability: Des, ranks: 4, is_class_skill: true,
+       uses_armor_check_penalty: true}
+    - {slug: percepcion, name: Percepción, ability: Sab, ranks: 4, is_class_skill: true}
+expected:
+  abilities:
+    Fue: {score: 12, modifier: 1}
+    Des: {score: 20, modifier: 5}
+    Con: {score: 10, modifier: 0}
+    Int: {score: 16, modifier: 3}
+  # 10 + leather 2 + shield 1 + Dex 5 (cap 6 does not bind)
+  ac: {total: 18, touch: 15, flat_footed: 13, cap_binds: false}
+  bab: {total: 3, iteratives: [3]}
+  saves: {Fortaleza: 1, Reflejos: 9, Voluntad: 1}
+  initiative: 5
+  cmb: 8            # BAB 3 + Dex 5, Strength replaced by Maniobras ágiles
+  cmd: 19           # 10 + BAB 3 + Str 1 + Dex 5; the feat says CMD is unaffected
+  attacks:
+    # Dex 5 - 1 shield = 4 beats Str 1, so the rapier finesses and pays the penalty.
+    - {weapon: "Espada ropera", line: "+7", damage: "1d6+1"}
+    # No finesse here: BAB 3 + Str 1, and two-handed Strength damage is 1.5x rounded down.
+    - {weapon: "Mandoble", line: "+4", damage: "2d6+1"}
+  skills:
+    acrobacias: 11   # 4 ranks + Dex 5 + 3 class - 1 ACP
+    percepcion: 7    # 4 ranks + Sab 0 + 3 class
+  armor_check_penalty: -1
+  arcane_spell_failure: 15
+  speed: 30

@@ -27,6 +27,7 @@ from pf_tracker.rules.catalog import (
     FeatEffectDTO,
     FeatModifierDTO,
     FeatSlotDTO,
+    FeatSubstitutionDTO,
     MetaDTO,
     RaceDTO,
     SizeDTO,
@@ -526,6 +527,10 @@ def _feat_effect(raw: dict[str, Any]) -> FeatEffectDTO:
         modifiers=[
             FeatModifierDTO(target=m["objetivo"], bonus_type=m["tipo"], value=m["valor"])
             for m in raw.get("modificadores") or []
+        ],
+        substitutions=[
+            FeatSubstitutionDTO(target=s["en"], use=s["usar"], instead_of=s["en_lugar_de"])
+            for s in raw.get("sustituciones") or []
         ],
         rules=list(raw.get("reglas") or []),
     )

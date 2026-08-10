@@ -381,10 +381,17 @@ def derive_cmb(
     the character having to carry a penalty it is not currently paying.
     """
     size = SIZE_CMB_CMD_MOD[character.size]
+    # `Maniobras ágiles` swaps which ability feeds CMB. It is unconditional — unlike
+    # Weapon Finesse there is no weapon to qualify and no shield clause — so it
+    # applies as stated rather than as the better of the two.
+    cmb_ability = Ability.DEX if character.cmb_uses_dexterity else Ability.STR
     mods = [
         _struct(ModifierTarget.CMB.value, bab, "Ataque base", SourceKind.BASE),
         _struct(
-            ModifierTarget.CMB.value, abilities[Ability.STR].modifier, "Fuerza", SourceKind.ABILITY
+            ModifierTarget.CMB.value,
+            abilities[cmb_ability].modifier,
+            cmb_ability.label,
+            SourceKind.ABILITY,
         ),
     ]
     if size:
@@ -401,9 +408,16 @@ def derive_cmd(
     general_pool: list[Modifier],
 ) -> ResolvedValue:
     size = SIZE_CMB_CMD_MOD[character.size]
+    # `Entrenamiento en combate defensivo` counts Hit Dice here instead of base
+    # attack, which is what makes it worth taking for a caster. It says explicitly
+    # that CMB is unaffected, so the swap lives in this function only.
+    if character.cmd_uses_hit_dice:
+        attack_term, attack_label = character.total_level, "Dados de Golpe"
+    else:
+        attack_term, attack_label = bab, "Ataque base"
     mods = [
         _struct(ModifierTarget.CMD.value, 10, "base", SourceKind.BASE),
-        _struct(ModifierTarget.CMD.value, bab, "Ataque base", SourceKind.BASE),
+        _struct(ModifierTarget.CMD.value, attack_term, attack_label, SourceKind.BASE),
         _struct(
             ModifierTarget.CMD.value, abilities[Ability.STR].modifier, "Fuerza", SourceKind.ABILITY
         ),
@@ -474,6 +488,26 @@ def _damage_expression(dice: str | None, total: int, factor: int) -> str | None:
     return f"{rolled}{total:+d}" if total else rolled
 
 
+def _finesse_choice(
+    character: Character, abilities: dict[Ability, AbilityScoreResult]
+) -> tuple[Ability, int]:
+    """Which ability a finessable weapon should attack with, and what it costs.
+
+    Weapon Finesse says you *may* use Dexterity, so the sheet shows the better of the
+    two rather than assuming the feat is always taken up — a Strength build who took
+    it for one weapon should not see their good attacks get worse.
+
+    The comparison is not just the two modifiers: using Dexterity applies a carried
+    shield's check penalty to the attack, which is enough to make Strength the better
+    choice at equal ability scores.
+    """
+    shield_penalty = character.shield.armor_check_penalty if character.shield is not None else 0
+    with_dex = abilities[Ability.DEX].modifier + shield_penalty
+    if with_dex > abilities[Ability.STR].modifier:
+        return Ability.DEX, shield_penalty
+    return Ability.STR, 0
+
+
 def _attack_routine(
     character: Character,
     weapon: EquippedWeapon,
@@ -489,6 +523,9 @@ def _attack_routine(
         ModifierTarget.DAMAGE_RANGED.value if is_ranged else ModifierTarget.DAMAGE_MELEE.value
     )
     hit_ability = Ability.DEX if is_ranged else Ability.STR
+    finesse_shield_penalty = 0
+    if not is_ranged and character.has_weapon_finesse and weapon.allows_finesse:
+        hit_ability, finesse_shield_penalty = _finesse_choice(character, abilities)
 
     atk_mods: list[Modifier] = [
         _struct(atk_target, bab.total, "Ataque base", SourceKind.BASE),
@@ -499,6 +536,17 @@ def _attack_routine(
             SourceKind.ABILITY,
         ),
     ]
+    if finesse_shield_penalty:
+        # The price of the swap, stated by the feat: "si llevas escudo, su penalizador
+        # por armadura se aplica a tus tiradas de ataque".
+        atk_mods.append(
+            _struct(
+                atk_target,
+                finesse_shield_penalty,
+                "Escudo (Sutileza con las armas)",
+                SourceKind.ARMOR,
+            )
+        )
     size_mod = SIZE_AC_ATTACK_MOD[character.size]
     if size_mod:
         atk_mods.append(Modifier(atk_target, size_mod, BonusType.SIZE, "Tamaño", SourceKind.SIZE))

@@ -89,6 +89,10 @@ class EquippedWeapon:
     #: Vital Strike trades the iteratives for extra dice on one blow, so showing
     #: "+20/+15/+10/+5" beside its damage would advertise four of them.
     single_attack: bool = False
+    #: Whether Weapon Finesse covers this weapon — light, or one of the four the feat
+    #: names. It is a *permission*, not a decision: damage still uses Strength, and
+    #: the derivation picks whichever ability actually comes out ahead.
+    allows_finesse: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -178,6 +182,19 @@ class Character:
     conditions: tuple[str, ...] = ()
     stances: Stances = field(default_factory=Stances)
     two_weapon_fighting: TwoWeaponFighting = field(default_factory=TwoWeaponFighting)
+
+    #: Terms a feat replaces rather than adds to. These are not modifiers — the
+    #: stacking engine adds to a total, it cannot swap out one of its terms — so they
+    #: arrive as flags the derivation reads. See ``rules/feat_substitutions.py``.
+    #: `Maniobras ágiles`: CMB counts Dexterity where it would count Strength.
+    cmb_uses_dexterity: bool = False
+    #: `Entrenamiento en combate defensivo`: CMD counts total Hit Dice where it would
+    #: count base attack bonus. It says explicitly that CMB is unaffected.
+    cmd_uses_hit_dice: bool = False
+    #: `Sutileza con las armas`: melee attacks may use Dexterity, on weapons that
+    #: allow it. Held on the character because the feat is the character's; whether a
+    #: given line can take it up is the weapon's ``allows_finesse``.
+    has_weapon_finesse: bool = False
 
     #: External modifiers (feats, race traits, spells, items, manual ad-hoc).
     modifiers: tuple[Modifier, ...] = ()

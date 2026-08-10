@@ -524,6 +524,50 @@ def test_a_dwarf_is_not_simply_given_their_exotic_weapons(
     )
 
 
+def test_weapon_finesse_reaches_the_weapon_it_covers(rules_repository: RulesRepository) -> None:
+    """The reported build: an elf who took the feat for an elven curve blade. The
+    weapon carries the permission; the character carries the feat."""
+    result = _assemble(
+        rules_repository,
+        race="elfo",
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        base_scores={"Fue": 16, "Des": 18, "Con": 10, "Int": 12, "Sab": 10, "Car": 8},
+        feats=["Sutileza con las armas"],
+        weapons=[EquippedWeaponIn(catalog_name="Espada curva élfica", wielding="two_handed")],
+    )
+    assert result.character.has_weapon_finesse
+    assert result.character.weapons[0].allows_finesse
+
+
+def test_a_weapon_outside_the_feats_list_carries_no_permission(
+    rules_repository: RulesRepository,
+) -> None:
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        feats=["Sutileza con las armas"],
+        weapons=[
+            EquippedWeaponIn(catalog_name="Daga", wielding="one_handed"),
+            EquippedWeaponIn(catalog_name="Mandoble", wielding="two_handed"),
+        ],
+    )
+    by_name = {w.name: w for w in result.character.weapons}
+    assert by_name["Daga"].allows_finesse  # light
+    assert not by_name["Mandoble"].allows_finesse
+
+
+def test_the_other_two_substitutions_reach_the_character(
+    rules_repository: RulesRepository,
+) -> None:
+    agile = _assemble(rules_repository, feats=["Maniobras ágiles"])
+    assert agile.character.cmb_uses_dexterity
+    assert not agile.character.cmd_uses_hit_dice
+
+    defensive = _assemble(rules_repository, feats=["Entrenamiento en combate defensivo"])
+    assert defensive.character.cmd_uses_hit_dice
+    assert not defensive.character.cmb_uses_dexterity
+
+
 def test_every_catalog_skill_reaches_the_sheet(rules_repository: RulesRepository) -> None:
     """A sheet lists all 35: the GM rolls Percepción at 0 ranks constantly, and the
     editor needs an ability modifier per row that TypeScript is not allowed to

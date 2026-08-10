@@ -27,6 +27,7 @@ from pf_tracker.domain.models import (
     CarryingLoad,
     Character,
     ClassLevel,
+    EquippedArmor,
     EquippedWeapon,
     SkillState,
     Stances,
@@ -141,6 +142,110 @@ def test_a_line_that_does_not_touch_cmb_reports_none() -> None:
     )
     sheet = derive_combat_sheet(_character(weapons=(weapon,)))
     assert sheet.attacks[0].cmb is None
+
+
+def _finesse_weapon(name: str = "Espada ropera") -> EquippedWeapon:
+    return EquippedWeapon(
+        name,
+        Wield.ONE_HANDED,
+        is_ranged=False,
+        threat_range=18,
+        crit_multiplier=2,
+        damage_dice="1d6",
+        allows_finesse=True,
+    )
+
+
+def test_weapon_finesse_attacks_with_dexterity_and_still_damages_with_strength() -> None:
+    """The reported gap: melee always used Strength, so the feat did nothing at all.
+    Dex 16 (+3) beats Str 14 (+2) to hit; damage is untouched, as the corpus says."""
+    character = _character(weapons=(_finesse_weapon(),), has_weapon_finesse=True)
+    routine = derive_combat_sheet(character).attacks[0]
+
+    assert ("Destreza", 3) in [(m.source, m.value) for m in routine.attack_breakdown.applied]
+    assert "Fuerza" not in [m.source for m in routine.attack_breakdown.applied]
+    # BAB 6 + Dex 3 -> +9/+4, where Strength would have given +8/+3.
+    assert routine.attack_line == "+9/+4"
+    assert ("Fuerza", 2) in [(m.source, m.value) for m in routine.damage_breakdown.applied]
+
+
+def test_weapon_finesse_never_makes_an_attack_worse() -> None:
+    """The feat says you *may* use Dexterity. A Strength build who took it for one
+    weapon must not find their good attacks downgraded."""
+    character = _character(
+        weapons=(_finesse_weapon(),),
+        has_weapon_finesse=True,
+        base_ability_scores={Ability.STR: 20, Ability.DEX: 12, Ability.CON: 12},
+    )
+    routine = derive_combat_sheet(character).attacks[0]
+    assert ("Fuerza", 5) in [(m.source, m.value) for m in routine.attack_breakdown.applied]
+
+
+def test_weapon_finesse_leaves_weapons_it_does_not_cover_alone() -> None:
+    greatsword = EquippedWeapon(
+        "Mandoble", Wield.TWO_HANDED, is_ranged=False, threat_range=19, crit_multiplier=2
+    )
+    character = _character(weapons=(greatsword,), has_weapon_finesse=True)
+    routine = derive_combat_sheet(character).attacks[0]
+    assert "Fuerza" in [m.source for m in routine.attack_breakdown.applied]
+
+
+def test_a_shield_is_the_price_of_finessing() -> None:
+    """ "Si llevas escudo, su penalizador por armadura se aplica a tus tiradas de
+    ataque." With a big enough penalty that makes Strength the better line again."""
+    light = EquippedArmor(
+        name="Escudo ligero de acero",
+        is_shield=True,
+        ac_bonus=1,
+        max_dex=None,
+        armor_check_penalty=-1,
+        arcane_spell_failure=5,
+        category="escudo",
+    )
+    # Dex 3 - 1 = 2 still beats Str 2? No: the tie goes to Strength, which costs
+    # nothing. Drop Dexterity by one more and the shield decides it outright.
+    character = _character(weapons=(_finesse_weapon(),), has_weapon_finesse=True, shield=light)
+    applied = derive_combat_sheet(character).attacks[0].attack_breakdown.applied
+    assert ("Fuerza", 2) in [(m.source, m.value) for m in applied]
+
+    # With a shield light enough to keep Dexterity ahead, the penalty is charged and
+    # shown rather than quietly folded into the total.
+    heavy_dex = _character(
+        weapons=(_finesse_weapon(),),
+        has_weapon_finesse=True,
+        shield=light,
+        base_ability_scores={Ability.STR: 10, Ability.DEX: 18, Ability.CON: 12},
+    )
+    applied = derive_combat_sheet(heavy_dex).attacks[0].attack_breakdown.applied
+    assert ("Destreza", 4) in [(m.source, m.value) for m in applied]
+    assert ("Escudo (Sutileza con las armas)", -1) in [(m.source, m.value) for m in applied]
+
+
+def test_agile_maneuvers_swaps_the_ability_behind_cmb_only() -> None:
+    """Unlike Weapon Finesse there is no weapon to qualify and no shield clause, so
+    it applies as stated rather than as the better of the two."""
+    plain = derive_combat_sheet(_character())
+    agile = derive_combat_sheet(_character(cmb_uses_dexterity=True))
+
+    assert ("Fuerza", 2) in [(m.source, m.value) for m in plain.cmb.applied]
+    assert ("Destreza", 3) in [(m.source, m.value) for m in agile.cmb.applied]
+    # "No afecta a tu DMC": CMD still counts Strength *and* Dexterity as it always did.
+    assert agile.cmd.total == plain.cmd.total
+
+
+def test_defensive_combat_training_counts_hit_dice_for_cmd_only() -> None:
+    """Worth taking precisely when base attack lags behind level, so the test uses a
+    half-progression class where the two differ."""
+    wizard = ClassLevel("mago", "Mago", 8, BabProgression.HALF, 6, _SAVES)
+    plain = derive_combat_sheet(_character(class_levels=(wizard,)))
+    trained = derive_combat_sheet(_character(class_levels=(wizard,), cmd_uses_hit_dice=True))
+
+    # BAB 4 at level 8, so the swap is worth four points.
+    assert ("Ataque base", 4) in [(m.source, m.value) for m in plain.cmd.applied]
+    assert ("Dados de Golpe", 8) in [(m.source, m.value) for m in trained.cmd.applied]
+    assert trained.cmd.total == plain.cmd.total + 4
+    # "No afecta a tu BMC ni a tus tiradas de ataque."
+    assert trained.cmb.total == plain.cmb.total
 
 
 def test_a_skill_splits_into_ranks_ability_and_everything_else() -> None:

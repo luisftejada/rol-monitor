@@ -1397,6 +1397,11 @@ export interface components {
        */
       modifiers: components["schemas"]["FeatModifierDTO"][];
       /**
+       * Substitutions
+       * @default []
+       */
+      substitutions: components["schemas"]["FeatSubstitutionDTO"][];
+      /**
        * Rules
        * @default []
        */
@@ -1468,6 +1473,22 @@ export interface components {
       feat?: string | null;
       /** Note */
       note?: string | null;
+    };
+    /**
+     * FeatSubstitutionDTO
+     * @description One term a feat swaps for another in a derived value.
+     *
+     *     Not a bonus: `Sutileza con las armas` does not *add* Dexterity to an attack, it
+     *     puts Dexterity where Strength would have gone. The stacking engine has no way to
+     *     say that, so these are read separately (see ``rules/feat_substitutions.py``).
+     */
+    FeatSubstitutionDTO: {
+      /** Target */
+      target: string;
+      /** Use */
+      use: string;
+      /** Instead Of */
+      instead_of: string;
     };
     /** HTTPValidationError */
     HTTPValidationError: {
@@ -1620,6 +1641,16 @@ export interface components {
        * @default []
        */
       bonus_feats: components["schemas"]["FeatSlotDTO"][];
+      /**
+       * Weapon Proficiencies
+       * @default []
+       */
+      weapon_proficiencies: string[];
+      /**
+       * Weapon Words
+       * @default []
+       */
+      weapon_words: string[];
     };
     /** SizeDTO */
     SizeDTO: {

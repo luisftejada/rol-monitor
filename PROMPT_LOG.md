@@ -1,5 +1,38 @@
 # Prompt log
 
+### 2026-08-10 — Feats that replace a term instead of adding one
+**Prompt:** si, dale
+**Files affected:** `backend/src/pf_tracker/rules/feat_substitutions.py` (new),
+`backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_feat_substitutions.py` (new),
+`backend/tests/unit/domain/test_derivation_extra.py`,
+`backend/tests/unit/services/test_assembler.py`,
+`backend/tests/fixtures/{loader.py,golden/07_elf_rogue_l4_finesse.yaml}` (new),
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/test/catalog.ts`, `docs/{assumptions,HANDOFF}.md`, `PROMPT_LOG.md`
+**Summary:** The `sustituciones` block had sat unread since the corpus was written,
+so `Sutileza con las armas`, `Maniobras ágiles` and `Entrenamiento en combate
+defensivo` did nothing at all — melee attacks always used Strength. These are not
+bonuses: they change *which* number feeds a formula, which the stacking engine cannot
+express, so they resolve to flags the derivation reads. Finesse shows the **better**
+of Dexterity and Strength, because the feat is permission rather than obligation and
+a carried shield charges its check penalty for taking it up — enough to flip the
+choice back at equal scores. Damage stays on Strength. Coverage is by weapon: light,
+unarmed, or one of the four the feat names, none of which is light. Each feat's prose
+bounds the other two ("no afecta a tu DMC") and the tests quote those lines. A new
+golden fixture computes the whole sheet by hand for the corner. The vocabulary is
+listed exhaustively with a contract test, so a fourth substitution fails loudly
+rather than silently doing nothing — which is exactly how this one hid.
+
+Caught while doing it: the previous commit changed `RaceDTO` without running
+`make gen-api`, so the committed TS types had drifted from the API. Nothing fails
+when you skip it, and `openapi.json` is gitignored, so `git status` says nothing
+either — noted in the traps.
+
+---
+
 ### 2026-08-09 — Racial weapon familiarity
 **Prompt:** tengo un personaje élfico, con dote sutileza con las armas. al elegir
 espada curva élfica, indica que no es competente con esta espada… sin embargo es

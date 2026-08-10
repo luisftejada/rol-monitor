@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **403 backend tests, 110 frontend tests**, coverage 96%+
+Everything should be green: **434 backend tests, 110 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -67,6 +67,12 @@ total split into ranks, ability and everything else. The editor shows the four c
 and explains the last one on hover; the split is guaranteed by the backend to sum, so
 the frontend adds up nothing.
 
+Three feats *replace* a term rather than adding to one — Weapon Finesse, Agile
+Maneuvers, Defensive Combat Training. The stacking engine cannot express that, so they
+arrive as flags (`rules/feat_substitutions.py`). Finesse shows the better of Dexterity
+and Strength, since the feat is permission rather than obligation and a shield charges
+its check penalty for taking it up.
+
 An attack line carries a CMB of its own when the way of attacking costs one —
 `Ataque poderoso` penalises combat manoeuvres as well as attacks — so the sheet's
 CMB stays what you have when that line is not in use.
@@ -84,21 +90,13 @@ Roughly in order of value:
    they wait on their own subsystems; a schema is proposed but **not applied** in
    `docs/corpus/DISENO_dominios_talentos.md`. The `opcion` key added for the dragon
    disciple is the mechanism for pointing at one branch of an existing list.
-2. **Weapon Finesse does nothing.** `hit_ability` is Strength for every melee weapon,
-   so `Sutileza con las armas`, `Maniobras ágiles` and `Entrenamiento en combate
-   defensivo` are inert — a Dex-built character's attack line is simply wrong. The
-   corpus already states the mechanic structurally, as a `sustituciones` block
-   (`en: ataque_cuerpo_a_cuerpo, usar: modificador_destreza, en_lugar_de:
-   modificador_fuerza`) that nothing reads; those three feats are the only users. It
-   needs a substitution pass before the modifiers are resolved, plus the weapon
-   predicate ("light, rapier, whip, elven curve blade or spiked chain").
-3. **Armour proficiency is granted but never checked.** The five feats now exist on
+2. **Armour proficiency is granted but never checked.** The five feats now exist on
    the character, and `_is_proficient` only ever asks about weapons — wearing plate
    as a wizard costs nothing. Deriving the penalty (armour check to attacks, and to
    every skill involving movement) is the next thing those feats unlock.
-4. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
+3. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
    the weapon picker is built, because the engine acts on nothing else yet.
-5. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
+4. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
    the *union* of all branches, which is wider than the truth, because the sheet does
    not model the choice. The corpus caveat is shown alongside. `opcion` is how a slot
    pins one branch once the sheet can say which it is.
@@ -145,7 +143,13 @@ Roughly in order of value:
   different timer, and the file-level one was never the one being hit.
 - **Generated types are generated.** After changing a DTO run `make gen-api`; do not
   hand-edit `frontend/src/api/schema.ts`. Typed test fixtures will fail to compile
-  until they carry the new field, which is the mechanism working as intended.
+  until they carry the new field, which is the mechanism working as intended — and
+  the reason to run it in the *same* commit as the DTO change. Skipping it does not
+  fail the gate: nothing compares the schema to the app, so the two simply drift and
+  the next person's unrelated `gen-api` inherits the breakage. `openapi.json` is
+  gitignored, so `git status` will not remind you either. Also run `npx prettier
+  --write src/api/schema.ts` after: the generator emits four-space indent and the
+  repo is formatted at two.
 
 ## Conventions worth re-reading
 
