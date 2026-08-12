@@ -120,7 +120,11 @@ Roughly in order of value:
   `~/.local/node`, `/usr/local/node`, `/opt/node`, or nvm — and `setup.sh`,
   `start.sh` and the Makefile all put its answer on PATH themselves. Nothing needs
   exporting by hand. If a fourth entry point ever shells out to npm, give it the
-  same two lines rather than a note in the README.
+  same two lines rather than a note in the README. Its nvm search used to be
+  `find -maxdepth 2`, one level too shallow for nvm's real layout
+  (`nvm_root/vX.Y.Z/bin/node` is three levels down) — it silently found nothing and
+  looked identical to "no nvm installs" until a machine had no other Node on PATH
+  at all. `scripts/node-bin.test.sh` (`make test-scripts`) regression-tests this.
 - **Poetry 2.x refuses `poetry env use`** when the interpreter running Poetry is older
   than the project requires. `setup.sh` creates the venv directly instead. The same
   refusal shows up on any bare `poetry run …`/`poetry install` when the shell's

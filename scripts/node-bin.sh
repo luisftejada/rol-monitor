@@ -44,11 +44,13 @@ done
 
 # 3. nvm, newest first. Reading the directory beats sourcing nvm.sh: it is fast,
 #    and it works when this script is not running under bash as a login shell.
+#    Depth 3: nvm_root/vX.Y.Z/bin/node — depth 2 only reaches nvm_root/vX.Y.Z and
+#    silently finds nothing, which is indistinguishable from "no nvm installs".
 nvm_root="${NVM_DIR:-$HOME/.nvm}/versions/node"
 if [[ -d $nvm_root ]]; then
   while read -r candidate; do
     usable "$candidate" && emit "$candidate"
-  done < <(find "$nvm_root" -maxdepth 2 -name node -type f 2>/dev/null | sort -Vr)
+  done < <(find "$nvm_root" -maxdepth 3 -name node -type f 2>/dev/null | sort -Vr)
 fi
 
 exit 1

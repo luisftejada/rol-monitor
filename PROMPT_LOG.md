@@ -1,5 +1,25 @@
 # Prompt log
 
+### 2026-08-12 — Fix node-bin.sh's nvm depth bug, with a regression test
+**Prompt:** Fix the `scripts/node-bin.sh` bug found while verifying the pending
+editor work (its nvm fallback used `find -maxdepth 2`, one level too shallow to
+ever reach `nvm_root/vX.Y.Z/bin/node`), with a test.
+**Files affected:** `scripts/node-bin.sh`, `scripts/node-bin.test.sh` (new),
+`Makefile`, `docs/HANDOFF.md`.
+**Summary:** Changed the nvm search from `-maxdepth 2` to `-maxdepth 3` — nvm's
+real layout is `nvm_root/vX.Y.Z/bin/node`, three levels down, so depth 2 silently
+matched nothing and was indistinguishable from "no nvm installs", which is how it
+went unnoticed. There is no shell-test framework in the repo, so
+`scripts/node-bin.test.sh` is a small self-contained bash harness: it isolates each
+case with a scratch `HOME`/`NVM_DIR` and a `PATH` that cannot see a real Node, uses
+fake `node` stubs that only answer `--version`, and reproduces the bug against the
+unfixed script before confirming the fix (three levels deep is found; newest-usable
+selection and the too-old/no-match cases still behave). Wired it into `make
+check` as a new `test-scripts` step, since nothing was exercising this script at
+all before. Noted the fix in `docs/HANDOFF.md`'s traps section.
+
+---
+
 ### 2026-08-12 — Verify the pending editor work and fix the bootstrap gap that blocked it
 **Prompt:** Continue from where the previous session left off: verify that the
 uncommitted equipment/skills/saves editor changes are still green before doing
@@ -22,7 +42,6 @@ display, skills characteristic column, saves card + combat stats in the editor) 
 verified and ready to commit; nothing in them changed.
 
 ---
-
 
 ### 2026-08-10 — Feats that replace a term instead of adding one
 **Prompt:** si, dale
@@ -876,7 +895,6 @@ prettier pass.
 
 ---
 
-
 ### 2026-08-11 — Show armor/shield AC bonus and penalties in the equipment section
 **Prompt:** In the character editor's equipment section, both the Armadura and
 Escudo pickers need to reflect the item's AC bonus and its negative modifiers
@@ -894,7 +912,6 @@ existing tests that selected an armor/shield option by exact accessible name, si
 the option's name now includes its hint text.
 
 ---
-
 
 ### 2026-08-11 — Move derived combat figures into the editor's own section cards
 **Prompt:** In the character editor form (not the read-only combat-sheet preview),

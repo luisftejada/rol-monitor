@@ -65,4 +65,7 @@ gen-api: ## Regenerate the frontend API types from the backend OpenAPI schema
 	cd $(BACKEND) && poetry run python -c "import json; from pf_tracker.main import create_app; print(json.dumps(create_app().openapi()))" > openapi.json
 	cd $(FRONTEND) && npm run gen:api
 
-check: lint format-check typecheck coverage ## Run the full CI gate locally (mirrors .github/workflows/ci.yml)
+test-scripts: ## Regression-test the bootstrap helper scripts (bash, no framework)
+	./scripts/node-bin.test.sh
+
+check: lint format-check typecheck coverage test-scripts ## Run the full CI gate locally (mirrors .github/workflows/ci.yml)
