@@ -1,5 +1,29 @@
 # Prompt log
 
+### 2026-08-12 — Verify the pending editor work and fix the bootstrap gap that blocked it
+**Prompt:** Continue from where the previous session left off: verify that the
+uncommitted equipment/skills/saves editor changes are still green before doing
+anything else with them.
+**Files affected:** `docs/HANDOFF.md`
+**Summary:** `make check` failed outright in this environment before any real work
+could continue: Poetry refused every command because the shell's active interpreter
+was 3.11.8 while `backend/.venv` already had 3.14.6 sitting unused (fixed by
+exporting `VIRTUAL_ENV`/`PATH` the same way `setup.sh` already does — nothing in the
+repo changed), and `node` on PATH was v14.19 with `scripts/node-bin.sh`'s nvm
+fallback silently returning nothing. That fallback is a real, separate bug — its
+`find -maxdepth 2` can never reach `<version>/bin/node`, which sits three levels
+under `nvm_root`, not two — left unfixed here and flagged for the owner rather than
+touched without being asked. Once a working Node was put on PATH by hand, the full
+gate passed clean: 434 backend tests, 119 frontend tests, ruff, mypy --strict,
+eslint, prettier, coverage 96.94% overall / 98% on `domain/`. Corrected
+`docs/HANDOFF.md`'s stale test count (110 → 119 frontend) to match. The three
+uncommitted batches of editor work from the previous session (equipment AC/penalty
+display, skills characteristic column, saves card + combat stats in the editor) are
+verified and ready to commit; nothing in them changed.
+
+---
+
+
 ### 2026-08-10 — Feats that replace a term instead of adding one
 **Prompt:** si, dale
 **Files affected:** `backend/src/pf_tracker/rules/feat_substitutions.py` (new),

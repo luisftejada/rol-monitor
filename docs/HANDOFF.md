@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **434 backend tests, 110 frontend tests**, coverage 96%+
+Everything should be green: **434 backend tests, 119 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -122,7 +122,11 @@ Roughly in order of value:
   exporting by hand. If a fourth entry point ever shells out to npm, give it the
   same two lines rather than a note in the README.
 - **Poetry 2.x refuses `poetry env use`** when the interpreter running Poetry is older
-  than the project requires. `setup.sh` creates the venv directly instead.
+  than the project requires. `setup.sh` creates the venv directly instead. The same
+  refusal shows up on any bare `poetry run …`/`poetry install` when the shell's
+  active interpreter (not the project's) is too old: export `VIRTUAL_ENV` and put
+  `backend/.venv/bin` first on `PATH`, the same trick `setup.sh` already uses,
+  rather than fighting `poetry env use`.
 - **YAML parses `2:` as an int, not a string.** A level filter keyed on
   `key.isdigit()` silently never fires and returns every level at once.
 - **Rules-catalog responses are ETagged from the corpus bytes *and* a fingerprint of
