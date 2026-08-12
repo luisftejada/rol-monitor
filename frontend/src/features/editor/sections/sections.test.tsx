@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 
-import type { CharacterCreate } from "@/api/types";
+import type { ACDTO, CharacterCreate } from "@/api/types";
 import { ClassesSection } from "@/features/editor/sections/ClassesSection";
 import { EquipmentSection } from "@/features/editor/sections/EquipmentSection";
 import { IdentitySection } from "@/features/editor/sections/IdentitySection";
@@ -108,9 +108,9 @@ describe("ClassesSection", () => {
 });
 
 describe("EquipmentSection", () => {
-  function EquipmentHost() {
+  function EquipmentHost({ ac }: { ac?: ACDTO } = {}) {
     const { draft, patch } = useDraft();
-    return <EquipmentSection draft={draft} patch={patch} />;
+    return <EquipmentSection draft={draft} patch={patch} ac={ac} />;
   }
 
   /** The browsable list of weapons matching the current filters. */
@@ -139,6 +139,24 @@ describe("EquipmentSection", () => {
     await waitFor(() =>
       expect(within(weapons).queryByText("Espada larga")).not.toBeInTheDocument(),
     );
+  });
+
+  it("shows the total AC next to the armor picker, from the derived values", async () => {
+    const ac: ACDTO = {
+      total: 18,
+      touch: 12,
+      flat_footed: 16,
+      max_dex_cap: null,
+      breakdown: [{ label: "Cota de escamas", value: 5, type: "armadura", source: "armor" }],
+      suppressed: [],
+    };
+    renderWithProviders(<EquipmentHost ac={ac} />);
+    expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("18");
+  });
+
+  it("shows a placeholder for the total AC until derivation arrives", async () => {
+    renderWithProviders(<EquipmentHost />);
+    expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("—");
   });
 
   it("shows the armor's AC bonus, Dex cap, and check penalty once equipped", async () => {

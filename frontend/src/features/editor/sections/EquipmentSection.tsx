@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import type { ArmorDTO, CharacterCreate, EquippedWeaponIn, WeaponDTO } from "@/api/types";
+import type { ACDTO, ArmorDTO, CharacterCreate, EquippedWeaponIn, WeaponDTO } from "@/api/types";
 import { Combobox } from "@/components/Combobox";
 import { Modal } from "@/components/Modal";
+import { StatBreakdown } from "@/components/StatBreakdown";
 import { useArmor, useWeapons } from "@/hooks/useRules";
 import { t } from "@/i18n";
 import { signed } from "@/lib/format";
@@ -11,13 +12,16 @@ import { fuzzyMatch } from "@/lib/normalize";
 interface SectionProps {
   draft: CharacterCreate;
   patch: (partial: Partial<CharacterCreate>) => void;
+  /** The character's total AC from `/derive`, shown beside the armor that earns
+   * it rather than only in the live preview. Absent only while it first loads. */
+  ac?: ACDTO;
 }
 
 const NONE = "__none__";
 /** Sentinel for "no category filter". */
 const ALL_CATEGORIES = "*";
 
-export function EquipmentSection({ draft, patch }: SectionProps): React.JSX.Element {
+export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.Element {
   const armorQuery = useArmor();
   const weaponsQuery = useWeapons();
 
@@ -72,19 +76,27 @@ export function EquipmentSection({ draft, patch }: SectionProps): React.JSX.Elem
     <section aria-labelledby="section-equipment" className="editor__section">
       <h2 id="section-equipment">{t("editor.section.equipment")}</h2>
 
-      <Combobox
-        label={t("equipment.armor")}
-        options={armorOptions}
-        value={draft.armor?.catalog_name ?? NONE}
-        onChange={(name) =>
-          patch({
-            armor:
-              name === NONE
-                ? null
-                : { catalog_name: name, enhancement_bonus: 0, is_masterwork: false },
-          })
-        }
-      />
+      <div className="equipment__armor-row">
+        <Combobox
+          label={t("equipment.armor")}
+          options={armorOptions}
+          value={draft.armor?.catalog_name ?? NONE}
+          onChange={(name) =>
+            patch({
+              armor:
+                name === NONE
+                  ? null
+                  : { catalog_name: name, enhancement_bonus: 0, is_masterwork: false },
+            })
+          }
+        />
+        <StatBreakdown
+          label={t("sheet.ac")}
+          value={ac ? String(ac.total) : "—"}
+          breakdown={ac?.breakdown ?? []}
+          suppressed={ac?.suppressed}
+        />
+      </div>
       {selectedArmor && <p className="equipment__stats">{armorSummary(selectedArmor)}</p>}
 
       <Combobox

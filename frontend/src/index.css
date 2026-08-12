@@ -527,6 +527,14 @@ label.button {
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
 }
+.equipment__armor-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+.equipment__armor-row .combobox {
+  flex: 1;
+}
 .stepper {
   display: inline-flex;
   align-items: center;

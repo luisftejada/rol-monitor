@@ -3,18 +3,35 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it } from "vitest";
 
-import type { CharacterCreate } from "@/api/types";
+import type { BabDTO, CharacterCreate, ValueBreakdown } from "@/api/types";
 import { AbilitiesSection } from "@/features/editor/sections/AbilitiesSection";
 import { defaultDraft } from "@/features/editor/draft";
 import { renderWithProviders } from "@/test/render";
+import { value } from "@/test/fixtures";
 
-function Host({ modifiers }: { modifiers?: Record<string, number> } = {}): React.JSX.Element {
+function Host({
+  modifiers,
+  bab,
+  initiative,
+  cmb,
+  cmd,
+}: {
+  modifiers?: Record<string, number>;
+  bab?: BabDTO;
+  initiative?: ValueBreakdown;
+  cmb?: ValueBreakdown;
+  cmd?: ValueBreakdown;
+} = {}): React.JSX.Element {
   const [draft, setDraft] = useState<CharacterCreate>(defaultDraft());
   return (
     <AbilitiesSection
       draft={draft}
       patch={(p) => setDraft((c) => ({ ...c, ...p }))}
       modifiers={modifiers}
+      bab={bab}
+      initiative={initiative}
+      cmb={cmb}
+      cmd={cmd}
     />
   );
 }
@@ -95,6 +112,28 @@ describe("AbilitiesSection", () => {
     renderWithProviders(<Host />);
     await screen.findByRole("columnheader", { name: "Bonif" });
     expect(modifierCell("Fue")).toHaveTextContent("—");
+  });
+
+  it("shows base attack, initiative, BMC and DMC from the derived values", async () => {
+    renderWithProviders(
+      <Host
+        bab={{ total: 6, iteratives: [6, 1] }}
+        initiative={value(3)}
+        cmb={value(7)}
+        cmd={value(19)}
+      />,
+    );
+    expect(screen.getByText(/Ataque base/)).toHaveTextContent("Ataque base +6 (+6 / +1)");
+    // The toggle's accessible name is its label plus its value, hence the regexes.
+    expect(screen.getByRole("button", { name: /Iniciativa/ })).toHaveTextContent("+3");
+    expect(screen.getByRole("button", { name: /^BMC/ })).toHaveTextContent("+7");
+    expect(screen.getByRole("button", { name: /^DMC/ })).toHaveTextContent("19");
+  });
+
+  it("shows placeholders for the tactical figures until derivation arrives", async () => {
+    renderWithProviders(<Host />);
+    expect(screen.getByText(/Ataque base/)).toHaveTextContent("Ataque base —");
+    expect(screen.getByRole("button", { name: /Iniciativa/ })).toHaveTextContent("—");
   });
 
   it("clamps point-buy scores to a minimum of 7", async () => {

@@ -871,3 +871,29 @@ the option's name now includes its hint text.
 
 ---
 
+
+### 2026-08-11 — Move derived combat figures into the editor's own section cards
+**Prompt:** In the character editor form (not the read-only combat-sheet preview),
+show the total AC next to the armor picker in the Equipo card; give the saving
+throws their own card right below Características; and add base attack,
+initiative, BMC, and DMC to the Características card.
+**Files affected:** `frontend/src/features/editor/CharacterEditor.tsx`,
+`frontend/src/features/editor/sections/AbilitiesSection.tsx` (+ test),
+`frontend/src/features/editor/sections/EquipmentSection.tsx`,
+`frontend/src/features/editor/sections/SavesSection.tsx` (new, + test),
+`frontend/src/features/editor/sections/sections.test.tsx`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`.
+**Summary:** Threaded `/derive`'s `ac`, `bab`, `initiative`, `cmb`, and `cmd`
+down from `CharacterEditor` into the relevant editor sections and rendered them
+with the existing `StatBreakdown` component, matching how the read-only
+`CombatCard` already shows the same figures — `CombatCard` itself (used both here
+as the live preview and in `CharacterPage` during play) was left untouched, so the
+numbers are now visible in both places rather than moved. Added a new
+`SavesSection` card between Características and Clases y nivel. Fixed two
+pre-existing test-selector collisions this surfaced: `StatBreakdown`'s toggle has
+no `aria-label` (its accessible name is label + value, so exact-string role
+queries silently required a regex once a real value was rendered), and the
+editor's live preview now duplicates the "Clase de armadura" label from Equipo, so
+`CharacterEditor.test.tsx` needed to scope its query to the preview pane.
+
+---

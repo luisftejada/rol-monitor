@@ -89,6 +89,7 @@ export const es = {
   "editor.livePreview": "Vista de combate en vivo",
   "editor.section.identity": "Identidad",
   "editor.section.abilities": "Características",
+  "editor.section.saves": "Salvaciones",
   "editor.section.classes": "Clases y nivel",
   "editor.section.skills": "Habilidades",
   "editor.section.feats": "Dotes",

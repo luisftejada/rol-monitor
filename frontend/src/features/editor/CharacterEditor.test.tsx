@@ -51,9 +51,15 @@ describe("CharacterEditor", () => {
     const user = userEvent.setup();
     renderWithProviders(<CharacterEditor initialDraft={defaultDraft()} mode="create" />);
 
+    // Scoped to the live preview: the Equipo section shows its own "Clase de
+    // armadura" figure now too, so the plain query would match both.
+    const preview = screen.getByRole("complementary", { name: "Vista de combate en vivo" });
+
     // Starts with no armor -> AC 12.
     await waitFor(() =>
-      expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("12"),
+      expect(within(preview).getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent(
+        "12",
+      ),
     );
 
     await user.click(screen.getByRole("combobox", { name: "Armadura" }));
@@ -63,7 +69,9 @@ describe("CharacterEditor", () => {
     // After the debounced re-derive, the card reflects the equipped armor.
     await waitFor(
       () =>
-        expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("18"),
+        expect(
+          within(preview).getByRole("button", { name: /Clase de armadura/ }),
+        ).toHaveTextContent("18"),
       { timeout: 3000 },
     );
   });

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import type { CharacterCreate } from "@/api/types";
+import type { BabDTO, CharacterCreate, ValueBreakdown } from "@/api/types";
+import { StatBreakdown } from "@/components/StatBreakdown";
 import { ABILITY_ORDER, POINT_BUY_BUDGET, STANDARD_ARRAY } from "@/features/editor/draft";
 import { useMeta, useRaces } from "@/hooks/useRules";
 import { t } from "@/i18n";
@@ -15,6 +16,12 @@ interface SectionProps {
    * column renders what ``/derive`` returned, and stays blank until it has.
    */
   modifiers?: Record<string, number>;
+  /** The rest of `/derive`'s tactical numbers, shown here rather than only in the
+   * live preview: they read off the same ability scores this card edits. */
+  bab?: BabDTO;
+  initiative?: ValueBreakdown;
+  cmb?: ValueBreakdown;
+  cmd?: ValueBreakdown;
 }
 
 type Method = "point-buy" | "manual" | "standard";
@@ -25,6 +32,10 @@ export function AbilitiesSection({
   draft,
   patch,
   modifiers = {},
+  bab,
+  initiative,
+  cmb,
+  cmd,
 }: SectionProps): React.JSX.Element {
   const meta = useMeta();
   const races = useRaces();
@@ -186,6 +197,34 @@ export function AbilitiesSection({
           })}
         </tbody>
       </table>
+
+      <p className="card__bab">
+        {t("sheet.bab")} {bab ? signed(bab.total) : "—"}
+        {bab && bab.iteratives.length > 0 && (
+          <span className="card__iteratives"> ({bab.iteratives.map(signed).join(" / ")})</span>
+        )}
+      </p>
+
+      <div className="card__tactics">
+        <StatBreakdown
+          label={t("sheet.initiative")}
+          value={initiative ? signed(initiative.total) : "—"}
+          breakdown={initiative?.breakdown ?? []}
+          suppressed={initiative?.suppressed}
+        />
+        <StatBreakdown
+          label={t("sheet.cmb")}
+          value={cmb ? signed(cmb.total) : "—"}
+          breakdown={cmb?.breakdown ?? []}
+          suppressed={cmb?.suppressed}
+        />
+        <StatBreakdown
+          label={t("sheet.cmd")}
+          value={cmd ? String(cmd.total) : "—"}
+          breakdown={cmd?.breakdown ?? []}
+          suppressed={cmd?.suppressed}
+        />
+      </div>
     </section>
   );
 }

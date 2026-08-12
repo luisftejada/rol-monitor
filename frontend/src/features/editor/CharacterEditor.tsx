@@ -10,6 +10,7 @@ import { ClassesSection } from "@/features/editor/sections/ClassesSection";
 import { EquipmentSection } from "@/features/editor/sections/EquipmentSection";
 import { FeatsSection } from "@/features/editor/sections/FeatsSection";
 import { IdentitySection } from "@/features/editor/sections/IdentitySection";
+import { SavesSection } from "@/features/editor/sections/SavesSection";
 import { SkillsSection } from "@/features/editor/sections/SkillsSection";
 import { t, type MessageKey } from "@/i18n";
 
@@ -25,6 +26,7 @@ interface CharacterEditorProps {
 const SECTIONS: { id: string; key: MessageKey }[] = [
   { id: "section-identity", key: "editor.section.identity" },
   { id: "section-abilities", key: "editor.section.abilities" },
+  { id: "section-saves", key: "editor.section.saves" },
   { id: "section-classes", key: "editor.section.classes" },
   { id: "section-skills", key: "editor.section.skills" },
   { id: "section-feats", key: "editor.section.feats" },
@@ -108,7 +110,16 @@ export function CharacterEditor({
           }}
         >
           <IdentitySection draft={draft} patch={patch} />
-          <AbilitiesSection draft={draft} patch={patch} modifiers={abilityModifiers} />
+          <AbilitiesSection
+            draft={draft}
+            patch={patch}
+            modifiers={abilityModifiers}
+            bab={sheet?.bab}
+            initiative={sheet?.initiative}
+            cmb={sheet?.cmb}
+            cmd={sheet?.cmd}
+          />
+          <SavesSection saves={sheet?.saves} />
           <ClassesSection draft={draft} patch={patch} />
           <SkillsSection
             draft={draft}
@@ -123,7 +134,7 @@ export function CharacterEditor({
             abilities={abilityScores}
             budget={sheet?.feats}
           />
-          <EquipmentSection draft={draft} patch={patch} />
+          <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
         </form>
 
         <aside className="editor__preview" aria-label={t("editor.livePreview")}>
