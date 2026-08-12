@@ -49,6 +49,7 @@ from pf_tracker.rules.weapon_feats import (
     WeaponProfile,
     critical_notes,
     drop_superseded,
+    has_situational_weapon_effect,
     is_feat_stance,
     is_global_feat_target,
     is_optional,
@@ -464,14 +465,21 @@ def _feat_modifiers(
     """Modifiers contributed passively by feats that apply to the whole character.
 
     Weapon-scoped feats are excluded: they are resolved per weapon instead, where
-    the grip and the chosen weapon are known.
+    the grip and the chosen weapon are known. So are passive feats with a
+    situational weapon effect (``Disparo a bocajarro``) — `_weapon_lines` turns
+    those into a line of their own, and a warning here as well would say the same
+    thing twice, once without any numbers.
 
     Effects the producer cannot turn into a number — declared feats, situational
     conditions, multipliers — come back as notes and are surfaced as warnings, so
     the GM sees what the sheet is *not* accounting for rather than assuming it is.
     """
     global_feats = [
-        feat for feat in feats if not is_weapon_scoped(feat) and not is_feat_stance(feat)
+        feat
+        for feat in feats
+        if not is_weapon_scoped(feat)
+        and not is_feat_stance(feat)
+        and not has_situational_weapon_effect(feat, context)
     ]
     applied = apply_feats(global_feats, context)
     warnings.extend(applied.notes)
@@ -530,6 +538,11 @@ def _weapon_lines(
     a different way of using it. Modelling each as its own weapon means the sheet
     shows "Mandoble" and "Mandoble (Ataque poderoso)" side by side, and the GM picks
     at the table instead of toggling and re-reading.
+
+    A passive feat with a situational weapon effect (``Disparo a bocajarro``) joins
+    the same pool: whether it applies is also a per-attack judgment call, just the
+    GM's rather than the player's, so it gets a line alongside the declared feats'
+    rather than a warning with no numbers on it.
     """
     profile = _profile_of(weapon)
 
@@ -537,13 +550,27 @@ def _weapon_lines(
     # it must not fold into the base line nor spawn a variant of its own.
     effective = drop_superseded(feats)
 
-    always = [f for f in effective if not is_optional(f) and is_weapon_scoped(f)]
+    # Excludes a passive-but-situational feat too: `is_optional` alone would miss
+    # it (it is not declared), and it must never fold into the unconditional base
+    # line the way an *unconditional* passive feat does.
+    always = [
+        f
+        for f in effective
+        if not is_optional(f)
+        and is_weapon_scoped(f)
+        and not has_situational_weapon_effect(f, context)
+    ]
     # Critical feats fire with whatever you are holding, so they annotate the base
     # line and every variant inherits them.
     annotated = replace(weapon, notes=weapon.notes + critical_notes(effective))
     base = _with_feats(annotated, always, profile, context, suffix=None)
 
-    optional = [f for f in effective if is_optional(f) and _affects(f, profile, context)]
+    optional = [
+        f
+        for f in effective
+        if (is_optional(f) or has_situational_weapon_effect(f, context))
+        and _affects(f, profile, context)
+    ]
     lines = [base]
     for combination in _combinations(optional[:_MAX_OPTIONAL_FEATS_PER_WEAPON]):
         label = " + ".join(feat.name for feat in combination)

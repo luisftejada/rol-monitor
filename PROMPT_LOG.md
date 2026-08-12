@@ -1,5 +1,42 @@
 # Prompt log
 
+### 2026-08-12 — Disparo a bocajarro becomes a weapon-line variant, not a warning
+**Prompt:** Flindi has a longbow and Disparo a bocajarro (Point-Blank Shot); shouldn't
+that generate an extra attack line showing the bonus for targets within 30 feet, the
+way Ataque poderoso does?
+**Files affected:** `backend/src/pf_tracker/rules/weapon_feats.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/rules/test_weapon_feats.py`,
+`backend/tests/unit/services/test_assembler.py`, `docs/assumptions.md`,
+`docs/HANDOFF.md`.
+**Summary:** It was a real gap, not a documented decision — `docs/assumptions.md`
+had nothing saying it was deliberate. `distancia_pies` correctly isn't a predicate
+the sheet can decide (per the existing 2026-08-07 assumption), so the feat's effect
+fell to `apply_feats`'s generic path: a bare "sólo objetivo a 30 pies…" warning, no
+numbers, indistinguishable from a feat gated on a fact the app simply doesn't track.
+But the gating fact is per-*attack*, exactly what a declared feat like Ataque
+poderoso already models as an alternative weapon line. Added
+`has_situational_weapon_effect()` — true only for a *passive* feat with exactly one
+situational effect whose modifiers are all weapon attack/damage targets — and
+pooled it into `_weapon_lines`'s combination machinery alongside declared feats;
+`resolve_for_weapon` now keeps such a modifier instead of dropping it, tagging the
+line with the existing `— sólo <condición>` suffix. Deliberately narrow, confirmed
+by auditing every corpus feat sharing a generic `ataque_*`/`dano_*` target before
+touching anything: broadening `is_weapon_scoped()` itself would also catch Pericia
+en combate, whose AC half only works by staying excluded from it (would silently
+drop that half), and keeping situational modifiers for *declared* feats in general
+would stack Golpe arcano's five mutually-exclusive caster-level bands at once,
+since none of them can be verified false either. Result: an archer with the feat
+now sees "Arco largo (Disparo a bocajarro — sólo objetivo a 30 pies (9 m) o menos)"
+with +1/+1 computed, combinable with Puntería mortal same as two declared feats
+combine; the old warning is gone for this feat specifically (superseded by the
+line), Golpe arcano's is untouched. 10 new backend tests (situational-effect
+classification, the resolved line's numbers, the melee-weapon no-op, the
+declared-feat danger case proven safe, the full combined-line assembly). 444
+backend / 125 frontend tests, lint, types, and coverage all pass.
+
+---
+
 ### 2026-08-12 — Three columns for an attack line's bonus, damage and crit
 **Prompt:** In the Ataques card, put the attack bonus, damage, and critical into
 three columns instead of stacking them.

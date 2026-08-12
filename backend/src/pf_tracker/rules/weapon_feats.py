@@ -286,6 +286,36 @@ def is_weapon_scoped(feat: FeatDTO) -> bool:
     )
 
 
+def has_situational_weapon_effect(feat: FeatDTO, context: WeaponFeatContext) -> bool:
+    """Whether a *passive* feat has an effect that only means something for a
+    weapon's attack or damage, and cannot be resolved from static character facts
+    alone — ``Disparo a bocajarro``'s "within 30 feet", ``Disparo preciso``'s
+    "target engaged in melee".
+
+    Such a feat cannot be folded into the base line the way an unconditional
+    passive one is (that would silently assume the situation holds), nor does a
+    bare warning give the GM any numbers. It becomes a line of its own instead —
+    the same treatment a declared feat like ``Ataque poderoso`` gets, and for the
+    same reason: the GM judges whether it applies and picks the line to use.
+
+    Not a *general* passive-and-situational check on purpose: a declared feat's
+    situational tiers (``Golpe arcano``'s caster-level bands) are gated on a
+    predicate this app cannot decide at all, so several tiers would read as
+    simultaneously "not known false" and stack together. A passive feat's own
+    effect is never tiered this way in the corpus — each carries exactly one
+    situational effect — which is what keeps this safe to widen into a line.
+    """
+    if feat.activation != PASSIVE:
+        return False
+    return any(
+        effect.condition
+        and effect.modifiers
+        and not effect_holds(effect, context)
+        and all(not is_global_feat_target(modifier.target) for modifier in effect.modifiers)
+        for effect in feat.effects
+    )
+
+
 def resolve_for_weapon(
     feat: FeatDTO, weapon: WeaponProfile, context: WeaponFeatContext
 ) -> WeaponFeatEffects:
@@ -311,6 +341,12 @@ def resolve_for_weapon(
     # ``Ataque poderoso`` above all — put their CMB penalty on the line.
     carries_cmb = not is_feat_stance(feat)
 
+    # A passive feat's own situational effect is kept on the attack/damage slot
+    # rather than dropped (see `has_situational_weapon_effect` for why only a
+    # passive feat's is safe to keep this way) — the caller renders it as a line
+    # of its own, condition and all, instead of folding it into the base line.
+    keep_situational_attack_damage = feat.activation == PASSIVE
+
     for effect in feat.effects:
         # A situational effect is still shown for a weapon line: the GM can see the
         # numbers and judge whether the situation holds, which a global modifier
@@ -332,13 +368,15 @@ def resolve_for_weapon(
             if raw.target == DAMAGE_DICE_TARGET:
                 dice_factor *= _multiplier(raw.value)
                 continue
-            if situational:
-                continue
             if raw.target == CMB_TARGET:
+                if situational:
+                    continue
                 if carries_cmb:
                     modifier = _modifier_for(feat, ModifierTarget.CMB.value, raw)
                     if modifier is not None:
                         cmb.append(modifier)
+                continue
+            if situational and not keep_situational_attack_damage:
                 continue
             slot = _slot_for(raw.target, weapon)
             if slot is None:
@@ -347,6 +385,8 @@ def resolve_for_weapon(
             if modifier is None:
                 continue
             (attack if slot.startswith("ATTACK") else damage).append(modifier)
+            if situational:
+                condition = effect.condition
 
     return WeaponFeatEffects(
         attack=tuple(attack),

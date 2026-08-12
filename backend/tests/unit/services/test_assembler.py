@@ -291,6 +291,74 @@ def test_weapon_variants_cover_every_combination(rules_repository: RulesReposito
     ]
 
 
+def test_point_blank_shot_becomes_a_ranged_weapon_variant(
+    rules_repository: RulesRepository,
+) -> None:
+    """Whether the target is within 30 feet is the GM's call, not the sheet's — so
+    it is offered as a second line rather than assumed true on every shot, the same
+    way a declared feat like `Puntería mortal` is."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        feats=["Disparo a bocajarro"],
+        weapons=[{"catalog_name": "Arco largo", "wielding": "two_handed"}],
+    )
+
+    lines = {w.name: w for w in result.character.weapons}
+    variant_name = "Arco largo (Disparo a bocajarro — sólo objetivo a 30 pies (9 m) o menos)"
+    assert set(lines) == {"Arco largo", variant_name}
+    variant = lines[variant_name]
+    assert [(m.target, m.value) for m in variant.attack_modifiers] == [("ATTACK_RANGED", 1)]
+    assert [(m.target, m.value) for m in variant.damage_modifiers] == [("DAMAGE_RANGED", 1)]
+    assert lines["Arco largo"].attack_modifiers == ()
+
+    # Its own line already carries the number; a bare warning would say the same
+    # thing twice, once without one.
+    assert not any("bocajarro" in warning for warning in result.warnings)
+
+
+def test_point_blank_shot_produces_no_line_for_a_melee_only_character(
+    rules_repository: RulesRepository,
+) -> None:
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        feats=["Disparo a bocajarro"],
+        weapons=[{"catalog_name": "Espada larga", "wielding": "one_handed"}],
+    )
+    assert [w.name for w in result.character.weapons] == ["Espada larga"]
+
+
+def test_point_blank_shot_combines_with_a_declared_ranged_feat(
+    rules_repository: RulesRepository,
+) -> None:
+    """A situational passive feat joins the same combination pool as a declared
+    one, so an archer with both sees every line: base, each alone, and together."""
+    result = _assemble(
+        rules_repository,
+        race="humano",
+        class_levels=[{"class_slug": "guerrero", "level": 6}],
+        feats=["Puntería mortal", "Disparo a bocajarro"],
+        weapons=[{"catalog_name": "Arco largo", "wielding": "two_handed"}],
+    )
+    names = {w.name for w in result.character.weapons}
+    condition = "sólo objetivo a 30 pies (9 m) o menos"
+    assert names == {
+        "Arco largo",
+        f"Arco largo (Disparo a bocajarro — {condition})",
+        "Arco largo (Puntería mortal)",
+        f"Arco largo (Disparo a bocajarro + Puntería mortal — {condition})",
+    }
+    combined = next(
+        w for w in result.character.weapons if "Disparo a bocajarro + Puntería mortal" in w.name
+    )
+    # Both feats' numbers land on the one line: +1 (bocajarro) and -2 (BAB 6 band).
+    assert [m.value for m in combined.attack_modifiers] == [1, -2]
+    assert [m.value for m in combined.damage_modifiers] == [1, 4]
+
+
 def test_a_chosen_weapon_feat_only_changes_that_weapon(
     rules_repository: RulesRepository,
 ) -> None:

@@ -14,6 +14,7 @@ from pf_tracker.rules.weapon_feats import (
     critical_notes,
     drop_superseded,
     has_ongoing_target_effect,
+    has_situational_weapon_effect,
     is_feat_stance,
     is_global_feat_target,
     is_optional,
@@ -161,6 +162,55 @@ def test_classifies_weapon_scoped_and_optional_feats(catalog) -> None:  # type: 
     # Declared feats describe an alternative line; passive ones change the base one.
     assert is_optional(catalog["Ataque poderoso"])
     assert not is_optional(catalog["Soltura con un arma"])
+
+
+# ---------------------------------------- passive feats with a situational effect
+def test_point_blank_shot_is_a_situational_weapon_effect(catalog) -> None:  # type: ignore[no-untyped-def]
+    """Its bonus depends on range to the target, which the sheet cannot know."""
+    assert has_situational_weapon_effect(catalog["Disparo a bocajarro"], WeaponFeatContext())
+    assert has_situational_weapon_effect(catalog["Disparo preciso"], WeaponFeatContext())
+
+
+def test_a_declared_feat_is_not_a_situational_weapon_effect(catalog) -> None:  # type: ignore[no-untyped-def]
+    """Declared feats already describe a variant line of their own; this predicate
+    is only for a *passive* feat that needs the same treatment."""
+    assert not has_situational_weapon_effect(catalog["Ataque poderoso"], WeaponFeatContext())
+    assert not has_situational_weapon_effect(catalog["Puntería mortal"], WeaponFeatContext())
+
+
+def test_an_unconditional_passive_feat_is_not_situational(catalog) -> None:  # type: ignore[no-untyped-def]
+    assert not has_situational_weapon_effect(catalog["Soltura con un arma"], WeaponFeatContext())
+
+
+def test_a_declared_feats_unresolvable_tiers_are_not_situational_weapon_effects(
+    catalog,  # type: ignore[no-untyped-def]
+) -> None:
+    """`Golpe arcano` is gated on caster level, which the sheet cannot decide either
+    — but it is declared, not passive, and its bands are mutually exclusive tiers of
+    the *same* feat. Nothing here should ever offer it as a weapon-line variant:
+    unlike Point-Blank Shot's one effect, several of its tiers would read as
+    simultaneously "not known false" and stack together."""
+    assert not has_situational_weapon_effect(catalog["Golpe arcano"], WeaponFeatContext())
+
+
+def test_golpe_arcanos_unresolvable_tiers_are_still_dropped(catalog) -> None:  # type: ignore[no-untyped-def]
+    """`resolve_for_weapon` only keeps a *passive* feat's situational modifiers
+    (see `has_situational_weapon_effect`); a declared feat's stay dropped exactly
+    as before, or its caster-level bands would all apply to the same line at once."""
+    resolved = resolve_for_weapon(catalog["Golpe arcano"], LONGSWORD, WeaponFeatContext())
+    assert resolved.attack == () and resolved.damage == ()
+
+
+def test_point_blank_shot_puts_its_bonus_on_a_ranged_weapons_line(catalog) -> None:  # type: ignore[no-untyped-def]
+    resolved = resolve_for_weapon(catalog["Disparo a bocajarro"], LONGBOW, WeaponFeatContext())
+    assert [(m.target, m.value) for m in resolved.attack] == [("ATTACK_RANGED", 1)]
+    assert [(m.target, m.value) for m in resolved.damage] == [("DAMAGE_RANGED", 1)]
+    assert resolved.condition and "30 pies" in resolved.condition
+
+
+def test_point_blank_shot_does_nothing_to_a_melee_weapon(catalog) -> None:  # type: ignore[no-untyped-def]
+    resolved = resolve_for_weapon(catalog["Disparo a bocajarro"], GREATSWORD, WeaponFeatContext())
+    assert resolved.attack == () and resolved.damage == ()
 
 
 def test_prose_only_feats_surface_their_rules(catalog) -> None:  # type: ignore[no-untyped-def]
