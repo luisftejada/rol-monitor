@@ -22,8 +22,9 @@ describe("accessibility (axe)", () => {
   it("the character editor has no violations", async () => {
     const { container } = renderWithProviders(<App />, { route: "/new" });
     await screen.findByRole("heading", { name: "Nuevo personaje", level: 1 });
-    // Wait for the live card to render so the whole page is evaluated.
-    await screen.findByRole("article", { name: "Nuevo personaje" });
+    // Wait for /derive's figures to land in the Equipo section so the whole
+    // (post-derivation) page is evaluated, not just its initial skeleton.
+    await screen.findByRole("button", { name: /Clase de armadura/ });
     expect(await axe(container)).toHaveNoViolations();
   });
 

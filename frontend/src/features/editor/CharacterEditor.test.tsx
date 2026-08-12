@@ -25,12 +25,6 @@ function armorAwareDerive() {
 }
 
 describe("CharacterEditor", () => {
-  it("renders the live combat card from /derive", async () => {
-    renderWithProviders(<CharacterEditor initialDraft={defaultDraft()} mode="create" />);
-    const card = await screen.findByRole("article", { name: "Nuevo personaje" });
-    expect(card).toBeInTheDocument();
-  });
-
   it("fills the abilities modifier column from /derive", async () => {
     renderWithProviders(<CharacterEditor initialDraft={defaultDraft()} mode="create" />);
 
@@ -46,32 +40,24 @@ describe("CharacterEditor", () => {
     expect(within(fueRow).getAllByRole("cell").at(-1)).toHaveTextContent("+3");
   });
 
-  it("recomputes the card when equipment changes (autofill via /derive)", async () => {
+  it("recomputes the Equipo section's AC when equipment changes (autofill via /derive)", async () => {
     armorAwareDerive();
     const user = userEvent.setup();
     renderWithProviders(<CharacterEditor initialDraft={defaultDraft()} mode="create" />);
 
-    // Scoped to the live preview: the Equipo section shows its own "Clase de
-    // armadura" figure now too, so the plain query would match both.
-    const preview = screen.getByRole("complementary", { name: "Vista de combate en vivo" });
-
     // Starts with no armor -> AC 12.
     await waitFor(() =>
-      expect(within(preview).getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent(
-        "12",
-      ),
+      expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("12"),
     );
 
     await user.click(screen.getByRole("combobox", { name: "Armadura" }));
     // The option's accessible name includes its stat-line hint, hence the regex.
     await user.click(await screen.findByRole("option", { name: /^Cota de escamas/ }));
 
-    // After the debounced re-derive, the card reflects the equipped armor.
+    // After the debounced re-derive, the Equipo section reflects the equipped armor.
     await waitFor(
       () =>
-        expect(
-          within(preview).getByRole("button", { name: /Clase de armadura/ }),
-        ).toHaveTextContent("18"),
+        expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("18"),
       { timeout: 3000 },
     );
   });

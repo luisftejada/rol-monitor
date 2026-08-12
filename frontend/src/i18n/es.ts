@@ -86,7 +86,6 @@ export const es = {
   "editor.new": "Nuevo personaje",
   "editor.edit": "Editar personaje",
   "editor.save": "Guardar",
-  "editor.livePreview": "Vista de combate en vivo",
   "editor.section.identity": "Identidad",
   "editor.section.abilities": "Características",
   "editor.section.saves": "Salvaciones",

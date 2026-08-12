@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **434 backend tests, 119 frontend tests**, coverage 96%+
+Everything should be green: **434 backend tests, 118 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 

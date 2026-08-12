@@ -1,5 +1,29 @@
 # Prompt log
 
+### 2026-08-12 — Drop the editor's live-preview panel
+**Prompt:** Remove the right-hand panel from the character editor page (the live
+combat-card preview); keep only the left-column form cards — Identidad,
+Características, Salvaciones, Clases y nivel, Habilidades, Dotes, Equipo.
+**Files affected:** `frontend/src/features/editor/CharacterEditor.tsx`,
+`frontend/src/features/editor/CharacterEditor.test.tsx`, `frontend/src/a11y.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`.
+**Summary:** Now that AC, saves, and BAB/initiative/BMC/DMC live in the form's own
+section cards (see the last few entries), the `<aside>` running a second live
+`CombatCard` next to the form duplicated the same numbers without adding
+information, so it is gone — `CombatCard` itself is untouched and still used
+read-only during play (`CharacterPage`). Dropped the now-unused two-column
+`.editor__panes`/`.editor__preview` CSS and the `editor.livePreview` i18n key; the
+form (`.editor__form`) now renders directly, full width within the page's existing
+72rem `.layout__main` cap. Removed the test that asserted the preview card's mere
+existence and the one that watched it refresh on equipment changes, keeping the
+same equipment-recompute behavior as a test against the Equipo section's own AC
+figure instead of a `within(preview)`-scoped duplicate. The a11y test for the editor
+now waits on that same figure (a stand-in for "the page has finished its first
+derivation") instead of the removed preview card. 434 backend / 118 frontend tests,
+lint, types, and coverage all pass.
+
+---
+
 ### 2026-08-12 — Fix node-bin.sh's nvm depth bug, with a regression test
 **Prompt:** Fix the `scripts/node-bin.sh` bug found while verifying the pending
 editor work (its nvm fallback used `find -maxdepth 2`, one level too shallow to

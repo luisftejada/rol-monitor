@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { createCharacter, updateCharacter } from "@/api/characters";
 import type { CharacterCreate, CharacterRead } from "@/api/types";
-import { CombatCard } from "@/components/CombatCard";
 import { useDerivedSheet } from "@/features/editor/useDerivedSheet";
 import { AbilitiesSection } from "@/features/editor/sections/AbilitiesSection";
 import { ClassesSection } from "@/features/editor/sections/ClassesSection";
@@ -101,50 +100,40 @@ export function CharacterEditor({
         </div>
       </header>
 
-      <div className="editor__panes">
-        <form
-          className="editor__form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            triggerSave();
-          }}
-        >
-          <IdentitySection draft={draft} patch={patch} />
-          <AbilitiesSection
-            draft={draft}
-            patch={patch}
-            modifiers={abilityModifiers}
-            bab={sheet?.bab}
-            initiative={sheet?.initiative}
-            cmb={sheet?.cmb}
-            cmd={sheet?.cmd}
-          />
-          <SavesSection saves={sheet?.saves} />
-          <ClassesSection draft={draft} patch={patch} />
-          <SkillsSection
-            draft={draft}
-            patch={patch}
-            intModifier={intModifier}
-            derived={sheet?.skills}
-          />
-          <FeatsSection
-            draft={draft}
-            patch={patch}
-            bab={bab}
-            abilities={abilityScores}
-            budget={sheet?.feats}
-          />
-          <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
-        </form>
-
-        <aside className="editor__preview" aria-label={t("editor.livePreview")}>
-          {sheet ? (
-            <CombatCard name={draft.name} sheet={sheet} />
-          ) : (
-            <p role="status">{t("common.loading")}</p>
-          )}
-        </aside>
-      </div>
+      <form
+        className="editor__form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          triggerSave();
+        }}
+      >
+        <IdentitySection draft={draft} patch={patch} />
+        <AbilitiesSection
+          draft={draft}
+          patch={patch}
+          modifiers={abilityModifiers}
+          bab={sheet?.bab}
+          initiative={sheet?.initiative}
+          cmb={sheet?.cmb}
+          cmd={sheet?.cmd}
+        />
+        <SavesSection saves={sheet?.saves} />
+        <ClassesSection draft={draft} patch={patch} />
+        <SkillsSection
+          draft={draft}
+          patch={patch}
+          intModifier={intModifier}
+          derived={sheet?.skills}
+        />
+        <FeatsSection
+          draft={draft}
+          patch={patch}
+          bab={bab}
+          abilities={abilityScores}
+          budget={sheet?.feats}
+        />
+        <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
+      </form>
     </div>
   );
 }
