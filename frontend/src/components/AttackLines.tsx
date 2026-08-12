@@ -21,33 +21,35 @@ export function AttackLines({ attacks }: { attacks: AttackDTO[] }): React.JSX.El
               <span className="attack__warn"> ({t("sheet.attack.notProficient")})</span>
             )}
           </p>
-          <StatBreakdown
-            label={attack.weapon}
-            value={attack.attack_line}
-            breakdown={attack.attack.breakdown}
-            suppressed={attack.attack.suppressed}
-          />
-          {/* Manyshot rolls the first arrow's dice twice, so the first attack
-              is shown separately: "2d8 then 1d8" is not one number. */}
-          {attack.first_attack_damage_expression && (
+          <div className="attack__stats">
             <StatBreakdown
-              label={t("sheet.attack.firstDamage")}
-              value={attack.first_attack_damage_expression}
-              breakdown={attack.damage.breakdown}
-              suppressed={attack.damage.suppressed}
+              label={attack.weapon}
+              value={attack.attack_line}
+              breakdown={attack.attack.breakdown}
+              suppressed={attack.attack.suppressed}
             />
-          )}
-          {attack.damage_expression && (
-            <StatBreakdown
-              label={t("sheet.attack.damage")}
-              value={attack.damage_expression}
-              breakdown={attack.damage.breakdown}
-              suppressed={attack.damage.suppressed}
-            />
-          )}
-          <p className="attack__crit">
-            {t("sheet.attack.crit")}: {attack.threat_range}-20/×{attack.crit_multiplier}
-          </p>
+            {/* Manyshot rolls the first arrow's dice twice, so the first attack
+                is shown separately: "2d8 then 1d8" is not one number. */}
+            {attack.first_attack_damage_expression && (
+              <StatBreakdown
+                label={t("sheet.attack.firstDamage")}
+                value={attack.first_attack_damage_expression}
+                breakdown={attack.damage.breakdown}
+                suppressed={attack.damage.suppressed}
+              />
+            )}
+            {attack.damage_expression && (
+              <StatBreakdown
+                label={t("sheet.attack.damage")}
+                value={attack.damage_expression}
+                breakdown={attack.damage.breakdown}
+                suppressed={attack.damage.suppressed}
+              />
+            )}
+            <p className="attack__crit">
+              {t("sheet.attack.crit")}: {attack.threat_range}-20/×{attack.crit_multiplier}
+            </p>
+          </div>
           {/* Power Attack's penalty applies to combat manoeuvres too, so a line
               that costs CMB shows the one to use while it is in play. */}
           {attack.cmb && (

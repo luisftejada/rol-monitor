@@ -190,7 +190,8 @@ fieldset label {
   font-size: 0.85rem;
 }
 .card__saves,
-.card__tactics {
+.card__tactics,
+.attack__stats {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -270,8 +271,19 @@ fieldset label {
   font-size: 0.8rem;
   color: var(--muted);
 }
-.attack__warn,
+.attack__warn {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+/* Sits beside the bonus and damage toggles as their third column, so it gets the
+   same tile chrome even though it has no breakdown to expand. */
 .attack__crit {
+  display: flex;
+  align-items: center;
+  min-width: 8rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
   color: var(--muted);
   font-size: 0.85rem;
 }

@@ -1,5 +1,24 @@
 # Prompt log
 
+### 2026-08-12 — Three columns for an attack line's bonus, damage and crit
+**Prompt:** In the Ataques card, put the attack bonus, damage, and critical into
+three columns instead of stacking them.
+**Files affected:** `frontend/src/components/AttackLines.tsx`,
+`frontend/src/index.css`.
+**Summary:** Wrapped the three (`StatBreakdown` attack bonus, `StatBreakdown`
+damage — including the Manyshot first-attack variant when present — and the
+plain-text crit line) in a new `.attack__stats` flex-wrap row, the same layout
+`.card__saves`/`.card__tactics` already use for AC/BMC/DMC. Gave `.attack__crit`
+tile chrome (border, padding, min-width) matching `.stat` so it reads as a third
+column beside the two toggles rather than plain caption text — it stays a plain
+`<p>`, since threat range/crit multiplier have no breakdown to expand. BMC and the
+notes list stay their own full-width rows below, since the ask was specifically
+these three. `AttackLines` is shared by `CombatCard` and the editor's
+`AttacksSection`, so both picked up the change from one edit. 434 backend / 125
+frontend tests, lint, types, and coverage all pass unmodified.
+
+---
+
 ### 2026-08-12 — Ataques card below Equipo
 **Prompt:** Below the Equipo card, add an Ataques card listing every selected
 weapon with its attack bonus, damage, etc. A weapon with more than one way of
