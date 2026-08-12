@@ -132,6 +132,10 @@ class SkillResult:
     ranks: int = 0
     ability_modifier: int = 0
     other_modifiers: int = 0
+    #: ``resolved.applied`` minus the ranks and ability entries — what the "others"
+    #: column's tooltip shows. Ranks and the ability modifier already have their own
+    #: columns; repeating them here would just restate numbers the GM can already see.
+    other_applied: list[Modifier] = field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)
@@ -714,6 +718,7 @@ def derive_skills(
         # keeps the three columns summing to the total whatever the engine decides.
         ranks_applied = sum(m.value for m in resolved.applied if m is ranks_mod)
         ability_applied = sum(m.value for m in resolved.applied if m is ability_mod)
+        other_applied = [m for m in resolved.applied if m is not ranks_mod and m is not ability_mod]
 
         untrained_violation = skill.ranks == 0 and not skill.untrained
         # Every skill is on the sheet, so this is only a mistake for a skill the
@@ -734,6 +739,7 @@ def derive_skills(
                 ranks=ranks_applied,
                 ability_modifier=ability_applied,
                 other_modifiers=resolved.total - ranks_applied - ability_applied,
+                other_applied=other_applied,
             )
         )
     return results, warnings

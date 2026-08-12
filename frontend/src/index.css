@@ -572,12 +572,15 @@ label.button {
   font-weight: 600;
 }
 
-/* --- skill columns: ranks | ability | others | total --- */
+/* --- skill columns: ranks | characteristic | ability | others | total --- */
 .skills thead th {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--muted);
   border-bottom: 1px solid var(--border);
+}
+.skills__characteristic {
+  color: var(--muted);
 }
 .skills__mod,
 .skills__total {

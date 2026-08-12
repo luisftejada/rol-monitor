@@ -38,6 +38,17 @@ describe("SkillsSection", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Rangos: 1 / 4");
   });
 
+  it("shows the key characteristic in its own column, not beside the skill name", async () => {
+    renderWithProviders(<Host />);
+    const row = await screen.findByRole("row", { name: /Intimidar/ });
+    const nameCell = within(row).getByRole("rowheader");
+    expect(nameCell).toHaveTextContent("Intimidar");
+    expect(nameCell).not.toHaveTextContent("Car");
+
+    const cells = within(row).getAllByRole("cell");
+    expect(cells[1]).toHaveTextContent("Car"); // the new characteristic column
+  });
+
   it("drops a skill back to zero (only non-zero ranks persist)", async () => {
     const user = userEvent.setup();
     renderWithProviders(<Host />);
@@ -67,7 +78,10 @@ describe("SkillsSection", () => {
     await user.hover(others);
     const tip = await screen.findByRole("tooltip");
     expect(tip).toHaveTextContent("Habilidad de clase");
-    expect(tip).toHaveTextContent("Carisma");
+    // Ranks and the ability modifier have their own columns, so the tooltip behind
+    // "others" leaves them out rather than repeating what those columns already show.
+    expect(tip).not.toHaveTextContent("Carisma");
+    expect(tip).not.toHaveTextContent("Rangos");
 
     await user.unhover(others);
     expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();

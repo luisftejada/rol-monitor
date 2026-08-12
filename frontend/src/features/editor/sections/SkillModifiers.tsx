@@ -12,10 +12,11 @@ interface SkillModifiersProps {
 /**
  * The "others" figure on a skill row, with the bonuses behind it.
  *
- * The tooltip lists the *whole* breakdown rather than the part that is not ranks or
- * the ability modifier: those two have their own columns, but a GM asking "why is
- * this +7?" wants the whole sum, and picking entries apart by their label here would
- * put rules knowledge in the frontend — the labels are corpus strings.
+ * The tooltip lists `line.other_breakdown`, not `line.breakdown`: ranks and the
+ * ability modifier already have their own columns, so repeating them here would
+ * just restate numbers the GM can already see. The split is made by the backend
+ * (see `SkillResult.other_applied`) rather than by filtering labels here, which
+ * would put rules knowledge — the labels are corpus strings — in the frontend.
  *
  * It opens on hover and on focus, and stays open on click. Hover alone would make it
  * unreachable by keyboard and unusable on touch, and the number it explains is the
@@ -47,7 +48,7 @@ export function SkillModifiers({ skill, line }: SkillModifiersProps): React.JSX.
       {visible && (
         <span role="tooltip" id={tooltipId} className="skill-others__tip">
           <ul className="stat__breakdown">
-            {line.breakdown.map((entry, index) => (
+            {line.other_breakdown.map((entry, index) => (
               <li key={`${entry.source}-${entry.label}-${index}`}>
                 <span>{entry.label}</span>
                 {entry.type ? <span className="stat__type"> ({entry.type})</span> : null}

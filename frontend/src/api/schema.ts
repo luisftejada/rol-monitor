@@ -1708,6 +1708,8 @@ export interface components {
       untrained_violation: boolean;
       /** Breakdown */
       breakdown: components["schemas"]["BreakdownEntry"][];
+      /** Other Breakdown */
+      other_breakdown: components["schemas"]["BreakdownEntry"][];
       /** Suppressed */
       suppressed: components["schemas"]["SuppressedEntry"][];
     };

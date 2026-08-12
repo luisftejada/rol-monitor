@@ -271,8 +271,13 @@ def test_a_skill_splits_into_ranks_ability_and_everything_else() -> None:
     assert line.ability_modifier == -1
     assert line.other_modifiers == 5  # class skill 3 + Persuasivo 2
     assert line.resolved.total == 7
-    # And the itemised breakdown is still there for the tooltip behind "others".
-    assert ("Persuasivo", 2) in [(m.source, m.value) for m in line.resolved.applied]
+    # The itemised breakdown behind "others" excludes ranks and the ability
+    # modifier: they already have their own columns, so repeating them here would
+    # just restate numbers the GM can already see.
+    assert {(m.source, m.value) for m in line.other_applied} == {
+        ("Habilidad de clase", 3),
+        ("Persuasivo", 2),
+    }
 
 
 def test_an_ability_names_itself_in_spanish_in_a_breakdown() -> None:

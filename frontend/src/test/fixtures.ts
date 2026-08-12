@@ -174,11 +174,15 @@ export const fighterSheet: CombatSheetResponse = {
       other_modifiers: 3,
       is_class_skill: true,
       untrained_violation: false,
+      // The full audit trail behind `total`, used by the read-only combat sheet.
       breakdown: [
         { label: "Habilidad de clase", value: 3, type: null, source: "class" },
         { label: "Rangos", value: 1, type: null, source: "class" },
         { label: "Carisma", value: -1, type: null, source: "ability" },
       ],
+      // Ranks and the ability modifier have their own columns, so the backend
+      // leaves them out of the breakdown behind "others".
+      other_breakdown: [{ label: "Habilidad de clase", value: 3, type: null, source: "class" }],
       suppressed: [],
     },
   ],

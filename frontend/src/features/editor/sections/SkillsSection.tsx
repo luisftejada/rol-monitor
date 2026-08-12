@@ -68,6 +68,9 @@ export function SkillsSection({
           <tr>
             <th scope="col">{t("skills.column.skill")}</th>
             <th scope="col">{t("skills.column.ranks")}</th>
+            <th scope="col" title={t("skills.column.characteristic.full")}>
+              {t("skills.column.characteristic")}
+            </th>
             <th scope="col" title={t("skills.column.ability.full")}>
               {t("skills.column.ability")}
             </th>
@@ -86,7 +89,7 @@ export function SkillsSection({
               <tr key={skill.slug} className={classSkill ? "is-class-skill" : undefined}>
                 <th scope="row">
                   {skill.name}
-                  {classSkill && <span title={t("skills.classSkill")}> ★</span>} ({skill.ability})
+                  {classSkill && <span title={t("skills.classSkill")}> ★</span>}
                 </th>
                 <td>
                   <span className="stepper">
@@ -113,6 +116,7 @@ export function SkillsSection({
                     </button>
                   </span>
                 </td>
+                <td className="skills__characteristic">{skill.ability}</td>
                 {/* Every number here comes from /derive. Deriving any of it in the
                     browser would put game arithmetic in the wrong layer, and the
                     three columns are guaranteed by the backend to sum to the total. */}

@@ -89,14 +89,20 @@ class SkillLineDTO(BaseModel):
     ability: str
     total: int
     #: ``total`` split the way a player reads a skill line. The three always sum to
-    #: it, so a UI can show the columns without adding anything up itself;
-    #: ``breakdown`` still itemises what went into ``other_modifiers``.
+    #: it, so a UI can show the columns without adding anything up itself.
     ranks: int
     ability_modifier: int
     other_modifiers: int
     is_class_skill: bool
     untrained_violation: bool
+    #: The full audit trail behind ``total`` — every modifier that applied,
+    #: including ranks and the ability modifier. Used where the whole sum is shown
+    #: at once (the read-only combat sheet).
     breakdown: list[BreakdownEntry]
+    #: The same modifiers minus ranks and the ability modifier — what
+    #: ``other_modifiers`` is made of. Used behind the "others" column, which sits
+    #: next to dedicated ranks and ability columns and would otherwise repeat them.
+    other_breakdown: list[BreakdownEntry]
     suppressed: list[SuppressedEntry]
 
 
@@ -232,6 +238,7 @@ def _skill(skill: SkillResult) -> SkillLineDTO:
         is_class_skill=skill.is_class_skill,
         untrained_violation=skill.untrained_violation,
         breakdown=[_entry(m) for m in skill.resolved.applied],
+        other_breakdown=[_entry(m) for m in skill.other_applied],
         suppressed=[_suppressed(s) for s in skill.resolved.suppressed],
     )
 

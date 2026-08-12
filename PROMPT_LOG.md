@@ -822,3 +822,33 @@ frontend), migrated SQLite, and verified the running stack via the REST API and 
 Vite dev server. Found one spec gap: numeric feat modifiers are never emitted.
 
 ---
+
+### 2026-08-11 — Skills table: characteristic column, filtered "others" tooltip
+**Prompt:** In the character editor's skills table, add a column between Ranks and
+the ability-modifier column showing the key characteristic's abbreviation (Int,
+Des, Fue, ...); remove the redundant "(ability)" label next to the skill name;
+restrict the "others" column's hover tooltip to only the modifiers that make up
+`other_modifiers` (excluding ranks and the ability modifier, which already have
+their own columns); confirm the total already equals ranks + ability modifier +
+others, as guaranteed by the backend (`test_skill_columns_always_sum_to_the_total`)
+— no frontend arithmetic was introduced, per the "zero Pathfinder formulas in
+TypeScript" rule.
+**Files affected:** `backend/src/pf_tracker/domain/derivation.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/tests/unit/domain/test_derivation_extra.py`, `backend/openapi.json`
+(regenerated, gitignored), `frontend/src/api/schema.ts` (regenerated),
+`frontend/src/features/editor/sections/SkillsSection.tsx`,
+`frontend/src/features/editor/sections/SkillModifiers.tsx`,
+`frontend/src/features/editor/sections/SkillsSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `frontend/src/test/fixtures.ts`.
+**Summary:** Added `SkillResult.other_applied` / `SkillLineDTO.other_breakdown` on
+the backend (ranks and ability modifier entries excluded, by identity, from the
+already-existing full `breakdown` used by the read-only combat sheet) and wired the
+editor's "others" tooltip to the new field; added a "Car." characteristic column
+sourced from the skills catalog (not `/derive`, so it renders before the first
+derivation); renamed the ability-modifier column header to "Mod." to avoid a label
+collision. All backend (434) and frontend (111) tests, mypy, ruff, eslint, and
+prettier pass.
+
+---
+
