@@ -1,5 +1,29 @@
 # Prompt log
 
+### 2026-08-12 — Ataques card below Equipo
+**Prompt:** Below the Equipo card, add an Ataques card listing every selected
+weapon with its attack bonus, damage, etc. A weapon with more than one way of
+being used (Ataque poderoso, Puntería mortal, ...) must appear once per way.
+**Files affected:** `frontend/src/components/AttackLines.tsx` (new),
+`frontend/src/components/CombatCard.tsx`,
+`frontend/src/features/editor/sections/AttacksSection.tsx` (new, + test),
+`frontend/src/features/editor/CharacterEditor.tsx`, `frontend/src/i18n/es.ts`.
+**Summary:** `/derive`'s `attacks` array already has one entry per alternative —
+that is how the read-only `CombatCard` has shown Power Attack lines etc. since the
+feats phase — so this is a second consumer of data the backend already computes,
+not new derivation. Extracted the block that renders one `.attack` line
+(bonus/damage/crit/CMB/notes, each a `StatBreakdown`) out of `CombatCard` into a
+shared `AttackLines` component so the editor's new card and the read-only view
+can't drift apart; `CombatCard`'s own rendered output is unchanged; its existing
+tests (including the one with two lines for the same weapon) cover `AttackLines`
+too. `AttacksSection` follows the other editor cards' shape (`editor__section`,
+`ac`/`saves`-style optional prop fed by `sheet?.attacks`) and shows a placeholder
+until a weapon is equipped. Registered it in the nav and rendered it right after
+`EquipmentSection` in the editor's left column. 434 backend / 125 frontend tests,
+lint, types, and coverage all pass.
+
+---
+
 ### 2026-08-12 — Widen the page and split the editor with Habilidades on the right
 **Prompt:** Make the page wider, and split the character editor into two columns
 with the Habilidades card on the right.

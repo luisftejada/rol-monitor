@@ -93,6 +93,7 @@ export const es = {
   "editor.section.skills": "Habilidades",
   "editor.section.feats": "Dotes",
   "editor.section.equipment": "Equipo",
+  "editor.section.attacks": "Ataques",
   "editor.saveState.idle": "Sin cambios",
   "editor.saveState.dirty": "Cambios sin guardar",
   "editor.saveState.saving": "Guardando…",
@@ -187,6 +188,8 @@ export const es = {
   "equipment.noWeapons": "Ninguna arma coincide con el filtro.",
   "equipment.weaponDetails": "Ver detalles de {weapon}",
   "equipment.addNamed": "Añadir {weapon}",
+
+  "attacks.none": "Añade un arma en Equipo para ver aquí sus ataques.",
 
   "weapon.proficiency": "Competencia",
   "weapon.category": "Categoría",

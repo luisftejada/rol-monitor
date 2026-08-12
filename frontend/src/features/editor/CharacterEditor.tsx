@@ -5,6 +5,7 @@ import { createCharacter, updateCharacter } from "@/api/characters";
 import type { CharacterCreate, CharacterRead } from "@/api/types";
 import { useDerivedSheet } from "@/features/editor/useDerivedSheet";
 import { AbilitiesSection } from "@/features/editor/sections/AbilitiesSection";
+import { AttacksSection } from "@/features/editor/sections/AttacksSection";
 import { ClassesSection } from "@/features/editor/sections/ClassesSection";
 import { EquipmentSection } from "@/features/editor/sections/EquipmentSection";
 import { FeatsSection } from "@/features/editor/sections/FeatsSection";
@@ -30,6 +31,7 @@ const SECTIONS: { id: string; key: MessageKey }[] = [
   { id: "section-skills", key: "editor.section.skills" },
   { id: "section-feats", key: "editor.section.feats" },
   { id: "section-equipment", key: "editor.section.equipment" },
+  { id: "section-attacks", key: "editor.section.attacks" },
 ];
 
 export function CharacterEditor({
@@ -128,6 +130,7 @@ export function CharacterEditor({
             budget={sheet?.feats}
           />
           <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
+          <AttacksSection attacks={sheet?.attacks} />
         </div>
 
         <div className="editor__column editor__column--skills">
