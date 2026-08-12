@@ -107,32 +107,37 @@ export function CharacterEditor({
           triggerSave();
         }}
       >
-        <IdentitySection draft={draft} patch={patch} />
-        <AbilitiesSection
-          draft={draft}
-          patch={patch}
-          modifiers={abilityModifiers}
-          bab={sheet?.bab}
-          initiative={sheet?.initiative}
-          cmb={sheet?.cmb}
-          cmd={sheet?.cmd}
-        />
-        <SavesSection saves={sheet?.saves} />
-        <ClassesSection draft={draft} patch={patch} />
-        <SkillsSection
-          draft={draft}
-          patch={patch}
-          intModifier={intModifier}
-          derived={sheet?.skills}
-        />
-        <FeatsSection
-          draft={draft}
-          patch={patch}
-          bab={bab}
-          abilities={abilityScores}
-          budget={sheet?.feats}
-        />
-        <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
+        <div className="editor__column">
+          <IdentitySection draft={draft} patch={patch} />
+          <AbilitiesSection
+            draft={draft}
+            patch={patch}
+            modifiers={abilityModifiers}
+            bab={sheet?.bab}
+            initiative={sheet?.initiative}
+            cmb={sheet?.cmb}
+            cmd={sheet?.cmd}
+          />
+          <SavesSection saves={sheet?.saves} />
+          <ClassesSection draft={draft} patch={patch} />
+          <FeatsSection
+            draft={draft}
+            patch={patch}
+            bab={bab}
+            abilities={abilityScores}
+            budget={sheet?.feats}
+          />
+          <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
+        </div>
+
+        <div className="editor__column editor__column--skills">
+          <SkillsSection
+            draft={draft}
+            patch={patch}
+            intModifier={intModifier}
+            derived={sheet?.skills}
+          />
+        </div>
       </form>
     </div>
   );

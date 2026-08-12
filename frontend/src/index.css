@@ -61,7 +61,7 @@ body {
   color: var(--muted);
 }
 .layout__main {
-  max-width: 72rem;
+  max-width: 96rem;
   margin: 0 auto;
   padding: 1.5rem;
 }
@@ -435,7 +435,23 @@ label.button {
 }
 .editor__form {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 60rem) {
+  .editor__form {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .editor__column--skills {
+    position: sticky;
+    top: 1rem;
+  }
+}
+.editor__column {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
 }
 .editor__section {
   display: grid;

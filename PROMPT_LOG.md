@@ -1,5 +1,24 @@
 # Prompt log
 
+### 2026-08-12 — Widen the page and split the editor with Habilidades on the right
+**Prompt:** Make the page wider, and split the character editor into two columns
+with the Habilidades card on the right.
+**Files affected:** `frontend/src/features/editor/CharacterEditor.tsx`,
+`frontend/src/index.css`.
+**Summary:** Raised `.layout__main`'s max-width from 72rem to 96rem (site-wide —
+every page centers and caps its width there, and nothing asked for the editor
+alone to differ). Split `.editor__form` into a two-column grid at the existing
+60rem breakpoint: a left `.editor__column` with Identidad, Características,
+Salvaciones, Clases y nivel, Dotes and Equipo stacked as before, and a right
+`.editor__column--skills` holding only `SkillsSection`, sticky so it stays in
+view while the longer left column scrolls — the same treatment the removed
+live-preview `<aside>` used to get. The `<form>` element still wraps both
+columns, so submit/Ctrl+S behavior is unchanged. 434 backend / 118 frontend
+tests, lint, types, and coverage all pass unmodified — no test asserted the
+single-column DOM order.
+
+---
+
 ### 2026-08-12 — Drop the editor's live-preview panel
 **Prompt:** Remove the right-hand panel from the character editor page (the live
 combat-card preview); keep only the left-column form cards — Identidad,
