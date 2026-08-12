@@ -161,6 +161,11 @@ fieldset label {
 }
 .card__header h2 {
   margin: 0;
+  /* Preflight strips heading size and weight; this is the page's own title
+     (the character's name), and no `<h1>` above it restyles it for free. */
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 .card__abilities {
   display: flex;
@@ -275,6 +280,9 @@ fieldset label {
   grid-template-columns: minmax(9rem, 1.3fr) repeat(3, minmax(6rem, 1fr));
   gap: 0.6rem;
   align-items: stretch;
+  /* The four columns have a real minimum width apiece; a frame narrower than
+     their sum scrolls here instead of spilling past the card's own edge. */
+  overflow-x: auto;
 }
 .attack__name {
   display: flex;
@@ -840,7 +848,10 @@ label.button {
 }
 @media (min-width: 60rem) {
   .combat-view {
-    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+    /* Wide enough for an attack line's four columns (name + bonus + damage +
+       crit) not to be forced narrower than they can render; 24rem clipped them,
+       which is what the .attack__row overflow guard below is a backstop for. */
+    grid-template-columns: minmax(0, 36rem) minmax(0, 1fr);
   }
 }
 .tracker {

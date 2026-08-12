@@ -1,5 +1,26 @@
 # Prompt log
 
+### 2026-08-12 — Character name reads as a title; combat card gets room for its grid
+**Prompt:** On the character page, the player's name (Flindi) should have a title
+style; also some values are spilling out of their frame (the weapon crits) — the
+frame needs more size.
+**Files affected:** `frontend/src/index.css`.
+**Summary:** `.card__header h2` (the character's name — the highest heading on this
+page; nothing above it is an `<h1>`) had no size or weight rule, so Tailwind's
+preflight left it as plain body text; gave it the same 1.5rem/700/-0.01em the
+global `h1` rule already uses elsewhere, rather than inventing a second title style.
+The overflow was `.combat-view`'s left column: capped at 24rem, narrower than
+`.attack__row`'s four-column grid can render (name + bonus + damage + crit each
+have a real minimum width), so the row forced itself wider than the card and spilled
+past its border. Raised the cap to 36rem. Also added `overflow-x: auto` to
+`.attack__row` itself as a backstop — a frame narrower than the grid's minimum
+(a phone-width single-column view, still possible below the 60rem breakpoint) now
+scrolls the row instead of visually breaking out of the card, on any weapon name
+long enough to need it. Visual-only; no test changes. 444 backend / 125 frontend
+tests, lint, types, and coverage all pass unmodified.
+
+---
+
 ### 2026-08-12 — Attack lines: aligned columns, variant name on its own line
 **Prompt:** In the Ataques card: align bonus/damage/crit into three columns across
 every line, placed right after the weapon name on its first line; when a line has
