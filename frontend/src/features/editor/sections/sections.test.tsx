@@ -123,7 +123,10 @@ describe("EquipmentSection", () => {
     renderWithProviders(<EquipmentHost />);
 
     await user.click(await screen.findByRole("combobox", { name: "Escudo" }));
-    await user.click(await screen.findByRole("option", { name: "Escudo pesado de acero" }));
+    // The option's accessible name includes its stat-line hint, hence the regex.
+    await user.click(await screen.findByRole("option", { name: /^Escudo pesado de acero/ }));
+    // A shield with no Dex cap shows only the AC bonus and check penalty.
+    expect(screen.getByText("CA +2 · Penalización -2")).toBeInTheDocument();
 
     await user.click(await screen.findByRole("button", { name: "Añadir Espada larga" }));
 
@@ -136,6 +139,20 @@ describe("EquipmentSection", () => {
     await waitFor(() =>
       expect(within(weapons).queryByText("Espada larga")).not.toBeInTheDocument(),
     );
+  });
+
+  it("shows the armor's AC bonus, Dex cap, and check penalty once equipped", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<EquipmentHost />);
+
+    await user.click(await screen.findByRole("combobox", { name: "Armadura" }));
+    await user.click(await screen.findByRole("option", { name: /^Cota de escamas/ }));
+    expect(screen.getByText("CA +5 · Máx. Des +3 · Penalización -4")).toBeInTheDocument();
+
+    // Clearing the selection clears the stat line too.
+    await user.click(screen.getByRole("combobox", { name: "Armadura" }));
+    await user.click(await screen.findByRole("option", { name: "Ninguna" }));
+    expect(screen.queryByText(/^CA /)).not.toBeInTheDocument();
   });
 
   it("lists every weapon alphabetically when no type is selected", async () => {

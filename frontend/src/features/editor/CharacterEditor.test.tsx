@@ -57,7 +57,8 @@ describe("CharacterEditor", () => {
     );
 
     await user.click(screen.getByRole("combobox", { name: "Armadura" }));
-    await user.click(await screen.findByRole("option", { name: "Cota de escamas" }));
+    // The option's accessible name includes its stat-line hint, hence the regex.
+    await user.click(await screen.findByRole("option", { name: /^Cota de escamas/ }));
 
     // After the debounced re-derive, the card reflects the equipped armor.
     await waitFor(

@@ -173,6 +173,9 @@ export const es = {
 
   "equipment.armor": "Armadura",
   "equipment.shield": "Escudo",
+  "equipment.stats.ac": "CA {value}",
+  "equipment.stats.maxDex": "Máx. Des {value}",
+  "equipment.stats.checkPenalty": "Penalización {value}",
   "equipment.weapon": "Arma",
   "equipment.addWeapon": "Añadir arma",
   "equipment.removeWeapon": "Quitar {weapon}",

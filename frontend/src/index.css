@@ -521,6 +521,12 @@ label.button {
   color: var(--warn-text);
   font-size: 0.8rem;
 }
+.equipment__stats {
+  margin: -0.15rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
 .stepper {
   display: inline-flex;
   align-items: center;

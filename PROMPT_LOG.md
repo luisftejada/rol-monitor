@@ -852,3 +852,22 @@ prettier pass.
 
 ---
 
+
+### 2026-08-11 — Show armor/shield AC bonus and penalties in the equipment section
+**Prompt:** In the character editor's equipment section, both the Armadura and
+Escudo pickers need to reflect the item's AC bonus and its negative modifiers
+(Dex cap, armor check penalty) once one is selected.
+**Files affected:** `frontend/src/features/editor/sections/EquipmentSection.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`,
+`frontend/src/features/editor/sections/sections.test.tsx`,
+`frontend/src/features/editor/CharacterEditor.test.tsx`.
+**Summary:** Added an `armorSummary()` helper that reads the selected armor/shield's
+catalog fields verbatim (`armor_bonus`, `max_dex`, `armor_check_penalty` — no
+derivation, so the "no Pathfinder formulas in the frontend" rule still holds) and
+shows them as a stat line ("CA +5 · Máx. Des +3 · Penalización -4") both under the
+selected item and as a hint on each option in the picker dropdown. Updated the two
+existing tests that selected an armor/shield option by exact accessible name, since
+the option's name now includes its hint text.
+
+---
+

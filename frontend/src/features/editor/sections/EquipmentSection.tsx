@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import type { CharacterCreate, EquippedWeaponIn, WeaponDTO } from "@/api/types";
+import type { ArmorDTO, CharacterCreate, EquippedWeaponIn, WeaponDTO } from "@/api/types";
 import { Combobox } from "@/components/Combobox";
 import { Modal } from "@/components/Modal";
 import { useArmor, useWeapons } from "@/hooks/useRules";
 import { t } from "@/i18n";
+import { signed } from "@/lib/format";
 import { fuzzyMatch } from "@/lib/normalize";
 
 interface SectionProps {
@@ -25,18 +26,21 @@ export function EquipmentSection({ draft, patch }: SectionProps): React.JSX.Elem
   const [detailed, setDetailed] = useState<WeaponDTO | null>(null);
 
   const armor = armorQuery.data ?? [];
+  const byArmorName = new Map(armor.map((item) => [item.name, item]));
   const armorOptions = [
     { value: NONE, label: t("equipment.none") },
     ...armor
       .filter((item) => item.category !== "escudo")
-      .map((item) => ({ value: item.name, label: item.name })),
+      .map((item) => ({ value: item.name, label: item.name, hint: armorSummary(item) })),
   ];
   const shieldOptions = [
     { value: NONE, label: t("equipment.none") },
     ...armor
       .filter((item) => item.category === "escudo")
-      .map((item) => ({ value: item.name, label: item.name })),
+      .map((item) => ({ value: item.name, label: item.name, hint: armorSummary(item) })),
   ];
+  const selectedArmor = draft.armor && byArmorName.get(draft.armor.catalog_name);
+  const selectedShield = draft.shield && byArmorName.get(draft.shield.catalog_name);
   const catalog = weaponsQuery.data ?? [];
   // The corpus declares no canonical list of weapon categories, so they are taken
   // from the catalog itself; first-appearance order matches the rulebook table.
@@ -81,6 +85,7 @@ export function EquipmentSection({ draft, patch }: SectionProps): React.JSX.Elem
           })
         }
       />
+      {selectedArmor && <p className="equipment__stats">{armorSummary(selectedArmor)}</p>}
 
       <Combobox
         label={t("equipment.shield")}
@@ -95,6 +100,7 @@ export function EquipmentSection({ draft, patch }: SectionProps): React.JSX.Elem
           })
         }
       />
+      {selectedShield && <p className="equipment__stats">{armorSummary(selectedShield)}</p>}
 
       <div className="picker-filters">
         <div className="field">
@@ -256,4 +262,20 @@ function summaryOf(weapon: WeaponDTO): string {
   return [weapon.damage_medium, criticalOf(weapon), weapon.damage_type, weapon.special]
     .filter(Boolean)
     .join(" — ");
+}
+
+/**
+ * The stat line for a piece of armor: what it gives (the AC bonus) and what it
+ * costs (the Dex cap and the check penalty). These are catalog values read
+ * verbatim — nothing here is derived, so it stays clear of the rule that combat
+ * arithmetic lives in the backend.
+ */
+function armorSummary(item: ArmorDTO): string {
+  return [
+    t("equipment.stats.ac", { value: signed(item.armor_bonus) }),
+    item.max_dex != null ? t("equipment.stats.maxDex", { value: signed(item.max_dex) }) : null,
+    t("equipment.stats.checkPenalty", { value: signed(item.armor_check_penalty) }),
+  ]
+    .filter(Boolean)
+    .join(" · ");
 }
