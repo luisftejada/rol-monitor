@@ -269,6 +269,10 @@ def test_a_declared_feat_becomes_a_weapon_variant_not_a_global_modifier(
     assert [(m.target, m.value) for m in variant.cmb_modifiers] == [("CMB", -2)]
     assert lines["Mandoble"].attack_modifiers == ()
     assert lines["Mandoble"].cmb_modifiers == ()
+    # `name` folds the label in for anything reading the line as one string; a
+    # renderer wanting the two apart gets the label on its own, unparsed.
+    assert lines["Mandoble"].variant_label is None
+    assert variant.variant_label == "Ataque poderoso"
 
 
 def test_weapon_variants_cover_every_combination(rules_repository: RulesRepository) -> None:

@@ -57,6 +57,13 @@ class EquippedWeapon:
     is_ranged: bool
     threat_range: int
     crit_multiplier: int
+    #: What makes this line different from the weapon's base one — the declared or
+    #: situational feat(s) behind it (``"Ataque poderoso"``, ``"Disparo a
+    #: bocajarro — sólo objetivo a 30 pies (9 m) o menos"``) — already folded into
+    #: ``name`` as ``"<name> (<variant_label>)"`` for anything that reads the whole
+    #: line as one string. Carried separately too so a renderer can show the two
+    #: on their own lines instead of repeating the weapon name inside them.
+    variant_label: str | None = None
     #: Unarmed strikes are their own category: some feats only add attacks to them.
     is_unarmed: bool = False
     is_thrown: bool = False

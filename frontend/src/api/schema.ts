@@ -506,6 +506,8 @@ export interface components {
     AttackDTO: {
       /** Weapon */
       weapon: string;
+      /** Variant Label */
+      variant_label?: string | null;
       /** Is Ranged */
       is_ranged: boolean;
       /** Attack Line */

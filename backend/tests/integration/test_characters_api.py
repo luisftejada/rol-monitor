@@ -182,7 +182,13 @@ async def test_a_power_attack_line_reports_the_cmb_it_costs(client: AsyncClient)
 
     lines = {attack["weapon"]: attack for attack in sheet["attacks"]}
     assert lines["Mandoble"]["cmb"] is None
-    variant = lines["Mandoble (Ataque poderoso)"]["cmb"]
+    assert lines["Mandoble"]["variant_label"] is None
+    variant_line = lines["Mandoble (Ataque poderoso)"]
+    # The weapon name repeats the variant label in parentheses for anything reading
+    # the whole line as one string, but a renderer wanting the two apart (so as not
+    # to print the weapon name twice) does not have to parse that back out.
+    assert variant_line["variant_label"] == "Ataque poderoso"
+    variant = variant_line["cmb"]
     # BAB 5 falls in the +4..+7 band, so the line costs 2 points of CMB.
     assert variant["total"] == sheet["cmb"]["total"] - 2
     assert ("Ataque poderoso", -2) in [(e["label"], e["value"]) for e in variant["breakdown"]]

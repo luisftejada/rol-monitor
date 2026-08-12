@@ -49,6 +49,7 @@ export const es = {
   "sheet.cmd": "DMC",
   "sheet.bab": "Ataque base",
   "sheet.attacks": "Ataques",
+  "sheet.attack.bonus": "Bono",
   "sheet.attack.damage": "Daño",
   "sheet.attack.firstDamage": "Daño (1.er ataque)",
   "sheet.attack.crit": "Crítico",

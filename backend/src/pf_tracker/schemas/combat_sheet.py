@@ -64,6 +64,11 @@ class BabDTO(BaseModel):
 
 class AttackDTO(BaseModel):
     weapon: str
+    #: What makes this line different from the weapon's base one, already folded
+    #: into ``weapon`` as ``"<weapon> (<variant_label>)"`` — carried separately so
+    #: a renderer can show the two on their own lines instead of repeating the
+    #: weapon name inside them. ``None`` on the weapon's own base line.
+    variant_label: str | None = None
     is_ranged: bool
     attack_line: str
     attack: ValueBreakdown
@@ -210,6 +215,7 @@ def _ac(ac: ACResult) -> ACDTO:
 def _attack(routine: AttackRoutine) -> AttackDTO:
     return AttackDTO(
         weapon=routine.weapon_name,
+        variant_label=routine.variant_label,
         is_ranged=routine.is_ranged,
         attack_line=routine.attack_line,
         attack=_value(routine.attack_breakdown),

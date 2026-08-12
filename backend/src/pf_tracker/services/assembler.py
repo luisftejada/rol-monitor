@@ -681,6 +681,7 @@ def _with_feats(
     return replace(
         weapon,
         name=weapon.name if label is None else f"{weapon.name} ({label})",
+        variant_label=label,
         threat_range=threat_range,
         attack_modifiers=tuple(attack),
         damage_modifiers=tuple(damage),

@@ -12,8 +12,9 @@ describe("CombatCard", () => {
     expect(screen.getByRole("heading", { name: "Aldous" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Clase de armadura/ })).toHaveTextContent("18");
     expect(screen.getByText(/CA de tacto/)).toHaveTextContent("11");
+    expect(screen.getByText("Espada larga")).toBeInTheDocument();
     // The attack routine's breakdown toggle shows the attack line.
-    expect(screen.getByRole("button", { name: /Espada larga/ })).toHaveTextContent("+4");
+    expect(screen.getByRole("button", { name: /^Bono/ })).toHaveTextContent("+4");
   });
 
   it("expands the AC to show its breakdown and the suppressed bonus", async () => {
@@ -48,6 +49,7 @@ describe("CombatCard", () => {
         {
           ...base,
           weapon: "Espada larga (Ataque poderoso)",
+          variant_label: "Ataque poderoso",
           cmb: {
             total: 2,
             breakdown: [{ label: "Ataque poderoso", value: -2, type: null, source: "feat" }],

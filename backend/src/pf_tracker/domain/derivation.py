@@ -115,6 +115,8 @@ class AttackRoutine:
     #: Power Attack's penalty applies to combat manoeuvres as well as to attacks, so
     #: a sheet showing only the character's CMB would overstate it by up to 6.
     cmb: ResolvedValue | None = None
+    #: See :attr:`EquippedWeapon.variant_label`.
+    variant_label: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -645,6 +647,7 @@ def _attack_routine(
         is_proficient=weapon.is_proficient,
         notes=weapon.notes,
         cmb=line_cmb,
+        variant_label=weapon.variant_label,
     )
 
 

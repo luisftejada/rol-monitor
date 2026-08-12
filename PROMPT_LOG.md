@@ -1,5 +1,47 @@
 # Prompt log
 
+### 2026-08-12 — Attack lines: aligned columns, variant name on its own line
+**Prompt:** In the Ataques card: align bonus/damage/crit into three columns across
+every line, placed right after the weapon name on its first line; when a line has
+something special (Ataque poderoso, Disparo a bocajarro), show that special on the
+line right below the weapon name instead of repeating the name inside it; an extra
+effect the special causes (Ataque poderoso's CMB) goes right below the special line.
+**Files affected:** `backend/src/pf_tracker/domain/models.py`,
+`backend/src/pf_tracker/domain/derivation.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/tests/unit/services/test_assembler.py`,
+`backend/tests/integration/test_characters_api.py`,
+`frontend/src/api/schema.ts` (regenerated), `frontend/src/components/AttackLines.tsx`,
+`frontend/src/components/CombatCard.test.tsx`,
+`frontend/src/features/editor/sections/AttacksSection.test.tsx`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`.
+**Summary:** The variant's label was only ever available folded into the weapon
+name (`"Espada larga (Ataque poderoso)"`), so showing it on its own line meant either
+parsing that back apart in TypeScript — reconstructing meaning from a display
+string is the same smell as computing a formula there — or having the backend carry
+it as its own field. Added `EquippedWeapon.variant_label` / `AttackRoutine.variant_label`
+/ `AttackDTO.variant_label`, set alongside (not instead of) the existing folded
+`name`, so nothing that already reads the whole line as one string had to change.
+The frontend still does one small, safe string op — stripping the exact known
+`" (<variant_label>)"` substring back out of `weapon` for the bare name — rather
+than adding a second backend field for what `weapon` minus `variant_label` already
+determines.
+Rebuilt `AttackLines`' layout: `.attack__row` is a CSS grid (name column +
+bonus/damage/crit) with the same `grid-template-columns` on every line, which
+aligns the columns line to line without a shared grid ancestor — same width in,
+same column widths out. The bonus toggle's label changed from the (now redundant)
+weapon name to a fixed "Bono", matching how the damage toggle was already always
+labelled "Daño" rather than the weapon name. `variant_label`, when present, is its
+own line right under the name; the CMB toggle (when a line charges one) follows
+directly under that. A missing damage expression renders an empty tile rather than
+being omitted, so the crit column after it still lands in place. Shared by
+`CombatCard`, so the read-only view picked up the same fix. 444 backend (3 new
+assertions on `variant_label`) / 125 frontend tests, lint, types, and coverage all
+pass.
+
+---
+
 ### 2026-08-12 — Disparo a bocajarro becomes a weapon-line variant, not a warning
 **Prompt:** Flindi has a longbow and Disparo a bocajarro (Point-Blank Shot); shouldn't
 that generate an extra attack line showing the bonus for targets within 30 feet, the
