@@ -5,18 +5,23 @@ import { signed } from "@/lib/format";
 
 interface LevelUpDialogProps {
   report: LevelUpResponse;
+  onApply: () => void;
   onClose: () => void;
 }
 
 /**
- * What the next level buys, as a report. It applies nothing by design: the owner
- * enters the result in the cards that already exist, so this is a checklist to work
- * through rather than a wizard that decides.
+ * What the next level buys, and the button that takes it.
+ *
+ * Applying does the bookkeeping that has one right answer — the class level goes up
+ * and the new level gets its hit-point row — and leaves the *choices* to the cards
+ * that own them: the feat to Dotes, the ability to Características, the ranks to
+ * Habilidades. Those cards already know how many are outstanding, so taking the level
+ * is what makes their counters move.
  *
  * Everything is shown as before → after where it is a number, because "Fortaleza +4"
  * leaves you wondering whether that is the gain or the total.
  */
-export function LevelUpDialog({ report, onClose }: LevelUpDialogProps): React.JSX.Element {
+export function LevelUpDialog({ report, onApply, onClose }: LevelUpDialogProps): React.JSX.Element {
   const saves = Object.keys(report.saves_after);
 
   return (
@@ -94,7 +99,13 @@ export function LevelUpDialog({ report, onClose }: LevelUpDialogProps): React.JS
           </ul>
         )}
 
-        <p className="level-up__note">{t("levelUp.applyByHand")}</p>
+        {/* Applying takes the level and adds its hit-point row; the choices above —
+            the feat, the ability, the ranks — stay for the cards that own them, which
+            is why the note says which half this button does. */}
+        <p className="level-up__note">{t("levelUp.applyNote")}</p>
+        <button type="button" className="button" onClick={onApply}>
+          {t("levelUp.apply")}
+        </button>
       </div>
     </Modal>
   );

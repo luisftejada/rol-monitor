@@ -131,6 +131,29 @@ describe("ClassesSection", () => {
     expect(seen.draft).toEqual(before);
   });
 
+  it("takes the level when applied, and gives it a hit-point row", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function Host() {
+      const { draft, patch } = useDraft();
+      seen.draft = draft;
+      return <ClassesSection draft={draft} patch={patch} />;
+    }
+    renderWithProviders(<Host />);
+
+    await user.click(await screen.findByRole("button", { name: /Subir un nivel de Guerrero/ }));
+    const dialog = await screen.findByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "Subir el nivel" }));
+
+    // The class level goes up, which is what makes the feat and skill-rank counters
+    // in the other cards move — they are derived from it.
+    expect(seen.draft.class_levels?.[0]).toMatchObject({ class_slug: "guerrero", level: 2 });
+    // And the new level arrives with a row waiting for its roll.
+    expect(seen.draft.hp_per_level).toEqual([
+      { level: 4, class_slug: "guerrero", value: 0, mode: "roll" },
+    ]);
+  });
+
   it("offers one level-up button per class, which is the multiclass choice", async () => {
     const user = userEvent.setup();
     function Host() {

@@ -1,4 +1,4 @@
-import type { CharacterCreate, ClassSummaryDTO, HpLevelIn } from "@/api/types";
+import type { CharacterCreate, HpLevelIn } from "@/api/types";
 import { useClasses } from "@/hooks/useRules";
 import { t } from "@/i18n";
 
@@ -10,10 +10,13 @@ interface HitPointsPerLevelProps {
 /**
  * What each level contributed to hit points, and how it was decided.
  *
- * Level 1 takes the die's maximum and is not editable — the character's first level,
- * not each class' first. Later levels are entered by hand or rolled, and the roll may
- * be floored at half the die plus one. Both the die and that floor arrive from the
- * backend: they are rules figures. The roll is randomness, so it happens here.
+ * The value is not typed in: level 1 takes the die's maximum by rule, and later
+ * levels come from one of the two rolls. Leaving it editable invited a number the
+ * rules do not allow, so the field shows the result instead of asking for it.
+ *
+ * The die and the floor under a "never roll badly" roll both arrive from the backend
+ * — they are rules figures. The roll happens here, because a random number is not a
+ * Pathfinder formula.
  *
  * The Constitution modifier is deliberately absent: it applies per level and is
  * derived from the score, so it follows a belt of Constitution instead of going stale.
@@ -42,8 +45,6 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
     patch({ hp_per_level: next });
   };
 
-  const dieOf = (row: HpLevelIn): ClassSummaryDTO | undefined => bySlug.get(row.class_slug);
-
   return (
     <div className="hp-levels">
       <h3>{t("hp.perLevel")}</h3>
@@ -52,6 +53,7 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
           <tr>
             <th scope="col">{t("classes.level")}</th>
             <th scope="col">{t("classes.class")}</th>
+            <th scope="col">{t("hp.die")}</th>
             <th scope="col">{t("hp.value")}</th>
             <th scope="col">{t("hp.roll")}</th>
           </tr>
@@ -60,9 +62,12 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
           {Array.from({ length: totalLevel }, (_, index) => {
             const level = index + 1;
             const row = rowFor(level);
-            const cls = dieOf(row);
+            const cls = bySlug.get(row.class_slug);
             const faces = cls?.hit_die_faces ?? 0;
             const isFirst = level === 1;
+            // Until the class catalog lands there is no die, and a "0" would read as
+            // a rolled zero rather than as "not known yet".
+            const shown = isFirst ? faces || null : row.value || null;
 
             return (
               <tr key={level}>
@@ -80,27 +85,13 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
                     ))}
                   </select>
                 </td>
+                <td className="hp-levels__die">{cls ? `1d${faces}` : "—"}</td>
                 <td>
-                  <input
-                    type="number"
-                    aria-label={t("hp.valueFor", { level })}
-                    min={1}
-                    max={faces || undefined}
-                    // The first level is the die's maximum by rule, so it is shown
-                    // rather than asked for — an editable field would invite a
-                    // number the rules do not allow.
-                    value={isFirst ? faces : row.value}
-                    disabled={isFirst}
-                    onChange={(event) =>
-                      write(level, {
-                        value: clamp(Number(event.target.value), faces),
-                        mode: "manual",
-                      })
-                    }
-                  />
+                  <output aria-label={t("hp.valueFor", { level })}>{shown ?? "—"}</output>
                   {isFirst && <span className="hp-levels__note">{t("hp.firstLevel")}</span>}
                 </td>
                 <td>
+                  {/* Level 1 has no roll to make: it is the die's maximum by rule. */}
                   {!isFirst && faces > 0 && (
                     <>
                       <button
@@ -116,7 +107,7 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
                         onClick={() =>
                           write(level, {
                             // The floor is the backend's; taking the better of two
-                            // numbers is not a rule, it is arithmetic.
+                            // numbers is arithmetic, not a rule.
                             value: Math.max(roll(faces), cls?.hit_points_floor ?? 1),
                             mode: "floored",
                           })
@@ -132,11 +123,6 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
           })}
         </tbody>
       </table>
-      {/* Level 1 is written in as soon as its class is known, so the total is right
-          from the start rather than only after somebody touches the table. */}
-      {totalLevel > 0 && entries.length === 0 && (
-        <p className="hp-levels__note">{t("hp.notRecorded")}</p>
-      )}
     </div>
   );
 }
@@ -144,9 +130,4 @@ export function HitPointsPerLevel({ draft, patch }: HitPointsPerLevelProps): Rea
 /** A plain die roll. Randomness, not a rule — which is why it lives here. */
 function roll(faces: number): number {
   return Math.floor(Math.random() * faces) + 1;
-}
-
-function clamp(value: number, faces: number): number {
-  if (Number.isNaN(value)) return 1;
-  return Math.min(Math.max(1, value), faces || value);
 }

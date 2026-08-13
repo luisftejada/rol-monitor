@@ -1,5 +1,37 @@
 # Prompt log
 
+### 2026-08-14 — Levelling up actually takes the level
+**Prompt:** Actuales tiene que ser "PG Actuales" … se tiene que mostrar cuál es el dado
+de PG para el nivel … el valor de PG no es editable manualmente … al clickar en subir
+nivel, el nivel no cambia, sólo se muestra el modal
+**Files affected:**
+`frontend/src/features/editor/sections/{HitPointsPerLevel,LevelUpDialog,ClassesSection}.tsx`,
+`frontend/src/features/editor/sections/{AbilitiesSection,sections}.test.tsx`,
+`frontend/src/i18n/es.ts`, `PROMPT_LOG.md`
+**Summary:** **A reversal, recorded as one:** the level-up button was built to report
+and apply nothing, which is what was asked for on 2026-08-13 and what the copy-per-
+level trigger was designed around. It now applies. The dialog keeps the report and
+grows a button that takes the level, so the report is still read before anything
+moves; the copy machinery is unaffected, since it hangs off the level changing rather
+than off who changed it.
+
+Applying does only the bookkeeping with one right answer — the class level goes up (or
+joins the character at 1) and the new level gets its hit-point row. The feat, the
+ability and the ranks stay with the cards that own them, whose counters are derived
+from the class level and therefore move on their own; the note in the dialog says
+which half the button does.
+
+Also: hit points per level are no longer typed in, since level 1 is fixed by rule and
+the rest come from a roll — an open field invited numbers the rules disallow. The die
+is named per row (`1d10`), and an unknown die shows "—" rather than "0", which would
+read as a rolled zero.
+
+**On the `0` in the screenshot:** checked the running server before answering this
+time — it does serve `hit_die_faces: 10`, so that was a stale response in the browser
+rather than anything missing.
+
+---
+
 ### 2026-08-14 — Entering and rolling each level's hit points
 **Prompt:** sigue
 **Files affected:** `backend/src/pf_tracker/rules/{hit_points.py (new),catalog,repository,level_up}.py`,

@@ -170,20 +170,19 @@ describe("AbilitiesSection", () => {
     }
     renderWithProviders(<HpHost />);
 
-    const current = screen.getByLabelText("Actuales");
+    const current = screen.getByLabelText("PG Actuales");
     await user.clear(current);
     await user.type(current, "17");
     expect(seen.draft.current_hp).toBe(17);
 
     // Temporary hit points are a pool you are given, never a debt.
-    const temporary = screen.getByLabelText("Temporales");
+    const temporary = screen.getByLabelText("PG Temporales");
     await user.clear(temporary);
     await user.type(temporary, "-3");
     expect(seen.draft.temporary_hp).toBe(3);
   });
 
-  it("fixes level 1 at the die's maximum and lets later levels be entered", async () => {
-    const user = userEvent.setup();
+  it("fixes level 1 at the die's maximum and names the die", async () => {
     const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
     function HpHost() {
       const [draft, setDraft] = useState<CharacterCreate>({
@@ -197,19 +196,11 @@ describe("AbilitiesSection", () => {
 
     // Level 1 is the die's maximum by rule, so it is shown rather than asked for.
     // The row exists before the class catalog lands, so the die is what to wait on.
-    await waitFor(() => expect(screen.getByLabelText("PG del nivel 1")).toHaveValue(10));
-    expect(screen.getByLabelText("PG del nivel 1")).toBeDisabled();
-
-    const second = screen.getByLabelText("PG del nivel 2");
-    expect(second).toBeEnabled();
-    // Select and overwrite, the way one edits a number that is already there:
-    // the field is clamped to 1..die, so clearing it writes the minimum back.
-    await user.tripleClick(second);
-    await user.keyboard("7");
-    expect(seen.draft.hp_per_level?.find((e) => e.level === 2)).toMatchObject({
-      value: 7,
-      mode: "manual",
-    });
+    await waitFor(() => expect(screen.getByLabelText("PG del nivel 1")).toHaveTextContent("10"));
+    // The die is named, so nobody has to remember which class rolls what.
+    expect(screen.getByRole("row", { name: /^1 / })).toHaveTextContent("1d10");
+    // Level 1 has no roll to make.
+    expect(screen.queryByLabelText("Tirar los PG del nivel 1")).not.toBeInTheDocument();
   });
 
   it("rolls a level, and rolls it with the floor the backend gave", async () => {

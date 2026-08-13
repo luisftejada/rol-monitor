@@ -44,6 +44,40 @@ export function ClassesSection({ draft, patch }: SectionProps): React.JSX.Elemen
   const preview = useMutation({ mutationFn: (taking: string) => levelUpPreview(draft, taking) });
   const past = useMutation({ mutationFn: (data: CharacterCreate) => deriveCharacter(data) });
 
+  /** Take the level: the class goes up by one — or joins the character at 1 — and
+   * the new level gets a hit-point row of its own, waiting to be rolled. Everything
+   * else the report lists is a choice, and belongs to the card that owns it. */
+  const applyLevel = (report: LevelUpResponse): void => {
+    const taken = classLevels.some((entry) => entry.class_slug === report.class_slug);
+    const nextLevels = taken
+      ? classLevels.map((entry) =>
+          entry.class_slug === report.class_slug ? { ...entry, level: entry.level + 1 } : entry,
+        )
+      : [
+          ...classLevels,
+          {
+            class_slug: report.class_slug,
+            level: 1,
+            is_prestige: false,
+            is_favored: false,
+          },
+        ];
+
+    patch({
+      class_levels: nextLevels,
+      hp_per_level: [
+        ...(draft.hp_per_level ?? []),
+        {
+          level: report.total_level_after,
+          class_slug: report.class_slug,
+          // Level 1 is the die's maximum by rule; anything later waits for a roll.
+          value: report.is_first_level ? report.hit_die : 0,
+          mode: report.is_first_level ? ("max" as const) : ("roll" as const),
+        },
+      ],
+    });
+  };
+
   const history = draft.level_history ?? [];
   const totalLevel = classLevels.reduce((sum, entry) => sum + entry.level, 0);
 
@@ -116,7 +150,14 @@ export function ClassesSection({ draft, patch }: SectionProps): React.JSX.Elemen
       </ul>
 
       {preview.data && (
-        <LevelUpDialog report={preview.data as LevelUpResponse} onClose={() => preview.reset()} />
+        <LevelUpDialog
+          report={preview.data as LevelUpResponse}
+          onApply={() => {
+            applyLevel(preview.data as LevelUpResponse);
+            preview.reset();
+          }}
+          onClose={() => preview.reset()}
+        />
       )}
       {past.data && (
         <Modal title={t("levelUp.pastCharacter")} onClose={() => past.reset()}>
