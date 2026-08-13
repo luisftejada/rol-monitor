@@ -182,6 +182,63 @@ describe("AbilitiesSection", () => {
     expect(seen.draft.temporary_hp).toBe(3);
   });
 
+  it("fixes level 1 at the die's maximum and lets later levels be entered", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function HpHost() {
+      const [draft, setDraft] = useState<CharacterCreate>({
+        ...defaultDraft(),
+        class_levels: [{ class_slug: "guerrero", level: 2, is_prestige: false, is_favored: false }],
+      });
+      seen.draft = draft;
+      return <AbilitiesSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} />;
+    }
+    renderWithProviders(<HpHost />);
+
+    // Level 1 is the die's maximum by rule, so it is shown rather than asked for.
+    // The row exists before the class catalog lands, so the die is what to wait on.
+    await waitFor(() => expect(screen.getByLabelText("PG del nivel 1")).toHaveValue(10));
+    expect(screen.getByLabelText("PG del nivel 1")).toBeDisabled();
+
+    const second = screen.getByLabelText("PG del nivel 2");
+    expect(second).toBeEnabled();
+    // Select and overwrite, the way one edits a number that is already there:
+    // the field is clamped to 1..die, so clearing it writes the minimum back.
+    await user.tripleClick(second);
+    await user.keyboard("7");
+    expect(seen.draft.hp_per_level?.find((e) => e.level === 2)).toMatchObject({
+      value: 7,
+      mode: "manual",
+    });
+  });
+
+  it("rolls a level, and rolls it with the floor the backend gave", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function HpHost() {
+      const [draft, setDraft] = useState<CharacterCreate>({
+        ...defaultDraft(),
+        class_levels: [{ class_slug: "guerrero", level: 2, is_prestige: false, is_favored: false }],
+      });
+      seen.draft = draft;
+      return <AbilitiesSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} />;
+    }
+    renderWithProviders(<HpHost />);
+
+    await user.click(await screen.findByLabelText("Tirar los PG del nivel 2"));
+    const rolled = seen.draft.hp_per_level?.find((e) => e.level === 2);
+    expect(rolled?.mode).toBe("roll");
+    expect(rolled!.value).toBeGreaterThanOrEqual(1);
+    expect(rolled!.value).toBeLessThanOrEqual(10);
+
+    // The floored roll can never come out under the class' floor, whatever the die
+    // does — that is the whole point of the option.
+    await user.click(screen.getByLabelText("Tirar con mínimo los PG del nivel 2"));
+    const floored = seen.draft.hp_per_level?.find((e) => e.level === 2);
+    expect(floored?.mode).toBe("floored");
+    expect(floored!.value).toBeGreaterThanOrEqual(6); // d10 floors at 6
+  });
+
   it("clamps point-buy scores to a minimum of 7", async () => {
     const user = userEvent.setup();
     renderWithProviders(<Host />);

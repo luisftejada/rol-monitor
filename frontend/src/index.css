@@ -1231,3 +1231,36 @@ label.button {
   font-size: 0.85rem;
   color: var(--muted);
 }
+
+/* --- hit points, level by level --- */
+.hp-levels table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.hp-levels th[scope="col"] {
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding: 0.2rem 0.4rem;
+}
+.hp-levels th[scope="row"] {
+  text-align: left;
+  font-weight: 400;
+  padding: 0.2rem 0.4rem;
+}
+.hp-levels td {
+  padding: 0.2rem 0.4rem;
+}
+.hp-levels input[type="number"] {
+  width: 4.5rem;
+}
+.hp-levels td button {
+  margin-right: 0.25rem;
+}
+.hp-levels__note {
+  margin: 0 0 0 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}

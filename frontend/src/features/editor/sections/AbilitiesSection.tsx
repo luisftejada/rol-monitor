@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { BabDTO, CharacterCreate, ValueBreakdown } from "@/api/types";
 import { StatBreakdown } from "@/components/StatBreakdown";
 import { ABILITY_ORDER, POINT_BUY_BUDGET, STANDARD_ARRAY } from "@/features/editor/draft";
+import { HitPointsPerLevel } from "@/features/editor/sections/HitPointsPerLevel";
 import { useMeta, useRaces } from "@/hooks/useRules";
 import { t } from "@/i18n";
 import { signed } from "@/lib/format";
@@ -235,6 +236,8 @@ export function AbilitiesSection({
           />
         </label>
       </div>
+
+      <HitPointsPerLevel draft={draft} patch={patch} />
 
       <div className="card__tactics">
         <StatBreakdown

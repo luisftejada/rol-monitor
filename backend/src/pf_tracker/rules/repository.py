@@ -38,6 +38,7 @@ from pf_tracker.rules.catalog import (
     WeaponDTO,
 )
 from pf_tracker.rules.feat_targets import choice_kind_for
+from pf_tracker.rules.hit_points import hit_points_floor
 from pf_tracker.rules.parsing import parse_bab, parse_critical
 from pf_tracker.rules.slug import slugify
 from pf_tracker.rules.vendor.pathfinder_reglas import (
@@ -160,6 +161,8 @@ class RulesRepository:
             slug=key,
             name=data["nombre"],
             hit_die=data["dado_golpe"],
+            hit_die_faces=_die_faces(data["dado_golpe"]),
+            hit_points_floor=hit_points_floor(_die_faces(data["dado_golpe"])),
             skill_ranks_per_level=data["rangos"],
             bab_progression=data["bab"],
             good_saves=list(data.get("salvaciones_buenas") or []),
@@ -548,6 +551,11 @@ def _feat_effect(raw: dict[str, Any]) -> FeatEffectDTO:
 
 
 _SLOT_CAPACITY = re.compile(r"^(?P<name>.+?)\s*\(×(?P<capacity>\d+)\)$")
+
+
+def _die_faces(hit_die: str) -> int:
+    """``"d10"`` -> 10. The corpus writes the hit die as a die, not a number."""
+    return int(hit_die.lstrip("dD")) if hit_die else 0
 
 
 def _item_slot(name: str) -> ItemSlotDTO:

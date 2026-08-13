@@ -155,6 +155,11 @@ class ClassSummaryDTO(_CatalogModel):
     slug: str
     name: str
     hit_die: str
+    #: The die as a number, and the floor under a "never roll badly" hit-point roll
+    #: (half the die plus one). Both are rules figures, so they are computed here
+    #: rather than in the browser, which may then roll and take the better of the two.
+    hit_die_faces: int
+    hit_points_floor: int
     skill_ranks_per_level: int
     bab_progression: str
     good_saves: list[str]

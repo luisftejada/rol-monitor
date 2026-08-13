@@ -1231,6 +1231,10 @@ export interface components {
       name: string;
       /** Hit Die */
       hit_die: string;
+      /** Hit Die Faces */
+      hit_die_faces: number;
+      /** Hit Points Floor */
+      hit_points_floor: number;
       /** Skill Ranks Per Level */
       skill_ranks_per_level: number;
       /** Bab Progression */

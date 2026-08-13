@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 from pf_tracker.domain.derivation import base_bab
 from pf_tracker.domain.enums import BabProgression, SaveKind
 from pf_tracker.rules.catalog import FeatSlotDTO
+from pf_tracker.rules.hit_points import hit_points_floor
 from pf_tracker.rules.repository import RuleNotFoundError, RulesRepository
 
 
@@ -130,7 +131,7 @@ def level_up_report(
         total_level_after=total_before + 1,
         hit_die=die,
         constitution_modifier=constitution_modifier,
-        hit_points_floor=_hp_floor(die),
+        hit_points_floor=hit_points_floor(die),
         is_first_level=total_before == 0,
         base_attack_before=_total_bab(repo, class_levels),
         base_attack_after=_total_bab(repo, after_levels),
@@ -149,15 +150,6 @@ def level_up_report(
         spells_per_day=_spells(repo, taking, class_after),
         warnings=tuple(warnings),
     )
-
-
-def _hp_floor(die: int) -> int:
-    """Half the die plus one: the "never roll badly" option, 6 on a d10.
-
-    Integer division deliberately — the corpus rounds down unless it says otherwise,
-    and a d6 floors at 4 rather than 4.5.
-    """
-    return die // 2 + 1 if die else 0
 
 
 def _die(hit_die: str) -> int:

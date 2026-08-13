@@ -1,5 +1,31 @@
 # Prompt log
 
+### 2026-08-14 — Entering and rolling each level's hit points
+**Prompt:** sigue
+**Files affected:** `backend/src/pf_tracker/rules/{hit_points.py (new),catalog,repository,level_up}.py`,
+`backend/openapi.json`, `frontend/src/api/{schema,types}.ts`,
+`frontend/src/features/editor/sections/{HitPointsPerLevel.tsx (new),AbilitiesSection.tsx}`,
+`frontend/src/features/editor/sections/AbilitiesSection.test.tsx`,
+`frontend/src/test/catalog.ts`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** UI half. One row per character level: which class took it, the hit points
+it gave, and the two roll buttons. Level 1 shows the die's maximum and is not
+editable — an open field would invite a number the rules do not allow.
+
+The split that shaped it: `hit_die_faces` and `hit_points_floor` now travel on every
+class summary, because both are rules figures and the browser must not compute them;
+the *roll* stays in the browser, because a random number is not a Pathfinder formula.
+Taking the better of a roll and a backend-supplied floor is arithmetic, not a rule.
+`rules/hit_points.py` holds the floor once, shared by the class summary and the
+level-up report, rather than the same `die // 2 + 1` in two places.
+
+Noted while testing: the value field is controlled and clamped to 1..die, so clearing
+it writes the minimum back and typing then appends. Selecting and overwriting works,
+which is what one does with a number already in a field, and the test does that
+rather than pretending otherwise.
+
+---
+
 ### 2026-08-13 — Hit points level by level
 **Prompt:** lo entendiste bien. el valor maximo solo es en nivel 1. (a) valor manual
 entre 1 y el máximo del dado (b) el max(tirada, dado/2+1) (c) tirada random … por
