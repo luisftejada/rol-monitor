@@ -1,5 +1,26 @@
 # Prompt log
 
+### 2026-08-13 — A copy of each level the character leaves behind
+**Prompt:** sigue
+**Files affected:** `backend/src/pf_tracker/schemas/character.py`,
+`backend/src/pf_tracker/services/character_service.py`,
+`backend/tests/integration/test_characters_api.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** Second piece of progression. Both save paths — replace and patch — run
+through one helper that files a copy of the previous document when the character's
+**total** level rises, keyed by the level it was. Multiclassing into a second class
+files a copy exactly as a second level in the first would, since the trigger is the
+total. Two decisions worth their comments: history comes from what was stored and
+never from the request, so a client cannot hand a character a past it never had
+(there is a test that tries); and a copy is stripped of its own history, or every
+level would carry every earlier one. No migration — the document already lives in a
+JSON column.
+
+Still to come: the UI. The button with its report, and the level list in Clases y
+nivel with read-only access to each copy.
+
+---
+
 ### 2026-08-13 — What one more level buys (first piece of progression)
 **Prompt:** lo siguiente va a ser la progresión de niveles … quiero un botón que sea
 subir un nivel, y que liste todos los cambios que se deben aplicar … además, en cada

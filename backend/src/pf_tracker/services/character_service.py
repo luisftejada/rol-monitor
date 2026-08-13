@@ -17,6 +17,7 @@ from pf_tracker.schemas.character import (
     CharacterPatch,
     CharacterRead,
     CharacterSummary,
+    LevelSnapshotIn,
     ModifierIn,
     new_character,
 )
@@ -57,7 +58,7 @@ class CharacterService:
             updated_at=_now(),
             **data.model_dump(),
         )
-        return await self._repo.replace(updated)
+        return await self._repo.replace(_carry_history(existing, updated))
 
     async def patch(self, character_id: str, patch: CharacterPatch) -> CharacterRead | None:
         existing = await self._repo.get(character_id)
@@ -66,7 +67,9 @@ class CharacterService:
         merged = existing.model_dump()
         merged.update(patch.model_dump(exclude_unset=True))
         merged["updated_at"] = _now()
-        return await self._repo.replace(CharacterRead.model_validate(merged))
+        return await self._repo.replace(
+            _carry_history(existing, CharacterRead.model_validate(merged))
+        )
 
     async def delete(self, character_id: str) -> bool:
         return await self._repo.soft_delete(character_id, _now())
@@ -233,3 +236,31 @@ class CharacterService:
             will=sheet.saves[SaveKind.WILL].resolved.total,
             updated_at=character.updated_at,
         )
+
+
+def _total_level(character: CharacterRead) -> int:
+    return sum(entry.level for entry in character.class_levels)
+
+
+def _carry_history(existing: CharacterRead, updated: CharacterRead) -> CharacterRead:
+    """Keep the past server-side, and file a copy when the character outgrows a level.
+
+    History always comes from what was stored, never from the request: a client that
+    sends a shorter list — or a longer one — must not be able to rewrite what
+    happened. The copy is of the *previous* document and is filed under the level it
+    was, so "the character at level 3" is exactly what the sheet said the moment they
+    left it.
+
+    The trigger is the level actually changing on save rather than a button being
+    pressed, so the record cannot drift from the character.
+    """
+    before, after = _total_level(existing), _total_level(updated)
+    history = list(existing.level_history)
+    if after > before:
+        history.append(
+            LevelSnapshotIn(
+                level=before,
+                data=existing.model_dump(mode="json", exclude={"level_history"}),
+            )
+        )
+    return updated.model_copy(update={"level_history": history})

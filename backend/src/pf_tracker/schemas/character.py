@@ -106,6 +106,22 @@ class MagicItemIn(BaseModel):
         return self.slot != BACKPACK_SLOT
 
 
+class LevelSnapshotIn(BaseModel):
+    """The character as it was at one level, kept when they left it.
+
+    A full copy rather than a list of changes: the copy cannot drift from what the
+    sheet said, and it captures what no rule could recompute — the hit points that
+    were rolled, the items carried at the time. It is a record, not an editable
+    timeline: changing a past level does not propagate forward.
+    """
+
+    #: The level this copy *is* — taken when the character grew past it.
+    level: int
+    taken_at: datetime = Field(default_factory=_now)
+    #: The whole document as it stood, minus its own history so copies never nest.
+    data: dict[str, Any] = Field(default_factory=dict)
+
+
 class ModifierIn(BaseModel):
     id: str = Field(default_factory=_uuid)
     target: str
@@ -189,6 +205,11 @@ class CharacterData(BaseModel):
     load_carried_lb: float | None = None
 
     magic_items: list[MagicItemIn] = Field(default_factory=list)
+
+    #: One copy per level the character has left behind, oldest first. Server-owned:
+    #: the service rewrites it from what was stored, so a request cannot edit the
+    #: past. It travels in exports so a character carries its own history.
+    level_history: list[LevelSnapshotIn] = Field(default_factory=list)
 
     #: ``variant_key`` of the attack lines the player has chosen not to see. Stored as
     #: what to *hide* rather than what to show, so a line that appears later — a new

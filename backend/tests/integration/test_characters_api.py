@@ -194,6 +194,58 @@ async def test_a_power_attack_line_reports_the_cmb_it_costs(client: AsyncClient)
     assert ("Ataque poderoso", -2) in [(e["label"], e["value"]) for e in variant["breakdown"]]
 
 
+async def test_a_level_change_files_a_copy_of_the_level_left_behind(
+    client: AsyncClient,
+) -> None:
+    """The copy is of the character *as it was*, filed under the level it was, and it
+    is taken when the level actually changes rather than when a button is pressed."""
+    created = (await client.post(BASE, json=_fighter_body())).json()
+    cid = created["id"]
+    assert created["level_history"] == []
+
+    levelled = {**_fighter_body(), "class_levels": [{"class_slug": "guerrero", "level": 2}]}
+    body = (await client.put(f"{BASE}/{cid}", json=levelled)).json()
+
+    (snapshot,) = body["level_history"]
+    assert snapshot["level"] == 1
+    assert snapshot["data"]["class_levels"][0]["level"] == 1
+    # Copies never nest: the stored history is stripped from what is copied.
+    assert "level_history" not in snapshot["data"]
+
+
+async def test_editing_without_levelling_files_nothing(client: AsyncClient) -> None:
+    cid = (await client.post(BASE, json=_fighter_body())).json()["id"]
+    body = (await client.put(f"{BASE}/{cid}", json={**_fighter_body(), "name": "Otro"})).json()
+    assert body["level_history"] == []
+
+
+async def test_a_request_cannot_rewrite_the_past(client: AsyncClient) -> None:
+    """History is the server's. A client sending its own — or dropping it — changes
+    nothing, or a character could be given a past it never had."""
+    cid = (await client.post(BASE, json=_fighter_body())).json()["id"]
+    levelled = {**_fighter_body(), "class_levels": [{"class_slug": "guerrero", "level": 2}]}
+    await client.put(f"{BASE}/{cid}", json=levelled)
+
+    forged = {**levelled, "level_history": [{"level": 99, "data": {"name": "inventado"}}]}
+    body = (await client.put(f"{BASE}/{cid}", json=forged)).json()
+    assert [entry["level"] for entry in body["level_history"]] == [1]
+
+
+async def test_multiclassing_files_a_copy_too(client: AsyncClient) -> None:
+    """The trigger is the character's total level, so taking a first level in a
+    second class counts exactly like taking a second in the first."""
+    cid = (await client.post(BASE, json=_fighter_body())).json()["id"]
+    multiclass = {
+        **_fighter_body(),
+        "class_levels": [
+            {"class_slug": "guerrero", "level": 1},
+            {"class_slug": "picaro", "level": 1},
+        ],
+    }
+    body = (await client.put(f"{BASE}/{cid}", json=multiclass)).json()
+    assert [entry["level"] for entry in body["level_history"]] == [1]
+
+
 async def test_level_up_preview_reports_and_changes_nothing(client: AsyncClient) -> None:
     """Pressing the button must not touch the character: the owner applies the
     result by hand in the cards that already exist."""

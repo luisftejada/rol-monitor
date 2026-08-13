@@ -707,6 +707,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Level History */
+      level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -847,6 +849,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Level History */
+      level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -1092,6 +1096,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Level History */
+      level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -1587,6 +1593,28 @@ export interface components {
       slug: string;
       /** Capacity */
       capacity: number;
+    };
+    /**
+     * LevelSnapshotIn
+     * @description The character as it was at one level, kept when they left it.
+     *
+     *     A full copy rather than a list of changes: the copy cannot drift from what the
+     *     sheet said, and it captures what no rule could recompute — the hit points that
+     *     were rolled, the items carried at the time. It is a record, not an editable
+     *     timeline: changing a past level does not propagate forward.
+     */
+    LevelSnapshotIn: {
+      /** Level */
+      level: number;
+      /**
+       * Taken At
+       * Format: date-time
+       */
+      taken_at?: string;
+      /** Data */
+      data?: {
+        [key: string]: unknown;
+      };
     };
     /**
      * LevelUpResponse
