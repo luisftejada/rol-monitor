@@ -102,3 +102,24 @@ def test_an_unknown_class_is_an_error_not_an_empty_report(
 ) -> None:
     with pytest.raises(RuleNotFoundError):
         _report(rules_repository, [ClassLevelRef("guerrero", 1)], "no_existe")
+
+
+def test_the_hit_point_floor_is_half_the_die_plus_one(rules_repository: RulesRepository) -> None:
+    """The "never roll badly" option, as a number the caller uses without knowing the
+    rule: rolling is randomness and belongs to whoever presses the button."""
+    fighter = _report(rules_repository, [ClassLevelRef("guerrero", 1)], "guerrero")
+    assert (fighter.hit_die, fighter.hit_points_floor) == (10, 6)
+
+    wizard = _report(rules_repository, [ClassLevelRef("guerrero", 1)], "mago")
+    assert (wizard.hit_die, wizard.hit_points_floor) == (6, 4)
+
+
+def test_only_the_characters_very_first_level_takes_the_maximum(
+    rules_repository: RulesRepository,
+) -> None:
+    """A second class' first level is not special — the character's is."""
+    first = _report(rules_repository, [], "guerrero")
+    assert first.is_first_level is True
+
+    second_class = _report(rules_repository, [ClassLevelRef("guerrero", 3)], "mago")
+    assert second_class.is_first_level is False

@@ -1,5 +1,36 @@
 # Prompt log
 
+### 2026-08-13 — Hit points level by level
+**Prompt:** lo entendiste bien. el valor maximo solo es en nivel 1. (a) valor manual
+entre 1 y el máximo del dado (b) el max(tirada, dado/2+1) (c) tirada random … por
+defecto, al hacer la hoja, los temporales y los actuales deben coincidir
+**Files affected:** `backend/src/pf_tracker/schemas/character.py`,
+`backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/rules/level_up.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`, backend tests,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/test/fixtures.ts`, `docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** Backend half. `hp_per_level` records what each level rolled and which
+class took it — the only place the *order* levels were taken is kept, since
+`class_levels` merely counts them. The total is **derived**: sum plus Constitution
+once per level. That is the decision worth its comment — storing the sum would be
+wrong the first time a belt of Constitution went on, whereas deriving it raises every
+level at once, as the rules do. Sheets with no per-level record keep their stored
+`max_hp`. The report now carries `hit_points_floor` (half the die plus one, 6 on a
+d10) and `is_first_level`; the floor is a rules figure so it comes from the backend,
+while the roll is randomness and belongs to whoever presses the button.
+
+**One correction to the brief:** "los temporales y los actuales deben coincidir" is
+taken as *current* matching *maximum* — a character written down is at full health.
+Temporary hit points are a pool something grants you; starting with them equal to the
+maximum would hand out a second life nobody cast for. Said so rather than guessing
+silently.
+
+Still to come: the UI for entering or rolling each level's hit points.
+
+---
+
 ### 2026-08-13 — Current and temporary hit points, and base attack expands
 **Prompt:** faltan los puntos de golpe actuales, y puntos de golpe temporales … Ataque
 Base también tiene que ser desplegable, para que muestre de dónde le viene … los

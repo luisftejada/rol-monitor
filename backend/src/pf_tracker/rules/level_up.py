@@ -38,6 +38,16 @@ class LevelUpReport:
 
     base_attack_before: int
     base_attack_after: int
+
+    #: The three ways a level's hit points may be decided, as numbers the caller can
+    #: use without knowing the rule. Rolling is randomness and belongs to whoever
+    #: presses the button; the *floor* is a rules figure and belongs here.
+    #: ``hit_points_floor`` is half the die plus one — 6 on a d10, 5 on a d8.
+    hit_points_floor: int = 0
+    #: True only for a character's very first level, which takes the die's maximum.
+    #: A second class' first level is not special; the character's is.
+    is_first_level: bool = False
+
     #: Save totals from class progression rows, summed across every class.
     saves_before: dict[str, int] = field(default_factory=dict)
     saves_after: dict[str, int] = field(default_factory=dict)
@@ -109,6 +119,7 @@ def level_up_report(
         )
 
     ranks = max(1, summary.skill_ranks_per_level + intelligence_modifier)
+    die = summary.hit_die if isinstance(summary.hit_die, int) else _die(summary.hit_die)
 
     return LevelUpReport(
         class_slug=summary.slug,
@@ -117,8 +128,10 @@ def level_up_report(
         class_level_after=class_after,
         total_level_before=total_before,
         total_level_after=total_before + 1,
-        hit_die=summary.hit_die if isinstance(summary.hit_die, int) else _die(summary.hit_die),
+        hit_die=die,
         constitution_modifier=constitution_modifier,
+        hit_points_floor=_hp_floor(die),
+        is_first_level=total_before == 0,
         base_attack_before=_total_bab(repo, class_levels),
         base_attack_after=_total_bab(repo, after_levels),
         saves_before=_total_saves(repo, class_levels, warnings),
@@ -136,6 +149,15 @@ def level_up_report(
         spells_per_day=_spells(repo, taking, class_after),
         warnings=tuple(warnings),
     )
+
+
+def _hp_floor(die: int) -> int:
+    """Half the die plus one: the "never roll badly" option, 6 on a d10.
+
+    Integer division deliberately — the corpus rounds down unless it says otherwise,
+    and a d6 floors at 4 rather than 4.5.
+    """
+    return die // 2 + 1 if die else 0
 
 
 def _die(hit_die: str) -> int:

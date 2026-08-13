@@ -163,6 +163,7 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
         deflection_bonus=character.deflection_bonus,
         other_ac_modifiers=character.other_ac_modifiers,
         max_hp=character.max_hp,
+        hp_per_level=tuple(entry.value for entry in character.hp_per_level),
         current_hp=character.current_hp,
         temporary_hp=character.temporary_hp,
         nonlethal_damage=character.nonlethal_damage,

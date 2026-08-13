@@ -325,6 +325,27 @@ def test_a_bow_is_held_in_two_hands_but_keeps_the_shield() -> None:
     assert derive_combat_sheet(character).attacks[0].ac is None
 
 
+def test_hit_points_are_the_sum_of_the_levels_plus_constitution_for_each() -> None:
+    """Constitution is applied per level and derived rather than stored, so raising
+    the score raises every level at once — which storing the sum would get wrong the
+    first time a belt of Constitution went on."""
+    # Con 12 -> +1, over three levels of 10, 6 and 7.
+    character = _character(hp_per_level=(10, 6, 7))
+    assert derive_combat_sheet(character).max_hp == 26
+
+    stronger = _character(
+        hp_per_level=(10, 6, 7),
+        base_ability_scores={Ability.STR: 14, Ability.DEX: 16, Ability.CON: 16},
+    )
+    assert derive_combat_sheet(stronger).max_hp == 32  # +3 per level now
+
+
+def test_without_a_per_level_record_the_stored_total_stands() -> None:
+    """Characters written before the record existed, and a GM who would rather type
+    one number, both keep working."""
+    assert derive_combat_sheet(_character(max_hp=40)).max_hp == 40
+
+
 def test_a_skill_splits_into_ranks_ability_and_everything_else() -> None:
     """The three columns the sheet shows. "Others" is a residue by construction —
     total minus the two named parts — so nothing can fall between the columns."""

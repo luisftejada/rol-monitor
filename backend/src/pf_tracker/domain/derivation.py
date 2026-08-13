@@ -815,6 +815,25 @@ def reduced_speed(base: int) -> int:
     return max(5, (base // 5 * 5) - 5)
 
 
+def derive_max_hit_points(
+    character: Character, abilities: dict[Ability, AbilityScoreResult]
+) -> int:
+    """Total hit points: what each level rolled, plus Constitution for each of them.
+
+    Constitution applies per level and is *derived* rather than stored, so raising the
+    score raises every level's contribution at once — which is what the rules do, and
+    what storing the sum would quietly get wrong the first time a belt of Constitution
+    was put on.
+
+    Falls back to the stored total when no per-level record exists: characters written
+    before it did, and a GM who would rather type one number.
+    """
+    if not character.hp_per_level:
+        return character.max_hp
+    con = abilities[Ability.CON].modifier
+    return sum(character.hp_per_level) + con * len(character.hp_per_level)
+
+
 def derive_speed(character: Character) -> SpeedResult:
     reductions: list[str] = []
     final = character.base_speed_ft
@@ -895,7 +914,7 @@ def derive_combat_sheet(character: Character) -> CombatSheet:
         speed=speed,
         armor_check_penalty=acp,
         arcane_spell_failure=_arcane_spell_failure(character),
-        max_hp=character.max_hp,
+        max_hp=derive_max_hit_points(character, abilities),
         current_hp=character.current_hp,
         temporary_hp=character.temporary_hp,
         nonlethal_damage=character.nonlethal_damage,

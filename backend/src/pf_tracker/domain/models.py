@@ -199,6 +199,10 @@ class Character:
     other_ac_modifiers: int = 0
 
     max_hp: int = 0
+    #: Hit points contributed by each level, before Constitution. When present it
+    #: derives ``max_hp``, so a sheet cannot show a total that disagrees with the
+    #: levels behind it.
+    hp_per_level: tuple[int, ...] = ()
     current_hp: int = 0
     temporary_hp: int = 0
     nonlethal_damage: int = 0

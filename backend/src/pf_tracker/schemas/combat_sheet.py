@@ -182,6 +182,12 @@ class LevelUpResponse(BaseModel):
     #: Hit points are a roll plus Constitution, so both halves are reported.
     hit_die: int
     constitution_modifier: int
+    #: Half the die plus one — the floor under the "never roll badly" option. A rules
+    #: figure, so it is computed here rather than in the browser; the roll itself is
+    #: randomness and belongs to whoever presses the button.
+    hit_points_floor: int
+    #: True only for the character's very first level, which takes the die's maximum.
+    is_first_level: bool
     base_attack_before: int
     base_attack_after: int
     saves_before: dict[str, int]
@@ -327,6 +333,8 @@ def to_level_up_response(report: LevelUpReport) -> LevelUpResponse:
         total_level_after=report.total_level_after,
         hit_die=report.hit_die,
         constitution_modifier=report.constitution_modifier,
+        hit_points_floor=report.hit_points_floor,
+        is_first_level=report.is_first_level,
         base_attack_before=report.base_attack_before,
         base_attack_after=report.base_attack_after,
         saves_before=dict(report.saves_before),

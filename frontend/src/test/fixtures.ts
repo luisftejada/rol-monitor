@@ -228,6 +228,8 @@ export const levelUpReport: LevelUpResponse = {
   total_level_after: 4,
   hit_die: 10,
   constitution_modifier: 2,
+  hit_points_floor: 6,
+  is_first_level: false,
   base_attack_before: 3,
   base_attack_after: 4,
   saves_before: { Fortaleza: 3, Reflejos: 1, Voluntad: 1 },

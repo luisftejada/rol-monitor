@@ -106,6 +106,31 @@ class MagicItemIn(BaseModel):
         return self.slot != BACKPACK_SLOT
 
 
+#: How one level's hit points were arrived at. Recorded because "8" tells you
+#: nothing about whether it may be re-rolled or was the table's own ruling.
+HpMode = Literal["max", "manual", "floored", "roll"]
+
+
+class HpLevelIn(BaseModel):
+    """The hit points one level contributed, and how they were decided.
+
+    One entry per character level, in the order the levels were taken — which is the
+    only place that order is recorded, since ``class_levels`` only counts them. The
+    class matters: level 5 of a fighter/wizard is a d10 or a d6 depending on who got
+    it.
+    """
+
+    id: str = Field(default_factory=_uuid)
+    #: Character level this entry is, 1-based.
+    level: int
+    #: The class that took it, which is what decides the die.
+    class_slug: str
+    #: Hit points before the Constitution modifier, which applies per level and is
+    #: derived rather than stored — it changes when the score does.
+    value: int = 0
+    mode: HpMode = "manual"
+
+
 class LevelSnapshotIn(BaseModel):
     """The character as it was at one level, kept when they left it.
 
@@ -205,6 +230,11 @@ class CharacterData(BaseModel):
     load_carried_lb: float | None = None
 
     magic_items: list[MagicItemIn] = Field(default_factory=list)
+
+    #: Hit points level by level. When present it *derives* ``max_hp``, so the two
+    #: cannot disagree; ``max_hp`` stays for characters entered before this existed
+    #: and for a GM who would rather type one number.
+    hp_per_level: list[HpLevelIn] = Field(default_factory=list)
 
     #: One copy per level the character has left behind, oldest first. Server-owned:
     #: the service rewrites it from what was stored, so a request cannot edit the
@@ -320,6 +350,15 @@ class CharacterListResponse(BaseModel):
 
 
 def new_character(data: CharacterCreate) -> CharacterRead:
-    """Promote create-input into a stored character with identity and timestamps."""
+    """Promote create-input into a stored character with identity and timestamps.
+
+    A character written down is a character at full health, so current hit points
+    start at the maximum unless the sheet says otherwise. Temporary ones do not: they
+    are a pool something grants you, and starting with them would hand out a second
+    life nobody cast for. Combat tracking is what moves either of them afterwards.
+    """
     now = _now()
-    return CharacterRead(id=_uuid(), created_at=now, updated_at=now, **data.model_dump())
+    fields = data.model_dump()
+    if not fields.get("current_hp"):
+        fields["current_hp"] = fields.get("max_hp", 0)
+    return CharacterRead(id=_uuid(), created_at=now, updated_at=now, **fields)

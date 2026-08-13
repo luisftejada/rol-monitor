@@ -712,6 +712,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Hp Per Level */
+      hp_per_level?: components["schemas"]["HpLevelIn"][];
       /** Level History */
       level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
@@ -854,6 +856,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Hp Per Level */
+      hp_per_level?: components["schemas"]["HpLevelIn"][];
       /** Level History */
       level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
@@ -1101,6 +1105,8 @@ export interface components {
       load_carried_lb?: number | null;
       /** Magic Items */
       magic_items?: components["schemas"]["MagicItemIn"][];
+      /** Hp Per Level */
+      hp_per_level?: components["schemas"]["HpLevelIn"][];
       /** Level History */
       level_history?: components["schemas"]["LevelSnapshotIn"][];
       /** Hidden Attack Lines */
@@ -1585,6 +1591,34 @@ export interface components {
       nonlethal: number;
     };
     /**
+     * HpLevelIn
+     * @description The hit points one level contributed, and how they were decided.
+     *
+     *     One entry per character level, in the order the levels were taken — which is the
+     *     only place that order is recorded, since ``class_levels`` only counts them. The
+     *     class matters: level 5 of a fighter/wizard is a d10 or a d6 depending on who got
+     *     it.
+     */
+    HpLevelIn: {
+      /** Id */
+      id?: string;
+      /** Level */
+      level: number;
+      /** Class Slug */
+      class_slug: string;
+      /**
+       * Value
+       * @default 0
+       */
+      value: number;
+      /**
+       * Mode
+       * @default manual
+       * @enum {string}
+       */
+      mode: "max" | "manual" | "floored" | "roll";
+    };
+    /**
      * ItemSlotDTO
      * @description One place on the body a magic item can occupy.
      *
@@ -1646,6 +1680,10 @@ export interface components {
       hit_die: number;
       /** Constitution Modifier */
       constitution_modifier: number;
+      /** Hit Points Floor */
+      hit_points_floor: number;
+      /** Is First Level */
+      is_first_level: boolean;
       /** Base Attack Before */
       base_attack_before: number;
       /** Base Attack After */
