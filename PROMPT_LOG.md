@@ -1,5 +1,34 @@
 # Prompt log
 
+### 2026-08-13 — Magic items become a grid of body slots
+**Prompt:** en OBJETOS MAGICOS, quiero ver dos columnas, la lista de todas las ranuras
+disponibles, y el nombre del objeto asignado en dicha ranura … al hacer click en el
+objeto, se salta al editor de objetos (modal) … debajo de las ranuras, listaremos los
+bastones y varitas
+**Files affected:**
+`frontend/src/features/editor/sections/{MagicItemsSection,MagicItemEditor}.tsx`,
+`frontend/src/features/editor/sections/MagicItemsSection.test.tsx`,
+`frontend/src/components/Modal.tsx`, `frontend/src/components/Modal.test.tsx` (new),
+`frontend/src/test/catalog.ts`, `frontend/src/i18n/es.ts`,
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** The section is now a two-column grid — every place on the body and what
+occupies it — with the whole form moved into a dialog reached by clicking. Three
+decisions worth recording: the ring slot gets **two lines**, because its capacity is
+two and an empty place should be as visible as a filled one; an over-filled slot gets
+an extra line flagged in place rather than being hidden behind the ones that fit; and
+staves and wands are placed by **category**, not by slot, since they are held rather
+than worn — so they never occupy the neck they were created in. Clicking an empty
+line creates the item already in that slot, which is the only thing anyone wants from
+clicking an empty row.
+
+**Found on the way, a real bug:** `Modal` ran its mount effect on every change of
+`onClose`, and callers pass an inline arrow, so the effect re-ran each render and
+pulled focus back to the close button. A dialog of buttons never showed it; the first
+one with a text field lost every character after the first. Focus handling now sits in
+its own effect with no dependencies, and `Modal` has tests of its own.
+
+---
+
 ### 2026-08-13 — Catalog responses revalidate instead of going stale for a minute
 **Prompt:** los campos Ranura, Categoria y Activacion aparecen como desplegables, pero
 la lista en los tres esta vacia → esto es lo que trae meta: {…}

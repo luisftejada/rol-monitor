@@ -25,89 +25,132 @@ function renderSection(): { draft: () => CharacterCreate } {
 }
 
 describe("MagicItemsSection", () => {
-  it("adds an item stowed, with a name that says what it is", async () => {
+  it("lists every place on the body, empty ones included", async () => {
+    renderSection();
+    // The test catalog has anillo (×2), cuello and manos.
+    const rings = await screen.findAllByRole("row", { name: /anillo/ });
+    expect(rings).toHaveLength(2); // one line per place the slot offers
+    expect(screen.getByRole("row", { name: /cuello/ })).toBeInTheDocument();
+  });
+
+  it("creates an item already in the slot that was clicked", async () => {
     const user = userEvent.setup();
     const { draft } = renderSection();
 
-    await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
+    await user.click(
+      (await screen.findAllByRole("button", { name: /Añadir objeto en cuello/ }))[0]!,
+    );
 
-    const [item] = draft().magic_items ?? [];
-    // Stowed by default: an item you have just written down is not yet being worn.
-    expect(item).toMatchObject({ slot: "mochila" });
-    expect(item?.name).toMatch(/-1$/);
-    expect(screen.getByText(/no se aplican/)).toBeInTheDocument();
+    // The item lands in that slot, not in the backpack, and its editor opens.
+    expect(draft().magic_items?.[0]).toMatchObject({ slot: "cuello" });
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
   });
 
-  it("warns when a slot carries more than it holds", async () => {
-    const user = userEvent.setup();
-    const { draft } = renderSection();
-
-    // The ring slot takes two, per the corpus' own "anillo (×2)".
-    for (let n = 0; n < 3; n += 1) {
-      await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
-    }
-    for (const select of await screen.findAllByLabelText("Ranura")) {
-      await user.selectOptions(select, "anillo");
-    }
-
-    expect(screen.getAllByRole("alert")).not.toHaveLength(0);
-    expect(draft().magic_items?.every((item) => item.slot === "anillo")).toBe(true);
-  });
-
-  it("keeps two rings quiet, and a third stowed one too", async () => {
+  it("opens an existing item from its slot", async () => {
     const user = userEvent.setup();
     renderSection();
 
-    for (let n = 0; n < 3; n += 1) {
-      await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
-    }
-    const slots = await screen.findAllByLabelText("Ranura");
-    await user.selectOptions(slots[0]!, "anillo");
-    await user.selectOptions(slots[1]!, "anillo");
-    // The third stays in the backpack, so it does not count against the slot.
+    await user.click(
+      (await screen.findAllByRole("button", { name: /Añadir objeto en cuello/ }))[0]!,
+    );
+    await user.click(
+      within(await screen.findByRole("dialog")).getByRole("button", { name: "Cerrar" }),
+    );
 
-    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /^Editar Cuello-1/ }));
+    expect(await screen.findByRole("dialog")).toBeInTheDocument();
   });
 
-  it("records the bonus with its type, which is what decides the stacking", async () => {
+  it("edits a field from the dialog and keeps the slot grid in step", async () => {
     const user = userEvent.setup();
     const { draft } = renderSection();
-    await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
+    await user.click(
+      (await screen.findAllByRole("button", { name: /Añadir objeto en cuello/ }))[0]!,
+    );
 
-    const list = screen.getByRole("list", { name: "Objetos mágicos" });
-    await user.selectOptions(within(list).getByLabelText("Ranura"), "anillo");
-    const ac = within(list).getByLabelText("Bono de CA");
-    await user.clear(ac);
-    await user.type(ac, "2");
-    await user.selectOptions(within(list).getByLabelText("Tipo del bono de CA"), "deflexión");
+    const dialog = await screen.findByRole("dialog");
+    const name = within(dialog).getByLabelText("Nombre");
+    await user.clear(name);
+    await user.type(name, "Amuleto");
+    await user.selectOptions(
+      within(dialog).getByLabelText("Tipo del bono de CA"),
+      "armadura natural",
+    );
 
     expect(draft().magic_items?.[0]).toMatchObject({
-      slot: "anillo",
-      ac_bonus: 2,
-      ac_bonus_type: "deflexión",
+      name: "Amuleto",
+      ac_bonus_type: "armadura natural",
     });
+    expect(screen.getByRole("button", { name: /^Editar Amuleto/ })).toBeInTheDocument();
   });
 
-  it("fills the day's uses when the allowance is set", async () => {
+  it("gives an over-filled slot a line of its own, flagged", async () => {
     const user = userEvent.setup();
-    const { draft } = renderSection();
-    await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
+    renderSection();
 
-    const perDay = screen.getByLabelText("Usos por día");
-    await user.clear(perDay);
-    await user.type(perDay, "3");
+    // Fill both ring places, then move a third item into the slot from its dialog —
+    // which is the only way to over-fill, since the grid offers no empty line once
+    // the slot is full.
+    for (let n = 0; n < 2; n += 1) {
+      const empty = await screen.findAllByRole("button", { name: /Añadir objeto en anillo/ });
+      await user.click(empty[0]!);
+      await user.click(
+        within(await screen.findByRole("dialog")).getByRole("button", { name: "Cerrar" }),
+      );
+    }
+    await user.click(await screen.findByRole("button", { name: /Añadir objeto en Mochila/ }));
+    const third = await screen.findByRole("dialog");
+    await user.selectOptions(within(third).getByLabelText("Ranura"), "anillo");
+    await user.click(within(third).getByRole("button", { name: "Cerrar" }));
 
-    // Typing the same number twice is a chore nobody should have to do.
-    expect(draft().magic_items?.[0]).toMatchObject({ uses_per_day: 3, uses_remaining: 3 });
+    expect(await screen.findAllByRole("row", { name: /anillo/ })).toHaveLength(3);
+    expect(screen.getByRole("alert")).toBeInTheDocument();
   });
 
-  it("removes an item", async () => {
+  it("keeps staves and wands out of the body slots", async () => {
+    const user = userEvent.setup();
+    renderSection();
+    await user.click(
+      (await screen.findAllByRole("button", { name: /Añadir objeto en cuello/ }))[0]!,
+    );
+
+    const dialog = await screen.findByRole("dialog");
+    await user.selectOptions(within(dialog).getByLabelText("Categoría"), "varitas");
+    await user.click(within(dialog).getByRole("button", { name: "Cerrar" }));
+
+    // A wand is held, not worn, so the neck is free again and it is listed below.
+    const held = screen.getByRole("list", { name: "Bastones y varitas" });
+    expect(within(held).getByRole("button", { name: /^Editar Cuello-1/ })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /Añadir objeto en cuello/ })).toHaveLength(1);
+  });
+
+  it("removes an item from its dialog", async () => {
     const user = userEvent.setup();
     const { draft } = renderSection();
-    await user.click(screen.getByRole("button", { name: "Añadir objeto" }));
-    const name = draft().magic_items?.[0]?.name ?? "";
+    await user.click(
+      (await screen.findAllByRole("button", { name: /Añadir objeto en cuello/ }))[0]!,
+    );
 
-    await user.click(screen.getByRole("button", { name: `Quitar ${name}` }));
+    const dialog = await screen.findByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: /^Quitar/ }));
+
     expect(draft().magic_items).toEqual([]);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("stows an item in the backpack, where several fit", async () => {
+    const user = userEvent.setup();
+    const { draft } = renderSection();
+
+    await user.click(await screen.findByRole("button", { name: /Añadir objeto en Mochila/ }));
+    await user.click(
+      within(await screen.findByRole("dialog")).getByRole("button", { name: "Cerrar" }),
+    );
+    await user.click(screen.getByRole("button", { name: /Añadir objeto en Mochila/ }));
+
+    expect(draft().magic_items).toHaveLength(2);
+    expect(draft().magic_items?.every((item) => item.slot === "mochila")).toBe(true);
+    // Stowed items never trip the capacity warning: they are owned, not worn.
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 });

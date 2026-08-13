@@ -20,20 +20,26 @@ export function Modal({ title, onClose, children }: ModalProps): React.JSX.Eleme
   const closeRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<Element | null>(null);
 
+  // Focus moves on open and back on close — once each. This used to share an effect
+  // with the Escape listener, whose dependency is `onClose`; callers pass an inline
+  // arrow, so it changed identity every render and the effect re-ran, pulling focus
+  // back to the close button. A dialog with only buttons never showed it, but typing
+  // in one with a text field lost every character after the first.
   useEffect(() => {
     openerRef.current = document.activeElement;
     closeRef.current?.focus();
+    return () => {
+      // Returning focus keeps keyboard users where they were in the list.
+      if (openerRef.current instanceof HTMLElement) openerRef.current.focus();
+    };
+  }, []);
 
+  useEffect(() => {
     const onKeyDown = (event: KeyboardEvent): void => {
       if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      // Returning focus keeps keyboard users where they were in the list.
-      if (openerRef.current instanceof HTMLElement) openerRef.current.focus();
-    };
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
 
   return (

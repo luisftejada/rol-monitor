@@ -45,7 +45,7 @@ export const meta: MetaDTO = {
     { name: "cuello", slug: "cuello", capacity: 1 },
     { name: "manos", slug: "manos", capacity: 1 },
   ],
-  item_categories: ["anillos", "objetos maravillosos"],
+  item_categories: ["anillos", "objetos maravillosos", "bastones", "varitas"],
   item_activations: ["uso continuo", "palabra de mando"],
   max_item_enhancement: 5,
   feat_types: ["General", "Combate", "Metamágica"],

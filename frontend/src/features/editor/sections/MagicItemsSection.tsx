@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 import type { CharacterCreate, MagicItemIn } from "@/api/types";
+import { BACKPACK, MagicItemEditor } from "@/features/editor/sections/MagicItemEditor";
 import { useMeta } from "@/hooks/useRules";
 import { t } from "@/i18n";
 
@@ -7,31 +10,40 @@ interface SectionProps {
   patch: (partial: Partial<CharacterCreate>) => void;
 }
 
-/** Where an item sits when it is not being worn. Nothing here contributes. */
-const BACKPACK = "mochila";
+/** Categories that hang off no body slot. Listed on their own below the slots. */
+const HELD_CATEGORIES = new Set(["bastones", "varitas"]);
 
-/** Bonus types worth offering: the ones a worn item actually grants. The full list
- * lives in the corpus, but a picker of sixteen would bury the four that matter. */
-const AC_TYPES = ["deflexión", "armadura natural", "armadura", "escudo", "esquiva"] as const;
-const WEAPON_TYPES = ["potenciador", "competencia", "moral", "suerte"] as const;
+/** One line of the slot grid: a place on the body and what is in it. */
+interface SlotRow {
+  slug: string;
+  label: string;
+  item: MagicItemIn | undefined;
+  /** True when this line exists only because the slot is over-filled. */
+  isOverflow: boolean;
+}
 
 export function MagicItemsSection({ draft, patch }: SectionProps): React.JSX.Element {
   const meta = useMeta();
-  const slots = meta.data?.item_slots ?? [];
   const items = draft.magic_items ?? [];
+  const [editing, setEditing] = useState<string | null>(null);
 
-  /** A default name that says what it is and does not collide: "Anillo-1". */
-  const nextName = (slot: string): string => {
-    const label = slots.find((entry) => entry.slug === slot)?.slug ?? slot;
-    const stem = label.charAt(0).toUpperCase() + label.slice(1);
-    const taken = items.filter((item) => item.name.startsWith(`${stem}-`)).length;
-    return `${stem}-${taken + 1}`;
+  const update = (id: string, changes: Partial<MagicItemIn>): void => {
+    patch({ magic_items: items.map((item) => (item.id === id ? { ...item, ...changes } : item)) });
   };
 
-  const addItem = (): void => {
+  const remove = (id: string): void => {
+    patch({ magic_items: items.filter((item) => item.id !== id) });
+    setEditing(null);
+  };
+
+  /** Create an item already in the slot that was clicked, and open it. */
+  const addTo = (slot: string): void => {
+    const stem = slot.charAt(0).toUpperCase() + slot.slice(1);
+    const taken = items.filter((item) => item.name.startsWith(`${stem}-`)).length;
     const item: MagicItemIn = {
-      name: nextName(BACKPACK),
-      slot: BACKPACK,
+      id: crypto.randomUUID(),
+      name: `${stem}-${taken + 1}`,
+      slot,
       attack_bonus: 0,
       damage_bonus: 0,
       weapon_bonus_type: "potenciador",
@@ -41,234 +53,147 @@ export function MagicItemsSection({ draft, patch }: SectionProps): React.JSX.Ele
       speed_bonus: 0,
     };
     patch({ magic_items: [...items, item] });
+    setEditing(item.id!);
   };
 
-  const update = (index: number, changes: Partial<MagicItemIn>): void => {
-    patch({
-      magic_items: items.map((item, i) => (i === index ? { ...item, ...changes } : item)),
-    });
-  };
+  // A staff or a wand is held, not worn, so it never occupies a body slot and is
+  // listed on its own below. Everything else is placed by its slot.
+  const held = items.filter((item) => HELD_CATEGORIES.has(item.category ?? ""));
+  const worn = items.filter((item) => !HELD_CATEGORIES.has(item.category ?? ""));
 
-  const remove = (index: number): void => {
-    patch({ magic_items: items.filter((_, i) => i !== index) });
-  };
-
-  // How full each slot is, so going over shows where it happened rather than only in
-  // the sheet's warnings. Stowed items never count.
-  const worn = new Map<string, number>();
-  for (const item of items) {
-    if (item.slot !== BACKPACK) worn.set(item.slot, (worn.get(item.slot) ?? 0) + 1);
+  const rows: SlotRow[] = [];
+  for (const slot of meta.data?.item_slots ?? []) {
+    const inSlot = worn.filter((item) => item.slot === slot.slug);
+    // One line per place the slot offers, so "anillo (×2)" reads as two rings and an
+    // empty one is as visible as a filled one. Anything beyond capacity gets a line
+    // of its own, flagged, rather than being hidden behind the ones that fit.
+    for (let i = 0; i < Math.max(slot.capacity, inSlot.length); i += 1) {
+      rows.push({
+        slug: slot.slug,
+        label: slot.name,
+        item: inSlot[i],
+        isOverflow: i >= slot.capacity,
+      });
+    }
   }
-  const overCapacity = (slot: string): boolean => {
-    const capacity = slots.find((entry) => entry.slug === slot)?.capacity ?? 1;
-    return slot !== BACKPACK && (worn.get(slot) ?? 0) > capacity;
-  };
+
+  const stowed = worn.filter((item) => item.slot === BACKPACK);
+  const open = items.find((item) => item.id === editing);
 
   return (
     <section aria-labelledby="section-items" className="editor__section">
       <h2 id="section-items">{t("editor.section.items")}</h2>
 
-      {items.length === 0 && <p>{t("items.none")}</p>}
+      <table className="slots">
+        <thead>
+          <tr>
+            <th scope="col">{t("items.slot")}</th>
+            <th scope="col">{t("items.inSlot")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, index) => (
+            <tr key={`${row.slug}-${index}`} className={row.isOverflow ? "is-over" : undefined}>
+              <th scope="row">{row.label}</th>
+              <td>
+                <SlotButton row={row} onOpen={setEditing} onAdd={addTo} />
+                {row.isOverflow && (
+                  <span className="slots__warn" role="alert">
+                    {t("items.overCapacity")}
+                  </span>
+                )}
+              </td>
+            </tr>
+          ))}
 
-      <ul className="magic-items" aria-label={t("editor.section.items")}>
-        {items.map((item, index) => (
-          <li key={item.id ?? index} className={overCapacity(item.slot) ? "is-over" : undefined}>
-            <div className="magic-items__row">
-              <label className="field">
-                <span>{t("items.name")}</span>
-                <input
-                  value={item.name}
-                  onChange={(event) => update(index, { name: event.target.value })}
-                />
-              </label>
-
-              <label className="field">
-                <span>{t("items.slot")}</span>
-                <select
-                  value={item.slot}
-                  onChange={(event) => update(index, { slot: event.target.value })}
+          {/* The backpack is a slot too: the item is owned, just not helping. */}
+          <tr>
+            <th scope="row">{t("items.slot.backpack")}</th>
+            <td className="slots__stowed">
+              {stowed.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setEditing(item.id!)}
+                  aria-label={t("items.edit", { item: item.name })}
                 >
-                  <option value={BACKPACK}>{t("items.slot.backpack")}</option>
-                  {slots.map((slot) => (
-                    <option key={slot.slug} value={slot.slug}>
-                      {slot.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
+                  {item.name}
+                </button>
+              ))}
               <button
                 type="button"
-                aria-label={t("items.remove", { item: item.name })}
-                onClick={() => remove(index)}
+                className="slots__add"
+                aria-label={t("items.addTo", { slot: t("items.slot.backpack") })}
+                onClick={() => addTo(BACKPACK)}
               >
-                ×
+                +
               </button>
-            </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-            {/* Stated once, where the choice is made: an item you are not wearing is
-                still yours, it just is not helping. */}
-            {item.slot === BACKPACK && <p className="magic-items__note">{t("items.stowed")}</p>}
-            {overCapacity(item.slot) && (
-              <p className="magic-items__warn" role="alert">
-                {t("items.overCapacity")}
-              </p>
-            )}
+      <h3>{t("items.held")}</h3>
+      {held.length === 0 ? (
+        <p>{t("items.noneHeld")}</p>
+      ) : (
+        <ul className="slots__held" aria-label={t("items.held")}>
+          {held.map((item) => (
+            <li key={item.id}>
+              <button
+                type="button"
+                onClick={() => setEditing(item.id!)}
+                aria-label={t("items.edit", { item: item.name })}
+              >
+                {item.name}
+              </button>
+              <span className="slots__category">{item.category}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
-            <div className="magic-items__row">
-              <label className="field">
-                <span>{t("items.category")}</span>
-                <select
-                  value={item.category ?? ""}
-                  onChange={(event) => update(index, { category: event.target.value || null })}
-                >
-                  <option value="">{t("items.unset")}</option>
-                  {(meta.data?.item_categories ?? []).map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="field">
-                <span>{t("items.activation")}</span>
-                <select
-                  value={item.activation ?? ""}
-                  onChange={(event) => update(index, { activation: event.target.value || null })}
-                >
-                  <option value="">{t("items.unset")}</option>
-                  {(meta.data?.item_activations ?? []).map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="magic-items__row">
-              <NumberField
-                label={t("items.acBonus")}
-                value={item.ac_bonus ?? 0}
-                onChange={(value) => update(index, { ac_bonus: value })}
-              />
-              <label className="field">
-                {/* The type is what decides whether it adds to the armour you wear or
-                    is swallowed by it, so it sits beside the number, not in a dialog. */}
-                <span>{t("items.acBonusType")}</span>
-                <select
-                  value={item.ac_bonus_type ?? ""}
-                  onChange={(event) => update(index, { ac_bonus_type: event.target.value || null })}
-                >
-                  <option value="">{t("breakdown.untyped")}</option>
-                  {AC_TYPES.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="magic-items__row">
-              <NumberField
-                label={t("items.attackBonus")}
-                value={item.attack_bonus ?? 0}
-                onChange={(value) => update(index, { attack_bonus: value })}
-              />
-              <NumberField
-                label={t("items.damageBonus")}
-                value={item.damage_bonus ?? 0}
-                onChange={(value) => update(index, { damage_bonus: value })}
-              />
-              <label className="field">
-                <span>{t("items.weaponBonusType")}</span>
-                <select
-                  value={item.weapon_bonus_type ?? ""}
-                  onChange={(event) =>
-                    update(index, { weapon_bonus_type: event.target.value || null })
-                  }
-                >
-                  <option value="">{t("breakdown.untyped")}</option>
-                  {WEAPON_TYPES.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-
-            <div className="magic-items__row">
-              <NumberField
-                label={t("items.checkPenalty")}
-                value={item.armor_check_penalty ?? 0}
-                onChange={(value) => update(index, { armor_check_penalty: value })}
-              />
-              <NumberField
-                label={t("items.speedBonus")}
-                value={item.speed_bonus ?? 0}
-                onChange={(value) => update(index, { speed_bonus: value })}
-              />
-            </div>
-
-            <div className="magic-items__row">
-              <NumberField
-                label={t("items.useDc")}
-                value={item.use_device_dc ?? 0}
-                onChange={(value) => update(index, { use_device_dc: value || null })}
-              />
-              <NumberField
-                label={t("items.usesPerDay")}
-                value={item.uses_per_day ?? 0}
-                onChange={(value) =>
-                  // A fresh item starts the day full, so setting the allowance also
-                  // fills it: nobody wants to type the same number twice.
-                  update(index, { uses_per_day: value || null, uses_remaining: value || null })
-                }
-              />
-              <NumberField
-                label={t("items.usesLeft")}
-                value={item.uses_remaining ?? 0}
-                onChange={(value) => update(index, { uses_remaining: value })}
-              />
-            </div>
-
-            <label className="field">
-              <span>{t("items.description")}</span>
-              <textarea
-                rows={2}
-                value={item.description ?? ""}
-                onChange={(event) => update(index, { description: event.target.value || null })}
-              />
-            </label>
-          </li>
-        ))}
-      </ul>
-
-      <button type="button" className="button" onClick={addItem}>
-        {t("items.add")}
-      </button>
+      {open && (
+        <MagicItemEditor
+          item={open}
+          meta={meta.data}
+          onChange={(changes) => update(open.id!, changes)}
+          onRemove={() => remove(open.id!)}
+          onClose={() => setEditing(null)}
+        />
+      )}
     </section>
   );
 }
 
-interface NumberFieldProps {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
+interface SlotButtonProps {
+  row: SlotRow;
+  onOpen: (id: string) => void;
+  onAdd: (slot: string) => void;
 }
 
-function NumberField({ label, value, onChange }: NumberFieldProps): React.JSX.Element {
+/** A filled slot opens its item; an empty one creates one already in that slot,
+ * which is the only thing anybody wants from clicking an empty row. */
+function SlotButton({ row, onOpen, onAdd }: SlotButtonProps): React.JSX.Element {
+  if (row.item) {
+    return (
+      <button
+        type="button"
+        onClick={() => onOpen(row.item!.id!)}
+        aria-label={t("items.edit", { item: row.item.name })}
+      >
+        {row.item.name}
+      </button>
+    );
+  }
   return (
-    <label className="field">
-      <span>{label}</span>
-      <input
-        type="number"
-        value={value}
-        onChange={(event) => onChange(Number(event.target.value))}
-      />
-    </label>
+    <button
+      type="button"
+      className="slots__add"
+      aria-label={t("items.addTo", { slot: row.label })}
+      onClick={() => onAdd(row.slug)}
+    >
+      {t("items.empty")}
+    </button>
   );
 }
