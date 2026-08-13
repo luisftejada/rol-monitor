@@ -527,6 +527,23 @@ label.button {
   gap: 0.25rem;
   max-width: 24rem;
 }
+
+/* Two columns of fields where there is room for two, one where there is not.
+   `auto-fit` rather than a fixed pair plus a media query: the editor sits in a
+   column whose width depends on the viewport *and* on which panel is open, so the
+   breakpoint belongs to the container, not to the screen. */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.6rem 1rem;
+  align-items: start;
+}
+/* Inside the grid the column already bounds the control; the standalone cap would
+   leave each one short of its own column. */
+.field-grid > .field,
+.field-grid > .combobox {
+  max-width: none;
+}
 .combobox {
   position: relative;
   display: grid;

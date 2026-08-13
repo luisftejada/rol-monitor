@@ -28,32 +28,34 @@ export function IdentitySection({ draft, patch }: SectionProps): React.JSX.Eleme
     <section aria-labelledby="section-identity" className="editor__section">
       <h2 id="section-identity">{t("editor.section.identity")}</h2>
 
-      <label className="field">
-        <span>{t("identity.name")}</span>
-        <input value={draft.name} onChange={(event) => patch({ name: event.target.value })} />
-      </label>
+      <div className="field-grid">
+        <label className="field">
+          <span>{t("identity.name")}</span>
+          <input value={draft.name} onChange={(event) => patch({ name: event.target.value })} />
+        </label>
 
-      <label className="field">
-        <span>{t("identity.player")}</span>
-        <input
-          value={draft.player_name ?? ""}
-          onChange={(event) => patch({ player_name: event.target.value || null })}
+        <label className="field">
+          <span>{t("identity.player")}</span>
+          <input
+            value={draft.player_name ?? ""}
+            onChange={(event) => patch({ player_name: event.target.value || null })}
+          />
+        </label>
+
+        <Combobox
+          label={t("identity.race")}
+          options={raceOptions}
+          value={draft.race}
+          onChange={(race) => patch({ race, racial_bonus_choices: {} })}
         />
-      </label>
 
-      <Combobox
-        label={t("identity.race")}
-        options={raceOptions}
-        value={draft.race}
-        onChange={(race) => patch({ race, racial_bonus_choices: {} })}
-      />
-
-      <Combobox
-        label={t("identity.alignment")}
-        options={alignmentOptions}
-        value={draft.alignment ?? null}
-        onChange={(alignment) => patch({ alignment: alignment || null })}
-      />
+        <Combobox
+          label={t("identity.alignment")}
+          options={alignmentOptions}
+          value={draft.alignment ?? null}
+          onChange={(alignment) => patch({ alignment: alignment || null })}
+        />
+      </div>
     </section>
   );
 }

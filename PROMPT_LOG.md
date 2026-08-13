@@ -1,5 +1,23 @@
 # Prompt log
 
+### 2026-08-13 — Identity fields in two columns
+**Prompt:** en dos columnas
+**Files affected:** `frontend/src/features/editor/sections/IdentitySection.tsx`,
+`frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** The card was leaving half its width empty: `.field` caps at 24rem, which
+is right for a lone control and wrong for four stacked ones. The four now sit in a
+`.field-grid`, and the cap is lifted inside it since the column already bounds them.
+`repeat(auto-fit, minmax(14rem, 1fr))` rather than a fixed two columns plus a media
+query: the editor sits in a column whose width depends on the viewport *and* on which
+panel is open, so the breakpoint belongs to the container rather than to the screen.
+The class is deliberately generic — the other sections have the same shape.
+
+No test: jsdom applies no stylesheet, so a test here would assert the markup I just
+wrote rather than the layout it produces. The existing tests query by label and still
+pass, which is what proves the fields stayed reachable.
+
+---
+
 ### 2026-08-13 — The level-up report and the level list, on screen
 **Prompt:** sigue con la UI
 **Files affected:**
