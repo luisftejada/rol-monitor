@@ -78,7 +78,10 @@ def _weapon(raw: dict[str, Any]) -> EquippedWeapon:
         damage_dice=raw.get("damage_dice"),
         damage_type=raw.get("damage_type"),
         range_increment=raw.get("range_increment"),
-        enhancement_bonus=raw.get("enhancement_bonus", 0),
+        # A fixture states the magic bonus the way a magic weapon has it — one number
+        # for both sides — and may split it when it needs to (masterwork).
+        attack_enhancement=raw.get("attack_enhancement", raw.get("enhancement_bonus", 0)),
+        damage_enhancement=raw.get("damage_enhancement", raw.get("enhancement_bonus", 0)),
         is_proficient=raw.get("is_proficient", True),
         allows_finesse=raw.get("allows_finesse", False),
         attack_modifiers=tuple(_modifier(m) for m in raw.get("attack_modifiers", [])),

@@ -1300,6 +1300,16 @@ export interface components {
        */
       enhancement_bonus: number;
       /**
+       * Attack Bonus
+       * @default 0
+       */
+      attack_bonus: number;
+      /**
+       * Damage Bonus
+       * @default 0
+       */
+      damage_bonus: number;
+      /**
        * Is Masterwork
        * @default false
        */

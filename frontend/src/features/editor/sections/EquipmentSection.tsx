@@ -11,11 +11,11 @@ import type {
 import { Combobox } from "@/components/Combobox";
 import { Modal } from "@/components/Modal";
 import { StatBreakdown } from "@/components/StatBreakdown";
+import { WeaponBonuses } from "@/features/editor/sections/WeaponBonuses";
 import { useArmor, useWeapons } from "@/hooks/useRules";
 import { t } from "@/i18n";
 import { linesForWeapon } from "@/lib/attacks";
 import { signed } from "@/lib/format";
-import { fuzzyMatch } from "@/lib/normalize";
 
 interface SectionProps {
   draft: CharacterCreate;
@@ -42,7 +42,6 @@ export function EquipmentSection({
   const weaponsQuery = useWeapons();
 
   const [category, setCategory] = useState<string>(ALL_CATEGORIES);
-  const [query, setQuery] = useState("");
   const [detailed, setDetailed] = useState<WeaponDTO | null>(null);
 
   const armor = armorQuery.data ?? [];
@@ -69,7 +68,6 @@ export function EquipmentSection({
 
   const visible = catalog
     .filter((item) => category === ALL_CATEGORIES || item.category === category)
-    .filter((item) => !query.trim() || fuzzyMatch(item.name, query))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const weapons = draft.weapons ?? [];
@@ -86,6 +84,8 @@ export function EquipmentSection({
       catalog_name: name,
       wielding: "one_handed",
       enhancement_bonus: 0,
+      attack_bonus: 0,
+      damage_bonus: 0,
       is_masterwork: false,
     };
     patch({ weapons: [...weapons, weapon] });
@@ -94,6 +94,19 @@ export function EquipmentSection({
   const removeWeapon = (index: number): void => {
     patch({ weapons: weapons.filter((_, i) => i !== index) });
   };
+
+  const setBonus = (index: number, field: "attack_bonus" | "damage_bonus", value: number): void => {
+    const next = weapons.map((weapon, i) =>
+      i === index ? { ...weapon, [field]: Math.max(0, value) } : weapon,
+    );
+    patch({ weapons: next });
+  };
+
+  // -1 when the dialog is showing a weapon that is not carried, where there is no
+  // magic to edit yet — the "add" button is what that case offers instead.
+  const equippedIndex = detailed
+    ? weapons.findIndex((weapon) => weapon.catalog_name === detailed.name)
+    : -1;
 
   const hidden = draft.hidden_attack_lines ?? [];
   const toggleLine = (key: string, show: boolean): void => {
@@ -159,16 +172,6 @@ export function EquipmentSection({
               </option>
             ))}
           </select>
-        </div>
-
-        <div className="field">
-          <label htmlFor="weapon-search">{t("equipment.searchWeapon")}</label>
-          <input
-            id="weapon-search"
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
         </div>
       </div>
 
@@ -237,6 +240,10 @@ export function EquipmentSection({
               >
                 ×
               </button>
+              <WeaponBonuses
+                weapon={weapon}
+                onChange={(field, value) => setBonus(index, field, value)}
+              />
             </li>
           );
         })}
@@ -275,6 +282,16 @@ export function EquipmentSection({
             <dt>{t("weapon.special")}</dt>
             <dd>{detailed.special ?? t("weapon.unknown")}</dd>
           </dl>
+
+          {/* The same steppers as the equipped row: this dialog is where someone
+              lands when they click a weapon to look at it, so the magic it carries
+              has to be editable from here too. */}
+          {equippedIndex >= 0 && (
+            <WeaponBonuses
+              weapon={weapons[equippedIndex]!}
+              onChange={(field, value) => setBonus(equippedIndex, field, value)}
+            />
+          )}
 
           {/* Every derived way of using this weapon, each grip crossed with each
               declared feat. All are shown on the sheet by default; this is where a

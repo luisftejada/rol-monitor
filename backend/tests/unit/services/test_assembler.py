@@ -603,6 +603,33 @@ def _names(result: object) -> list[str]:
     return [w.name for w in result.character.weapons]  # type: ignore[attr-defined]
 
 
+def test_a_weapons_magic_bonus_can_be_stated_per_side(rules_repository: RulesRepository) -> None:
+    """A magic weapon has one bonus for both, but the sheet lets a GM split them —
+    masterwork is the standard case, and a homebrew item is the GM's business."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        weapons=[
+            EquippedWeaponIn(catalog_name="Espada larga", attack_bonus=2, damage_bonus=1),
+        ],
+    )
+    weapon = result.character.weapons[0]
+    assert (weapon.attack_enhancement, weapon.damage_enhancement) == (2, 1)
+
+
+def test_a_character_saved_before_the_split_keeps_its_magic(
+    rules_repository: RulesRepository,
+) -> None:
+    """`enhancement_bonus` is what every stored document holds, and it means both."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        weapons=[EquippedWeaponIn(catalog_name="Espada larga", enhancement_bonus=3)],
+    )
+    weapon = result.character.weapons[0]
+    assert (weapon.attack_enhancement, weapon.damage_enhancement) == (3, 3)
+
+
 def test_a_one_handed_weapon_offers_both_grips(rules_repository: RulesRepository) -> None:
     """Holding a one-handed weapon in both hands is a real choice with a real payoff
     (1.5x Strength), so it earns a line of its own like a declared feat does."""

@@ -74,7 +74,13 @@ class EquippedWeapon:
     damage_dice: str | None = None  # size-appropriate dice, e.g. "1d8"
     damage_type: str | None = None
     range_increment: str | None = None
-    enhancement_bonus: int = 0
+    #: The weapon's enhancement bonus, kept as two numbers because the sheet lets a
+    #: GM state them apart. A magic weapon has *one* bonus that applies to both, so
+    #: these are normally equal; masterwork is the standard case where they are not
+    #: (+1 to attack, nothing to damage). Both are typed `enhancement`, so they
+    #: neither stack with each other nor with another enhancement source.
+    attack_enhancement: int = 0
+    damage_enhancement: int = 0
     is_proficient: bool = True
     #: Extra per-weapon modifiers (weapon-specific feats/stances), applied on top.
     attack_modifiers: tuple[Modifier, ...] = ()

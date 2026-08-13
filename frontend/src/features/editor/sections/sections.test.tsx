@@ -178,6 +178,53 @@ describe("EquipmentSection", () => {
     ).toBeEnabled();
   });
 
+  it("catalogues a weapon as magic from the equipped row and from its dialog", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function Host() {
+      const { draft, patch } = useDraft();
+      seen.draft = draft;
+      return <EquipmentSection draft={draft} patch={patch} />;
+    }
+    renderWithProviders(<Host />);
+    await user.click(await screen.findByRole("button", { name: "Añadir Espada larga" }));
+
+    const weapons = screen.getByRole("list", { name: "Arma" });
+    await user.click(
+      within(weapons).getByRole("button", { name: "Subir Bono de ataque de Espada larga" }),
+    );
+    await user.click(
+      within(weapons).getByRole("button", { name: "Subir Bono de daño de Espada larga" }),
+    );
+    expect(seen.draft.weapons?.[0]).toMatchObject({ attack_bonus: 1, damage_bonus: 1 });
+
+    // The dialog is where you land when you click the weapon, so it edits it too.
+    await user.click(within(weapons).getByRole("button", { name: "Ver detalles de Espada larga" }));
+    const dialog = await screen.findByRole("dialog");
+    await user.click(
+      within(dialog).getByRole("button", { name: "Subir Bono de ataque de Espada larga" }),
+    );
+    expect(seen.draft.weapons?.[0]).toMatchObject({ attack_bonus: 2, damage_bonus: 1 });
+  });
+
+  it("never takes a weapon's bonus below zero", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function Host() {
+      const { draft, patch } = useDraft();
+      seen.draft = draft;
+      return <EquipmentSection draft={draft} patch={patch} />;
+    }
+    renderWithProviders(<Host />);
+    await user.click(await screen.findByRole("button", { name: "Añadir Espada larga" }));
+
+    const weapons = screen.getByRole("list", { name: "Arma" });
+    await user.click(
+      within(weapons).getByRole("button", { name: "Bajar Bono de ataque de Espada larga" }),
+    );
+    expect(seen.draft.weapons?.[0]).toMatchObject({ attack_bonus: 0 });
+  });
+
   it("offers every way of using a weapon, all shown by default", async () => {
     const user = userEvent.setup();
     const sample = fighterSheet.attacks[0]!;
@@ -277,18 +324,6 @@ describe("EquipmentSection", () => {
     expect(
       within(weaponList()).getByRole("button", { name: "Ver detalles de Espada larga" }),
     ).toBeInTheDocument();
-  });
-
-  it("searches weapons by name, ignoring accents", async () => {
-    const user = userEvent.setup();
-    renderWithProviders(<EquipmentHost />);
-    await screen.findByRole("list", { name: "Añadir arma" });
-
-    await user.type(screen.getByLabelText("Buscar arma"), "lanza lar");
-    const names = within(weaponList())
-      .getAllByRole("button", { name: /^Ver detalles de/ })
-      .map((button) => button.textContent);
-    expect(names).toEqual(["Lanza larga"]);
   });
 
   it("shows the stat line as a hover tooltip", async () => {

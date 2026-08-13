@@ -290,7 +290,9 @@ def _weapon(
     proficient = _is_proficient(item, character, feat_names, repo)
 
     attack_modifiers: list[Modifier] = []
-    if raw.is_masterwork and raw.enhancement_bonus == 0:
+    attack_enhancement = raw.attack_bonus or raw.enhancement_bonus
+    damage_enhancement = raw.damage_bonus or raw.enhancement_bonus
+    if raw.is_masterwork and attack_enhancement == 0:
         # Masterwork grants +1 to attack only; a magic bonus supersedes it.
         attack_modifiers.append(
             Modifier(
@@ -325,7 +327,8 @@ def _weapon(
         "damage_dice": _damage_dice(item, size),
         "damage_type": item.damage_type,
         "range_increment": item.range_increment,
-        "enhancement_bonus": raw.enhancement_bonus,
+        "attack_enhancement": attack_enhancement,
+        "damage_enhancement": damage_enhancement,
         "is_proficient": proficient,
         "allows_finesse": allows_finesse(category=item.category, name=item.name),
         "attack_modifiers": tuple(attack_modifiers),

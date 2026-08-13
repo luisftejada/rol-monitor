@@ -1,5 +1,31 @@
 # Prompt log
 
+### 2026-08-13 — A weapon's magic bonus is editable, per side
+**Prompt:** en el card EQUIPO, el campo "Buscar arma" no hace falta. al seleccionar un
+arma, hay que agregar dos botones (en dos columnas) para poder incrementar el bono de
+ataque y el bono de daño… al hacer click, y mostrar el modal del arma, se tienen que
+mostrar dichos botones otra vez
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/schemas/character.py`,
+`backend/src/pf_tracker/services/assembler.py`, `backend/tests/fixtures/loader.py`,
+`backend/tests/unit/services/test_assembler.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`,
+`frontend/src/features/editor/sections/{EquipmentSection,WeaponBonuses}.tsx`,
+frontend tests, `frontend/src/i18n/es.ts`, `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** The weapon search box is gone — the category filter plus an alphabetical
+list covers a catalog this size, and it cost a row of vertical space. In its place,
+two steppers per weapon for the attack and damage sides of its enhancement, shown
+both in the equipped row and in the weapon's dialog, since that is where you land
+when you click it. Both emit **enhancement**-typed modifiers, which matters: untyped
+ones would stack with a real magic bonus instead of being superseded by it. Told the
+owner that a magic weapon has *one* bonus applying to both sides, so two independent
+counters can express items the rules do not have — they also cover the ones they do
+(masterwork is +1 attack, nothing to damage), and it is their table. `enhancement_bonus`
+stays in the schema and seeds both when they are zero, so every character saved before
+the split keeps its magic without a migration.
+
+---
+
 ### 2026-08-13 — The player picks which attack lines to see
 **Prompt:** quiero ver todas las posibilidades incluyendo ataque a una mano, o a dos
 manos en el modal del arma, y que sean seleccionables, para que luego se muestren (o

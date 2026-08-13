@@ -44,7 +44,14 @@ class EquippedArmorIn(BaseModel):
 class EquippedWeaponIn(BaseModel):
     id: str = Field(default_factory=_uuid)
     catalog_name: str
+    #: The magic bonus as a single number, which is what a magic weapon actually has.
+    #: Kept because every character saved before the split stores it here.
     enhancement_bonus: int = 0
+    #: The same bonus stated per side, which is what the editor edits. A +1 weapon is
+    #: 1 and 1; masterwork is the standard case where they differ. Left at zero they
+    #: fall back to ``enhancement_bonus``, so an older document keeps its magic.
+    attack_bonus: int = 0
+    damage_bonus: int = 0
     is_masterwork: bool = False
     material: str | None = None
     wielding: Wielding = "one_handed"

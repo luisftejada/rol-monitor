@@ -581,13 +581,13 @@ def _attack_routine(
     size_mod = SIZE_AC_ATTACK_MOD[character.size]
     if size_mod:
         atk_mods.append(Modifier(atk_target, size_mod, BonusType.SIZE, "Tamaño", SourceKind.SIZE))
-    if weapon.enhancement_bonus:
+    if weapon.attack_enhancement:
         atk_mods.append(
             Modifier(
                 atk_target,
-                weapon.enhancement_bonus,
+                weapon.attack_enhancement,
                 BonusType.ENHANCEMENT,
-                f"{weapon.name} +{weapon.enhancement_bonus}",
+                f"{weapon.name} +{weapon.attack_enhancement}",
                 SourceKind.ITEM,
             )
         )
@@ -626,13 +626,13 @@ def _attack_routine(
     str_dmg = _str_damage(abilities[Ability.STR].modifier, weapon)
     if str_dmg:
         dmg_mods.append(_struct(dmg_target, str_dmg, "Fuerza", SourceKind.ABILITY))
-    if weapon.enhancement_bonus:
+    if weapon.damage_enhancement:
         dmg_mods.append(
             Modifier(
                 dmg_target,
-                weapon.enhancement_bonus,
+                weapon.damage_enhancement,
                 BonusType.ENHANCEMENT,
-                f"{weapon.name} +{weapon.enhancement_bonus}",
+                f"{weapon.name} +{weapon.damage_enhancement}",
                 SourceKind.ITEM,
             )
         )
