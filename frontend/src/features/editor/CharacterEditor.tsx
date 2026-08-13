@@ -129,8 +129,8 @@ export function CharacterEditor({
             abilities={abilityScores}
             budget={sheet?.feats}
           />
-          <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} />
-          <AttacksSection attacks={sheet?.attacks} />
+          <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} attacks={sheet?.attacks} />
+          <AttacksSection attacks={sheet?.attacks} hidden={draft.hidden_attack_lines ?? []} />
         </div>
 
         <div className="editor__column editor__column--skills">

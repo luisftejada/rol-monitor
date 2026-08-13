@@ -189,6 +189,8 @@ export const es = {
   "equipment.noWeapons": "Ninguna arma coincide con el filtro.",
   "equipment.weaponDetails": "Ver detalles de {weapon}",
   "equipment.addNamed": "Añadir {weapon}",
+  "attacks.pick": "Líneas de ataque que quieres ver",
+  "attacks.baseLine": "Ataque normal",
   "equipment.alreadyEquipped": "{weapon} ya está en el equipo",
   "equipment.alreadyEquipped.short": "Ya en el equipo",
 

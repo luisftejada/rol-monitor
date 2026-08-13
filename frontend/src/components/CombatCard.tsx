@@ -2,6 +2,7 @@ import type { CombatSheetResponse } from "@/api/types";
 import { AttackLines } from "@/components/AttackLines";
 import { StatBreakdown } from "@/components/StatBreakdown";
 import { t, type MessageKey } from "@/i18n";
+import { visibleAttacks } from "@/lib/attacks";
 import { signed } from "@/lib/format";
 
 const ABILITY_ORDER = ["Fue", "Des", "Con", "Int", "Sab", "Car"] as const;
@@ -10,9 +11,12 @@ const SAVE_ORDER = ["Fortaleza", "Reflejos", "Voluntad"] as const;
 interface CombatCardProps {
   name: string;
   sheet: CombatSheetResponse;
+  /** Lines the player trimmed in each weapon's dialog. The read-only sheet honours
+   * the same choice the editor does; a line hidden in one is hidden in both. */
+  hiddenAttackLines?: string[];
 }
 
-export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element {
+export function CombatCard({ name, sheet, hiddenAttackLines }: CombatCardProps): React.JSX.Element {
   return (
     <article className="card" aria-label={name} aria-live="polite">
       <header className="card__header">
@@ -94,7 +98,7 @@ export function CombatCard({ name, sheet }: CombatCardProps): React.JSX.Element 
       {sheet.attacks.length > 0 && (
         <section className="card__attacks">
           <h3>{t("sheet.attacks")}</h3>
-          <AttackLines attacks={sheet.attacks} />
+          <AttackLines attacks={visibleAttacks(sheet.attacks, hiddenAttackLines)} />
         </section>
       )}
 

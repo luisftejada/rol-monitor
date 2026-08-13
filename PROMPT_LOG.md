@@ -1,5 +1,31 @@
 # Prompt log
 
+### 2026-08-13 — The player picks which attack lines to see
+**Prompt:** quiero ver todas las posibilidades incluyendo ataque a una mano, o a dos
+manos en el modal del arma, y que sean seleccionables, para que luego se muestren (o
+no) en la card ATAQUES
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/{character,combat_sheet}.py`,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`frontend/src/lib/attacks.ts` (new),
+`frontend/src/features/editor/sections/{EquipmentSection,AttacksSection}.tsx`,
+`frontend/src/features/editor/CharacterEditor.tsx`,
+`frontend/src/components/CombatCard.tsx`, `frontend/src/pages/CharacterPage.tsx`,
+frontend tests, `frontend/src/i18n/es.ts`, `frontend/src/index.css`,
+`docs/assumptions.md`, `PROMPT_LOG.md`
+**Summary:** The second half of the grip work. Each line now carries a `variant_key`
+built from facts — catalog name, grip, sorted feat names — rather than from its
+translated label, so rewording a label cannot silently un-hide what a player chose to
+hide. The weapon's dialog lists every line with its numbers and a checkbox, all
+ticked by default; unticking stores the key in `hidden_attack_lines` on the character
+(a JSON column, so no migration). Both the editor's Ataques section and the read-only
+combat card honour it through one shared `visibleAttacks` helper. Stored as what to
+*hide* so a line that appears later — a feat taken next level — shows up on its own
+instead of waiting to be discovered.
+
+---
+
 ### 2026-08-13 — Grip becomes an axis of the attack lines
 **Prompt:** podemos agregar una propiedad a las armas. a una mano, o a dos manos…
 podemos agregar una linea, de igual forma que hacemos con ataque poderoso… también

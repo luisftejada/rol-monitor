@@ -42,7 +42,11 @@ export function CharacterPage(): React.JSX.Element {
 
       {character.data && sheet.data && (
         <div className="combat-view">
-          <CombatCard name={character.data.name} sheet={sheet.data} />
+          <CombatCard
+            name={character.data.name}
+            sheet={sheet.data}
+            hiddenAttackLines={character.data.hidden_attack_lines}
+          />
           <CombatTracker character={character.data} />
         </div>
       )}

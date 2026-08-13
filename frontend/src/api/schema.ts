@@ -535,6 +535,8 @@ export interface components {
       notes: string[];
       cmb?: components["schemas"]["ValueBreakdown"] | null;
       ac?: components["schemas"]["ACDTO"] | null;
+      /** Variant Key */
+      variant_key?: string | null;
     };
     /** BabDTO */
     BabDTO: {
@@ -680,6 +682,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Hidden Attack Lines */
+      hidden_attack_lines?: string[];
       /** Active Conditions */
       active_conditions?: string[];
       /** Active Effects */
@@ -816,6 +820,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Hidden Attack Lines */
+      hidden_attack_lines?: string[];
       /** Active Conditions */
       active_conditions?: string[];
       /** Active Effects */
@@ -927,6 +933,8 @@ export interface components {
       other_ac_modifiers?: number | null;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Hidden Attack Lines */
+      hidden_attack_lines?: string[] | null;
       /** Active Conditions */
       active_conditions?: string[] | null;
       /** Active Effects */
@@ -1053,6 +1061,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Hidden Attack Lines */
+      hidden_attack_lines?: string[];
       /** Active Conditions */
       active_conditions?: string[];
       /** Active Effects */

@@ -629,6 +629,17 @@ def _feat_lines(
     return lines
 
 
+def _variant_key(weapon: EquippedWeapon, feats: list[FeatDTO]) -> str:
+    """Identify this way of using the weapon, stably enough to store a preference.
+
+    Built from facts, not from the label: the label is translated and can carry a
+    situational caveat, so rewording one would silently un-hide every line a player
+    had chosen to hide.
+    """
+    chosen = "+".join(sorted(feat.name for feat in feats))
+    return f"{weapon.name}|{weapon.wield.value}|{chosen}"
+
+
 def _named(weapon: EquippedWeapon) -> EquippedWeapon:
     """Fold the variant label into the display name, once."""
     if weapon.variant_label is None:
@@ -745,6 +756,7 @@ def _with_feats(
         weapon,
         name=f"{weapon.name} ({label})" if rename and label else weapon.name,
         variant_label=label,
+        variant_key=_variant_key(weapon, feats),
         threat_range=threat_range,
         attack_modifiers=tuple(attack),
         damage_modifiers=tuple(damage),

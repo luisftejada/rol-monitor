@@ -70,6 +70,28 @@ describe("CombatCard", () => {
     );
   });
 
+  it("hides the attack lines the player trimmed", () => {
+    const sample = fighterSheet.attacks[0]!;
+    const sheet = {
+      ...fighterSheet,
+      attacks: [
+        { ...sample, weapon: "Espada larga", variant_key: "Espada larga|one_handed|" },
+        {
+          ...sample,
+          weapon: "Espada larga (a dos manos)",
+          variant_label: "a dos manos",
+          variant_key: "Espada larga|two_handed|",
+        },
+      ],
+    };
+    renderWithProviders(
+      <CombatCard name="Aldous" sheet={sheet} hiddenAttackLines={["Espada larga|two_handed|"]} />,
+    );
+
+    expect(screen.getByText("Espada larga")).toBeInTheDocument();
+    expect(screen.queryByText("Espada larga (a dos manos)")).not.toBeInTheDocument();
+  });
+
   it("says which skills have ranks in them", async () => {
     const trained = fighterSheet.skills[0]!;
     const sheet = {

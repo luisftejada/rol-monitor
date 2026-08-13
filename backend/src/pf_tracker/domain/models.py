@@ -104,6 +104,11 @@ class EquippedWeapon:
     #: names. It is a *permission*, not a decision: damage still uses Strength, and
     #: the derivation picks whichever ability actually comes out ahead.
     allows_finesse: bool = False
+    #: Stable identity of this line among the ways of using one weapon: catalog name,
+    #: grip, and the optional feats folded in. The display name would nearly do, but it
+    #: carries a translated label and a situational caveat, so a reworded string would
+    #: silently un-hide every line a player had hidden.
+    variant_key: str | None = None
     #: Whether this weapon can also be held in both hands for 1.5x Strength damage.
     #: True only for the one-handed category: a two-handed weapon has no other grip,
     #: and a light one gains nothing ("no concede ventaja al daño"), so neither earns

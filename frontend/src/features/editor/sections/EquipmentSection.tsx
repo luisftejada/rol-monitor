@@ -1,11 +1,19 @@
 import { useState } from "react";
 
-import type { ACDTO, ArmorDTO, CharacterCreate, EquippedWeaponIn, WeaponDTO } from "@/api/types";
+import type {
+  ACDTO,
+  ArmorDTO,
+  AttackDTO,
+  CharacterCreate,
+  EquippedWeaponIn,
+  WeaponDTO,
+} from "@/api/types";
 import { Combobox } from "@/components/Combobox";
 import { Modal } from "@/components/Modal";
 import { StatBreakdown } from "@/components/StatBreakdown";
 import { useArmor, useWeapons } from "@/hooks/useRules";
 import { t } from "@/i18n";
+import { linesForWeapon } from "@/lib/attacks";
 import { signed } from "@/lib/format";
 import { fuzzyMatch } from "@/lib/normalize";
 
@@ -15,13 +23,21 @@ interface SectionProps {
   /** The character's total AC from `/derive`, shown beside the armor that earns
    * it rather than only in the live preview. Absent only while it first loads. */
   ac?: ACDTO;
+  /** Every derived way of using each equipped weapon, so its dialog can offer them
+   * as a checklist. Absent only while the first derivation loads. */
+  attacks?: AttackDTO[];
 }
 
 const NONE = "__none__";
 /** Sentinel for "no category filter". */
 const ALL_CATEGORIES = "*";
 
-export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.Element {
+export function EquipmentSection({
+  draft,
+  patch,
+  ac,
+  attacks = [],
+}: SectionProps): React.JSX.Element {
   const armorQuery = useArmor();
   const weaponsQuery = useWeapons();
 
@@ -77,6 +93,13 @@ export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.
 
   const removeWeapon = (index: number): void => {
     patch({ weapons: weapons.filter((_, i) => i !== index) });
+  };
+
+  const hidden = draft.hidden_attack_lines ?? [];
+  const toggleLine = (key: string, show: boolean): void => {
+    patch({
+      hidden_attack_lines: show ? hidden.filter((k) => k !== key) : [...hidden, key],
+    });
   };
 
   return (
@@ -252,6 +275,33 @@ export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.
             <dt>{t("weapon.special")}</dt>
             <dd>{detailed.special ?? t("weapon.unknown")}</dd>
           </dl>
+
+          {/* Every derived way of using this weapon, each grip crossed with each
+              declared feat. All are shown on the sheet by default; this is where a
+              player trims the ones they will never roll. */}
+          {linesForWeapon(attacks, detailed.name).length > 0 && (
+            <fieldset className="attack-picker">
+              <legend>{t("attacks.pick")}</legend>
+              {linesForWeapon(attacks, detailed.name).map((line) => {
+                const key = line.variant_key!;
+                const label = line.variant_label ?? t("attacks.baseLine");
+                return (
+                  <label key={key} className="attack-picker__line">
+                    <input
+                      type="checkbox"
+                      checked={!hidden.includes(key)}
+                      onChange={(event) => toggleLine(key, event.target.checked)}
+                    />
+                    <span className="attack-picker__label">{label}</span>
+                    <span className="attack-picker__numbers">
+                      {line.attack_line}
+                      {line.damage_expression ? ` · ${line.damage_expression}` : ""}
+                    </span>
+                  </label>
+                );
+              })}
+            </fieldset>
+          )}
 
           {/* The dialog is reached from the equipped list too, so it is the likeliest
               place to press "add" on something already carried. Say why it is off

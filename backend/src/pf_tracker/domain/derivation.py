@@ -121,6 +121,8 @@ class AttackRoutine:
     ac: ACResult | None = None
     #: See :attr:`EquippedWeapon.variant_label`.
     variant_label: str | None = None
+    #: See :attr:`EquippedWeapon.variant_key`.
+    variant_key: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -685,6 +687,7 @@ def _attack_routine(
         cmb=line_cmb,
         ac=line_ac,
         variant_label=weapon.variant_label,
+        variant_key=weapon.variant_key,
     )
 
 

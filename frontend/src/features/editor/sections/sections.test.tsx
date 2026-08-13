@@ -8,6 +8,7 @@ import { ClassesSection } from "@/features/editor/sections/ClassesSection";
 import { EquipmentSection } from "@/features/editor/sections/EquipmentSection";
 import { IdentitySection } from "@/features/editor/sections/IdentitySection";
 import { defaultDraft } from "@/features/editor/draft";
+import { fighterSheet } from "@/test/fixtures";
 import { renderWithProviders } from "@/test/render";
 
 function useDraft() {
@@ -175,6 +176,48 @@ describe("EquipmentSection", () => {
     expect(
       await within(weaponList()).findByRole("button", { name: "Añadir Espada larga" }),
     ).toBeEnabled();
+  });
+
+  it("offers every way of using a weapon, all shown by default", async () => {
+    const user = userEvent.setup();
+    const sample = fighterSheet.attacks[0]!;
+    const attacks = [
+      {
+        ...sample,
+        weapon: "Espada larga",
+        variant_label: null,
+        variant_key: "Espada larga|one_handed|",
+      },
+      {
+        ...sample,
+        weapon: "Espada larga (a dos manos)",
+        variant_label: "a dos manos",
+        variant_key: "Espada larga|two_handed|",
+      },
+    ];
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function Host() {
+      const { draft, patch } = useDraft();
+      seen.draft = draft;
+      return <EquipmentSection draft={draft} patch={patch} attacks={attacks} />;
+    }
+    renderWithProviders(<Host />);
+
+    await user.click(await screen.findByRole("button", { name: "Ver detalles de Espada larga" }));
+    const dialog = await screen.findByRole("dialog");
+
+    const base = within(dialog).getByRole("checkbox", { name: /Ataque normal/ });
+    const twoHanded = within(dialog).getByRole("checkbox", { name: /a dos manos/ });
+    expect(base).toBeChecked();
+    expect(twoHanded).toBeChecked();
+
+    await user.click(twoHanded);
+    expect(seen.draft.hidden_attack_lines).toEqual(["Espada larga|two_handed|"]);
+
+    // And ticking it back restores it — the preference stores what to hide, so
+    // nothing has to be re-added when a new line shows up later.
+    await user.click(twoHanded);
+    expect(seen.draft.hidden_attack_lines).toEqual([]);
   });
 
   it("shows the total AC next to the armor picker, from the derived values", async () => {

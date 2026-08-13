@@ -136,6 +136,12 @@ class CharacterData(BaseModel):
     other_ac_modifiers: int = 0
     load_carried_lb: float | None = None
 
+    #: ``variant_key`` of the attack lines the player has chosen not to see. Stored as
+    #: what to *hide* rather than what to show, so a line that appears later — a new
+    #: feat, a new weapon — shows up by default instead of being invisible until
+    #: someone thinks to look for it.
+    hidden_attack_lines: list[str] = Field(default_factory=list)
+
     active_conditions: list[str] = Field(default_factory=list)
     active_effects: list[ActiveEffectIn] = Field(default_factory=list)
     modifiers: list[ModifierIn] = Field(default_factory=list)
@@ -199,6 +205,7 @@ class CharacterPatch(BaseModel):
     deflection_bonus: int | None = None
     other_ac_modifiers: int | None = None
     load_carried_lb: float | None = None
+    hidden_attack_lines: list[str] | None = None
     active_conditions: list[str] | None = None
     active_effects: list[ActiveEffectIn] | None = None
     modifiers: list[ModifierIn] | None = None

@@ -89,6 +89,9 @@ class AttackDTO(BaseModel):
     #: Present only when the line changes your AC: both hands on the weapon means the
     #: shield is not in use, so its bonus is not yours while this line is.
     ac: ACDTO | None = None
+    #: Stable identity of this way of using the weapon, for the per-weapon dialog to
+    #: check against ``CharacterRead.hidden_attack_lines``.
+    variant_key: str | None = None
 
 
 class SkillLineDTO(BaseModel):
@@ -233,6 +236,7 @@ def _attack(routine: AttackRoutine) -> AttackDTO:
         notes=list(routine.notes),
         cmb=_value(routine.cmb) if routine.cmb is not None else None,
         ac=_ac(routine.ac) if routine.ac is not None else None,
+        variant_key=routine.variant_key,
     )
 
 
