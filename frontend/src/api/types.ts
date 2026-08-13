@@ -22,6 +22,8 @@ export type SkillLineDTO = Schemas["SkillLineDTO"];
 export type SpeedDTO = Schemas["SpeedDTO"];
 export type HpDTO = Schemas["HpDTO"];
 export type BabDTO = Schemas["BabDTO"];
+export type LevelUpResponse = Schemas["LevelUpResponse"];
+export type LevelSnapshotIn = Schemas["LevelSnapshotIn"];
 
 // Rules catalog
 export type MetaDTO = Schemas["MetaDTO"];

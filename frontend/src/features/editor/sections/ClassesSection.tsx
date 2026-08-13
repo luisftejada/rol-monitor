@@ -1,5 +1,11 @@
-import type { CharacterCreate, ClassLevelIn } from "@/api/types";
+import { useMutation } from "@tanstack/react-query";
+
+import { deriveCharacter, levelUpPreview } from "@/api/characters";
+import type { CharacterCreate, ClassLevelIn, LevelUpResponse } from "@/api/types";
+import { CombatCard } from "@/components/CombatCard";
 import { Combobox } from "@/components/Combobox";
+import { Modal } from "@/components/Modal";
+import { LevelUpDialog } from "@/features/editor/sections/LevelUpDialog";
 import { useClasses } from "@/hooks/useRules";
 import { t } from "@/i18n";
 
@@ -33,6 +39,14 @@ export function ClassesSection({ draft, patch }: SectionProps): React.JSX.Elemen
     patch({ class_levels: classLevels.filter((_, i) => i !== index) });
   };
 
+  // Both run against the draft as it stands, so neither needs the character saved
+  // and neither changes anything: one reports, the other renders a past copy.
+  const preview = useMutation({ mutationFn: (taking: string) => levelUpPreview(draft, taking) });
+  const past = useMutation({ mutationFn: (data: CharacterCreate) => deriveCharacter(data) });
+
+  const history = draft.level_history ?? [];
+  const totalLevel = classLevels.reduce((sum, entry) => sum + entry.level, 0);
+
   return (
     <section aria-labelledby="section-classes" className="editor__section">
       <h2 id="section-classes">{t("editor.section.classes")}</h2>
@@ -65,6 +79,52 @@ export function ClassesSection({ draft, patch }: SectionProps): React.JSX.Elemen
       <button type="button" onClick={add}>
         {t("classes.add")}
       </button>
+
+      {/* One button per class, because taking the level *is* the choice of class —
+          that is what multiclassing is, and asking after the fact would be a second
+          dialog for a decision already made. */}
+      <div className="level-up__actions">
+        {classLevels.map((entry, index) => (
+          <button
+            key={index}
+            type="button"
+            className="button"
+            onClick={() => preview.mutate(entry.class_slug)}
+          >
+            {t("levelUp.button", {
+              class: options.find((o) => o.value === entry.class_slug)?.label ?? entry.class_slug,
+            })}
+          </button>
+        ))}
+      </div>
+
+      <h3>{t("levelUp.history")}</h3>
+      <ul className="levels" aria-label={t("levelUp.history")}>
+        {history.map((snapshot) => (
+          <li key={snapshot.level}>
+            <button
+              type="button"
+              onClick={() => past.mutate(snapshot.data as unknown as CharacterCreate)}
+              aria-label={t("levelUp.view", { level: snapshot.level })}
+            >
+              {t("levelUp.level", { level: snapshot.level })}
+            </button>
+          </li>
+        ))}
+        {/* The character as it is now closes the list, so the sequence reads whole. */}
+        <li className="levels__current">{t("levelUp.currentLevel", { level: totalLevel })}</li>
+      </ul>
+
+      {preview.data && (
+        <LevelUpDialog report={preview.data as LevelUpResponse} onClose={() => preview.reset()} />
+      )}
+      {past.data && (
+        <Modal title={t("levelUp.pastCharacter")} onClose={() => past.reset()}>
+          {/* Derived from the copy, so a past level is read with the same card as the
+              present one instead of a second, thinner view that could disagree. */}
+          <CombatCard name={draft.name ?? ""} sheet={past.data} />
+        </Modal>
+      )}
     </section>
   );
 }

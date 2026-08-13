@@ -1142,3 +1142,75 @@ label.button {
   font-size: 0.85rem;
   color: var(--muted);
 }
+
+/* --- level progression --- */
+.level-up__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.levels {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.levels button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.levels button:hover {
+  background: var(--border);
+}
+.levels__current {
+  padding: 0.15rem 0.5rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: 0.25rem;
+  color: var(--muted);
+}
+
+.level-up {
+  display: grid;
+  gap: 0.75rem;
+}
+.level-up__total {
+  margin: 0;
+  color: var(--muted);
+}
+/* Two columns so before → after line up down the page and the eye can scan the
+   right-hand side alone. */
+.level-up__figures {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 1rem;
+  margin: 0;
+}
+.level-up__figures dt {
+  color: var(--muted);
+}
+.level-up__figures dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.level-up__choices {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.level-up__warnings {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--warn-text);
+}
+.level-up__note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

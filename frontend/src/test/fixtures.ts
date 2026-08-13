@@ -8,6 +8,7 @@ import type {
   CharacterRead,
   CharacterSummary,
   CombatSheetResponse,
+  LevelUpResponse,
   SuppressedEntry,
   ValueBreakdown,
 } from "@/api/types";
@@ -210,4 +211,29 @@ export const listResponse: CharacterListResponse = {
   total: 1,
   limit: 50,
   offset: 0,
+};
+
+/** A fighter going from level 3 to 4: an ability-increment level for the character
+ * and a bonus-feat level for the class, which is the interesting combination. */
+export const levelUpReport: LevelUpResponse = {
+  class_slug: "guerrero",
+  class_name: "Guerrero",
+  class_level_before: 3,
+  class_level_after: 4,
+  total_level_before: 3,
+  total_level_after: 4,
+  hit_die: 10,
+  constitution_modifier: 2,
+  base_attack_before: 3,
+  base_attack_after: 4,
+  saves_before: { Fortaleza: 3, Reflejos: 1, Voluntad: 1 },
+  saves_after: { Fortaleza: 4, Reflejos: 1, Voluntad: 1 },
+  skill_ranks: 3,
+  grants_feat: false,
+  grants_ability_increment: true,
+  class_features: ["Dote adicional"],
+  bonus_feat_slots: [{ level: 4, source: "Guerrero", choice: "tipos", types: ["Combate"] }],
+  favored_class_note: null,
+  spells_per_day: null,
+  warnings: [],
 };

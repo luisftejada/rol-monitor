@@ -5,6 +5,7 @@ import type {
   CharacterPatch,
   CharacterRead,
   CombatSheetResponse,
+  LevelUpResponse,
   ConditionUpdate,
   ModifierCreate,
   ModifierPatch,
@@ -43,6 +44,11 @@ export function getCombatSheet(id: string): Promise<CombatSheetResponse> {
 
 export function deriveCharacter(body: CharacterCreate): Promise<CombatSheetResponse> {
   return apiPost<CombatSheetResponse>("/derive", body);
+}
+
+/** What the next level buys, in `taking`. Reports only — it changes nothing. */
+export function levelUpPreview(body: CharacterCreate, taking: string): Promise<LevelUpResponse> {
+  return apiPost<LevelUpResponse>(`/level-up-preview?taking=${encodeURIComponent(taking)}`, body);
 }
 
 export function duplicateCharacter(id: string): Promise<CharacterRead> {

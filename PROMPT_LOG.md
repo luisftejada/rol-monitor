@@ -1,5 +1,28 @@
 # Prompt log
 
+### 2026-08-13 — The level-up report and the level list, on screen
+**Prompt:** sigue con la UI
+**Files affected:**
+`frontend/src/features/editor/sections/{ClassesSection,LevelUpDialog}.tsx`,
+`frontend/src/features/editor/sections/sections.test.tsx`,
+`frontend/src/api/{characters,types}.ts`, `frontend/src/test/{fixtures,handlers}.ts`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `PROMPT_LOG.md`
+**Summary:** Third and last piece. Clases y nivel gets **one level-up button per
+class**, because taking the level *is* the choice of class — that is what
+multiclassing is, and asking afterwards would be a second dialog for a decision
+already made. The report shows every figure as before → after, since "Fortaleza +4"
+leaves you guessing whether that is the gain or the total, and keeps the *choices*
+(feat, ability increment, bonus feat slot, class feature, favored class) in a separate
+list from the figures: those need a decision rather than a number copied across. It
+ends by saying it changed nothing, and a test asserts the draft is untouched.
+
+The level list closes with the character as it is now, so the sequence reads whole,
+and opening a past level derives its copy through `/derive` and renders it with the
+**same** CombatCard as the present — rather than a second, thinner view that could
+disagree with the real one.
+
+---
+
 ### 2026-08-13 — A copy of each level the character leaves behind
 **Prompt:** sigue
 **Files affected:** `backend/src/pf_tracker/schemas/character.py`,

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
 import * as catalog from "./catalog";
-import { fighterCharacter, fighterSheet, listResponse } from "./fixtures";
+import { fighterCharacter, fighterSheet, levelUpReport, listResponse } from "./fixtures";
 
 const BASE = "/api/v1";
 
@@ -26,6 +26,7 @@ export const handlers = [
   http.patch(`${BASE}/characters/:id`, () => HttpResponse.json(fighterCharacter)),
   http.post(`${BASE}/characters`, () => HttpResponse.json(fighterCharacter, { status: 201 })),
   http.post(`${BASE}/derive`, () => HttpResponse.json(fighterSheet)),
+  http.post(`${BASE}/level-up-preview`, () => HttpResponse.json(levelUpReport)),
 
   // Combat tracking
   http.post(`${BASE}/characters/:id/modifiers`, () =>

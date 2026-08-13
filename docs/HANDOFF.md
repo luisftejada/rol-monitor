@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **474 backend tests, 140 frontend tests**, coverage 96%+
+Everything should be green: **474 backend tests, 143 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -78,6 +78,13 @@ Maneuvers, Defensive Combat Training. The stacking engine cannot express that, s
 arrive as flags (`rules/feat_substitutions.py`). Finesse shows the better of Dexterity
 and Strength, since the feat is permission rather than obligation and a shield charges
 its check penalty for taking it up.
+
+Levelling up is a report, not a wizard: `POST /level-up-preview` says what one more
+level in a named class buys — the class' hit die and each save before → after, the
+feat or ability increment owed to the character's *total* level, the class' own
+`especial` — and applies none of it. Growing past a level files a full copy of the
+document, keyed by the level it was, so a past level opens in the same combat card as
+the present one. The copy is a record, not an editable timeline.
 
 An attack line carries a CMB of its own when the way of attacking costs one —
 `Ataque poderoso` penalises combat manoeuvres as well as attacks — so the sheet's

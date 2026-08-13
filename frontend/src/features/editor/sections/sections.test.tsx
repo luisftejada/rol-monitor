@@ -106,6 +106,67 @@ describe("ClassesSection", () => {
     await user.click(screen.getAllByRole("button", { name: "Quitar" })[0]!);
     expect(screen.getByRole("status")).toHaveTextContent("1");
   });
+
+  it("reports what the next level buys, and changes nothing", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function Host() {
+      const { draft, patch } = useDraft();
+      seen.draft = draft;
+      return <ClassesSection draft={draft} patch={patch} />;
+    }
+    renderWithProviders(<Host />);
+    const before = seen.draft;
+
+    await user.click(await screen.findByRole("button", { name: /Subir un nivel de Guerrero/ }));
+
+    const dialog = await screen.findByRole("dialog");
+    // Before → after, because "Fortaleza +4" leaves you guessing which it is.
+    expect(dialog).toHaveTextContent("+3 → +4");
+    expect(dialog).toHaveTextContent("+1d10 +2");
+    expect(dialog).toHaveTextContent(/característica/);
+    expect(dialog).toHaveTextContent("Dote adicional");
+
+    // Reporting is all it does: the character is untouched.
+    expect(seen.draft).toEqual(before);
+  });
+
+  it("offers one level-up button per class, which is the multiclass choice", async () => {
+    const user = userEvent.setup();
+    function Host() {
+      const { draft, patch } = useDraft();
+      return <ClassesSection draft={draft} patch={patch} />;
+    }
+    renderWithProviders(<Host />);
+
+    await user.click(await screen.findByRole("button", { name: "Añadir clase" }));
+    expect(await screen.findAllByRole("button", { name: /Subir un nivel de/ })).toHaveLength(2);
+  });
+
+  it("lists the levels left behind and opens one as it was", async () => {
+    const user = userEvent.setup();
+    function Host() {
+      const [draft, setDraft] = useState<CharacterCreate>({
+        ...defaultDraft(),
+        class_levels: [{ class_slug: "guerrero", level: 3, is_prestige: false, is_favored: false }],
+        level_history: [
+          { level: 1, taken_at: "2026-01-01T00:00:00Z", data: { name: "Aldous" } },
+          { level: 2, taken_at: "2026-01-02T00:00:00Z", data: { name: "Aldous" } },
+        ],
+      });
+      return <ClassesSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} />;
+    }
+    renderWithProviders(<Host />);
+
+    const levels = await screen.findByRole("list", { name: "Niveles" });
+    expect(within(levels).getByText("Nivel 1")).toBeInTheDocument();
+    // The present closes the sequence so it reads whole.
+    expect(within(levels).getByText("Nivel 3 (actual)")).toBeInTheDocument();
+
+    await user.click(within(levels).getByRole("button", { name: "Ver el personaje a nivel 2" }));
+    // The past is read with the same card as the present, derived from the copy.
+    expect(await screen.findByRole("article")).toBeInTheDocument();
+  });
 });
 
 describe("EquipmentSection", () => {
