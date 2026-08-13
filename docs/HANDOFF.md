@@ -143,12 +143,16 @@ Roughly in order of value:
 - **The frontend must contain no Pathfinder arithmetic.** When a number is needed in
   the UI, derive it in the backend and send it. A TS test asserting a game formula
   means the logic landed in the wrong layer.
-- **A frontend test that fails only under `make check`** is almost certainly the
-  1-second default on Testing Library's `findBy*`, not a real regression. `make check`
-  runs vitest across every core right after the backend suite, and a view rendering
-  from an API round trip misses that window. `asyncUtilTimeout` is raised in
-  `src/test/setup.ts`. Raising vitest's own `testTimeout` does nothing here — it is a
-  different timer, and the file-level one was never the one being hit.
+- **A frontend test that fails only under `make check`** is a timeout, not a
+  regression: vitest runs across every core right after the backend suite, and a view
+  rendering from an API round trip misses windows it clears in ~100ms when idle. Two
+  separate timers are involved and **the inner one must stay below the outer one**:
+  Testing Library's `asyncUtilTimeout` (`src/test/setup.ts`, 5s) bounds a single
+  `findBy*`, and vitest's `testTimeout` (`vite.config.ts`, 20s) bounds the whole test.
+  They were both 5s for a while, so a query permitted to wait the entire budget of its
+  own test could never pay off, and about half the runs failed on whichever file
+  happened to be slowest. Read the error before touching either: "Unable to find
+  role=…" is the inner one, "Test timed out in 5000ms" the outer.
 - **Generated types are generated.** After changing a DTO run `make gen-api`; do not
   hand-edit `frontend/src/api/schema.ts`. Typed test fixtures will fail to compile
   until they carry the new field, which is the mechanism working as intended — and
