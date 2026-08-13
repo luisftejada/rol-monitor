@@ -30,10 +30,18 @@ def get_rules_repository(request: Request) -> RulesRepository:
     return repo
 
 
-# Revalidation is cheap (a 304 carries no body), so the freshness window is kept
-# short: a longer one lets clients serve a stale *shape* for that long after the
-# API gains a field, which reads as the feature simply not working.
-CACHE_CONTROL = "public, max-age=60, must-revalidate"
+# `no-cache` does not mean "do not store" — it means "store it, but ask before every
+# use". The ETag then answers with a 304 carrying no body, so the payload is still
+# saved; only a round trip is spent, and this API is local.
+#
+# There used to be a 60-second freshness window here, on the reasoning that
+# revalidation is cheap so the window should be short. Taken to its conclusion that
+# argument gives no window at all, and the window is not free: within it a browser
+# serves the previous *shape* of a response without asking. That happened — a new
+# `MetaDTO` field reached the API, the browser kept the old body, and three empty
+# dropdowns looked exactly like a feature that did not work. Sixty seconds of saved
+# round trips is not worth an hour of that.
+CACHE_CONTROL = "no-cache"
 
 
 def rules_cache(

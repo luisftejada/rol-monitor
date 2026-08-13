@@ -148,8 +148,14 @@ Roughly in order of value:
   `key.isdigit()` silently never fires and returns every level at once.
 - **Rules-catalog responses are ETagged from the corpus bytes *and* a fingerprint of
   the DTO schemas.** Without the second part, adding a field to a DTO leaves clients
-  serving a cached response that lacks it. If a new field seems not to arrive in the
-  browser, restart the API and hard-reload once.
+  serving a cached response that lacks it. They are also `Cache-Control: no-cache`,
+  which stores the body but revalidates every time — there used to be a 60-second
+  freshness window and it cost an hour: a new `MetaDTO` field reached the API, the
+  browser kept the previous *shape*, and three empty dropdowns read exactly like a
+  feature that did not work. If a new field still seems not to arrive, check the
+  response body in DevTools before suspecting the server: the API can be verified
+  from the shell with `curl -s localhost:8000/api/v1/rules/meta`, and through the Vite
+  proxy on `:5173`, which is the path the browser actually takes.
 - **`pgrep -f` matches your own shell** if its command line contains the pattern. Never
   build a kill list from command lines alone; `start.sh` matches listeners on the port
   and confirms ownership by working directory.

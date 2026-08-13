@@ -24,8 +24,11 @@ async def test_meta_endpoint(client: AsyncClient) -> None:
 
 
 async def test_meta_sets_cache_headers(client: AsyncClient) -> None:
+    """`no-cache` stores the body but revalidates every time, so a client can never
+    serve the previous *shape* of a response — which is what a freshness window here
+    bought us, at the price of a feature that looked broken for a minute at a time."""
     response = await client.get(f"{BASE}/meta")
-    assert response.headers["cache-control"] == "public, max-age=60, must-revalidate"
+    assert response.headers["cache-control"] == "no-cache"
     assert response.headers["etag"]
 
 

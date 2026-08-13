@@ -1,5 +1,26 @@
 # Prompt log
 
+### 2026-08-13 — Catalog responses revalidate instead of going stale for a minute
+**Prompt:** los campos Ranura, Categoria y Activacion aparecen como desplegables, pero
+la lista en los tres esta vacia → esto es lo que trae meta: {…}
+**Files affected:** `backend/src/pf_tracker/api/deps.py`,
+`backend/tests/integration/test_rules_api.py`, `docs/HANDOFF.md`, `PROMPT_LOG.md`
+**Summary:** The three dropdowns were empty because the browser was serving the
+previous body of `/rules/meta`, from before `MetaDTO` grew `item_slots` and friends.
+Everything else checked out — the running server, the Vite proxy and the module Vite
+served all had the new data — which is what narrowed it to the HTTP cache. The
+`max-age=60` window was chosen on the reasoning that "revalidation is cheap, so keep
+the window short"; taken to its conclusion that argument gives no window at all, and
+the window is not free: within it a client serves a stale *shape* without asking.
+`no-cache` still stores the body and still answers 304 from the ETag, so it costs one
+local round trip and removes the whole class of problem.
+
+**Correction worth recording:** the first answer given was "restart the API" — stated
+before querying the process that was actually running. It was wrong, and checking
+first would have cost one command.
+
+---
+
 ### 2026-08-13 — A card for magic items
 **Prompt:** vamos a agregar un card para agregar objetos magicos … hay que comprobar
 que los objetos no superan las ranuras disponibles
