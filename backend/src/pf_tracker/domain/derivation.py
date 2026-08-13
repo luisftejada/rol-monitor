@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from fractions import Fraction
 
 from pf_tracker.domain.conditions import condition_modifiers, denies_dexterity, prevents_actions
@@ -115,6 +115,10 @@ class AttackRoutine:
     #: Power Attack's penalty applies to combat manoeuvres as well as to attacks, so
     #: a sheet showing only the character's CMB would overstate it by up to 6.
     cmb: ResolvedValue | None = None
+    #: The AC you have while using this line, set only when it differs. Both hands on
+    #: the weapon means the shield is not being used, so its bonus is not yours that
+    #: round — the sheet's own AC assumes you are holding it.
+    ac: ACResult | None = None
     #: See :attr:`EquippedWeapon.variant_label`.
     variant_label: str | None = None
 
@@ -494,6 +498,25 @@ def _damage_expression(dice: str | None, total: int, factor: int) -> str | None:
     return f"{rolled}{total:+d}" if total else rolled
 
 
+def _two_handed(weapon: EquippedWeapon) -> bool:
+    """Whether this line occupies both hands. Ranged weapons are excluded: a bow is
+    held in two hands but no shield rule turns on that, and treating it as such would
+    strip an archer's shield for no reason the manual gives."""
+    return weapon.wield is Wield.TWO_HANDED and not weapon.is_ranged
+
+
+def _buckler_in_the_way(character: Character, weapon: EquippedWeapon) -> bool:
+    """A buckler kept on while the shield arm helps hold the weapon."""
+    shield = character.shield
+    return _two_handed(weapon) and shield is not None and shield.is_buckler
+
+
+def _shield_set_aside(character: Character, weapon: EquippedWeapon) -> bool:
+    """A shield that simply cannot be used while both hands are on the weapon."""
+    shield = character.shield
+    return _two_handed(weapon) and shield is not None and not shield.is_buckler
+
+
 def _finesse_choice(
     character: Character, abilities: dict[Ability, AbilityScoreResult]
 ) -> tuple[Ability, int]:
@@ -568,6 +591,10 @@ def _attack_routine(
         )
     if not weapon.is_proficient:
         atk_mods.append(_struct(atk_target, -4, "No competente", SourceKind.MANUAL))
+    if _buckler_in_the_way(character, weapon):
+        # The buckler is the one shield you can keep while both hands are busy, and
+        # the manual charges -1 for the arm it occupies.
+        atk_mods.append(_struct(atk_target, -1, "Rodela (mano ocupada)", SourceKind.ARMOR))
     twf_penalty = _twf_penalty(character)
     if twf_penalty is not None:
         atk_mods.append(_struct(atk_target, twf_penalty, "Combate con dos armas", SourceKind.FEAT))
@@ -631,6 +658,15 @@ def _attack_routine(
         else None
     )
 
+    # A line that puts both hands on the weapon is not using the shield, so it does
+    # not get its AC. Re-deriving from a shieldless copy keeps touch and flat-footed
+    # honest too, rather than subtracting a number and hoping the rest still holds.
+    line_ac = (
+        derive_ac(replace(character, shield=None), abilities, general_pool)
+        if _shield_set_aside(character, weapon)
+        else None
+    )
+
     return AttackRoutine(
         weapon_name=weapon.name,
         is_ranged=is_ranged,
@@ -647,6 +683,7 @@ def _attack_routine(
         is_proficient=weapon.is_proficient,
         notes=weapon.notes,
         cmb=line_cmb,
+        ac=line_ac,
         variant_label=weapon.variant_label,
     )
 

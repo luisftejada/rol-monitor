@@ -86,6 +86,9 @@ class AttackDTO(BaseModel):
     #: Present only when the line changes your CMB (Power Attack penalises combat
     #: manoeuvres too), in which case this is the CMB to use while it is in play.
     cmb: ValueBreakdown | None = None
+    #: Present only when the line changes your AC: both hands on the weapon means the
+    #: shield is not in use, so its bonus is not yours while this line is.
+    ac: ACDTO | None = None
 
 
 class SkillLineDTO(BaseModel):
@@ -229,6 +232,7 @@ def _attack(routine: AttackRoutine) -> AttackDTO:
         is_proficient=routine.is_proficient,
         notes=list(routine.notes),
         cmb=_value(routine.cmb) if routine.cmb is not None else None,
+        ac=_ac(routine.ac) if routine.ac is not None else None,
     )
 
 

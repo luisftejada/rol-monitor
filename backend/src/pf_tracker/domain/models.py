@@ -46,6 +46,10 @@ class EquippedArmor:
     armor_check_penalty: int  # <= 0
     arcane_spell_failure: int  # percent
     category: str  # ligera | intermedia | pesada | escudo
+    #: A buckler straps to the forearm, so it is the one shield that survives a
+    #: two-handed grip — at -1 to attack while the hand is busy. Every other shield
+    #: needs the hand outright and simply stops applying.
+    is_buckler: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -100,6 +104,11 @@ class EquippedWeapon:
     #: names. It is a *permission*, not a decision: damage still uses Strength, and
     #: the derivation picks whichever ability actually comes out ahead.
     allows_finesse: bool = False
+    #: Whether this weapon can also be held in both hands for 1.5x Strength damage.
+    #: True only for the one-handed category: a two-handed weapon has no other grip,
+    #: and a light one gains nothing ("no concede ventaja al daño"), so neither earns
+    #: a second line.
+    allows_two_handed_grip: bool = False
 
 
 @dataclass(frozen=True, slots=True)

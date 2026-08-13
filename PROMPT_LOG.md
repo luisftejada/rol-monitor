@@ -1,5 +1,38 @@
 # Prompt log
 
+### 2026-08-13 — Grip becomes an axis of the attack lines
+**Prompt:** podemos agregar una propiedad a las armas. a una mano, o a dos manos…
+podemos agregar una linea, de igual forma que hacemos con ataque poderoso… también
+hay que tener en cuenta el escudo
+**Files affected:** `backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/tests/unit/{domain/test_derivation_extra,services/test_assembler}.py`,
+`backend/openapi.json`, `frontend/src/api/schema.ts`,
+`docs/{assumptions,HANDOFF}.md`, `PROMPT_LOG.md`
+**Summary:** Engine half of the owner's design. A one-handed weapon now offers both
+grips and **every feat variant is generated for each**, because two-handed *with*
+Power Attack is the line a player actually reaches for — the manual raises the damage
+bonus by half for "un arma a una mano usando las dos manos", and the corpus already
+keyed it on the grip. Two-handed weapons are forced to their real grip whatever the
+editor stored, which fixes the reported `1d10+4` (should be `1d10+6`) for existing
+saved characters too. Light weapons get no second line: "no concede ventaja al daño".
+A two-handed line carries its own AC, re-derived from a shieldless copy so touch and
+flat-footed stay honest rather than only the total; the buckler stays on for -1 to
+attack, which is the exception the manual carves out. Ranged weapons keep their
+shield — a bow needs both hands but no rule ties a shield to that.
+
+Two corrections to the brief, both checked against the manual: **Power Attack is not
+restricted to a two-handed grip** (it works at +2 one-handed, +3 two-handed), so it is
+not filtered as non-viable; and the buckler means "no shield with two hands" is true
+of four shields out of five.
+
+Still to do: the per-weapon dialog listing every combination with a checkbox to hide
+the ones the player does not want. The lines exist and are correct; nothing filters
+them yet, so a longsword with two feats shows eight rows.
+
+---
+
 ### 2026-08-13 — A weapon already carried cannot be added again
 **Prompt:** en este caso, no se debe poder añadir el arma, pq este arma ya esta en el
 equipo seleccionada

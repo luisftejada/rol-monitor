@@ -534,6 +534,7 @@ export interface components {
        */
       notes: string[];
       cmb?: components["schemas"]["ValueBreakdown"] | null;
+      ac?: components["schemas"]["ACDTO"] | null;
     };
     /** BabDTO */
     BabDTO: {

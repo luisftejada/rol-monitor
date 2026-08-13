@@ -248,6 +248,83 @@ def test_defensive_combat_training_counts_hit_dice_for_cmd_only() -> None:
     assert trained.cmb.total == plain.cmb.total
 
 
+def _shield(name: str, *, is_buckler: bool, ac_bonus: int = 2, acp: int = -2) -> EquippedArmor:
+    return EquippedArmor(
+        name=name,
+        is_shield=True,
+        ac_bonus=ac_bonus,
+        max_dex=None,
+        armor_check_penalty=acp,
+        arcane_spell_failure=15,
+        category="escudo",
+        is_buckler=is_buckler,
+    )
+
+
+def _greatsword() -> EquippedWeapon:
+    return EquippedWeapon(
+        "Mandoble",
+        Wield.TWO_HANDED,
+        is_ranged=False,
+        threat_range=19,
+        crit_multiplier=2,
+        damage_dice="2d6",
+    )
+
+
+def test_a_two_handed_line_gives_up_the_shield_it_cannot_hold() -> None:
+    """The sheet's own AC assumes you are holding the shield. On a line that needs
+    both hands you are not, so the line carries the AC you actually have."""
+    character = _character(
+        weapons=(_greatsword(),), shield=_shield("Escudo pesado", is_buckler=False)
+    )
+    sheet = derive_combat_sheet(character)
+    line = sheet.attacks[0]
+
+    assert line.ac is not None
+    assert sheet.ac.resolved.total == line.ac.resolved.total + 2
+    # Re-derived rather than subtracted, so flat-footed loses the shield too.
+    assert sheet.ac.flat_footed == line.ac.flat_footed + 2
+    assert "Escudo pesado" not in [m.source for m in line.ac.resolved.applied]
+
+
+def test_a_buckler_stays_on_and_charges_one_instead() -> None:
+    """It straps to the forearm, so it is the one shield a two-handed grip keeps —
+    at -1 to attack for the arm it occupies."""
+    character = _character(weapons=(_greatsword(),), shield=_shield("Rodela", is_buckler=True))
+    line = derive_combat_sheet(character).attacks[0]
+
+    assert line.ac is None  # the shield is still yours
+    assert ("Rodela (mano ocupada)", -1) in [
+        (m.source, m.value) for m in line.attack_breakdown.applied
+    ]
+
+
+def test_a_one_handed_line_keeps_the_shield_and_pays_nothing() -> None:
+    sword = EquippedWeapon(
+        "Espada larga", Wield.ONE_HANDED, is_ranged=False, threat_range=19, crit_multiplier=2
+    )
+    for shield in (_shield("Escudo pesado", is_buckler=False), _shield("Rodela", is_buckler=True)):
+        line = derive_combat_sheet(_character(weapons=(sword,), shield=shield)).attacks[0]
+        assert line.ac is None, shield.name
+        assert not any("Rodela" in m.source for m in line.attack_breakdown.applied)
+
+
+def test_a_bow_is_held_in_two_hands_but_keeps_the_shield() -> None:
+    """No rule ties a shield to a ranged weapon's grip, and stripping it would cost
+    an archer two AC the manual never charges."""
+    bow = EquippedWeapon(
+        "Arco largo",
+        Wield.TWO_HANDED,
+        is_ranged=True,
+        threat_range=20,
+        crit_multiplier=3,
+        damage_dice="1d8",
+    )
+    character = _character(weapons=(bow,), shield=_shield("Escudo pesado", is_buckler=False))
+    assert derive_combat_sheet(character).attacks[0].ac is None
+
+
 def test_a_skill_splits_into_ranks_ability_and_everything_else() -> None:
     """The three columns the sheet shows. "Others" is a residue by construction —
     total minus the two named parts — so nothing can fall between the columns."""

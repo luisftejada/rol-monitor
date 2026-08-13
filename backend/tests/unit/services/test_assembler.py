@@ -90,8 +90,8 @@ def test_wizard_not_proficient_with_martial_weapon(rules_repository: RulesReposi
         class_levels=[{"class_slug": "mago", "level": 1}],
         weapons=[EquippedWeaponIn(catalog_name="Espada larga", wielding="one_handed")],
     )
-    (weapon,) = result.character.weapons
-    assert weapon.is_proficient is False
+    # A longsword offers both grips, and neither makes a wizard proficient with it.
+    assert all(weapon.is_proficient is False for weapon in result.character.weapons)
 
 
 def test_exotic_weapon_requires_feat(rules_repository: RulesRepository) -> None:
@@ -332,7 +332,10 @@ def test_point_blank_shot_produces_no_line_for_a_melee_only_character(
         feats=["Disparo a bocajarro"],
         weapons=[{"catalog_name": "Espada larga", "wielding": "one_handed"}],
     )
-    assert [w.name for w in result.character.weapons] == ["Espada larga"]
+    # The grip lines are always there; what must not appear is one naming the feat.
+    names = [w.name for w in result.character.weapons]
+    assert names == ["Espada larga", "Espada larga (a dos manos)"]
+    assert not any("bocajarro" in name for name in names)
 
 
 def test_point_blank_shot_combines_with_a_declared_ranged_feat(
@@ -594,6 +597,82 @@ def test_a_dwarf_is_not_simply_given_their_exotic_weapons(
     assert _wields(
         rules_repository, race="enano", class_slug="guerrero", weapon="Hacha de guerra enana"
     )
+
+
+def _names(result: object) -> list[str]:
+    return [w.name for w in result.character.weapons]  # type: ignore[attr-defined]
+
+
+def test_a_one_handed_weapon_offers_both_grips(rules_repository: RulesRepository) -> None:
+    """Holding a one-handed weapon in both hands is a real choice with a real payoff
+    (1.5x Strength), so it earns a line of its own like a declared feat does."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        weapons=[EquippedWeaponIn(catalog_name="Espada larga", wielding="one_handed")],
+    )
+    assert _names(result) == ["Espada larga", "Espada larga (a dos manos)"]
+    assert [w.wield for w in result.character.weapons] == [Wield.ONE_HANDED, Wield.TWO_HANDED]
+
+
+def test_a_two_handed_weapon_is_equipped_as_such_whatever_was_stored(
+    rules_repository: RulesRepository,
+) -> None:
+    """The editor wrote `one_handed` for everything, so a greatsword was quietly
+    losing its 1.5x Strength damage. There is no second grip to offer either."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        weapons=[EquippedWeaponIn(catalog_name="Mandoble", wielding="one_handed")],
+    )
+    assert _names(result) == ["Mandoble"]
+    assert result.character.weapons[0].wield is Wield.TWO_HANDED
+
+
+def test_a_light_weapon_gains_nothing_from_a_second_grip(
+    rules_repository: RulesRepository,
+) -> None:
+    """ "Usar dos manos para empuñar un arma ligera no concede ventaja al daño", so a
+    second line would be an identical row."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        weapons=[EquippedWeaponIn(catalog_name="Daga", wielding="one_handed")],
+    )
+    assert _names(result) == ["Daga"]
+
+
+def test_the_grip_composes_with_every_feat_variant(rules_repository: RulesRepository) -> None:
+    """Two-handed *with* Power Attack is the line a player reaches for, since the
+    manual raises the damage bonus by half for "un arma a una mano usando las dos
+    manos" — so the grip has to be an axis, not one extra row."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 8}],
+        base_scores={"Fue": 18, "Des": 14, "Con": 12, "Int": 13, "Sab": 10, "Car": 8},
+        feats=["Ataque poderoso"],
+        weapons=[EquippedWeaponIn(catalog_name="Espada larga", wielding="one_handed")],
+    )
+    assert _names(result) == [
+        "Espada larga",
+        "Espada larga (Ataque poderoso)",
+        "Espada larga (a dos manos)",
+        "Espada larga (a dos manos + Ataque poderoso)",
+    ]
+
+
+def test_the_buckler_is_the_one_shield_that_survives_a_two_handed_grip(
+    rules_repository: RulesRepository,
+) -> None:
+    for shield, expected in (("Rodela", True), ("Escudo pesado de acero", False)):
+        result = _assemble(
+            rules_repository,
+            class_levels=[{"class_slug": "guerrero", "level": 1}],
+            shield=EquippedArmorIn(catalog_name=shield),
+            weapons=[EquippedWeaponIn(catalog_name="Espada larga", wielding="one_handed")],
+        )
+        assert result.character.shield is not None
+        assert result.character.shield.is_buckler is expected, shield
 
 
 def test_weapon_finesse_reaches_the_weapon_it_covers(rules_repository: RulesRepository) -> None:

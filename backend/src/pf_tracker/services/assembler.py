@@ -70,6 +70,13 @@ _ABILITIES = {a.value for a in Ability}
 _SAVE_BY_ROW = {SaveKind.FORTITUDE: "fort", SaveKind.REFLEX: "ref", SaveKind.WILL: "will"}
 _SMALL_OR_LESS = {Size.FINE, Size.DIMINUTIVE, Size.TINY, Size.SMALL}
 _LIGHT_MELEE_CATEGORY = "Armas cuerpo a cuerpo ligeras"
+_ONE_HANDED_MELEE_CATEGORY = "Armas cuerpo a cuerpo a una mano"
+_TWO_HANDED_MELEE_CATEGORY = "Armas cuerpo a cuerpo a dos manos"
+#: The one shield that survives a two-handed grip, keyed by name the way the unarmed
+#: category and the prose feats are: the corpus records the rule only in prose.
+_BUCKLER = "Rodela"
+#: How the second grip names itself on a weapon line.
+_TWO_HANDED_GRIP_LABEL = "a dos manos"
 _RANGED_CATEGORY = "Armas a distancia"
 _UNARMED_CATEGORY = "Ataques sin armas"
 
@@ -257,6 +264,7 @@ def _armor_slot(
         "armor_check_penalty": check_penalty,
         "arcane_spell_failure": item.arcane_spell_failure_pct,
         "category": item.category,
+        "is_buckler": _norm(item.name) == _norm(_BUCKLER),
     }
     if raw.custom_overrides:
         fields.update({k: v for k, v in raw.custom_overrides.items() if k in fields})
@@ -294,9 +302,21 @@ def _weapon(
             )
         )
 
+    requested = Wield(raw.wielding)
+    # A two-handed weapon has no other grip, whatever the editor stored. Correcting it
+    # here rather than only at the picker also repairs characters saved before the
+    # editor knew the difference, who were silently losing 1.5x Strength damage.
+    wield = Wield.TWO_HANDED if item.category == _TWO_HANDED_MELEE_CATEGORY else requested
+
     fields: dict[str, object] = {
         "name": item.name,
-        "wield": Wield(raw.wielding),
+        "wield": wield,
+        # Only the one-handed category gains anything from the second grip: a light
+        # weapon "no concede ventaja al daño", and an off-hand weapon is by
+        # definition the one the other hand is not holding.
+        "allows_two_handed_grip": (
+            item.category == _ONE_HANDED_MELEE_CATEGORY and requested is not Wield.OFF_HAND
+        ),
         "is_ranged": is_ranged,
         "is_unarmed": is_unarmed,
         "threat_range": crit.threat_range if crit else 20,
@@ -544,6 +564,34 @@ def _weapon_lines(
     GM's rather than the player's, so it gets a line alongside the declared feats'
     rather than a warning with no numbers on it.
     """
+    # How you hold it is the outer axis, so every feat combination is offered for each
+    # grip: two-handed *with* Power Attack is the line a player actually wants, since
+    # the manual raises the damage bonus by half for "un arma a una mano usando las
+    # dos manos". Feat variants then compose on top exactly as before.
+    return [line for gripped in _grips(weapon) for line in _feat_lines(gripped, feats, context)]
+
+
+def _grips(weapon: EquippedWeapon) -> list[EquippedWeapon]:
+    """The ways this weapon can be held, each as a weapon in its own right.
+
+    The label rides on ``variant_label`` and the *name stays plain*, so the feat pass
+    can fold both into one parenthesis — "Espada larga (a dos manos + Ataque
+    poderoso)" rather than two nested ones.
+    """
+    if not weapon.allows_two_handed_grip:
+        return [weapon]
+    two_handed = replace(
+        weapon,
+        wield=Wield.TWO_HANDED,
+        allows_two_handed_grip=False,
+        variant_label=_TWO_HANDED_GRIP_LABEL,
+    )
+    return [weapon, two_handed]
+
+
+def _feat_lines(
+    weapon: EquippedWeapon, feats: tuple[FeatDTO, ...], context: WeaponFeatContext
+) -> list[EquippedWeapon]:
     profile = _profile_of(weapon)
 
     # A superseded feat has no effect at all, so it is dropped before anything else:
@@ -563,7 +611,10 @@ def _weapon_lines(
     # Critical feats fire with whatever you are holding, so they annotate the base
     # line and every variant inherits them.
     annotated = replace(weapon, notes=weapon.notes + critical_notes(effective))
-    base = _with_feats(annotated, always, profile, context, suffix=None)
+    # Variants are derived from the *unnamed* fold so each composes its label once.
+    # Deriving them from the named base instead appended a second parenthesis, and
+    # the grip made that visible: "Espada larga (a dos manos) (a dos manos + …)".
+    folded = _with_feats(annotated, always, profile, context, suffix=None, rename=False)
 
     optional = [
         f
@@ -571,11 +622,18 @@ def _weapon_lines(
         if (is_optional(f) or has_situational_weapon_effect(f, context))
         and _affects(f, profile, context)
     ]
-    lines = [base]
+    lines = [_named(folded)]
     for combination in _combinations(optional[:_MAX_OPTIONAL_FEATS_PER_WEAPON]):
         label = " + ".join(feat.name for feat in combination)
-        lines.append(_with_feats(base, list(combination), profile, context, suffix=label))
+        lines.append(_with_feats(folded, list(combination), profile, context, suffix=label))
     return lines
+
+
+def _named(weapon: EquippedWeapon) -> EquippedWeapon:
+    """Fold the variant label into the display name, once."""
+    if weapon.variant_label is None:
+        return weapon
+    return replace(weapon, name=f"{weapon.name} ({weapon.variant_label})")
 
 
 def _feat_weapons(
@@ -647,6 +705,7 @@ def _with_feats(
     context: WeaponFeatContext,
     *,
     suffix: str | None,
+    rename: bool = True,
 ) -> EquippedWeapon:
     """Fold a set of feats into a copy of ``weapon``."""
     attack = list(weapon.attack_modifiers)
@@ -672,15 +731,19 @@ def _with_feats(
             dice_multiplier *= resolved.damage_dice_multiplier
             first_only = first_only or resolved.dice_multiplier_first_attack_only
 
+    # The grip the caller chose is already on the weapon; the feats add to it, so the
+    # two read as one label instead of two stacked parentheses.
+    parts = [part for part in (weapon.variant_label, suffix) if part]
+    label = " + ".join(parts) if parts else None
+
     # The situation a line only applies in is part of its name, so the GM reads the
     # numbers and the caveat together instead of applying it unaware.
-    label = suffix
     if label is not None and conditions:
         label = f"{label} — sólo {'; '.join(conditions)}"
 
     return replace(
         weapon,
-        name=weapon.name if label is None else f"{weapon.name} ({label})",
+        name=f"{weapon.name} ({label})" if rename and label else weapon.name,
         variant_label=label,
         threat_range=threat_range,
         attack_modifiers=tuple(attack),
