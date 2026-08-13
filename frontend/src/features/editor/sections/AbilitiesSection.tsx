@@ -198,12 +198,43 @@ export function AbilitiesSection({
         </tbody>
       </table>
 
-      <p className="card__bab">
-        {t("sheet.bab")} {bab ? signed(bab.total) : "—"}
-        {bab && bab.iteratives.length > 0 && (
-          <span className="card__iteratives"> ({bab.iteratives.map(signed).join(" / ")})</span>
-        )}
-      </p>
+      {/* Expandable like every other derived figure: on a multiclass sheet the total
+          is the one a player is most likely to doubt, and the breakdown names the
+          class that cost the points. */}
+      <StatBreakdown
+        label={t("sheet.bab")}
+        value={
+          bab
+            ? `${signed(bab.total)}${
+                bab.iteratives.length > 1 ? ` (${bab.iteratives.map(signed).join(" / ")})` : ""
+              }`
+            : "—"
+        }
+        breakdown={bab?.breakdown ?? []}
+      />
+
+      {/* Hit points live here because they are read off Constitution, which this card
+          edits. Max is derived per level elsewhere; these two are the running state a
+          GM changes mid-fight. */}
+      <div className="field-grid">
+        <label className="field field--narrow">
+          <span>{t("sheet.hp.current")}</span>
+          <input
+            type="number"
+            value={draft.current_hp ?? 0}
+            onChange={(event) => patch({ current_hp: Number(event.target.value) })}
+          />
+        </label>
+        <label className="field field--narrow">
+          <span>{t("sheet.hp.temp")}</span>
+          <input
+            type="number"
+            min={0}
+            value={draft.temporary_hp ?? 0}
+            onChange={(event) => patch({ temporary_hp: Math.max(0, Number(event.target.value)) })}
+          />
+        </label>
+      </div>
 
       <div className="card__tactics">
         <StatBreakdown

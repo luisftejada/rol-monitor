@@ -567,6 +567,11 @@ export interface components {
       total: number;
       /** Iteratives */
       iteratives: number[];
+      /**
+       * Breakdown
+       * @default []
+       */
+      breakdown: components["schemas"]["BreakdownEntry"][];
     };
     /**
      * BonusTypesDTO

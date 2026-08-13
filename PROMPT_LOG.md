@@ -1,5 +1,30 @@
 # Prompt log
 
+### 2026-08-13 — Current and temporary hit points, and base attack expands
+**Prompt:** faltan los puntos de golpe actuales, y puntos de golpe temporales … Ataque
+Base también tiene que ser desplegable, para que muestre de dónde le viene … los
+puntos de golpe en nivel 1 son un valor fijo … para los siguientes, manual o tirada
+**Files affected:** `backend/src/pf_tracker/domain/derivation.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`,
+`frontend/src/features/editor/sections/AbilitiesSection.{tsx,test.tsx}`,
+`frontend/src/test/fixtures.ts`, `PROMPT_LOG.md`
+**Summary:** First half of the request. `BabResult` now keeps what each class
+contributed, and base attack renders through `StatBreakdown` like every other derived
+figure — a fighter 4 / wizard 4 reads "+6" and expands to "Guerrero 4 → +4, Mago 4 →
++2", which is the owner's own example and the number a multiclass player is most
+likely to doubt. Current and temporary hit points sit below it, in Características,
+because they are read off Constitution which that card edits; temporary is clamped at
+zero, since it is a pool you are given rather than a debt.
+
+**Not done yet, and deliberately separate:** hit points *per level* — fixed at the
+die's maximum for level 1, then entered or rolled, with the roll optionally floored at
+half the die plus one. That needs a new shape on the character (one entry per level,
+each knowing its class' die) rather than the single `max_hp` there is today, so it is
+its own piece rather than a hurried addition to this one.
+
+---
+
 ### 2026-08-13 — Identity fields in two columns
 **Prompt:** en dos columnas
 **Files affected:** `frontend/src/features/editor/sections/IdentitySection.tsx`,

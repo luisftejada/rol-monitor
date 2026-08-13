@@ -139,7 +139,11 @@ export const fighterSheet: CombatSheetResponse = {
     Reflejos: value(1),
     Voluntad: value(1),
   },
-  bab: { total: 1, iteratives: [1] },
+  bab: {
+    total: 1,
+    iteratives: [1],
+    breakdown: [{ label: "Guerrero 1", value: 1, type: null, source: "class" }],
+  },
   initiative: value(1),
   cmb: value(4),
   cmd: value(15),

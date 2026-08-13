@@ -61,6 +61,9 @@ class ACDTO(BaseModel):
 class BabDTO(BaseModel):
     total: int
     iteratives: list[int]
+    #: What each class contributed. A multiclass total is the number a player is most
+    #: likely to doubt, so it expands like every other derived figure.
+    breakdown: list[BreakdownEntry] = []
 
 
 class AttackDTO(BaseModel):
@@ -369,7 +372,11 @@ def to_combat_sheet_response(
         },
         ac=_ac(sheet.ac),
         saves={kind.value: _value(save.resolved) for kind, save in sheet.saves.items()},
-        bab=BabDTO(total=sheet.bab.total, iteratives=sheet.bab.iteratives),
+        bab=BabDTO(
+            total=sheet.bab.total,
+            iteratives=sheet.bab.iteratives,
+            breakdown=[_entry(m) for m in sheet.bab.breakdown],
+        ),
         initiative=_value(sheet.initiative),
         cmb=_value(sheet.cmb),
         cmd=_value(sheet.cmd),

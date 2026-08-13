@@ -90,6 +90,10 @@ class ACResult:
 class BabResult:
     total: int
     iteratives: list[int]
+    #: What each class contributed, so a multiclass total can be read rather than
+    #: guessed at. A fighter 4 / wizard 4 has +6, not the +8 a pure fighter has, and
+    #: the sheet should say which class cost the two points.
+    breakdown: list[Modifier] = field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)
@@ -337,8 +341,22 @@ def derive_ac(
 
 # --------------------------------------------------------------------------- BAB / saves
 def derive_bab(character: Character) -> BabResult:
-    total = sum(base_bab(cl.bab_type, cl.level) for cl in character.class_levels)
-    return BabResult(total=total, iteratives=iterative_bonuses(total))
+    """Base attack, summed across classes as the corpus' multiclass rule states.
+
+    Each class' share is kept: on a multiclass sheet the total is the one number a
+    player is most likely to doubt, and "guerrero 4 → +4, mago 4 → +2" answers it.
+    """
+    contributions = [
+        _struct(
+            ModifierTarget.ALL_ATTACKS.value,
+            base_bab(cl.bab_type, cl.level),
+            f"{cl.class_name} {cl.level}",
+            SourceKind.CLASS,
+        )
+        for cl in character.class_levels
+    ]
+    total = sum(modifier.value for modifier in contributions)
+    return BabResult(total=total, iteratives=iterative_bonuses(total), breakdown=contributions)
 
 
 def derive_saves(

@@ -117,13 +117,14 @@ describe("AbilitiesSection", () => {
   it("shows base attack, initiative, BMC and DMC from the derived values", async () => {
     renderWithProviders(
       <Host
-        bab={{ total: 6, iteratives: [6, 1] }}
+        bab={{ total: 6, iteratives: [6, 1], breakdown: [] }}
         initiative={value(3)}
         cmb={value(7)}
         cmd={value(19)}
       />,
     );
-    expect(screen.getByText(/Ataque base/)).toHaveTextContent("Ataque base +6 (+6 / +1)");
+    // The toggle's accessible name is its label plus its value, hence the regexes.
+    expect(screen.getByRole("button", { name: /Ataque base/ })).toHaveTextContent("+6 (+6 / +1)");
     // The toggle's accessible name is its label plus its value, hence the regexes.
     expect(screen.getByRole("button", { name: /Iniciativa/ })).toHaveTextContent("+3");
     expect(screen.getByRole("button", { name: /^BMC/ })).toHaveTextContent("+7");
@@ -132,8 +133,53 @@ describe("AbilitiesSection", () => {
 
   it("shows placeholders for the tactical figures until derivation arrives", async () => {
     renderWithProviders(<Host />);
-    expect(screen.getByText(/Ataque base/)).toHaveTextContent("Ataque base —");
+    expect(screen.getByRole("button", { name: /Ataque base/ })).toHaveTextContent("—");
     expect(screen.getByRole("button", { name: /Iniciativa/ })).toHaveTextContent("—");
+  });
+
+  it("expands base attack to show which class earned it", async () => {
+    const user = userEvent.setup();
+    // A fighter 4 / wizard 4 has +6, not the +8 a pure fighter has: the breakdown is
+    // what answers "why is this lower than I expected?".
+    renderWithProviders(
+      <Host
+        bab={{
+          total: 6,
+          iteratives: [6, 1],
+          breakdown: [
+            { label: "Guerrero 4", value: 4, type: null, source: "class" },
+            { label: "Mago 4", value: 2, type: null, source: "class" },
+          ],
+        }}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /Ataque base/ }));
+    const region = screen.getByRole("region", { name: /Ataque base/ });
+    expect(region).toHaveTextContent("Guerrero 4");
+    expect(region).toHaveTextContent("Mago 4");
+  });
+
+  it("edits current and temporary hit points", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    function HpHost() {
+      const [draft, setDraft] = useState<CharacterCreate>(defaultDraft());
+      seen.draft = draft;
+      return <AbilitiesSection draft={draft} patch={(p) => setDraft((c) => ({ ...c, ...p }))} />;
+    }
+    renderWithProviders(<HpHost />);
+
+    const current = screen.getByLabelText("Actuales");
+    await user.clear(current);
+    await user.type(current, "17");
+    expect(seen.draft.current_hp).toBe(17);
+
+    // Temporary hit points are a pool you are given, never a debt.
+    const temporary = screen.getByLabelText("Temporales");
+    await user.clear(temporary);
+    await user.type(temporary, "-3");
+    expect(seen.draft.temporary_hp).toBe(3);
   });
 
   it("clamps point-buy scores to a minimum of 7", async () => {
