@@ -57,8 +57,15 @@ export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const weapons = draft.weapons ?? [];
+  // Adding the same weapon twice does nothing today: every copy is equipped the same
+  // way, so the second is an identical line on the sheet. It stops being a duplicate
+  // the day the equipped row can set a wielding — two short swords, one per hand, is
+  // a real build — so this is a guard on a UI that cannot express that yet, not a
+  // rule of the game.
+  const equipped = new Set(weapons.map((weapon) => weapon.catalog_name));
 
   const addWeapon = (name: string): void => {
+    if (equipped.has(name)) return;
     const weapon: EquippedWeaponIn = {
       catalog_name: name,
       wielding: "one_handed",
@@ -165,7 +172,12 @@ export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.
               </button>
               <button
                 type="button"
-                aria-label={t("equipment.addNamed", { weapon: item.name })}
+                disabled={equipped.has(item.name)}
+                aria-label={
+                  equipped.has(item.name)
+                    ? t("equipment.alreadyEquipped", { weapon: item.name })
+                    : t("equipment.addNamed", { weapon: item.name })
+                }
                 onClick={() => addWeapon(item.name)}
               >
                 +
@@ -241,15 +253,21 @@ export function EquipmentSection({ draft, patch, ac }: SectionProps): React.JSX.
             <dd>{detailed.special ?? t("weapon.unknown")}</dd>
           </dl>
 
+          {/* The dialog is reached from the equipped list too, so it is the likeliest
+              place to press "add" on something already carried. Say why it is off
+              rather than leaving a dead button. */}
           <button
             type="button"
             className="button"
+            disabled={equipped.has(detailed.name)}
             onClick={() => {
               addWeapon(detailed.name);
               setDetailed(null);
             }}
           >
-            {t("equipment.addWeapon")}
+            {equipped.has(detailed.name)
+              ? t("equipment.alreadyEquipped.short")
+              : t("equipment.addWeapon")}
           </button>
         </Modal>
       )}

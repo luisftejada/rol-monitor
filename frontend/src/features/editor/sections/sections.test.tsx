@@ -141,6 +141,42 @@ describe("EquipmentSection", () => {
     );
   });
 
+  it("will not equip the same weapon twice", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<EquipmentHost />);
+
+    await user.click(await screen.findByRole("button", { name: "Añadir Espada larga" }));
+
+    // Both ways in are closed, and both say why rather than going dead.
+    const again = within(weaponList()).getByRole("button", {
+      name: "Espada larga ya está en el equipo",
+    });
+    expect(again).toBeDisabled();
+
+    await user.click(
+      within(weaponList()).getByRole("button", { name: "Ver detalles de Espada larga" }),
+    );
+    const dialog = await screen.findByRole("dialog");
+    expect(within(dialog).getByRole("button", { name: "Ya en el equipo" })).toBeDisabled();
+
+    // And the roster still holds exactly one.
+    const weapons = screen.getByRole("list", { name: "Arma" });
+    expect(within(weapons).getAllByRole("button", { name: /Quitar Espada larga/ })).toHaveLength(1);
+  });
+
+  it("offers the weapon again once it is removed", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(<EquipmentHost />);
+
+    await user.click(await screen.findByRole("button", { name: "Añadir Espada larga" }));
+    const weapons = screen.getByRole("list", { name: "Arma" });
+    await user.click(within(weapons).getByRole("button", { name: "Quitar Espada larga" }));
+
+    expect(
+      await within(weaponList()).findByRole("button", { name: "Añadir Espada larga" }),
+    ).toBeEnabled();
+  });
+
   it("shows the total AC next to the armor picker, from the derived values", async () => {
     const ac: ACDTO = {
       total: 18,

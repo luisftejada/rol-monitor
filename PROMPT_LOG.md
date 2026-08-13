@@ -1,5 +1,28 @@
 # Prompt log
 
+### 2026-08-13 — A weapon already carried cannot be added again
+**Prompt:** en este caso, no se debe poder añadir el arma, pq este arma ya esta en el
+equipo seleccionada
+**Files affected:** `frontend/src/features/editor/sections/EquipmentSection.tsx`,
+`frontend/src/features/editor/sections/sections.test.tsx`, `frontend/src/i18n/es.ts`,
+`docs/HANDOFF.md`, `PROMPT_LOG.md`
+**Summary:** Both routes in — the `+` in the picker and the dialog's own button — are
+disabled once the weapon is equipped, and each says *why* instead of going dead
+("Espada larga ya está en el equipo" / "Ya en el equipo"). `addWeapon` refuses too,
+so the rule does not live only in the markup. Worth knowing it is a guard on a UI
+limitation rather than a rule of the game: two of the same weapon is a real build
+(short sword in each hand), and it becomes expressible the moment the equipped row
+can set a wielding — see the open item below, which is what makes that impossible
+today.
+
+**Found while doing it, not fixed:** the editor writes `wielding: "one_handed"` for
+every weapon and offers no way to change it, so a two-handed weapon loses its 1.5x
+Strength damage. The reporter's own elven curve blade derives `1d10+4` where it
+should be `1d10+6`. Two-weapon fighting is unreachable for the same reason: it needs
+an `off_hand` weapon and nothing can produce one.
+
+---
+
 ### 2026-08-12 — Character name reads as a title; combat card gets room for its grid
 **Prompt:** On the character page, the player's name (Flindi) should have a title
 style; also some values are spilling out of their frame (the weapon crits) — the

@@ -24,7 +24,7 @@ those is a decision about the machine, not about this project.
 make check     # lint + format + typecheck + tests + coverage, both stacks
 ```
 
-Everything should be green: **444 backend tests, 125 frontend tests**, coverage 96%+
+Everything should be green: **444 backend tests, 127 frontend tests**, coverage 96%+
 overall and 97% on `domain/`. If something fails on a clean clone, that is a real
 regression, not a setup problem.
 
@@ -85,18 +85,29 @@ that motivated each choice.
 
 Roughly in order of value:
 
-1. **Choice-gated feat sources**: cleric domains, arcane schools, rogue talents and
+1. **Every weapon is equipped one-handed, and nothing can change it.** The editor
+   writes `wielding: "one_handed"` when adding and the equipped row has no control
+   for it, so a two-handed weapon silently loses its 1.5x Strength damage — an elven
+   curve blade at Str 18 derives `1d10+4` where `1d10+6` is right. Two-weapon
+   fighting is unreachable for the same reason: `_twf` looks for an `off_hand`
+   weapon and nothing can produce one. The domain has modelled all three grips since
+   phase 2; this is purely the editor. Defaulting the grip from the weapon's category
+   fixes the common case, but the row needs the control regardless — a longsword is
+   legitimately either. Note the duplicate-weapon guard added on 2026-08-13 exists
+   *because* of this gap and should be revisited with it: two of the same weapon is a
+   real build once each copy can name a hand.
+2. **Choice-gated feat sources**: cleric domains, arcane schools, rogue talents and
    the lore master's secrets. All four hang off a choice rather than a level, so
    they wait on their own subsystems; a schema is proposed but **not applied** in
    `docs/corpus/DISENO_dominios_talentos.md`. The `opcion` key added for the dragon
    disciple is the mechanism for pointing at one branch of an existing list.
-2. **Armour proficiency is granted but never checked.** The five feats now exist on
+3. **Armour proficiency is granted but never checked.** The five feats now exist on
    the character, and `_is_proficient` only ever asks about weapons — wearing plate
    as a wizard costs nothing. Deriving the penalty (armour check to attacks, and to
    every skill involving movement) is the next thing those feats unlock.
-3. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
+4. **Skill and school feat options.** `FeatDTO.choice_kind` already reports them; only
    the weapon picker is built, because the engine acts on nothing else yet.
-4. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
+5. **Ranger combat style and sorcerer bloodline.** Their restricted lists resolve to
    the *union* of all branches, which is wider than the truth, because the sheet does
    not model the choice. The corpus caveat is shown alongside. `opcion` is how a slot
    pins one branch once the sheet can say which it is.
