@@ -7,8 +7,9 @@ from datetime import UTC, datetime
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pf_tracker.domain.derivation import derive_combat_sheet
-from pf_tracker.domain.enums import SaveKind
+from pf_tracker.domain.enums import Ability, SaveKind
 from pf_tracker.persistence.repository import CharacterRepository
+from pf_tracker.rules.level_up import ClassLevelRef, level_up_report
 from pf_tracker.rules.repository import RulesRepository
 from pf_tracker.schemas.character import (
     CharacterCreate,
@@ -22,8 +23,10 @@ from pf_tracker.schemas.character import (
 from pf_tracker.schemas.combat import ModifierCreate, ModifierPatch
 from pf_tracker.schemas.combat_sheet import (
     CombatSheetResponse,
+    LevelUpResponse,
     to_combat_sheet_response,
     to_feat_budget_response,
+    to_level_up_response,
 )
 from pf_tracker.services.assembler import assemble
 
@@ -168,6 +171,25 @@ class CharacterService:
         )
 
     # ------------------------------------------------------------- derivation
+    def level_up_preview(self, data: CharacterCreate, taking: str) -> LevelUpResponse:
+        """What the character would gain by putting the next level into ``taking``.
+
+        Stateless on purpose: pressing the button changes nothing, so the same call
+        works from the editor's unsaved draft as from a stored character.
+        """
+        abilities = derive_combat_sheet(assemble(new_character(data), self._rules).character)
+        report = level_up_report(
+            self._rules,
+            class_levels=[
+                ClassLevelRef(entry.class_slug, entry.level, entry.is_favored)
+                for entry in data.class_levels
+            ],
+            taking=taking,
+            constitution_modifier=abilities.abilities[Ability.CON].modifier,
+            intelligence_modifier=abilities.abilities[Ability.INT].modifier,
+        )
+        return to_level_up_response(report)
+
     def derive(self, data: CharacterCreate) -> CombatSheetResponse:
         """Stateless derivation for the live creation preview (no persistence)."""
         return self._combat_sheet(new_character(data))

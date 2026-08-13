@@ -112,6 +112,10 @@ class RulesRepository:
             },
             feat_levels=list(self._nucleo["avance"]["niveles_con_dote"]),
             feat_types=list(self._nucleo["dotes"]["reglas"]["tipos"]),
+            ability_increment_levels=list(
+                self._nucleo["avance"]["niveles_con_incremento_de_caracteristica"]
+            ),
+            favored_class_note=self._nucleo["avance"]["clase_favorita"],
             item_slots=[_item_slot(name) for name in items["ranuras_del_cuerpo"]],
             item_categories=list(items["categorias"]),
             item_activations=list(items["activacion"]),

@@ -17,6 +17,7 @@ from pf_tracker.domain.derivation import (
 )
 from pf_tracker.domain.modifiers import Modifier, ResolvedValue, SuppressedModifier
 from pf_tracker.rules.feat_slots import FeatBudget
+from pf_tracker.rules.level_up import LevelUpReport
 
 
 class BreakdownEntry(BaseModel):
@@ -161,6 +162,38 @@ class FeatBudgetDTO(BaseModel):
     list_notes: dict[str, str] = {}
 
 
+class LevelUpResponse(BaseModel):
+    """What one more level buys, as before → after wherever it is a number.
+
+    It reports and applies nothing: the owner enters the result in the cards that
+    already exist, so completeness matters more than brevity here — a figure missing
+    from this list is one nobody will think to look up.
+    """
+
+    class_slug: str
+    class_name: str
+    class_level_before: int
+    class_level_after: int
+    total_level_before: int
+    total_level_after: int
+    #: Hit points are a roll plus Constitution, so both halves are reported.
+    hit_die: int
+    constitution_modifier: int
+    base_attack_before: int
+    base_attack_after: int
+    saves_before: dict[str, int]
+    saves_after: dict[str, int]
+    skill_ranks: int
+    #: Owed to the character's total level rather than to the class taking it.
+    grants_feat: bool
+    grants_ability_increment: bool
+    class_features: list[str] = []
+    bonus_feat_slots: list[FeatSlotLineDTO] = []
+    favored_class_note: str | None = None
+    spells_per_day: str | None = None
+    warnings: list[str] = []
+
+
 class CombatSheetResponse(BaseModel):
     abilities: dict[str, AbilityScoreDTO]
     ac: ACDTO
@@ -277,6 +310,43 @@ def to_feat_budget_response(budget: FeatBudget) -> FeatBudgetDTO:
         ],
         lists={k: list(v) for k, v in budget.lists.items()},
         list_notes=dict(budget.list_notes),
+    )
+
+
+def to_level_up_response(report: LevelUpReport) -> LevelUpResponse:
+    """Map the rules-layer report to its API representation."""
+    return LevelUpResponse(
+        class_slug=report.class_slug,
+        class_name=report.class_name,
+        class_level_before=report.class_level_before,
+        class_level_after=report.class_level_after,
+        total_level_before=report.total_level_before,
+        total_level_after=report.total_level_after,
+        hit_die=report.hit_die,
+        constitution_modifier=report.constitution_modifier,
+        base_attack_before=report.base_attack_before,
+        base_attack_after=report.base_attack_after,
+        saves_before=dict(report.saves_before),
+        saves_after=dict(report.saves_after),
+        skill_ranks=report.skill_ranks,
+        grants_feat=report.grants_feat,
+        grants_ability_increment=report.grants_ability_increment,
+        class_features=list(report.class_features),
+        bonus_feat_slots=[
+            FeatSlotLineDTO(
+                level=slot.level,
+                source=report.class_name,
+                choice=slot.choice,
+                types=list(slot.types),
+                list_key=slot.list_ref,
+                feat=slot.feat,
+                note=slot.note,
+            )
+            for slot in report.bonus_feat_slots
+        ],
+        favored_class_note=report.favored_class_note,
+        spells_per_day=report.spells_per_day,
+        warnings=list(report.warnings),
     )
 
 

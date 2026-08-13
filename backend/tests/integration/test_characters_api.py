@@ -194,6 +194,38 @@ async def test_a_power_attack_line_reports_the_cmb_it_costs(client: AsyncClient)
     assert ("Ataque poderoso", -2) in [(e["label"], e["value"]) for e in variant["breakdown"]]
 
 
+async def test_level_up_preview_reports_and_changes_nothing(client: AsyncClient) -> None:
+    """Pressing the button must not touch the character: the owner applies the
+    result by hand in the cards that already exist."""
+    body = {**_fighter_body(), "class_levels": [{"class_slug": "guerrero", "level": 3}]}
+    response = await client.post(
+        "/api/v1/level-up-preview", json=body, params={"taking": "guerrero"}
+    )
+    assert response.status_code == 200
+    report = response.json()
+
+    assert report["class_name"] == "Guerrero"
+    assert (report["class_level_before"], report["class_level_after"]) == (3, 4)
+    assert (report["base_attack_before"], report["base_attack_after"]) == (3, 4)
+    # Level 4 is an ability-increment level for the character and a bonus-feat level
+    # for the fighter; both have to reach the report or nobody will look them up.
+    assert report["grants_ability_increment"] is True
+    assert report["class_features"] == ["Dote adicional"]
+    assert [slot["level"] for slot in report["bonus_feat_slots"]] == [4]
+
+    # Nothing was persisted.
+    assert (await client.get(BASE)).json()["total"] == 0
+
+
+async def test_level_up_preview_handles_a_new_class(client: AsyncClient) -> None:
+    response = await client.post(
+        "/api/v1/level-up-preview", json=_fighter_body(), params={"taking": "picaro"}
+    )
+    report = response.json()
+    assert (report["class_level_before"], report["class_level_after"]) == (0, 1)
+    assert report["total_level_after"] == 2
+
+
 async def test_derive_is_stateless(client: AsyncClient) -> None:
     response = await client.post("/api/v1/derive", json=_fighter_body())
     assert response.status_code == 200

@@ -1,5 +1,38 @@
 # Prompt log
 
+### 2026-08-13 — What one more level buys (first piece of progression)
+**Prompt:** lo siguiente va a ser la progresión de niveles … quiero un botón que sea
+subir un nivel, y que liste todos los cambios que se deben aplicar … además, en cada
+nivel se puede elegir la profesión del personaje, aplicando entonces el multiclase
+**Files affected:** `backend/src/pf_tracker/rules/{level_up.py (new),catalog,repository}.py`,
+`backend/src/pf_tracker/schemas/combat_sheet.py`,
+`backend/src/pf_tracker/services/character_service.py`,
+`backend/src/pf_tracker/api/v1/derive.py`,
+`backend/tests/unit/rules/test_level_up.py` (new),
+`backend/tests/integration/test_characters_api.py`, `backend/openapi.json`,
+`frontend/src/api/schema.ts`, `frontend/src/test/catalog.ts`, `PROMPT_LOG.md`
+**Summary:** Two decisions taken with the owner first, because both are expensive to
+change later: history will be **a full copy per level-up** rather than a changeset
+log, and the button **reports only** — it applies nothing, the owner enters the result
+in the cards that already exist. That second answer settled a question I had not
+asked: if the button touches nothing, the snapshot cannot depend on pressing it, so it
+will be taken by the service when the level actually changes on save.
+
+This commit is the rules half: `POST /level-up-preview` reports hit die and
+Constitution, base attack and each save before → after, skill ranks, whether the level
+owes a feat or an ability increment, the class' own `especial` text, any bonus feat
+slot it opens, the favored-class wording and spells per day. Multiclassing is the
+normal path, not a corner: the level goes to one class while the feat and the ability
+increment are owed to the character's **total** level — a fighter 2 / rogue 1 taking a
+rogue level reaches character level 4 and is owed the increment though the rogue only
+reaches 2. The corpus turned out to carry `niveles_con_incremento_de_caracteristica`
+structurally, so nothing is parsed out of prose.
+
+Still to come: the snapshot on level change, and the UI — the button with its report
+and the level list in Clases y nivel.
+
+---
+
 ### 2026-08-13 — Magic items become a grid of body slots
 **Prompt:** en OBJETOS MAGICOS, quiero ver dos columnas, la lista de todas las ranuras
 disponibles, y el nombre del objeto asignado en dicha ranura … al hacer click en el

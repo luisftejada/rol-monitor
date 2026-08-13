@@ -40,6 +40,8 @@ export const meta: MetaDTO = {
     "18": 17,
   },
   feat_levels: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19],
+  ability_increment_levels: [4, 8, 12, 16, 20],
+  favored_class_note: "+1 pg o +1 rango de habilidad por nivel tomado en la clase favorita",
   item_slots: [
     { name: "anillo (×2)", slug: "anillo", capacity: 2 },
     { name: "cuello", slug: "cuello", capacity: 1 },

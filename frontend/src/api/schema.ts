@@ -403,6 +403,29 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/level-up-preview": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Level Up Preview
+     * @description Report what the next level buys, in the class named by ``taking``.
+     *
+     *     A POST because it takes the whole character, and stateless because pressing the
+     *     button must change nothing: the owner applies the result by hand.
+     */
+    post: operations["level_up_preview_api_v1_level_up_preview_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -1566,6 +1589,69 @@ export interface components {
       capacity: number;
     };
     /**
+     * LevelUpResponse
+     * @description What one more level buys, as before → after wherever it is a number.
+     *
+     *     It reports and applies nothing: the owner enters the result in the cards that
+     *     already exist, so completeness matters more than brevity here — a figure missing
+     *     from this list is one nobody will think to look up.
+     */
+    LevelUpResponse: {
+      /** Class Slug */
+      class_slug: string;
+      /** Class Name */
+      class_name: string;
+      /** Class Level Before */
+      class_level_before: number;
+      /** Class Level After */
+      class_level_after: number;
+      /** Total Level Before */
+      total_level_before: number;
+      /** Total Level After */
+      total_level_after: number;
+      /** Hit Die */
+      hit_die: number;
+      /** Constitution Modifier */
+      constitution_modifier: number;
+      /** Base Attack Before */
+      base_attack_before: number;
+      /** Base Attack After */
+      base_attack_after: number;
+      /** Saves Before */
+      saves_before: {
+        [key: string]: number;
+      };
+      /** Saves After */
+      saves_after: {
+        [key: string]: number;
+      };
+      /** Skill Ranks */
+      skill_ranks: number;
+      /** Grants Feat */
+      grants_feat: boolean;
+      /** Grants Ability Increment */
+      grants_ability_increment: boolean;
+      /**
+       * Class Features
+       * @default []
+       */
+      class_features: string[];
+      /**
+       * Bonus Feat Slots
+       * @default []
+       */
+      bonus_feat_slots: components["schemas"]["FeatSlotLineDTO"][];
+      /** Favored Class Note */
+      favored_class_note?: string | null;
+      /** Spells Per Day */
+      spells_per_day?: string | null;
+      /**
+       * Warnings
+       * @default []
+       */
+      warnings: string[];
+    };
+    /**
      * MagicItemIn
      * @description A magic item the character owns, worn or stowed.
      *
@@ -1653,6 +1739,10 @@ export interface components {
       feat_levels: number[];
       /** Feat Types */
       feat_types: string[];
+      /** Ability Increment Levels */
+      ability_increment_levels: number[];
+      /** Favored Class Note */
+      favored_class_note: string;
       /** Item Slots */
       item_slots: components["schemas"]["ItemSlotDTO"][];
       /** Item Categories */
@@ -2809,6 +2899,41 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["CombatSheetResponse"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  level_up_preview_api_v1_level_up_preview_post: {
+    parameters: {
+      query: {
+        taking: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CharacterCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["LevelUpResponse"];
         };
       };
       /** @description Validation Error */

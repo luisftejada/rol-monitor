@@ -99,6 +99,11 @@ class MetaDTO(_CatalogModel):
     #: two-level feat picker; taken from the corpus rather than inferred from the
     #: feats themselves, so the ordering and wording stay authoritative.
     feat_types: list[str]
+    #: Character levels granting +1 to an ability (``niveles_con_incremento_de_caracteristica``).
+    ability_increment_levels: list[int]
+    #: The corpus' own wording for what a favored class buys, shown verbatim rather
+    #: than reworded: it is a choice the player makes, not a number to apply.
+    favored_class_note: str
     #: Magic-item vocabulary, verbatim from ``objetos_magicos``. The body slots carry
     #: their capacity in the corpus' own notation (``"anillo (×2)"``), which is why
     #: they arrive as objects rather than plain strings.
