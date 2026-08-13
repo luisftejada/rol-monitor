@@ -40,6 +40,14 @@ export const meta: MetaDTO = {
     "18": 17,
   },
   feat_levels: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19],
+  item_slots: [
+    { name: "anillo (×2)", slug: "anillo", capacity: 2 },
+    { name: "cuello", slug: "cuello", capacity: 1 },
+    { name: "manos", slug: "manos", capacity: 1 },
+  ],
+  item_categories: ["anillos", "objetos maravillosos"],
+  item_activations: ["uso continuo", "palabra de mando"],
+  max_item_enhancement: 5,
   feat_types: ["General", "Combate", "Metamágica"],
 };
 

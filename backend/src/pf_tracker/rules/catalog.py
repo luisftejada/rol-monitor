@@ -71,6 +71,20 @@ class ActionTypeDTO(_CatalogModel):
     notes: str | None = None
 
 
+class ItemSlotDTO(_CatalogModel):
+    """One place on the body a magic item can occupy.
+
+    ``capacity`` is how many items may be worn there at once: the corpus writes it
+    into the name (``"anillo (×2)"``), so it is parsed out rather than hardcoded.
+    """
+
+    #: The corpus' own name, kept whole for display: ``"anillo (×2)"``.
+    name: str
+    #: The name without its capacity suffix, which is what an item stores.
+    slug: str
+    capacity: int
+
+
 class MetaDTO(_CatalogModel):
     bonus_types: BonusTypesDTO
     abilities: list[AbilityDTO]
@@ -85,6 +99,15 @@ class MetaDTO(_CatalogModel):
     #: two-level feat picker; taken from the corpus rather than inferred from the
     #: feats themselves, so the ordering and wording stay authoritative.
     feat_types: list[str]
+    #: Magic-item vocabulary, verbatim from ``objetos_magicos``. The body slots carry
+    #: their capacity in the corpus' own notation (``"anillo (×2)"``), which is why
+    #: they arrive as objects rather than plain strings.
+    item_slots: list[ItemSlotDTO]
+    item_categories: list[str]
+    item_activations: list[str]
+    #: Highest enhancement bonus an item may carry (``bonificadores_arma``). The
+    #: corpus states the same 5 for weapons and armour.
+    max_item_enhancement: int
 
 
 # --------------------------------------------------------------------- alignments

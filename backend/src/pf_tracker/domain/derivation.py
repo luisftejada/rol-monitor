@@ -703,7 +703,7 @@ def _armor_check_penalty(character: Character) -> int:
     total = min(armor_side, load_side)
     if character.shield is not None:
         total += character.shield.armor_check_penalty
-    return total
+    return total + character.item_armor_check_penalty
 
 
 def _arcane_spell_failure(character: Character) -> int:

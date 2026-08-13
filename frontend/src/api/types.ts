@@ -25,6 +25,8 @@ export type BabDTO = Schemas["BabDTO"];
 
 // Rules catalog
 export type MetaDTO = Schemas["MetaDTO"];
+export type ItemSlotDTO = Schemas["ItemSlotDTO"];
+export type MagicItemIn = Schemas["MagicItemIn"];
 export type AlignmentDTO = Schemas["AlignmentDTO"];
 export type RaceDTO = Schemas["RaceDTO"];
 export type ClassSummaryDTO = Schemas["ClassSummaryDTO"];

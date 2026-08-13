@@ -225,6 +225,9 @@ class Character:
 
     #: External modifiers (feats, race traits, spells, items, manual ad-hoc).
     modifiers: tuple[Modifier, ...] = ()
+    #: Armour check penalty contributed by worn magic items. Separate from the
+    #: armour's because penalties stack: this adds, it does not compete.
+    item_armor_check_penalty: int = 0
 
     load: CarryingLoad | None = None
 

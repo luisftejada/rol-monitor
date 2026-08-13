@@ -1,5 +1,32 @@
 # Prompt log
 
+### 2026-08-13 — A card for magic items
+**Prompt:** vamos a agregar un card para agregar objetos magicos … hay que comprobar
+que los objetos no superan las ranuras disponibles
+**Files affected:** `backend/src/pf_tracker/rules/{catalog,repository}.py`,
+`backend/src/pf_tracker/schemas/character.py`,
+`backend/src/pf_tracker/services/assembler.py`,
+`backend/src/pf_tracker/domain/{models,derivation}.py`,
+`backend/tests/unit/services/test_assembler.py`, `backend/openapi.json`,
+`frontend/src/api/{schema,types}.ts`,
+`frontend/src/features/editor/sections/MagicItemsSection.{tsx,test.tsx}` (new),
+`frontend/src/features/editor/CharacterEditor.tsx`, `frontend/src/test/catalog.ts`,
+`frontend/src/i18n/es.ts`, `frontend/src/index.css`, `docs/assumptions.md`,
+`PROMPT_LOG.md`
+**Summary:** `objetos_magicos` had sat in the corpus unread; its slots, categories,
+activations and the +5 enhancement cap now reach the app, with the ring slot's
+capacity parsed out of the corpus' own `"anillo (×2)"` rather than tabulated in code.
+Each item carries name, description, slot, category, activation, attack/damage and
+AC/check-penalty/speed numbers, a Use Magic Device DC and uses per day with today's
+remainder. The decision that shaped it: **every bonus carries its type**, because the
+owner had just set out the stacking rule themselves — a ring of protection adds to
+worn armour, a second ring does not add to the first. Untyped would have contradicted
+that on the first item. `mochila` is a real slot meaning stowed: no bonuses, and it
+does not count against capacity. Over-filling a slot warns, in the section where it
+happened and on the sheet, and never blocks.
+
+---
+
 ### 2026-08-13 — A weapon's magic bonus is editable, per side
 **Prompt:** en el card EQUIPO, el campo "Buscar arma" no hace falta. al seleccionar un
 arma, hay que agregar dos botones (en dos columnas) para poder incrementar el bono de

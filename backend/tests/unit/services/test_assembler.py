@@ -603,6 +603,84 @@ def _names(result: object) -> list[str]:
     return [w.name for w in result.character.weapons]  # type: ignore[attr-defined]
 
 
+def _ring(
+    name: str, bonus: int, kind: str = "deflexión", slot: str = "anillo"
+) -> dict[str, object]:
+    return {"name": name, "slot": slot, "ac_bonus": bonus, "ac_bonus_type": kind}
+
+
+def test_worn_items_carry_their_bonus_type(rules_repository: RulesRepository) -> None:
+    """The type is the whole point: deflection, natural armour and worn armour are
+    three different things, so all three add to the same AC."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        armor=EquippedArmorIn(catalog_name="Completa"),
+        magic_items=[
+            _ring("Anillo de protección +2", 2),
+            _ring("Amuleto +1", 1, kind="armadura natural", slot="cuello"),
+        ],
+    )
+    emitted = {
+        (m.source, m.value, m.bonus_type.value if m.bonus_type else None)
+        for m in result.character.modifiers
+    }
+    assert ("Anillo de protección +2", 2, "deflexión") in emitted
+    assert ("Amuleto +1", 1, "armadura natural") in emitted
+
+
+def test_an_item_in_the_backpack_grants_nothing(rules_repository: RulesRepository) -> None:
+    """Which is what the slot is for — the item is owned, just not worn."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        magic_items=[_ring("Anillo de protección +2", 2, slot="mochila")],
+    )
+    assert all(m.source != "Anillo de protección +2" for m in result.character.modifiers)
+
+
+def test_a_slot_carrying_more_than_it_holds_warns(rules_repository: RulesRepository) -> None:
+    """The ring slot takes two, per the corpus' own "anillo (×2)". Going over is a
+    house rule or a slip, so it warns rather than refusing the character."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        magic_items=[_ring(f"Anillo {n}", 1) for n in (1, 2, 3)],
+    )
+    assert any("sólo caben 2" in warning for warning in result.warnings)
+
+    within_capacity = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        magic_items=[_ring(f"Anillo {n}", 1) for n in (1, 2)],
+    )
+    assert not any("caben" in warning for warning in within_capacity.warnings)
+
+
+def test_stowed_items_do_not_count_against_a_slot(rules_repository: RulesRepository) -> None:
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        magic_items=[
+            _ring("Anillo 1", 1),
+            _ring("Anillo 2", 1),
+            _ring("Anillo 3", 1, slot="mochila"),
+        ],
+    )
+    assert not any("caben" in warning for warning in result.warnings)
+
+
+def test_an_items_check_penalty_adds_to_the_armours(rules_repository: RulesRepository) -> None:
+    """Penalties stack, so this one adds rather than competing with the armour's."""
+    result = _assemble(
+        rules_repository,
+        class_levels=[{"class_slug": "guerrero", "level": 1}],
+        armor=EquippedArmorIn(catalog_name="Cota de mallas"),
+        magic_items=[{"name": "Guantes torpes", "slot": "manos", "armor_check_penalty": -2}],
+    )
+    assert result.character.item_armor_check_penalty == -2
+
+
 def test_a_weapons_magic_bonus_can_be_stated_per_side(rules_repository: RulesRepository) -> None:
     """A magic weapon has one bonus for both, but the sheet lets a GM split them —
     masterwork is the standard case, and a homebrew item is the GM's business."""

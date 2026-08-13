@@ -18,6 +18,7 @@ from pf_tracker.domain.enums import (
     Ability,
     BabProgression,
     BonusType,
+    ModifierTarget,
     SaveKind,
     Size,
     SourceKind,
@@ -134,8 +135,11 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
     )
 
     conditions = _conditions(character, repo)
-    modifiers = _modifiers(character) + _feat_modifiers(
-        owned_feats, feat_context, character.stances.feat_stances, warnings
+    _warn_over_capacity(character, repo, warnings)
+    modifiers = (
+        _magic_item_modifiers(character)
+        + _modifiers(character)
+        + _feat_modifiers(owned_feats, feat_context, character.stances.feat_stances, warnings)
     )
     skills = _skills(character, repo, class_levels, warnings)
     load = _load(character, base_scores, racial, increments, ability_damage, repo)
@@ -171,6 +175,7 @@ def assemble(character: CharacterRead, repo: RulesRepository) -> AssembledCharac
         cmd_uses_hit_dice=swaps.cmd_uses_hit_dice,
         has_weapon_finesse=swaps.melee_attack_uses_dexterity,
         modifiers=modifiers,
+        item_armor_check_penalty=_item_armor_check_penalty(character),
         load=load,
     )
     return AssembledCharacter(domain, warnings, budget)
@@ -769,6 +774,90 @@ def _with_feats(
         extra_attacks_at_full_bab=extra_attacks,
         single_attack=single,
     )
+
+
+#: Each of a magic item's numbers: which value it comes from, what it targets, and
+#: which of the item's two bonus types it carries. Attack and damage apply to *every*
+#: weapon, unlike a weapon's own enhancement, which belongs to that weapon alone.
+_ITEM_BONUSES: tuple[tuple[str, str, str], ...] = (
+    ("attack_bonus", ModifierTarget.ALL_ATTACKS.value, "weapon_bonus_type"),
+    ("damage_bonus", ModifierTarget.ALL_DAMAGE.value, "weapon_bonus_type"),
+    ("ac_bonus", ModifierTarget.AC.value, "ac_bonus_type"),
+    ("speed_bonus", ModifierTarget.SPEED.value, "ac_bonus_type"),
+)
+
+
+def _magic_item_modifiers(character: CharacterRead) -> tuple[Modifier, ...]:
+    """Modifiers from the items the character is actually wearing.
+
+    An item in the backpack contributes nothing — that is what the slot is for — and
+    every value carries the type the player gave it, so the stacking engine can do its
+    job: two rings of protection do not add up, a ring and worn armour do.
+    """
+    modifiers: list[Modifier] = []
+    for item in character.magic_items:
+        if not item.is_worn:
+            continue
+        for field, target, type_field in _ITEM_BONUSES:
+            value: int = getattr(item, field)
+            if not value:
+                continue
+            raw_type: str | None = getattr(item, type_field)
+            modifiers.append(
+                Modifier(
+                    target=target,
+                    value=value,
+                    bonus_type=_bonus_type(raw_type),
+                    source=item.name,
+                    source_kind=SourceKind.ITEM,
+                )
+            )
+    return tuple(modifiers)
+
+
+def _bonus_type(raw: str | None) -> BonusType | None:
+    """A corpus bonus-type name, or untyped when it is blank or unrecognised.
+
+    Unrecognised falls back to untyped rather than raising: the value is still the
+    player's, and an item that refuses to load would be worse than one that stacks.
+    """
+    if not raw:
+        return None
+    try:
+        return BonusType(raw)
+    except ValueError:
+        return None
+
+
+def _item_armor_check_penalty(character: CharacterRead) -> int:
+    """Check penalty from worn items. Penalties stack, so these simply add."""
+    return sum(item.armor_check_penalty for item in character.magic_items if item.is_worn)
+
+
+def _warn_over_capacity(
+    character: CharacterRead, repo: RulesRepository, warnings: list[str]
+) -> None:
+    """Report a body slot carrying more than it can, without refusing the character.
+
+    The corpus owns the capacities — the ring slot holds two, everything else one —
+    and going over is a house rule or a mistake, so it warns rather than blocks, the
+    same way the feat budget does.
+    """
+    capacity = {slot.slug: slot.capacity for slot in repo.meta.item_slots}
+    worn: dict[str, list[str]] = {}
+    for item in character.magic_items:
+        if item.is_worn:
+            worn.setdefault(item.slot, []).append(item.name)
+
+    for slot, names in sorted(worn.items()):
+        allowed = capacity.get(slot)
+        if allowed is None:
+            warnings.append(f"Ranura desconocida: {slot}")
+        elif len(names) > allowed:
+            listed = ", ".join(sorted(names))
+            warnings.append(
+                f"Ranura «{slot}»: {len(names)} objetos activos y sólo caben {allowed} ({listed})"
+            )
 
 
 def _modifiers(character: CharacterRead) -> tuple[Modifier, ...]:

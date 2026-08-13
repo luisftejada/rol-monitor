@@ -682,6 +682,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Magic Items */
+      magic_items?: components["schemas"]["MagicItemIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -820,6 +822,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Magic Items */
+      magic_items?: components["schemas"]["MagicItemIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -933,6 +937,8 @@ export interface components {
       other_ac_modifiers?: number | null;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Magic Items */
+      magic_items?: components["schemas"]["MagicItemIn"][] | null;
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[] | null;
       /** Active Conditions */
@@ -1061,6 +1067,8 @@ export interface components {
       other_ac_modifiers: number;
       /** Load Carried Lb */
       load_carried_lb?: number | null;
+      /** Magic Items */
+      magic_items?: components["schemas"]["MagicItemIn"][];
       /** Hidden Attack Lines */
       hidden_attack_lines?: string[];
       /** Active Conditions */
@@ -1542,6 +1550,88 @@ export interface components {
       /** Nonlethal */
       nonlethal: number;
     };
+    /**
+     * ItemSlotDTO
+     * @description One place on the body a magic item can occupy.
+     *
+     *     ``capacity`` is how many items may be worn there at once: the corpus writes it
+     *     into the name (``"anillo (×2)"``), so it is parsed out rather than hardcoded.
+     */
+    ItemSlotDTO: {
+      /** Name */
+      name: string;
+      /** Slug */
+      slug: string;
+      /** Capacity */
+      capacity: number;
+    };
+    /**
+     * MagicItemIn
+     * @description A magic item the character owns, worn or stowed.
+     *
+     *     Each bonus carries its own **type**, because that is what decides whether it adds
+     *     to what the character already has: a ring of protection is `deflexión` and stacks
+     *     with worn armour, a second one does not stack with the first. Untyped values would
+     *     silently add up, which is the one thing the stacking engine exists to prevent.
+     */
+    MagicItemIn: {
+      /** Id */
+      id?: string;
+      /** Name */
+      name: string;
+      /** Description */
+      description?: string | null;
+      /**
+       * Slot
+       * @default mochila
+       */
+      slot: string;
+      /** Category */
+      category?: string | null;
+      /** Activation */
+      activation?: string | null;
+      /**
+       * Attack Bonus
+       * @default 0
+       */
+      attack_bonus: number;
+      /**
+       * Damage Bonus
+       * @default 0
+       */
+      damage_bonus: number;
+      /**
+       * Weapon Bonus Type
+       * @default potenciador
+       */
+      weapon_bonus_type: string | null;
+      /**
+       * Ac Bonus
+       * @default 0
+       */
+      ac_bonus: number;
+      /**
+       * Ac Bonus Type
+       * @default deflexión
+       */
+      ac_bonus_type: string | null;
+      /**
+       * Armor Check Penalty
+       * @default 0
+       */
+      armor_check_penalty: number;
+      /**
+       * Speed Bonus
+       * @default 0
+       */
+      speed_bonus: number;
+      /** Use Device Dc */
+      use_device_dc?: number | null;
+      /** Uses Per Day */
+      uses_per_day?: number | null;
+      /** Uses Remaining */
+      uses_remaining?: number | null;
+    };
     /** MetaDTO */
     MetaDTO: {
       bonus_types: components["schemas"]["BonusTypesDTO"];
@@ -1563,6 +1653,14 @@ export interface components {
       feat_levels: number[];
       /** Feat Types */
       feat_types: string[];
+      /** Item Slots */
+      item_slots: components["schemas"]["ItemSlotDTO"][];
+      /** Item Categories */
+      item_categories: string[];
+      /** Item Activations */
+      item_activations: string[];
+      /** Max Item Enhancement */
+      max_item_enhancement: number;
     };
     /**
      * ModifierCreate

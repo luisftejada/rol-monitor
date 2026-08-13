@@ -9,6 +9,7 @@ adapter extends it (see :meth:`feats`). See docs/adr/0002.
 from __future__ import annotations
 
 import hashlib
+import re
 from functools import cached_property
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,7 @@ from pf_tracker.rules.catalog import (
     FeatModifierDTO,
     FeatSlotDTO,
     FeatSubstitutionDTO,
+    ItemSlotDTO,
     MetaDTO,
     RaceDTO,
     SizeDTO,
@@ -74,6 +76,7 @@ class RulesRepository:
     def meta(self) -> MetaDTO:
         sistema = self._nucleo["sistema"]
         bonus = sistema["tipos_de_bonificador"]
+        items = self._nucleo["objetos_magicos"]
         return MetaDTO(
             bonus_types=BonusTypesDTO(
                 always_stack=list(bonus["apilan_siempre"]),
@@ -109,6 +112,10 @@ class RulesRepository:
             },
             feat_levels=list(self._nucleo["avance"]["niveles_con_dote"]),
             feat_types=list(self._nucleo["dotes"]["reglas"]["tipos"]),
+            item_slots=[_item_slot(name) for name in items["ranuras_del_cuerpo"]],
+            item_categories=list(items["categorias"]),
+            item_activations=list(items["activacion"]),
+            max_item_enhancement=items["bonificadores_arma"]["max_potenciador"],
         )
 
     # ------------------------------------------------------------- alignments
@@ -534,6 +541,22 @@ def _feat_effect(raw: dict[str, Any]) -> FeatEffectDTO:
         ],
         rules=list(raw.get("reglas") or []),
     )
+
+
+_SLOT_CAPACITY = re.compile(r"^(?P<name>.+?)\s*\(×(?P<capacity>\d+)\)$")
+
+
+def _item_slot(name: str) -> ItemSlotDTO:
+    """Split a body slot's capacity out of its name.
+
+    The corpus writes the only multi-item slot as ``"anillo (×2)"``. Parsing it keeps
+    the count where the rules put it instead of in a table here that could drift.
+    """
+    match = _SLOT_CAPACITY.match(name)
+    if match is None:
+        return ItemSlotDTO(name=name, slug=slugify(name), capacity=1)
+    bare = match.group("name")
+    return ItemSlotDTO(name=name, slug=slugify(bare), capacity=int(match.group("capacity")))
 
 
 def _hash_corpus(directory: Path) -> str:

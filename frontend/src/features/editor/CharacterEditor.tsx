@@ -8,6 +8,7 @@ import { AbilitiesSection } from "@/features/editor/sections/AbilitiesSection";
 import { AttacksSection } from "@/features/editor/sections/AttacksSection";
 import { ClassesSection } from "@/features/editor/sections/ClassesSection";
 import { EquipmentSection } from "@/features/editor/sections/EquipmentSection";
+import { MagicItemsSection } from "@/features/editor/sections/MagicItemsSection";
 import { FeatsSection } from "@/features/editor/sections/FeatsSection";
 import { IdentitySection } from "@/features/editor/sections/IdentitySection";
 import { SavesSection } from "@/features/editor/sections/SavesSection";
@@ -131,6 +132,7 @@ export function CharacterEditor({
           />
           <EquipmentSection draft={draft} patch={patch} ac={sheet?.ac} attacks={sheet?.attacks} />
           <AttacksSection attacks={sheet?.attacks} hidden={draft.hidden_attack_lines ?? []} />
+          <MagicItemsSection draft={draft} patch={patch} />
         </div>
 
         <div className="editor__column editor__column--skills">

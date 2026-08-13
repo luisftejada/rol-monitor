@@ -61,6 +61,51 @@ class EquippedWeaponIn(BaseModel):
     custom_overrides: dict[str, Any] | None = None
 
 
+#: Where an item is when it is *not* worn. Anything here contributes nothing.
+BACKPACK_SLOT = "mochila"
+
+
+class MagicItemIn(BaseModel):
+    """A magic item the character owns, worn or stowed.
+
+    Each bonus carries its own **type**, because that is what decides whether it adds
+    to what the character already has: a ring of protection is `deflexión` and stacks
+    with worn armour, a second one does not stack with the first. Untyped values would
+    silently add up, which is the one thing the stacking engine exists to prevent.
+    """
+
+    id: str = Field(default_factory=_uuid)
+    name: str
+    description: str | None = None
+    #: A body slot's slug, or ``mochila``. The corpus owns the list of slots and how
+    #: many items each holds; this only names one.
+    slot: str = BACKPACK_SLOT
+    category: str | None = None
+    activation: str | None = None
+
+    #: Weapon side. Applies to every attack the character makes, which is what an item
+    #: does — a weapon's own enhancement lives on the weapon.
+    attack_bonus: int = 0
+    damage_bonus: int = 0
+    weapon_bonus_type: str | None = "potenciador"
+
+    #: Armour side.
+    ac_bonus: int = 0
+    ac_bonus_type: str | None = "deflexión"
+    armor_check_penalty: int = 0
+    speed_bonus: int = 0
+
+    #: Use Magic Device DC, when the character needs the check to use it at all.
+    use_device_dc: int | None = None
+    uses_per_day: int | None = None
+    uses_remaining: int | None = None
+
+    @property
+    def is_worn(self) -> bool:
+        """Whether it is on the body. Stowed items grant nothing."""
+        return self.slot != BACKPACK_SLOT
+
+
 class ModifierIn(BaseModel):
     id: str = Field(default_factory=_uuid)
     target: str
@@ -143,6 +188,8 @@ class CharacterData(BaseModel):
     other_ac_modifiers: int = 0
     load_carried_lb: float | None = None
 
+    magic_items: list[MagicItemIn] = Field(default_factory=list)
+
     #: ``variant_key`` of the attack lines the player has chosen not to see. Stored as
     #: what to *hide* rather than what to show, so a line that appears later — a new
     #: feat, a new weapon — shows up by default instead of being invisible until
@@ -212,6 +259,7 @@ class CharacterPatch(BaseModel):
     deflection_bonus: int | None = None
     other_ac_modifiers: int | None = None
     load_carried_lb: float | None = None
+    magic_items: list[MagicItemIn] | None = None
     hidden_attack_lines: list[str] | None = None
     active_conditions: list[str] | None = None
     active_effects: list[ActiveEffectIn] | None = None
