@@ -120,6 +120,7 @@ export function CharacterEditor({
             initiative={sheet?.initiative}
             cmb={sheet?.cmb}
             cmd={sheet?.cmd}
+            maxHp={sheet?.hp.max}
           />
           <SavesSection saves={sheet?.saves} />
           <ClassesSection draft={draft} patch={patch} />

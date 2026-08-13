@@ -182,6 +182,54 @@ describe("AbilitiesSection", () => {
     expect(seen.draft.temporary_hp).toBe(3);
   });
 
+  /** Drives the derived maximum from inside the tree, since `rerender` would drop
+   * the providers the section needs. */
+  function HpHost({ seen }: { seen: { draft: CharacterCreate } }) {
+    const [draft, setDraft] = useState<CharacterCreate>(defaultDraft());
+    const [max, setMax] = useState(20);
+    seen.draft = draft;
+    return (
+      <>
+        <AbilitiesSection
+          draft={draft}
+          patch={(p) => setDraft((c) => ({ ...c, ...p }))}
+          maxHp={max}
+        />
+        <button type="button" onClick={() => setMax(27)}>
+          subir el máximo
+        </button>
+      </>
+    );
+  }
+
+  it("keeps current hit points at the maximum while the sheet is being built", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    renderWithProviders(<HpHost seen={seen} />);
+
+    await waitFor(() => expect(seen.draft.current_hp).toBe(20));
+
+    // Rolling another level raises both, because the character is still unhurt.
+    await user.click(screen.getByRole("button", { name: "subir el máximo" }));
+    await waitFor(() => expect(seen.draft.current_hp).toBe(27));
+  });
+
+  it("stops following the maximum once the character has taken damage", async () => {
+    const user = userEvent.setup();
+    const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
+    renderWithProviders(<HpHost seen={seen} />);
+    await waitFor(() => expect(seen.draft.current_hp).toBe(20));
+
+    const current = screen.getByLabelText("PG Actuales");
+    await user.tripleClick(current);
+    await user.keyboard("12");
+    expect(seen.draft.current_hp).toBe(12);
+
+    // A rising maximum must not quietly heal anybody.
+    await user.click(screen.getByRole("button", { name: "subir el máximo" }));
+    await waitFor(() => expect(seen.draft.current_hp).toBe(12));
+  });
+
   it("fixes level 1 at the die's maximum and names the die", async () => {
     const seen: { draft: CharacterCreate } = { draft: defaultDraft() };
     function HpHost() {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { BabDTO, CharacterCreate, ValueBreakdown } from "@/api/types";
 import { StatBreakdown } from "@/components/StatBreakdown";
@@ -23,11 +23,25 @@ interface SectionProps {
   initiative?: ValueBreakdown;
   cmb?: ValueBreakdown;
   cmd?: ValueBreakdown;
+  /** Total hit points from `/derive` — the sum of the levels plus Constitution for
+   * each. Current hit points follow it while the sheet is being built. */
+  maxHp?: number;
 }
 
 type Method = "point-buy" | "manual" | "standard";
 
 const FLEXIBLE_KEY = "cualquiera";
+
+/** Whether the character is at full health, and so should follow the maximum.
+ *
+ * A sheet being written is a character at full health, so rolling another level's hit
+ * points raises the current total with it. Once a fight has taken some off, it stops
+ * following: the maximum going up must not quietly heal anybody. Zero counts as full
+ * because it is what a sheet starts at, not a character who has bled out.
+ */
+function isAtFullHealth(current: number, previousMax: number): boolean {
+  return current === 0 || current === previousMax;
+}
 
 export function AbilitiesSection({
   draft,
@@ -37,8 +51,21 @@ export function AbilitiesSection({
   initiative,
   cmb,
   cmd,
+  maxHp,
 }: SectionProps): React.JSX.Element {
   const meta = useMeta();
+
+  // Current hit points track the maximum while the sheet is being built. The
+  // previous maximum is what says whether the character was at full health: without
+  // it, a hit taken and then a level rolled would silently undo the damage.
+  const previousMax = useRef(maxHp ?? 0);
+  useEffect(() => {
+    const max = maxHp ?? 0;
+    if (max > 0 && isAtFullHealth(draft.current_hp ?? 0, previousMax.current)) {
+      if ((draft.current_hp ?? 0) !== max) patch({ current_hp: max });
+    }
+    previousMax.current = max;
+  }, [maxHp, draft.current_hp, patch]);
   const races = useRaces();
   const [method, setMethod] = useState<Method>("point-buy");
   // The budget is a table convention, not character data, so it lives in the

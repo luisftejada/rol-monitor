@@ -1,5 +1,25 @@
 # Prompt log
 
+### 2026-08-14 — Current hit points follow the maximum while the sheet is written
+**Prompt:** fíjate que los PG actuales no se actualizan. deberían ser 20
+**Files affected:** `frontend/src/features/editor/sections/AbilitiesSection.tsx`,
+`frontend/src/features/editor/sections/AbilitiesSection.test.tsx`,
+`frontend/src/features/editor/CharacterEditor.tsx`, `PROMPT_LOG.md`
+**Summary:** `new_character` set current to maximum on *creation*, which never fired
+while a draft was being edited — so rolling two levels gave a maximum of 20 and left
+the current at 0. The section now takes the derived maximum and follows it.
+
+The condition is the interesting part: it follows only while the character is at full
+health, judged against the *previous* maximum. Zero counts as full, because it is what
+a blank sheet starts at rather than a character who has bled out. Once a fight has
+taken some off, the link breaks — a rising maximum must not quietly heal anybody —
+and there is a test for each half.
+
+Noted while testing: `renderWithProviders`' `rerender` drops the provider wrapper, so
+the maximum is driven from inside the tree instead.
+
+---
+
 ### 2026-08-14 — Levelling up actually takes the level
 **Prompt:** Actuales tiene que ser "PG Actuales" … se tiene que mostrar cuál es el dado
 de PG para el nivel … el valor de PG no es editable manualmente … al clickar en subir
